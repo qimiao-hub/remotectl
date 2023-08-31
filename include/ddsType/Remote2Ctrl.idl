@@ -1,0 +1,5 @@
+struct Remote2Control
+{
+    boolean RemoteIn; // 遥控接管标志位 
+    float MaxRemoteVehSpd; // 遥控驾驶最大速度 km/h
+};

@@ -1,0 +1,10 @@
+struct CmdtoRemoteCtrl
+{
+    string ipaddr;
+    long Seq_Num;
+};
+
+struct CmdCtrlACK
+{
+    long Seq_Num;
+};

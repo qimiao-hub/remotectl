@@ -1,0 +1,13 @@
+
+/*驾驶状态*/
+enum StateMachine_Enum
+{
+	StateMachine_Invaild,		//空值
+	StateMachine_Manual,		//人工驾驶
+	StateMachine_Unmanned,		//无人驾驶
+   	StateMachine_Remote			//遥控驾驶
+}; 
+struct StateMachine
+{
+	StateMachine_Enum mainState;
+};
