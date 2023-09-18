@@ -1,3 +1,0 @@
-/home/ubuntu/chaibo/Remote_auto/build/CMakeFiles/syzk-remotectl.dir
-/home/ubuntu/chaibo/Remote_auto/build/CMakeFiles/edit_cache.dir
-/home/ubuntu/chaibo/Remote_auto/build/CMakeFiles/rebuild_cache.dir
