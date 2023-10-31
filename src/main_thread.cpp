@@ -15,7 +15,7 @@
 #include "common/sany_type.h"
 #include "protocol/protocol_cockpit.h"
 #include "common/debugLog.h"
-#include "zkbs/zkbs.hpp"
+
 
 
 CmdCtrlACK ctrlACK;
@@ -30,12 +30,12 @@ SANY_U8 u8CtrlStatus = 0;
 void sig_handler(int sig)
 {
 	printf("-------------sig_handler Signal %d-------------\n", sig);
-	if (sig == SIGINT)
-	{
-	}
+	// if (sig == SIGINT)
+	// {
+	// }
 
-	return;
-//	exit(0);
+	//	return;
+	exit(0);
 }
 
 void cockpit_ctrlACK(CmdtoRemoteCtrl *addr)
@@ -58,8 +58,12 @@ void cockpit_addressCallback(CmdtoRemoteCtrl *addr)
 
 int main()
 {
+	zkbs::init("syzk-remotectl");
 	DaemonHandl Hdl = daemon_create("syzk-remotectl", 500, DEV_TYPE_XINGYUN);
 	zkbs::setVersion(VER("0.1"));
+
+	mine_log::set_log_level(SANY_LOG_INFO);
+	mine_log::set_log_output(SANY_LOG_OUT_FILE);
 	/*驾驶舱IP+PORT订阅*/
 	TopicDataType *pDataTypeCockpit = new CmdtoRemoteCtrlPubSubType();
 	ddsSubscriber<CmdtoRemoteCtrl> *pSubCockpit = new ddsSubscriber<CmdtoRemoteCtrl>(pDataTypeCockpit, &cockpit_addressCallback);
@@ -74,22 +78,9 @@ int main()
 	TopicDataType *pDataTypeImple = new ImpleResultInfoPubSubType();
 	ddsPublisher<ImpleResultInfo> *pPubImple = new ddsPublisher<ImpleResultInfo>(pDataTypeImple);
 	// 给主控发遥控接管使能位+最大车速
-	Remote2Control remote_ctrl;
-	TopicDataType *pDataTypeCtrl = new Remote2ControlPubSubType();
-	ddsPublisher<Remote2Control> *pPubCtrl = new ddsPublisher<Remote2Control>(pDataTypeCtrl);
-
-	/*初始化信号量*/
-	/// sem_init(&g_timer_1_sem, 0, 0);
-	/*注册常见信号*/
-	signal(SIGINT, sig_handler);
-	signal(SIGILL, sig_handler);
-	signal(SIGABRT, sig_handler);
-	signal(SIGABRT, sig_handler);
-	signal(SIGSEGV, sig_handler);
-	signal(SIGPIPE, sig_handler);
-	signal(SIGALRM, sig_handler);
-	signal(SIGABRT, sig_handler);
-	signal(SIGHUP, sig_handler);
+	// Remote2Control remote_ctrl;
+	// TopicDataType *pDataTypeCtrl = new Remote2ControlPubSubType();
+	// ddsPublisher<Remote2Control> *pPubCtrl = new ddsPublisher<Remote2Control>(pDataTypeCtrl);
 
 	while (1)
 	{
@@ -100,9 +91,10 @@ int main()
 			pCockpit->ProtoCockpit_getCtrlDate(&imple_result_info);
 			/*发布遥控控制数据*/
 			pPubImple->publish(imple_result_info);
+			
 			/*遥控接管使能位和最大车速to主控*/
-			pCockpit->ProtoCockpit_getMaxSpeed(&remote_ctrl);
-			pPubCtrl->publish(remote_ctrl);
+			// pCockpit->ProtoCockpit_getMaxSpeed(&remote_ctrl);
+			// pPubCtrl->publish(remote_ctrl);
 		}
 		else if(2 == u8CtrlStatus)
 		{
@@ -110,7 +102,7 @@ int main()
 			imple_result_info.unmanned_enable(1);
 			pPubImple->publish(imple_result_info);
 		}
-		else
+		else if(3 == u8CtrlStatus)
 		{
 			imple_result_info.Remote_enable(5);
 			imple_result_info.unmanned_enable(0);
@@ -118,6 +110,8 @@ int main()
 		}
 		usleep(50 * 1000);
 	}
+
+	
 
 	return 0;
 }

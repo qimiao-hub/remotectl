@@ -36,27 +36,27 @@ using namespace eprosima::fastcdr::exception;
 
 tmdesc::tmdesc()
 {
-    // m_tm_sec com.eprosima.idl.parser.typecode.PrimitiveTypeCode@35fc6dc4
+    // m_tm_sec com.eprosima.idl.parser.typecode.PrimitiveTypeCode@7fe8ea47
     m_tm_sec = 0;
-    // m_tm_min com.eprosima.idl.parser.typecode.PrimitiveTypeCode@7fe8ea47
+    // m_tm_min com.eprosima.idl.parser.typecode.PrimitiveTypeCode@226a82c4
     m_tm_min = 0;
-    // m_tm_hour com.eprosima.idl.parser.typecode.PrimitiveTypeCode@226a82c4
+    // m_tm_hour com.eprosima.idl.parser.typecode.PrimitiveTypeCode@731f8236
     m_tm_hour = 0;
-    // m_tm_mday com.eprosima.idl.parser.typecode.PrimitiveTypeCode@731f8236
+    // m_tm_mday com.eprosima.idl.parser.typecode.PrimitiveTypeCode@255b53dc
     m_tm_mday = 0;
-    // m_tm_mon com.eprosima.idl.parser.typecode.PrimitiveTypeCode@255b53dc
+    // m_tm_mon com.eprosima.idl.parser.typecode.PrimitiveTypeCode@1dd92fe2
     m_tm_mon = 0;
-    // m_tm_year com.eprosima.idl.parser.typecode.PrimitiveTypeCode@1dd92fe2
+    // m_tm_year com.eprosima.idl.parser.typecode.PrimitiveTypeCode@6b53e23f
     m_tm_year = 0;
-    // m_tm_wday com.eprosima.idl.parser.typecode.PrimitiveTypeCode@6b53e23f
+    // m_tm_wday com.eprosima.idl.parser.typecode.PrimitiveTypeCode@64d2d351
     m_tm_wday = 0;
-    // m_tm_yday com.eprosima.idl.parser.typecode.PrimitiveTypeCode@64d2d351
+    // m_tm_yday com.eprosima.idl.parser.typecode.PrimitiveTypeCode@1b68b9a4
     m_tm_yday = 0;
-    // m_tm_isdst com.eprosima.idl.parser.typecode.PrimitiveTypeCode@1b68b9a4
+    // m_tm_isdst com.eprosima.idl.parser.typecode.PrimitiveTypeCode@4f9a3314
     m_tm_isdst = 0;
-    // m_tm_gmtoff com.eprosima.idl.parser.typecode.PrimitiveTypeCode@4f9a3314
+    // m_tm_gmtoff com.eprosima.idl.parser.typecode.PrimitiveTypeCode@3b2c72c2
     m_tm_gmtoff = 0;
-    // m_tm_zone com.eprosima.idl.parser.typecode.ArrayTypeCode@3b2c72c2
+    // m_tm_zone com.eprosima.idl.parser.typecode.ArrayTypeCode@491666ad
     memset(&m_tm_zone, 0, (20) * 1);
 
 }
@@ -144,6 +144,19 @@ tmdesc& tmdesc::operator =(
     m_tm_zone = std::move(x.m_tm_zone);
 
     return *this;
+}
+
+bool tmdesc::operator ==(
+        const tmdesc& x) const
+{
+
+    return (m_tm_sec == x.m_tm_sec && m_tm_min == x.m_tm_min && m_tm_hour == x.m_tm_hour && m_tm_mday == x.m_tm_mday && m_tm_mon == x.m_tm_mon && m_tm_year == x.m_tm_year && m_tm_wday == x.m_tm_wday && m_tm_yday == x.m_tm_yday && m_tm_isdst == x.m_tm_isdst && m_tm_gmtoff == x.m_tm_gmtoff && m_tm_zone == x.m_tm_zone);
+}
+
+bool tmdesc::operator !=(
+        const tmdesc& x) const
+{
+    return !(*this == x);
 }
 
 size_t tmdesc::getMaxCdrSerializedSize(
@@ -626,11 +639,11 @@ void tmdesc::serializeKey(
 
 GpsImuInfo::GpsImuInfo()
 {
-    // m_gps_week com.eprosima.idl.parser.typecode.PrimitiveTypeCode@491666ad
+    // m_gps_week com.eprosima.idl.parser.typecode.PrimitiveTypeCode@176d53b2
     m_gps_week = 0;
-    // m_gps_time com.eprosima.idl.parser.typecode.PrimitiveTypeCode@176d53b2
+    // m_gps_time com.eprosima.idl.parser.typecode.PrimitiveTypeCode@971d0d8
     m_gps_time = 0.0;
-    // m_time_record com.eprosima.fastdds.idl.parser.typecode.StructTypeCode@971d0d8
+    // m_time_record com.eprosima.fastdds.idl.parser.typecode.StructTypeCode@51931956
 
     // m_time_year com.eprosima.idl.parser.typecode.PrimitiveTypeCode@2b4a2ec7
     m_time_year = 0.0;
@@ -874,6 +887,19 @@ GpsImuInfo& GpsImuInfo::operator =(
     m_gps_pitch = x.m_gps_pitch;
 
     return *this;
+}
+
+bool GpsImuInfo::operator ==(
+        const GpsImuInfo& x) const
+{
+
+    return (m_gps_week == x.m_gps_week && m_gps_time == x.m_gps_time && m_time_record == x.m_time_record && m_time_year == x.m_time_year && m_time_month == x.m_time_month && m_time_day == x.m_time_day && m_time_hour == x.m_time_hour && m_time_minute == x.m_time_minute && m_time_second == x.m_time_second && m_gps_msec == x.m_gps_msec && m_gps_rtk_status == x.m_gps_rtk_status && m_gps_lat == x.m_gps_lat && m_gps_lng == x.m_gps_lng && m_gps_heading == x.m_gps_heading && m_gps_ve == x.m_gps_ve && m_gps_vn == x.m_gps_vn && m_gps_vd == x.m_gps_vd && m_gps_speed == x.m_gps_speed && m_gps_days_to_speed == x.m_gps_days_to_speed && m_gps_height == x.m_gps_height && m_imu_acc_y == x.m_imu_acc_y && m_imu_acc_x == x.m_imu_acc_x && m_imu_yaw_z == x.m_imu_yaw_z && m_imu_v_y == x.m_imu_v_y && m_imu_v_x == x.m_imu_v_x && m_imu_v_z == x.m_imu_v_z && m_gps_satellite_front == x.m_gps_satellite_front && m_gps_satellite_rear == x.m_gps_satellite_rear && m_gps_yaw == x.m_gps_yaw && m_gps_roll == x.m_gps_roll && m_gps_pitch == x.m_gps_pitch);
+}
+
+bool GpsImuInfo::operator !=(
+        const GpsImuInfo& x) const
+{
+    return !(*this == x);
 }
 
 size_t GpsImuInfo::getMaxCdrSerializedSize(

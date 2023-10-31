@@ -26,8 +26,8 @@
 #include "../include/ddsType/ChassisCtrlPubSubTypes.h"
 #include "../include/ddsType/gps_imu_msg.h"
 #include "../include/ddsType/gps_imu_msgPubSubTypes.h"
-#include "../include/ddsType/FailureDiagnosisInterface.h"
-#include "../include/ddsType/FailureDiagnosisInterfacePubSubTypes.h"
+#include "../include/ddsType/FailureReporterInterface.h"
+#include "../include/ddsType/FailureReporterInterfacePubSubTypes.h"
 #include "../include/ddsType/imple_msg.h"
 #include "../include/ddsType/imple_msgPubSubTypes.h"
 #include "../include/ddsType/Cockpit_address.h"
@@ -36,6 +36,7 @@
 #include "../include/ddsType/Remote2CtrlPubSubTypes.h"
 #include <zkbs/ddsBase/ddsPubBase.h>
 #include <zkbs/ddsBase/ddsSubBase.h>
+#include "zkbs/zkbs.hpp"
 /*********************************************************************
  * MACROS
  */
@@ -44,11 +45,12 @@
 #define RET_ERROR 0
 #endif
 
-#define vehicle_type SKT90EI
-#define ELEC_CAR 0
-#define SKT90I 1
-#define A04_PLAT 2
-#define SKT90EI 3
+// #define vehicle_type SKT90EI
+
+// #define ELEC_CAR 0
+// #define SKT90I 1
+// #define A04_PLAT 2
+// #define SKT90EI 3
 
 #define SEND_RTDATA_UPLOAD_TICK (100)
 #define SEND_STATUS_DATA_UPLOAD_TICK (100)
@@ -101,6 +103,8 @@ typedef struct
 	float iAccumulatedMileage; // 累计里程
 	float iSubtotalMileage;	   // 小计里程
 	float iPitchAngle;			//俯仰角
+	int iLiftUpStatus;			//举升到位状态
+	int iLiftDownStatus;		//下降到位状态
 } RemoteDrivingWirectlOutInfo;
 
 /*********************************************************************
@@ -112,6 +116,8 @@ public:
 	std::thread m_thread;
 
 	SANY_U8 bNetReady = 0;
+	SANY_U8 old_current_state = 0;
+	SANY_U8 current_state = 0;
 
 	char cockpitServerName[22] = {0};
 	const char HostclientName[22] = "192.168.8.249:8080";
@@ -157,7 +163,7 @@ public:
 	/*遥控控制信息输出*/
 	SANY_U8 ProtoCockpit_getCtrlDate(ImpleResultInfo *pCtrlInfo);
 	/*遥控接管使能位和最大车速*/
-	SANY_U8 ProtoCockpit_getMaxSpeed(Remote2Control *pRemoteCtrl);
+//	SANY_U8 ProtoCockpit_getMaxSpeed(Remote2Control *pRemoteCtrl);
 
 	/*读取配置文件*/
 	void Read_INI(ini::iniReader config);
@@ -173,10 +179,10 @@ private:
 	SANY_U8 u8LoginSeqNum = 0;
 
 	/*实时控制标识,收到控制指令时置位，响应实时控制后置0*/
-	SANY_U8 u8RealtimeCtrl = 0;
+//	SANY_U8 u8RealtimeCtrl = 0;
 
 	/*登出标识，是否登出*/
-	SANY_U8 u8LoginoutFlag = 0;
+//	SANY_U8 u8LoginoutFlag = 0;
 
 	/* 发送标识，是否开始实时上报（高频） */
 	SANY_U32 u32RTDataFlg = 0; // 实时数据上报标识
@@ -198,7 +204,8 @@ private:
 	string vin;
 	string HardVer;
 	string SoftVer;
-	float max_speed;
+	string type;
+//	float max_speed;
 
 	pthread_t t_recv_id;
 	pthread_t t_upload_data_id;

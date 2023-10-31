@@ -31,7 +31,9 @@ using InstanceHandle_t = eprosima::fastrtps::rtps::InstanceHandle_t;
 ActiveDiagnosticTroubleCodesPubSubType::ActiveDiagnosticTroubleCodesPubSubType()
 {
     setName("ActiveDiagnosticTroubleCodes");
-    m_typeSize = static_cast<uint32_t>(ActiveDiagnosticTroubleCodes::getMaxCdrSerializedSize()) + 4 /*encapsulation*/;
+    auto type_size = ActiveDiagnosticTroubleCodes::getMaxCdrSerializedSize();
+    type_size += eprosima::fastcdr::Cdr::alignment(type_size, 4); /* possible submessage alignment */
+    m_typeSize = static_cast<uint32_t>(type_size) + 4; /*encapsulation*/
     m_isGetKeyDefined = ActiveDiagnosticTroubleCodes::isKeyDefined();
     size_t keyLength = ActiveDiagnosticTroubleCodes::getKeyMaxCdrSerializedSize() > 16 ?
             ActiveDiagnosticTroubleCodes::getKeyMaxCdrSerializedSize() : 16;
@@ -80,21 +82,21 @@ bool ActiveDiagnosticTroubleCodesPubSubType::deserialize(
         SerializedPayload_t* payload,
         void* data)
 {
-    //Convert DATA to pointer of your type
-    ActiveDiagnosticTroubleCodes* p_type = static_cast<ActiveDiagnosticTroubleCodes*>(data);
-
-    // Object that manages the raw buffer.
-    eprosima::fastcdr::FastBuffer fastbuffer(reinterpret_cast<char*>(payload->data), payload->length);
-
-    // Object that deserializes the data.
-    eprosima::fastcdr::Cdr deser(fastbuffer, eprosima::fastcdr::Cdr::DEFAULT_ENDIAN, eprosima::fastcdr::Cdr::DDS_CDR);
-
-    // Deserialize encapsulation.
-    deser.read_encapsulation();
-    payload->encapsulation = deser.endianness() == eprosima::fastcdr::Cdr::BIG_ENDIANNESS ? CDR_BE : CDR_LE;
-
     try
     {
+        //Convert DATA to pointer of your type
+        ActiveDiagnosticTroubleCodes* p_type = static_cast<ActiveDiagnosticTroubleCodes*>(data);
+
+        // Object that manages the raw buffer.
+        eprosima::fastcdr::FastBuffer fastbuffer(reinterpret_cast<char*>(payload->data), payload->length);
+
+        // Object that deserializes the data.
+        eprosima::fastcdr::Cdr deser(fastbuffer, eprosima::fastcdr::Cdr::DEFAULT_ENDIAN, eprosima::fastcdr::Cdr::DDS_CDR);
+
+        // Deserialize encapsulation.
+        deser.read_encapsulation();
+        payload->encapsulation = deser.endianness() == eprosima::fastcdr::Cdr::BIG_ENDIANNESS ? CDR_BE : CDR_LE;
+
         // Deserialize the object.
         p_type->deserialize(deser);
     }
@@ -169,7 +171,9 @@ bool ActiveDiagnosticTroubleCodesPubSubType::getKey(
 FaultDiagnosisFrom297InfoPubSubType::FaultDiagnosisFrom297InfoPubSubType()
 {
     setName("FaultDiagnosisFrom297Info");
-    m_typeSize = static_cast<uint32_t>(FaultDiagnosisFrom297Info::getMaxCdrSerializedSize()) + 4 /*encapsulation*/;
+    auto type_size = FaultDiagnosisFrom297Info::getMaxCdrSerializedSize();
+    type_size += eprosima::fastcdr::Cdr::alignment(type_size, 4); /* possible submessage alignment */
+    m_typeSize = static_cast<uint32_t>(type_size) + 4; /*encapsulation*/
     m_isGetKeyDefined = FaultDiagnosisFrom297Info::isKeyDefined();
     size_t keyLength = FaultDiagnosisFrom297Info::getKeyMaxCdrSerializedSize() > 16 ?
             FaultDiagnosisFrom297Info::getKeyMaxCdrSerializedSize() : 16;
@@ -218,21 +222,21 @@ bool FaultDiagnosisFrom297InfoPubSubType::deserialize(
         SerializedPayload_t* payload,
         void* data)
 {
-    //Convert DATA to pointer of your type
-    FaultDiagnosisFrom297Info* p_type = static_cast<FaultDiagnosisFrom297Info*>(data);
-
-    // Object that manages the raw buffer.
-    eprosima::fastcdr::FastBuffer fastbuffer(reinterpret_cast<char*>(payload->data), payload->length);
-
-    // Object that deserializes the data.
-    eprosima::fastcdr::Cdr deser(fastbuffer, eprosima::fastcdr::Cdr::DEFAULT_ENDIAN, eprosima::fastcdr::Cdr::DDS_CDR);
-
-    // Deserialize encapsulation.
-    deser.read_encapsulation();
-    payload->encapsulation = deser.endianness() == eprosima::fastcdr::Cdr::BIG_ENDIANNESS ? CDR_BE : CDR_LE;
-
     try
     {
+        //Convert DATA to pointer of your type
+        FaultDiagnosisFrom297Info* p_type = static_cast<FaultDiagnosisFrom297Info*>(data);
+
+        // Object that manages the raw buffer.
+        eprosima::fastcdr::FastBuffer fastbuffer(reinterpret_cast<char*>(payload->data), payload->length);
+
+        // Object that deserializes the data.
+        eprosima::fastcdr::Cdr deser(fastbuffer, eprosima::fastcdr::Cdr::DEFAULT_ENDIAN, eprosima::fastcdr::Cdr::DDS_CDR);
+
+        // Deserialize encapsulation.
+        deser.read_encapsulation();
+        payload->encapsulation = deser.endianness() == eprosima::fastcdr::Cdr::BIG_ENDIANNESS ? CDR_BE : CDR_LE;
+
         // Deserialize the object.
         p_type->deserialize(deser);
     }
@@ -307,7 +311,9 @@ bool FaultDiagnosisFrom297InfoPubSubType::getKey(
 TransportProtocolConnectionManagePubSubType::TransportProtocolConnectionManagePubSubType()
 {
     setName("TransportProtocolConnectionManage");
-    m_typeSize = static_cast<uint32_t>(TransportProtocolConnectionManage::getMaxCdrSerializedSize()) + 4 /*encapsulation*/;
+    auto type_size = TransportProtocolConnectionManage::getMaxCdrSerializedSize();
+    type_size += eprosima::fastcdr::Cdr::alignment(type_size, 4); /* possible submessage alignment */
+    m_typeSize = static_cast<uint32_t>(type_size) + 4; /*encapsulation*/
     m_isGetKeyDefined = TransportProtocolConnectionManage::isKeyDefined();
     size_t keyLength = TransportProtocolConnectionManage::getKeyMaxCdrSerializedSize() > 16 ?
             TransportProtocolConnectionManage::getKeyMaxCdrSerializedSize() : 16;
@@ -356,21 +362,21 @@ bool TransportProtocolConnectionManagePubSubType::deserialize(
         SerializedPayload_t* payload,
         void* data)
 {
-    //Convert DATA to pointer of your type
-    TransportProtocolConnectionManage* p_type = static_cast<TransportProtocolConnectionManage*>(data);
-
-    // Object that manages the raw buffer.
-    eprosima::fastcdr::FastBuffer fastbuffer(reinterpret_cast<char*>(payload->data), payload->length);
-
-    // Object that deserializes the data.
-    eprosima::fastcdr::Cdr deser(fastbuffer, eprosima::fastcdr::Cdr::DEFAULT_ENDIAN, eprosima::fastcdr::Cdr::DDS_CDR);
-
-    // Deserialize encapsulation.
-    deser.read_encapsulation();
-    payload->encapsulation = deser.endianness() == eprosima::fastcdr::Cdr::BIG_ENDIANNESS ? CDR_BE : CDR_LE;
-
     try
     {
+        //Convert DATA to pointer of your type
+        TransportProtocolConnectionManage* p_type = static_cast<TransportProtocolConnectionManage*>(data);
+
+        // Object that manages the raw buffer.
+        eprosima::fastcdr::FastBuffer fastbuffer(reinterpret_cast<char*>(payload->data), payload->length);
+
+        // Object that deserializes the data.
+        eprosima::fastcdr::Cdr deser(fastbuffer, eprosima::fastcdr::Cdr::DEFAULT_ENDIAN, eprosima::fastcdr::Cdr::DDS_CDR);
+
+        // Deserialize encapsulation.
+        deser.read_encapsulation();
+        payload->encapsulation = deser.endianness() == eprosima::fastcdr::Cdr::BIG_ENDIANNESS ? CDR_BE : CDR_LE;
+
         // Deserialize the object.
         p_type->deserialize(deser);
     }
@@ -445,7 +451,9 @@ bool TransportProtocolConnectionManagePubSubType::getKey(
 TransportProtocolDataTransferPubSubType::TransportProtocolDataTransferPubSubType()
 {
     setName("TransportProtocolDataTransfer");
-    m_typeSize = static_cast<uint32_t>(TransportProtocolDataTransfer::getMaxCdrSerializedSize()) + 4 /*encapsulation*/;
+    auto type_size = TransportProtocolDataTransfer::getMaxCdrSerializedSize();
+    type_size += eprosima::fastcdr::Cdr::alignment(type_size, 4); /* possible submessage alignment */
+    m_typeSize = static_cast<uint32_t>(type_size) + 4; /*encapsulation*/
     m_isGetKeyDefined = TransportProtocolDataTransfer::isKeyDefined();
     size_t keyLength = TransportProtocolDataTransfer::getKeyMaxCdrSerializedSize() > 16 ?
             TransportProtocolDataTransfer::getKeyMaxCdrSerializedSize() : 16;
@@ -494,21 +502,21 @@ bool TransportProtocolDataTransferPubSubType::deserialize(
         SerializedPayload_t* payload,
         void* data)
 {
-    //Convert DATA to pointer of your type
-    TransportProtocolDataTransfer* p_type = static_cast<TransportProtocolDataTransfer*>(data);
-
-    // Object that manages the raw buffer.
-    eprosima::fastcdr::FastBuffer fastbuffer(reinterpret_cast<char*>(payload->data), payload->length);
-
-    // Object that deserializes the data.
-    eprosima::fastcdr::Cdr deser(fastbuffer, eprosima::fastcdr::Cdr::DEFAULT_ENDIAN, eprosima::fastcdr::Cdr::DDS_CDR);
-
-    // Deserialize encapsulation.
-    deser.read_encapsulation();
-    payload->encapsulation = deser.endianness() == eprosima::fastcdr::Cdr::BIG_ENDIANNESS ? CDR_BE : CDR_LE;
-
     try
     {
+        //Convert DATA to pointer of your type
+        TransportProtocolDataTransfer* p_type = static_cast<TransportProtocolDataTransfer*>(data);
+
+        // Object that manages the raw buffer.
+        eprosima::fastcdr::FastBuffer fastbuffer(reinterpret_cast<char*>(payload->data), payload->length);
+
+        // Object that deserializes the data.
+        eprosima::fastcdr::Cdr deser(fastbuffer, eprosima::fastcdr::Cdr::DEFAULT_ENDIAN, eprosima::fastcdr::Cdr::DDS_CDR);
+
+        // Deserialize encapsulation.
+        deser.read_encapsulation();
+        payload->encapsulation = deser.endianness() == eprosima::fastcdr::Cdr::BIG_ENDIANNESS ? CDR_BE : CDR_LE;
+
         // Deserialize the object.
         p_type->deserialize(deser);
     }
@@ -583,7 +591,9 @@ bool TransportProtocolDataTransferPubSubType::getKey(
 WirectlFeedbackInfoPubSubType::WirectlFeedbackInfoPubSubType()
 {
     setName("WirectlFeedbackInfo");
-    m_typeSize = static_cast<uint32_t>(WirectlFeedbackInfo::getMaxCdrSerializedSize()) + 4 /*encapsulation*/;
+    auto type_size = WirectlFeedbackInfo::getMaxCdrSerializedSize();
+    type_size += eprosima::fastcdr::Cdr::alignment(type_size, 4); /* possible submessage alignment */
+    m_typeSize = static_cast<uint32_t>(type_size) + 4; /*encapsulation*/
     m_isGetKeyDefined = WirectlFeedbackInfo::isKeyDefined();
     size_t keyLength = WirectlFeedbackInfo::getKeyMaxCdrSerializedSize() > 16 ?
             WirectlFeedbackInfo::getKeyMaxCdrSerializedSize() : 16;
@@ -632,21 +642,21 @@ bool WirectlFeedbackInfoPubSubType::deserialize(
         SerializedPayload_t* payload,
         void* data)
 {
-    //Convert DATA to pointer of your type
-    WirectlFeedbackInfo* p_type = static_cast<WirectlFeedbackInfo*>(data);
-
-    // Object that manages the raw buffer.
-    eprosima::fastcdr::FastBuffer fastbuffer(reinterpret_cast<char*>(payload->data), payload->length);
-
-    // Object that deserializes the data.
-    eprosima::fastcdr::Cdr deser(fastbuffer, eprosima::fastcdr::Cdr::DEFAULT_ENDIAN, eprosima::fastcdr::Cdr::DDS_CDR);
-
-    // Deserialize encapsulation.
-    deser.read_encapsulation();
-    payload->encapsulation = deser.endianness() == eprosima::fastcdr::Cdr::BIG_ENDIANNESS ? CDR_BE : CDR_LE;
-
     try
     {
+        //Convert DATA to pointer of your type
+        WirectlFeedbackInfo* p_type = static_cast<WirectlFeedbackInfo*>(data);
+
+        // Object that manages the raw buffer.
+        eprosima::fastcdr::FastBuffer fastbuffer(reinterpret_cast<char*>(payload->data), payload->length);
+
+        // Object that deserializes the data.
+        eprosima::fastcdr::Cdr deser(fastbuffer, eprosima::fastcdr::Cdr::DEFAULT_ENDIAN, eprosima::fastcdr::Cdr::DDS_CDR);
+
+        // Deserialize encapsulation.
+        deser.read_encapsulation();
+        payload->encapsulation = deser.endianness() == eprosima::fastcdr::Cdr::BIG_ENDIANNESS ? CDR_BE : CDR_LE;
+
         // Deserialize the object.
         p_type->deserialize(deser);
     }

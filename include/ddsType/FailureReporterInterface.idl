@@ -1,0 +1,120 @@
+/*
+ * FailureReporterInterface.idl
+ *
+ *  Created on: 2022/03/23
+ *      Author: ZhangYue
+ *  20230215  zhangl1490  更新故障码表
+ *  20230228  zhangl1490  规控更新模块名称
+ *  20230323  zhangl1490  拆分idl，减少SDK更新
+ */
+
+
+//开机自检请求（故障诊断模块-->故障源模块）
+struct SelfInspectionReq
+{
+    unsigned long sn;  //流水号
+};
+
+
+//故障源模块枚举，只可在max前增加记录，不可破坏已有模块顺序！
+enum FailureModule_Enum
+{
+    FailureModule_Unknow,
+    FailureModule_Vehicle_Instrument_IC,  //1, 车身-组合仪表IC
+    FailureModule_Vehicle_SYMC_Control,  //2, 车身-SYMC电器控制系统
+    FailureModule_Vehicle_XIANFC_Gearbox_TCU,  //3, 车身-双特变速箱TCU
+    FailureModule_Vehicle_WEICHAI_Engine_ECU,  //4, 车身-潍柴发动机ECU
+    FailureModule_Vehicle_DANFOSS_Steering_1,  //5, 车身-丹佛斯转向系统1
+    FailureModule_Vehicle_DANFOSS_Steering_2,  //6, 车身-丹佛斯转向系统2
+    FailureModule_Vehicle_EBS_Control_KORMEE,  //7, 车身-EBS控制器科密
+    FailureModule_Vehicle_VCU_Control,  //8, 车身-VCU控制器
+    FailureModule_Vehicle_ACU_Control,  //9, 车身-ACU控制器
+    FailureModule_Vehicle_IGW_Control,  //10, 车身-IGW控制器
+    FailureModule_Vehicle_EV_Chassis,  //11, 车身-电车车身系统故障
+    FailureModule_Vehicle_EV_Engine,  //12, 车身-电车电机故障
+    FailureModule_Vehicle_EV_Battery,  //13, 车身-电车电池故障
+    FailureModule_Perception,  //14, 感知故障
+    FailureModule_Location,  //15, 定位故障
+    FailureModule_Control,  //16, 控制故障
+    /*20230228  zhangl1490  规控更新模块名称, Start*/
+    FailureModule_Pilot_Decide,  //17, 主控-调度决策
+    FailureModule_Pilot_Control,  //18, 主控-控制
+    FailureModule_Pilot_GlobalPlan,  //19, 主控-全局规划（废弃，占位，不可删除）
+    FailureModule_Pilot_LocalPlan,  //20, 主控-局部规划（废弃，占位，不可删除）
+    FailureModule_Pilot_LaneMaker,  //21, 主控-路径规划
+    FailureModule_Pilot_LaneLoader,  //22, 主控-路径读取（废弃，占位，不可删除）
+    FailureModule_Pilot_Interaction,  //23, 主控-通信模块（废弃，占位，不可删除）
+    FailureModule_Pilot_Log,  //24, 主控-日志模块（废弃，占位，不可删除）
+    /*20230228  zhangl1490  规控更新模块名称, End*/
+    FailureModule_Perception_PerceptionDriver,  //25, 感知-驱动模块
+    FailureModule_Perception_Lidar,  //26, 感知-激光雷达进程
+    FailureModule_Perception_Radar,  //27, 感知-毫米波雷达进程
+    FailureModule_Perception_Camera,  //28, 感知-图像模块进程
+    FailureModule_Perception_Fusion,  //29, 感知-融合进程
+    FailureModule_Nebula_Frpc,  //30, 星云-远程SSH
+    FailureModule_Nebula_NetClould,  //31, 星云-车云通信
+    FailureModule_Nebula_RemoteCtrl,  //32, 星云-遥控驾驶
+    FailureModule_Pilot_Guard,  //33, 主控-守护进程
+    FailureModule_FailureDiagnosis,  //34, 主控-故障诊断模块
+    FailureModule_VCUMessageTransformer,  //35, 主控-VCUMessageTransformer    特殊处理！！！各车身模块都关联到该模块上
+    /*20230215  zhangl1490  更新故障码表, Start*/
+    FailureModule_ExternalEquipment,  //36, 外接设备管理
+    FailureModule_Nebula_Guard,  //37, 星云-守护进程
+    /*20230215  zhangl1490  更新故障码表, End*/
+    /*20230228  zhangl1490  规控更新模块名称, Start*/
+    FailureModule_Pilot_Map,  //38, 主控-地图
+    FailureModule_Pilot_ParkPlan,  //39, 主控-泊车规划
+    FailureModule_Pilot_FailureDeal,  //40, 主控-故障处理
+    /*20230228  zhangl1490  规控更新模块名称, End*/
+    /*20230815 lit189 增加模块, Start*/
+    FailureModule_Perception_Visual,    //41, 视觉感知
+    FailureModule_Perception_PointCloudAI, //42, 点云AI目标检测
+    FailureModule_Pilot_Upgradation, //43, 主控-升级
+    FailureModule_IntelligentGateway_Upgradation, //44, 智能网关升级
+    /*20230815 lit189 增加模块, End*/
+    /*20230830 lit189 增加模块, Start*/
+    FailureModule_Vehicle_Hyd_Auto_Transmission, //45, 车身液力自动变速器(车身模块关联到VCUMessageTransformer)
+
+    FailureModule_Location_FeatureExtract,  //46, 激光雷达线面特征提取
+    FailureModule_Location_ImageProjection, //47, 激光雷达数据预处理
+    FailureModule_Location_MapOptmization, //48, 激光雷达数据优化
+    FailureModule_Location_FusionLocalization,  //49, 激光雷达RTK融合
+    FailureModule_Location_IMUPreinteg, //50, 激光雷达IMU优化
+    /*20230830 lit189 增加模块, End*/
+    FailureModule_Vedio_Streaming, //51, 视频推流
+
+    /*202309011 lit189 增加模块，　Start*/
+    FailureModule_Vehicle_DTU,  //52, 科诺尔DTU
+    FailureModule_Vehicle_Retarder, //53，缓速器故障
+    /*202309011 lit189 增加模块，　End*/
+    FailureModule_MAX
+};
+
+//故障源状态枚举，只可在max前增加记录，不可破坏已有模块顺序！
+enum SelfInspectionStatus_Enum
+{
+    SelfInspectionStatus_Unknow,  //初始未知状态
+    SelfInspectionStatus_Initializing,  //初始化中
+    SelfInspectionStatus_initialized,  //初始化完成
+    SelfInspectionStatus_ReadyToWork,  //正常工作
+
+    SelfInspectionStatus_Max
+};
+
+//开机自检响应（故障源模块-->故障诊断模块）
+struct SelfInspectionResp
+{
+    FailureModule_Enum failuremodule;  //各模块填写自己对应的枚举值
+    SelfInspectionStatus_Enum status;  //当前状态
+};
+
+
+//故障收集（故障源模块-->故障诊断模块）
+struct FailureCollection
+{
+    unsigned long failureCode;  //故障编号，参见函数failurecodeCombination
+    unsigned long activeFlag;  //0x00表示清除，0x01表示产生
+};
+
+
+

@@ -5,7 +5,7 @@ if(NOT CMAKE_VERSION VERSION_LESS 3.0)
     cmake_policy(SET CMP0048 NEW)
 endif()
 
-set(CMAKE_CXX_FLAGS   "-std=c++11")
+set(CMAKE_CXX_FLAGS   "-std=c++11 -g")
 
 set(CMAKE_SYSTEM_NAME "Linux")
 
@@ -36,7 +36,7 @@ target_link_libraries(${PROJECT_NAME}
     sany_utils
     daemon_sdk	
 	zkbs   
-	#FailureReporter
+	FailureReporter
 	fastrtps
 	fastcdr
 	pthread

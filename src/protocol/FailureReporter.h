@@ -4,13 +4,16 @@
  *  Created on: 2023/01/12
  *      Author: ZhangYue
  *  20230202  zhangl1490  增加直接用32位FailureCode上报的接口
+ *  20230323  zhangl1490  拆分idl，减少SDK更新
  */
 
 #ifndef FAILUREREPORTER_H_
 #define FAILUREREPORTER_H_
 
-#include "../include/ddsType/FailureDiagnosisInterface.h"
-#include "../include/ddsType/FailureDiagnosisInterfacePubSubTypes.h"
+/*20230323  zhangl1490  拆分idl，减少SDK更新, Start*/
+#include "./FailureReportType/FailureReporterInterface.h"
+#include "./FailureReportType/FailureReporterInterfacePubSubTypes.h"
+/*20230323  zhangl1490  拆分idl，减少SDK更新, End*/
 #include <zkbs/ddsBase/ddsPubBase.h>
 #include <zkbs/ddsBase/ddsSubBase.h>
 

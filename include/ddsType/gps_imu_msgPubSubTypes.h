@@ -20,8 +20,8 @@
  */
 
 
-#ifndef _GPS_IMU_MSG_PUBSUBTYPES_H_
-#define _GPS_IMU_MSG_PUBSUBTYPES_H_
+#ifndef _FAST_DDS_GENERATED_GPS_IMU_MSG_PUBSUBTYPES_H_
+#define _FAST_DDS_GENERATED_GPS_IMU_MSG_PUBSUBTYPES_H_
 
 #include <fastdds/dds/topic/TopicDataType.hpp>
 #include <fastrtps/utils/md5.h>
@@ -29,7 +29,8 @@
 #include "gps_imu_msg.h"
 
 #if !defined(GEN_API_VER) || (GEN_API_VER != 1)
-#error Generated gps_imu_msg is not compatible with current installed Fast DDS. Please, regenerate it with fastddsgen.
+#error \
+    Generated gps_imu_msg is not compatible with current installed Fast DDS. Please, regenerate it with fastddsgen.
 #endif  // GEN_API_VER
 
 /*!
@@ -44,7 +45,7 @@ public:
 
     eProsima_user_DllExport tmdescPubSubType();
 
-    eProsima_user_DllExport virtual ~tmdescPubSubType();
+    eProsima_user_DllExport virtual ~tmdescPubSubType() override;
 
     eProsima_user_DllExport virtual bool serialize(
             void* data,
@@ -108,7 +109,7 @@ public:
 
     eProsima_user_DllExport GpsImuInfoPubSubType();
 
-    eProsima_user_DllExport virtual ~GpsImuInfoPubSubType();
+    eProsima_user_DllExport virtual ~GpsImuInfoPubSubType() override;
 
     eProsima_user_DllExport virtual bool serialize(
             void* data,
@@ -161,4 +162,4 @@ public:
     unsigned char* m_keyBuffer;
 };
 
-#endif // _GPS_IMU_MSG_PUBSUBTYPES_H_
+#endif // _FAST_DDS_GENERATED_GPS_IMU_MSG_PUBSUBTYPES_H_

@@ -20,8 +20,8 @@
  */
 
 
-#ifndef _CHASSISCTRL_PUBSUBTYPES_H_
-#define _CHASSISCTRL_PUBSUBTYPES_H_
+#ifndef _FAST_DDS_GENERATED_CHASSISCTRL_PUBSUBTYPES_H_
+#define _FAST_DDS_GENERATED_CHASSISCTRL_PUBSUBTYPES_H_
 
 #include <fastdds/dds/topic/TopicDataType.hpp>
 #include <fastrtps/utils/md5.h>
@@ -29,7 +29,8 @@
 #include "ChassisCtrl.h"
 
 #if !defined(GEN_API_VER) || (GEN_API_VER != 1)
-#error Generated ChassisCtrl is not compatible with current installed Fast DDS. Please, regenerate it with fastddsgen.
+#error \
+    Generated ChassisCtrl is not compatible with current installed Fast DDS. Please, regenerate it with fastddsgen.
 #endif  // GEN_API_VER
 
 /*!
@@ -44,7 +45,7 @@ public:
 
     eProsima_user_DllExport ActiveDiagnosticTroubleCodesPubSubType();
 
-    eProsima_user_DllExport virtual ~ActiveDiagnosticTroubleCodesPubSubType();
+    eProsima_user_DllExport virtual ~ActiveDiagnosticTroubleCodesPubSubType() override;
 
     eProsima_user_DllExport virtual bool serialize(
             void* data,
@@ -108,7 +109,7 @@ public:
 
     eProsima_user_DllExport FaultDiagnosisFrom297InfoPubSubType();
 
-    eProsima_user_DllExport virtual ~FaultDiagnosisFrom297InfoPubSubType();
+    eProsima_user_DllExport virtual ~FaultDiagnosisFrom297InfoPubSubType() override;
 
     eProsima_user_DllExport virtual bool serialize(
             void* data,
@@ -172,7 +173,7 @@ public:
 
     eProsima_user_DllExport TransportProtocolConnectionManagePubSubType();
 
-    eProsima_user_DllExport virtual ~TransportProtocolConnectionManagePubSubType();
+    eProsima_user_DllExport virtual ~TransportProtocolConnectionManagePubSubType() override;
 
     eProsima_user_DllExport virtual bool serialize(
             void* data,
@@ -236,7 +237,7 @@ public:
 
     eProsima_user_DllExport TransportProtocolDataTransferPubSubType();
 
-    eProsima_user_DllExport virtual ~TransportProtocolDataTransferPubSubType();
+    eProsima_user_DllExport virtual ~TransportProtocolDataTransferPubSubType() override;
 
     eProsima_user_DllExport virtual bool serialize(
             void* data,
@@ -300,7 +301,7 @@ public:
 
     eProsima_user_DllExport WirectlFeedbackInfoPubSubType();
 
-    eProsima_user_DllExport virtual ~WirectlFeedbackInfoPubSubType();
+    eProsima_user_DllExport virtual ~WirectlFeedbackInfoPubSubType() override;
 
     eProsima_user_DllExport virtual bool serialize(
             void* data,
@@ -353,4 +354,4 @@ public:
     unsigned char* m_keyBuffer;
 };
 
-#endif // _CHASSISCTRL_PUBSUBTYPES_H_
+#endif // _FAST_DDS_GENERATED_CHASSISCTRL_PUBSUBTYPES_H_

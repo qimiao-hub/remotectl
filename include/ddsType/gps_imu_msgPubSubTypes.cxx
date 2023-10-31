@@ -31,7 +31,9 @@ using InstanceHandle_t = eprosima::fastrtps::rtps::InstanceHandle_t;
 tmdescPubSubType::tmdescPubSubType()
 {
     setName("tmdesc");
-    m_typeSize = static_cast<uint32_t>(tmdesc::getMaxCdrSerializedSize()) + 4 /*encapsulation*/;
+    auto type_size = tmdesc::getMaxCdrSerializedSize();
+    type_size += eprosima::fastcdr::Cdr::alignment(type_size, 4); /* possible submessage alignment */
+    m_typeSize = static_cast<uint32_t>(type_size) + 4; /*encapsulation*/
     m_isGetKeyDefined = tmdesc::isKeyDefined();
     size_t keyLength = tmdesc::getKeyMaxCdrSerializedSize() > 16 ?
             tmdesc::getKeyMaxCdrSerializedSize() : 16;
@@ -80,21 +82,21 @@ bool tmdescPubSubType::deserialize(
         SerializedPayload_t* payload,
         void* data)
 {
-    //Convert DATA to pointer of your type
-    tmdesc* p_type = static_cast<tmdesc*>(data);
-
-    // Object that manages the raw buffer.
-    eprosima::fastcdr::FastBuffer fastbuffer(reinterpret_cast<char*>(payload->data), payload->length);
-
-    // Object that deserializes the data.
-    eprosima::fastcdr::Cdr deser(fastbuffer, eprosima::fastcdr::Cdr::DEFAULT_ENDIAN, eprosima::fastcdr::Cdr::DDS_CDR);
-
-    // Deserialize encapsulation.
-    deser.read_encapsulation();
-    payload->encapsulation = deser.endianness() == eprosima::fastcdr::Cdr::BIG_ENDIANNESS ? CDR_BE : CDR_LE;
-
     try
     {
+        //Convert DATA to pointer of your type
+        tmdesc* p_type = static_cast<tmdesc*>(data);
+
+        // Object that manages the raw buffer.
+        eprosima::fastcdr::FastBuffer fastbuffer(reinterpret_cast<char*>(payload->data), payload->length);
+
+        // Object that deserializes the data.
+        eprosima::fastcdr::Cdr deser(fastbuffer, eprosima::fastcdr::Cdr::DEFAULT_ENDIAN, eprosima::fastcdr::Cdr::DDS_CDR);
+
+        // Deserialize encapsulation.
+        deser.read_encapsulation();
+        payload->encapsulation = deser.endianness() == eprosima::fastcdr::Cdr::BIG_ENDIANNESS ? CDR_BE : CDR_LE;
+
         // Deserialize the object.
         p_type->deserialize(deser);
     }
@@ -169,7 +171,9 @@ bool tmdescPubSubType::getKey(
 GpsImuInfoPubSubType::GpsImuInfoPubSubType()
 {
     setName("GpsImuInfo");
-    m_typeSize = static_cast<uint32_t>(GpsImuInfo::getMaxCdrSerializedSize()) + 4 /*encapsulation*/;
+    auto type_size = GpsImuInfo::getMaxCdrSerializedSize();
+    type_size += eprosima::fastcdr::Cdr::alignment(type_size, 4); /* possible submessage alignment */
+    m_typeSize = static_cast<uint32_t>(type_size) + 4; /*encapsulation*/
     m_isGetKeyDefined = GpsImuInfo::isKeyDefined();
     size_t keyLength = GpsImuInfo::getKeyMaxCdrSerializedSize() > 16 ?
             GpsImuInfo::getKeyMaxCdrSerializedSize() : 16;
@@ -218,21 +222,21 @@ bool GpsImuInfoPubSubType::deserialize(
         SerializedPayload_t* payload,
         void* data)
 {
-    //Convert DATA to pointer of your type
-    GpsImuInfo* p_type = static_cast<GpsImuInfo*>(data);
-
-    // Object that manages the raw buffer.
-    eprosima::fastcdr::FastBuffer fastbuffer(reinterpret_cast<char*>(payload->data), payload->length);
-
-    // Object that deserializes the data.
-    eprosima::fastcdr::Cdr deser(fastbuffer, eprosima::fastcdr::Cdr::DEFAULT_ENDIAN, eprosima::fastcdr::Cdr::DDS_CDR);
-
-    // Deserialize encapsulation.
-    deser.read_encapsulation();
-    payload->encapsulation = deser.endianness() == eprosima::fastcdr::Cdr::BIG_ENDIANNESS ? CDR_BE : CDR_LE;
-
     try
     {
+        //Convert DATA to pointer of your type
+        GpsImuInfo* p_type = static_cast<GpsImuInfo*>(data);
+
+        // Object that manages the raw buffer.
+        eprosima::fastcdr::FastBuffer fastbuffer(reinterpret_cast<char*>(payload->data), payload->length);
+
+        // Object that deserializes the data.
+        eprosima::fastcdr::Cdr deser(fastbuffer, eprosima::fastcdr::Cdr::DEFAULT_ENDIAN, eprosima::fastcdr::Cdr::DDS_CDR);
+
+        // Deserialize encapsulation.
+        deser.read_encapsulation();
+        payload->encapsulation = deser.endianness() == eprosima::fastcdr::Cdr::BIG_ENDIANNESS ? CDR_BE : CDR_LE;
+
         // Deserialize the object.
         p_type->deserialize(deser);
     }

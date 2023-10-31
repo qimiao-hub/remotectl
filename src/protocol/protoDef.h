@@ -125,6 +125,8 @@ typedef struct {
     SANY_U8	ucIccid[20];			//ICCID
     SANY_U8	ucHardVer[4];			//硬件版本
     SANY_U8	ucSoftVer[4];			//软件版本
+    SANY_U8 ucWorkStatus[1];        //车辆工作状态
+    SANY_U8 ucCurrentGear[1];       //当前档位
 } CP_Register_Cmd_st;
 
 
@@ -195,6 +197,8 @@ typedef struct {
     SANY_U8	ucAccumulatedMileage[4];	//累计里程
     SANY_U8	ucSubtotalMileage[2];		//小计里程
     SANY_U8 ucPitchAngle[2];            //俯仰角
+    SANY_U8 ucLiftUpStatus[1];         //举升到位状态
+    SANY_U8 ucLiftDownStatus[1];        //下降到位状态
 } CP_Realtime_Ctrl_Ack_st;
 
 /***********************车-舱协议*********紧急停车命令*********消息结构体************************/
@@ -260,8 +264,14 @@ typedef struct {
     SANY_U8	ucCombinedGearL[1];			//组合开关左
     SANY_U8	ucCombinedGearR[1];			//组合开关右
     SANY_U8	ucKeyOperation1[1];			//按键操作1
-    SANY_U8	ucKeyOperation2[1];			//按键操作2
+    SANY_U8	ucKeyOperation2[1];			//按键操作2 
 } CP_Realtime_Stauts_KeyOper_SubCmd_st;
+
+/*************车-舱协议*********实时上报(状态变更)子命令*****车辆驾驶状态********/
+typedef struct {
+	SANY_U8	ucInfoType[1];				//信息类型
+    SANY_U8	ucWorkStatus[1];			//组合开关左
+} CP_Realtime_Stauts_WorkStatus_SubCmd_st;
 
 /******************************协议通用枚举*********************************/
 enum{
