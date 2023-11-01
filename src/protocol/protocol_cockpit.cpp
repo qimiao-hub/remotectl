@@ -25,7 +25,7 @@
 #include "sany_utils.h"
 
 // SANY_LOG_HANDLE logHandleLocal = sany_log_creat("/data/sany/project/application/log/RemoteCtrl_Log", "RemoteCtrl.log", SANY_1M);
-SANY_LOG_HANDLE logHandleLocal = sany_log_creat("/data/sany/mnt/log/RemoteCtrl_Log", "RemoteCtrl.log", SANY_1M);
+SANY_LOG_HANDLE logHandleLocal = sany_log_creat("../../../mnt/log/RemoteCtrl_Log", "RemoteCtrl.log", SANY_1M);
 
 // #define SANY_LOG(level, fmt, args...)                             \
 // 	do                                                            \
