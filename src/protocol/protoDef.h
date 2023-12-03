@@ -103,7 +103,7 @@ enum{
 	EV_CP_STATUS_REALTIME_REP,				//实时上报（状态变更）
 	EV_CP_SEND_EMERGENCY_STOP = 0x06,     	//紧急停车
     EV_CP_VEHICLE_SIGNOUT = 0x08,          	//登出驾驶舱端（主动、被动）
-    
+    EV_CP_PICKUP_TASK = 0x07,                      //任务下发
     EV_CLAPP_MAX                           
 }Protocol_Cockpit_Cmd_Enum;
 
@@ -213,6 +213,19 @@ typedef struct {
 	SANY_U8	ucTime[8];				//指令时间
 	SANY_U8	ucSequenceNum[1];		//响应流水号
 } CP_Emergency_Stop_Ack_st;
+
+/***********************车-舱协议*********任务下发命令*********消息结构体************************/
+typedef struct {
+    SANY_U8	ucTime[8];				//指令时间
+    SANY_U8	ucSequenceNum[1];		//指令流水号
+    SANY_U8	ucTaskNum[1];			//0x00前往装料点；0x01装料入场；0x02：装料完成；0x03：前往卸料点；0x04：卸料入场；0x05：卸料完成
+} CP_Pickup_Task_Cmd_st;
+
+/***********************车-舱协议*********任务下发响应*********消息结构体************************/
+typedef struct {
+	SANY_U8	ucTime[8];				//指令时间
+	SANY_U8	ucSequenceNum[1];		//响应流水号
+} CP_Pickup_Task_Ack_st;
 
 /***********************车-舱协议*********实时上报(高频)命令*********消息结构体************************/
 typedef struct {

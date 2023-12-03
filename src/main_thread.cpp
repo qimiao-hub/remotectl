@@ -16,8 +16,6 @@
 #include "protocol/protocol_cockpit.h"
 #include "common/debugLog.h"
 
-
-
 CmdCtrlACK ctrlACK;
 TopicDataType *pDataTypeACK = new CmdCtrlACKPubSubType();
 ddsPublisher<CmdCtrlACK> *pPubACK = new ddsPublisher<CmdCtrlACK>(pDataTypeACK);
@@ -29,11 +27,11 @@ SANY_U8 u8CtrlStatus = 0;
 
 void sig_handler(int sig)
 {
-	printf("-------------sig_handler Signal %d-------------\n", sig);
+	//printf("-------------sig_handler Signal %d-------------\n", sig);
 	// if (sig == SIGINT)
 	// {
 	// }
-
+	MINE_LOG(SANY_LOG_ERROR, "-------------sig_handler Signal %d-------------\n", sig);
 	//	return;
 	exit(0);
 }
@@ -60,7 +58,7 @@ int main()
 {
 	zkbs::init("syzk-remotectl");
 	DaemonHandl Hdl = daemon_create("syzk-remotectl", 500, DEV_TYPE_XINGYUN);
-	zkbs::setVersion(VER("0.1"));
+	zkbs::setVersion(VER("1.1"));
 
 	mine_log::set_log_level(SANY_LOG_INFO);
 	mine_log::set_log_output(SANY_LOG_OUT_FILE);
@@ -81,9 +79,39 @@ int main()
 	// Remote2Control remote_ctrl;
 	// TopicDataType *pDataTypeCtrl = new Remote2ControlPubSubType();
 	// ddsPublisher<Remote2Control> *pPubCtrl = new ddsPublisher<Remote2Control>(pDataTypeCtrl);
-
-	while (1)
+	SANY_U8 u32NetStatus = 0;
+	SANY_U8 count  = 0;
+	SANY_U8 Remote_Enable5 = 0;
+	while (! pCockpit->u8TaskStopFlag)
 	{
+		if(1 == ip_flag)
+		{
+			/* 断开连接后进行重连 */
+			/*尝试重连6次未成功，程序退出*/
+			if(9 < count)
+			{
+				MINE_LOG(SANY_LOG_ERROR, "Reconnect TCP Fail, stop!!!!!\n");
+				printf("Reconnect TCP Fail, stop!!!!!\n");
+				pCockpit->stop();
+			}
+			/* 定时器到时后尝试重连 */
+			MINE_LOG(SANY_LOG_ERROR, "Reconnect TCP!\n");
+			printf("Reconnect TCP!\n");
+			u32NetStatus = pCockpit->m_Terminal.comm_socket_client_do_connect(pCockpit->m_Socket_CockpitClient);
+			if (1 != u32NetStatus)
+			{
+				count++;
+				MINE_LOG(SANY_LOG_ERROR, "sa_comm_socket_client_send fail\n");
+				/*延时1s重连*/
+				sleep(1);
+				continue;
+			}
+			count = 0;
+			/* 网络连接成功，更新网络状态 */
+			pCockpit->bNetReady = 1;
+			MINE_LOG(SANY_LOG_ERROR, "Reconnect Success! \n");
+			printf("Reconnect Success! \n");
+		}
 
 		if (1 == u8CtrlStatus)
 		{
@@ -91,13 +119,14 @@ int main()
 			pCockpit->ProtoCockpit_getCtrlDate(&imple_result_info);
 			/*发布遥控控制数据*/
 			pPubImple->publish(imple_result_info);
-			
+			Remote_Enable5 = 0;
 			/*遥控接管使能位和最大车速to主控*/
 			// pCockpit->ProtoCockpit_getMaxSpeed(&remote_ctrl);
 			// pPubCtrl->publish(remote_ctrl);
 		}
-		else if(2 == u8CtrlStatus)
+		else if((2 == u8CtrlStatus) && (Remote_Enable5 < 10))
 		{
+			Remote_Enable5++;
 			imple_result_info.Remote_enable(5);
 			imple_result_info.unmanned_enable(1);
 			pPubImple->publish(imple_result_info);
@@ -108,10 +137,9 @@ int main()
 			imple_result_info.unmanned_enable(0);
 			pPubImple->publish(imple_result_info);
 		}
+		
 		usleep(50 * 1000);
 	}
-
-	
 
 	return 0;
 }

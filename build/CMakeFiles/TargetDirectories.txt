@@ -1,3 +1,0 @@
-/home/chaibo0701/backup/remotectrl/build/CMakeFiles/syzk-remotectl.dir
-/home/chaibo0701/backup/remotectrl/build/CMakeFiles/edit_cache.dir
-/home/chaibo0701/backup/remotectrl/build/CMakeFiles/rebuild_cache.dir
