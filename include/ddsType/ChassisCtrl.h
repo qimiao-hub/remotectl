@@ -4886,6 +4886,297 @@ public:
     eProsima_user_DllExport uint32_t& vehicle_status();
 
     /*!
+     * @brief This function sets a value in member Front_L_tire_pressure
+     * @param _Front_L_tire_pressure New value for member Front_L_tire_pressure
+     */
+    eProsima_user_DllExport void Front_L_tire_pressure(
+            uint32_t _Front_L_tire_pressure);
+
+    /*!
+     * @brief This function returns the value of member Front_L_tire_pressure
+     * @return Value of member Front_L_tire_pressure
+     */
+    eProsima_user_DllExport uint32_t Front_L_tire_pressure() const;
+
+    /*!
+     * @brief This function returns a reference to member Front_L_tire_pressure
+     * @return Reference to member Front_L_tire_pressure
+     */
+    eProsima_user_DllExport uint32_t& Front_L_tire_pressure();
+
+    /*!
+     * @brief This function sets a value in member Front_R_tire_pressure
+     * @param _Front_R_tire_pressure New value for member Front_R_tire_pressure
+     */
+    eProsima_user_DllExport void Front_R_tire_pressure(
+            uint32_t _Front_R_tire_pressure);
+
+    /*!
+     * @brief This function returns the value of member Front_R_tire_pressure
+     * @return Value of member Front_R_tire_pressure
+     */
+    eProsima_user_DllExport uint32_t Front_R_tire_pressure() const;
+
+    /*!
+     * @brief This function returns a reference to member Front_R_tire_pressure
+     * @return Reference to member Front_R_tire_pressure
+     */
+    eProsima_user_DllExport uint32_t& Front_R_tire_pressure();
+
+    /*!
+     * @brief This function sets a value in member MID_LL_tire_pressure
+     * @param _MID_LL_tire_pressure New value for member MID_LL_tire_pressure
+     */
+    eProsima_user_DllExport void MID_LL_tire_pressure(
+            uint32_t _MID_LL_tire_pressure);
+
+    /*!
+     * @brief This function returns the value of member MID_LL_tire_pressure
+     * @return Value of member MID_LL_tire_pressure
+     */
+    eProsima_user_DllExport uint32_t MID_LL_tire_pressure() const;
+
+    /*!
+     * @brief This function returns a reference to member MID_LL_tire_pressure
+     * @return Reference to member MID_LL_tire_pressure
+     */
+    eProsima_user_DllExport uint32_t& MID_LL_tire_pressure();
+
+    /*!
+     * @brief This function sets a value in member MID_LR_tire_pressure
+     * @param _MID_LR_tire_pressure New value for member MID_LR_tire_pressure
+     */
+    eProsima_user_DllExport void MID_LR_tire_pressure(
+            uint32_t _MID_LR_tire_pressure);
+
+    /*!
+     * @brief This function returns the value of member MID_LR_tire_pressure
+     * @return Value of member MID_LR_tire_pressure
+     */
+    eProsima_user_DllExport uint32_t MID_LR_tire_pressure() const;
+
+    /*!
+     * @brief This function returns a reference to member MID_LR_tire_pressure
+     * @return Reference to member MID_LR_tire_pressure
+     */
+    eProsima_user_DllExport uint32_t& MID_LR_tire_pressure();
+
+    /*!
+     * @brief This function sets a value in member MID_RL_tire_pressure
+     * @param _MID_RL_tire_pressure New value for member MID_RL_tire_pressure
+     */
+    eProsima_user_DllExport void MID_RL_tire_pressure(
+            uint32_t _MID_RL_tire_pressure);
+
+    /*!
+     * @brief This function returns the value of member MID_RL_tire_pressure
+     * @return Value of member MID_RL_tire_pressure
+     */
+    eProsima_user_DllExport uint32_t MID_RL_tire_pressure() const;
+
+    /*!
+     * @brief This function returns a reference to member MID_RL_tire_pressure
+     * @return Reference to member MID_RL_tire_pressure
+     */
+    eProsima_user_DllExport uint32_t& MID_RL_tire_pressure();
+
+    /*!
+     * @brief This function sets a value in member MID_RR_tire_pressure
+     * @param _MID_RR_tire_pressure New value for member MID_RR_tire_pressure
+     */
+    eProsima_user_DllExport void MID_RR_tire_pressure(
+            uint32_t _MID_RR_tire_pressure);
+
+    /*!
+     * @brief This function returns the value of member MID_RR_tire_pressure
+     * @return Value of member MID_RR_tire_pressure
+     */
+    eProsima_user_DllExport uint32_t MID_RR_tire_pressure() const;
+
+    /*!
+     * @brief This function returns a reference to member MID_RR_tire_pressure
+     * @return Reference to member MID_RR_tire_pressure
+     */
+    eProsima_user_DllExport uint32_t& MID_RR_tire_pressure();
+
+    /*!
+     * @brief This function sets a value in member BACK_LL_tire_pressure
+     * @param _BACK_LL_tire_pressure New value for member BACK_LL_tire_pressure
+     */
+    eProsima_user_DllExport void BACK_LL_tire_pressure(
+            uint32_t _BACK_LL_tire_pressure);
+
+    /*!
+     * @brief This function returns the value of member BACK_LL_tire_pressure
+     * @return Value of member BACK_LL_tire_pressure
+     */
+    eProsima_user_DllExport uint32_t BACK_LL_tire_pressure() const;
+
+    /*!
+     * @brief This function returns a reference to member BACK_LL_tire_pressure
+     * @return Reference to member BACK_LL_tire_pressure
+     */
+    eProsima_user_DllExport uint32_t& BACK_LL_tire_pressure();
+
+    /*!
+     * @brief This function sets a value in member BACK_LR_tire_pressure
+     * @param _BACK_LR_tire_pressure New value for member BACK_LR_tire_pressure
+     */
+    eProsima_user_DllExport void BACK_LR_tire_pressure(
+            uint32_t _BACK_LR_tire_pressure);
+
+    /*!
+     * @brief This function returns the value of member BACK_LR_tire_pressure
+     * @return Value of member BACK_LR_tire_pressure
+     */
+    eProsima_user_DllExport uint32_t BACK_LR_tire_pressure() const;
+
+    /*!
+     * @brief This function returns a reference to member BACK_LR_tire_pressure
+     * @return Reference to member BACK_LR_tire_pressure
+     */
+    eProsima_user_DllExport uint32_t& BACK_LR_tire_pressure();
+
+    /*!
+     * @brief This function sets a value in member BACK_RL_tire_pressure
+     * @param _BACK_RL_tire_pressure New value for member BACK_RL_tire_pressure
+     */
+    eProsima_user_DllExport void BACK_RL_tire_pressure(
+            uint32_t _BACK_RL_tire_pressure);
+
+    /*!
+     * @brief This function returns the value of member BACK_RL_tire_pressure
+     * @return Value of member BACK_RL_tire_pressure
+     */
+    eProsima_user_DllExport uint32_t BACK_RL_tire_pressure() const;
+
+    /*!
+     * @brief This function returns a reference to member BACK_RL_tire_pressure
+     * @return Reference to member BACK_RL_tire_pressure
+     */
+    eProsima_user_DllExport uint32_t& BACK_RL_tire_pressure();
+
+    /*!
+     * @brief This function sets a value in member BACK_RR_tire_pressure
+     * @param _BACK_RR_tire_pressure New value for member BACK_RR_tire_pressure
+     */
+    eProsima_user_DllExport void BACK_RR_tire_pressure(
+            uint32_t _BACK_RR_tire_pressure);
+
+    /*!
+     * @brief This function returns the value of member BACK_RR_tire_pressure
+     * @return Value of member BACK_RR_tire_pressure
+     */
+    eProsima_user_DllExport uint32_t BACK_RR_tire_pressure() const;
+
+    /*!
+     * @brief This function returns a reference to member BACK_RR_tire_pressure
+     * @return Reference to member BACK_RR_tire_pressure
+     */
+    eProsima_user_DllExport uint32_t& BACK_RR_tire_pressure();
+
+    /*!
+     * @brief This function sets a value in member Brake_Pressure_FA_Left
+     * @param _Brake_Pressure_FA_Left New value for member Brake_Pressure_FA_Left
+     */
+    eProsima_user_DllExport void Brake_Pressure_FA_Left(
+            uint32_t _Brake_Pressure_FA_Left);
+
+    /*!
+     * @brief This function returns the value of member Brake_Pressure_FA_Left
+     * @return Value of member Brake_Pressure_FA_Left
+     */
+    eProsima_user_DllExport uint32_t Brake_Pressure_FA_Left() const;
+
+    /*!
+     * @brief This function returns a reference to member Brake_Pressure_FA_Left
+     * @return Reference to member Brake_Pressure_FA_Left
+     */
+    eProsima_user_DllExport uint32_t& Brake_Pressure_FA_Left();
+
+    /*!
+     * @brief This function sets a value in member Brake_Pressure_FA_Right
+     * @param _Brake_Pressure_FA_Right New value for member Brake_Pressure_FA_Right
+     */
+    eProsima_user_DllExport void Brake_Pressure_FA_Right(
+            uint32_t _Brake_Pressure_FA_Right);
+
+    /*!
+     * @brief This function returns the value of member Brake_Pressure_FA_Right
+     * @return Value of member Brake_Pressure_FA_Right
+     */
+    eProsima_user_DllExport uint32_t Brake_Pressure_FA_Right() const;
+
+    /*!
+     * @brief This function returns a reference to member Brake_Pressure_FA_Right
+     * @return Reference to member Brake_Pressure_FA_Right
+     */
+    eProsima_user_DllExport uint32_t& Brake_Pressure_FA_Right();
+
+    /*!
+     * @brief This function sets a value in member Brake_Pressure_RA1_Left
+     * @param _Brake_Pressure_RA1_Left New value for member Brake_Pressure_RA1_Left
+     */
+    eProsima_user_DllExport void Brake_Pressure_RA1_Left(
+            uint32_t _Brake_Pressure_RA1_Left);
+
+    /*!
+     * @brief This function returns the value of member Brake_Pressure_RA1_Left
+     * @return Value of member Brake_Pressure_RA1_Left
+     */
+    eProsima_user_DllExport uint32_t Brake_Pressure_RA1_Left() const;
+
+    /*!
+     * @brief This function returns a reference to member Brake_Pressure_RA1_Left
+     * @return Reference to member Brake_Pressure_RA1_Left
+     */
+    eProsima_user_DllExport uint32_t& Brake_Pressure_RA1_Left();
+
+    /*!
+     * @brief This function sets a value in member Brake_Pressure_RA1_Right
+     * @param _Brake_Pressure_RA1_Right New value for member Brake_Pressure_RA1_Right
+     */
+    eProsima_user_DllExport void Brake_Pressure_RA1_Right(
+            uint32_t _Brake_Pressure_RA1_Right);
+
+    /*!
+     * @brief This function returns the value of member Brake_Pressure_RA1_Right
+     * @return Value of member Brake_Pressure_RA1_Right
+     */
+    eProsima_user_DllExport uint32_t Brake_Pressure_RA1_Right() const;
+
+    /*!
+     * @brief This function returns a reference to member Brake_Pressure_RA1_Right
+     * @return Reference to member Brake_Pressure_RA1_Right
+     */
+    eProsima_user_DllExport uint32_t& Brake_Pressure_RA1_Right();
+
+    /*!
+     * @brief This function copies the value in member VCU_Version
+     * @param _VCU_Version New value to be copied in member VCU_Version
+     */
+    eProsima_user_DllExport void VCU_Version(
+            const std::string& _VCU_Version);
+
+    /*!
+     * @brief This function moves the value in member VCU_Version
+     * @param _VCU_Version New value to be moved in member VCU_Version
+     */
+    eProsima_user_DllExport void VCU_Version(
+            std::string&& _VCU_Version);
+
+    /*!
+     * @brief This function returns a constant reference to member VCU_Version
+     * @return Constant reference to member VCU_Version
+     */
+    eProsima_user_DllExport const std::string& VCU_Version() const;
+
+    /*!
+     * @brief This function returns a reference to member VCU_Version
+     * @return Reference to member VCU_Version
+     */
+    eProsima_user_DllExport std::string& VCU_Version();
+    /*!
      * @brief This function sets a value in member ramp_sensor
      * @param _ramp_sensor New value for member ramp_sensor
      */
@@ -5473,6 +5764,25 @@ public:
      * @return Reference to member weighing_cell_2
      */
     eProsima_user_DllExport uint32_t& weighing_cell_2();
+
+    /*!
+     * @brief This function sets a value in member num_297
+     * @param _num_297 New value for member num_297
+     */
+    eProsima_user_DllExport void num_297(
+            uint32_t _num_297);
+
+    /*!
+     * @brief This function returns the value of member num_297
+     * @return Value of member num_297
+     */
+    eProsima_user_DllExport uint32_t num_297() const;
+
+    /*!
+     * @brief This function returns a reference to member num_297
+     * @return Reference to member num_297
+     */
+    eProsima_user_DllExport uint32_t& num_297();
 
     /*!
      * @brief This function sets a value in member front_left_wheel_speed
@@ -6885,6 +7195,21 @@ private:
     bool m_revers_light_start_status;
     bool m_charge_indicator;
     uint32_t m_vehicle_status;
+    uint32_t m_Front_L_tire_pressure;
+    uint32_t m_Front_R_tire_pressure;
+    uint32_t m_MID_LL_tire_pressure;
+    uint32_t m_MID_LR_tire_pressure;
+    uint32_t m_MID_RL_tire_pressure;
+    uint32_t m_MID_RR_tire_pressure;
+    uint32_t m_BACK_LL_tire_pressure;
+    uint32_t m_BACK_LR_tire_pressure;
+    uint32_t m_BACK_RL_tire_pressure;
+    uint32_t m_BACK_RR_tire_pressure;
+    uint32_t m_Brake_Pressure_FA_Left;
+    uint32_t m_Brake_Pressure_FA_Right;
+    uint32_t m_Brake_Pressure_RA1_Left;
+    uint32_t m_Brake_Pressure_RA1_Right;
+    std::string m_VCU_Version;
     int16_t m_ramp_sensor;
     int16_t m_rxauxiliary_DriveMotor_Tem_raw;
     float m_rxauxiliary_driveMotor_speed_raw;
@@ -6916,6 +7241,7 @@ private:
     float m_rear_axle_running_brake_pressure_input;
     uint32_t m_weighing_cell_1;
     uint32_t m_weighing_cell_2;
+    uint32_t m_num_297;
     float m_front_left_wheel_speed;
     float m_front_right_wheel_speed;
     float m_rear_left_wheel_speed;

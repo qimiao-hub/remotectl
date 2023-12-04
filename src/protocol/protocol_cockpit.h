@@ -118,12 +118,6 @@ public:
 	SANY_U8 bNetReady = 0;
 	SANY_U8 old_current_state = 0;
 	SANY_U8 current_state = 0;
-		/*登录状态 0未登录 1已登录，未登录状态下，不处理命令协议*/ /*延时程序写死成1*/
-	SANY_U8 u8LoginFlag = 0;
-		/*任务结束标识，驾舱登出后释放线程资源，置位后四个线程退出*/
-	volatile SANY_U8 u8TaskStopFlag = 0;
-	terminal_client m_Terminal;
-	sa_comm_socket_client *m_Socket_CockpitClient;
 
 	char cockpitServerName[22] = {0};
 	const char HostclientName[22] = "192.168.8.249:8080";
@@ -178,6 +172,9 @@ private:
 	/*heartbeat with 297*/
 	SANY_U16 count = 0;
 
+	/*登录状态 0未登录 1已登录，未登录状态下，不处理命令协议*/ /*延时程序写死成1*/
+	SANY_U8 u8LoginFlag = 0;
+
 	/*登录流水号*/
 	SANY_U8 u8LoginSeqNum = 0;
 
@@ -199,6 +196,9 @@ private:
 	/* 急停标识 */
 	SANY_U8 u8EmergencyStopFlg = 0; // normal data flag
 
+	/*任务结束标识，驾舱登出后释放线程资源，置位后四个线程退出*/
+	volatile SANY_U8 u8TaskStopFlag = 0;
+
 	/*读取配置文件*/
 	string iccid;
 	string vin;
@@ -206,10 +206,13 @@ private:
 	string SoftVer;
 	string type;
 //	float max_speed;
+
 	pthread_t t_recv_id;
 	pthread_t t_upload_data_id;
 	pthread_t t_send_id;
 	pthread_t t_download_data_id;
+
+	terminal_client m_Terminal;
 
 	/*发送缓冲区*/
 	pthread_mutex_t SendBufferMutex; /*做互斥锁，锁住整个发送缓冲区*/
@@ -224,6 +227,8 @@ private:
 	SANY_U8 u8RecvBufferReadIndex = 0;
 	SANY_U8 u8RecvBufferDateLen = 0;
 	Protocol_Cockpit_Buffer_st *arrRecvBuffer;
+
+	sa_comm_socket_client *m_Socket_CockpitClient;
 
 	/*接收处理函数集合*/
 	Protocol_Cockpit_Recv_Func_st arrRecvFunc[PROTOCOL_COCKPIT_MAX_RECV_FUN_NUM];
@@ -277,14 +282,12 @@ private:
 	SANY_U8 ProtoCockpit_RecvCmdEmergencyStop(Protocol_Cockpit_Buffer_st *pDateBuffer);
 	SANY_U8 ProtoCockpit_RecvCmdLoginOut(Protocol_Cockpit_Buffer_st *pDateBuffer);
 	SANY_U8 ProtoCockpit_RecvAckLoginPacket(Protocol_Cockpit_Buffer_st *pDateBuffer);
-	SANY_U8 ProtoCockpit_RecvCmdPickTask(Protocol_Cockpit_Buffer_st *pDateBuffer);
 
 	/*协议组包接口*/
 	SANY_U8 ProtoCockpit_PackAckRealtimeCtrl(SANY_U8 *pDataBuf, SANY_U32 *pOutDataLen, SANY_U8 ucSequenceNum);
 	SANY_U8 ProtoCockpit_PackAckEmergencyStop(SANY_U8 *pDataBuf, SANY_U32 *pOutDataLen, SANY_U8 ucSequenceNum);
 	SANY_U8 ProtoCockpit_PackAckLoginOut(SANY_U8 *pDataBuf, SANY_U32 *pOutDataLen);
 	SANY_U8 ProtoCockpit_PackAckRepCtrl(SANY_U8 *pDataBuf, SANY_U32 *pOutDataLen, SANY_U8 ucSequenceNum);
-	SANY_U8 ProtoCockpit_PackAckPickTask(SANY_U8 *pDataBuf, SANY_U32 *pOutDataLen, SANY_U8 ucSequenceNum);
 
 	/*网络相关接口*/
 	void InitSocket_Cockpit();

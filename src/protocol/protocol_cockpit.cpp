@@ -24,16 +24,6 @@
 #include <sys/time.h>
 #include "sany_utils.h"
 
-// SANY_LOG_HANDLE logHandleLocal = sany_log_creat("/data/sany/project/application/log/RemoteCtrl_Log", "RemoteCtrl.log", SANY_1M);
-//SANY_LOG_HANDLE logHandleLocal = sany_log_creat("../../../mnt/log/RemoteCtrl_Log", "RemoteCtrl.log", SANY_1M);
-
-// #define SANY_LOG(level, fmt, args...)                             \
-// 	do                                                            \
-// 	{                                                             \
-// 		SANY_S8 aFile[200] = {};                                  \
-// 		sprintf(aFile, "%s@%s:%d", __FILE__, __func__, __LINE__); \
-// 		SANY_LOG(logHandleLocal, level, aFile, fmt, ##args);      \
-// 	} while (0)
 
 extern Protocol_Cockpit *pCockpit;
 extern SANY_U8 ip_flag;
@@ -304,7 +294,7 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_ParsePacket(SANY_U8 *pu8DataBuf, SANY_U32
 	}
 	else
 	{
-		MINE_LOG(SANY_LOG_ERROR, "GetRecvProc_Cockpit err, undefined protocol\n");
+		MINE_LOG(SANY_LOG_ERROR, "GetRecvProc_Cockpit err\n");
 		/* 回复失败协议 */
 		ProtoCockpit_SendAckCom(headST->ucCommand[0], 0x2);
 		// 无法识别的协议
@@ -313,7 +303,7 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_ParsePacket(SANY_U8 *pu8DataBuf, SANY_U32
 		ProtoCockpit_SendAckCom(headST->ucCommand[0], 0x2);
 		return RET_ERROR;
 	}
-	m_pFailureSDK->report(FailureModule_Nebula_RemoteCtrl, 3204, 3, 1);
+
 	return u8Ret;
 }
 
@@ -337,6 +327,8 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_RecvAckLoginPacket(Protocol_Cockpit_Buffe
 
 	headST = (CP_Header_st *)pDateBuffer->szDataBuf;
 	dataST = (CP_Register_Ack_st *)headST->ucData;
+
+//	MINE_LOG(SANY_LOG_INFO, "ProtoCockpit_RecvAckLoginPacket ucSequenceNum %02X ucLoginStatus %02X \n", dataST->ucSequenceNum[0], dataST->ucLoginStatus[0]);
 
 	/*判断与登录流水号是否相同,不同则报错处理*/
 	if (u8LoginSeqNum != (SANY_U8)dataST->ucSequenceNum[0])
@@ -376,6 +368,7 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_RecvAckLoginPacket(Protocol_Cockpit_Buffe
 		{
 			m_pFailureSDK->report(FailureModule_Nebula_RemoteCtrl, 3201, 13, 1);
 		}
+	//	return RET_ERROR;
 	}
 	/* 置位登录标志位 ，未登录状态下不处理命令协议*/
 	u8LoginFlag = 1;
@@ -420,6 +413,7 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_RecvCmdRepCtrl(Protocol_Cockpit_Buffer_st
 	CP_Header_st *headST = (CP_Header_st *)pDateBuffer->szDataBuf;
 	CP_Req_Ctrl_Cmd_st *pReqCtrlCmdDataST = (CP_Req_Ctrl_Cmd_st *)headST->ucData;
 
+
 	/*标志位非法返回错误*/
 	if (0x01 != pReqCtrlCmdDataST->ucCtrlSwitch[0] && 0x00 != pReqCtrlCmdDataST->ucCtrlSwitch[0] && 0x02 != pReqCtrlCmdDataST->ucCtrlSwitch[0])
 	{
@@ -443,7 +437,7 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_RecvCmdRepCtrl(Protocol_Cockpit_Buffer_st
 		u8CtrlStatus = 3;
 	}
 
-	printf("3-Manual, 1-Remote, 2-Auto, Currnet Control Status: %d\n", pReqCtrlCmdDataST->ucCtrlSwitch[0]);
+	//printf("3-Manual, 1-Remote, 2-Auto, Currnet Control Status: %d\n", pReqCtrlCmdDataST->ucCtrlSwitch[0]);
 	/*通用ACK组包接口*/
 	u8Ret = ProtoCockpit_PackAckRepCtrl((SANY_U8 *)szTmpBuffer, &u32SendDataLen, pReqCtrlCmdDataST->ucSequenceNum[0]);
 	if (RET_OK != u8Ret)
@@ -529,6 +523,7 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_RecvCmdRealtimeCtrl(Protocol_Cockpit_Buff
 		return RET_ERROR;
 	}
 
+//	m_pFailureSDK->report(FailureModule_Nebula_RemoteCtrl, 3203, 4, 0);
 	return RET_OK;
 }
 
@@ -646,80 +641,11 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_RecvCmdLoginOut(Protocol_Cockpit_Buffer_s
 	m_pFailureSDK->report(FailureModule_Nebula_RemoteCtrl, 3203, 5, 0);	
 	m_pFailureSDK->report(FailureModule_Nebula_RemoteCtrl, 3204, 1, 0);
 	m_pFailureSDK->report(FailureModule_Nebula_RemoteCtrl, 3204, 3, 0);
-	u8TaskStopFlag = 1;
 	/*关闭Socket，释放线程资源*/
 	stop();
-	return RET_OK;
-}
-
-/********************************************************************
- * 函数名称:      ProtoCockpit_RecvCmdPickTask 包数据处理
- * 描述:      解析处理舱端发送的任务下发命令协议
- * param in:        u8 * pDateBuffer  包数据缓冲区指针
- * 返回值:       RET_OK/RET_ERROR
- *
- *********************************************************************/
-SANY_U8 Protocol_Cockpit::ProtoCockpit_RecvCmdPickTask(Protocol_Cockpit_Buffer_st *pDateBuffer)
-{
-	SANY_U8 u8Ret = RET_ERROR;
-	SANY_U32 u32SendDataLen = 0;
-	SANY_U8 szTmpBuffer[PROTO_PACK_MAX_LEN] = {0};
-
-	if (!pDateBuffer)
-	{
-		MINE_LOG(SANY_LOG_ERROR, "ProtoCockpit_RecvRepCtrlCmd param err\n");
-		return RET_ERROR;
-	}
-
-	CP_Header_st *headST = (CP_Header_st *)pDateBuffer->szDataBuf;
-	CP_Pickup_Task_Cmd_st *pPickupTaskCmdDataSt = (CP_Pickup_Task_Cmd_st *)headST->ucData;
-
-	MINE_LOG(SANY_LOG_INFO, "EV_CP_SEND_PICKUP_TASK  number %d\n", pPickupTaskCmdDataSt->ucTaskNum[0]);
-	/*判断任务号，发送任务接续状态到底层*/
-	if (0x00 == pPickupTaskCmdDataSt->ucTaskNum[0])
-	{
-		 /*前往装料点*/
-	}
-	else if (0x01 == pPickupTaskCmdDataSt->ucTaskNum[0])
-	{
-		/*装料入场*/
-	}
-	else if(0x02 == pPickupTaskCmdDataSt->ucTaskNum[0])
-	{
-		/*装料完成*/
-	}
-	else if(0x03 == pPickupTaskCmdDataSt->ucTaskNum[0])
-	{
-		/*前往卸料点*/
-	}
-	else if(0x04 == pPickupTaskCmdDataSt->ucTaskNum[0])
-	{
-		/*卸料入场*/
-	}
-	else if(0x05 == pPickupTaskCmdDataSt->ucTaskNum[0])
-	{
-		/*卸料完成*/
-	}
-
-	/*通用ACK组包接口*/
-	u8Ret = ProtoCockpit_PackAckPickTask((SANY_U8 *)szTmpBuffer, &u32SendDataLen, pPickupTaskCmdDataSt->ucSequenceNum[0]);
-	if (RET_OK != u8Ret)
-	{
-		MINE_LOG(SANY_LOG_ERROR, "ProtoCockpit_PackRepCtrlACK err \n");
-		return RET_ERROR;
-	}
-
-	/*返回接口*/
-	u8Ret = ProtoCockpit_WriteSendBuffer(szTmpBuffer, u32SendDataLen);
-	if (RET_OK != u8Ret)
-	{
-		MINE_LOG(SANY_LOG_ERROR, "ProtoCockpit_PackRepCtrlACK err \n");
-		return RET_ERROR;
-	}
 
 	return RET_OK;
 }
-
 
 /********************************************************************
 * 函数名称:      ProtoCockpit_PackAckRepCtrl
@@ -745,8 +671,11 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_PackAckRepCtrl(SANY_U8 *pDataBuf, SANY_U3
 	CP_Req_Ctrl_Ack_st *pDataST = (CP_Req_Ctrl_Ack_st *)pHeadST->ucData;
 
 	/* 填充消息内容 */
-	 ProtoCockpit_GetLocalTime(pDataST->ucTime);
-	
+	u8Ret = ProtoCockpit_GetLocalTime(pDataST->ucTime);
+	if (RET_OK != u8Ret)
+	{
+		MINE_LOG(SANY_LOG_ERROR, "Get Info Error!\n");
+	}
 	pDataST->ucSequenceNum[0] = ucSequenceNum;
 	pDataST->ucCtrlStatus[0] = u8CtrlStatus;
 
@@ -797,8 +726,11 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_PackAckRealtimeCtrl(SANY_U8 *pDataBuf, SA
 	CP_Realtime_Ctrl_Ack_st *pDataST = (CP_Realtime_Ctrl_Ack_st *)pHeadST->ucData;
 
 	/* 填充消息内容 */
-	ProtoCockpit_GetLocalTime(pDataST->ucTime);
-
+	u8Ret = ProtoCockpit_GetLocalTime(pDataST->ucTime);
+	if (RET_OK != u8Ret)
+	{
+		MINE_LOG(SANY_LOG_ERROR, "Get Local-time Error!\n");
+	}
 	pDataST->ucSequenceNum[0] = ucSequenceNum;
 
 	/*先做反馈信息和协议层间的转换*/
@@ -891,8 +823,11 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_PackAckEmergencyStop(SANY_U8 *pDataBuf, S
 	CP_Emergency_Stop_Ack_st *pDataST = (CP_Emergency_Stop_Ack_st *)pHeadST->ucData;
 
 	/* 填充消息内容 */
-	ProtoCockpit_GetLocalTime(pDataST->ucTime);
-
+	u8Ret = ProtoCockpit_GetLocalTime(pDataST->ucTime);
+	if (RET_OK != u8Ret)
+	{
+		MINE_LOG(SANY_LOG_ERROR, "Get Local-time Error!\n");
+	}
 	pDataST->ucSequenceNum[0] = ucSequenceNum;
 
 	/* 计算消息长度 */
@@ -959,53 +894,6 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_PackAckLoginOut(SANY_U8 *pDataBuf, SANY_U
 
 	memcpy(pDataBuf, u8DataBuf, s32DataLen);
 	*pOutDataLen = s32DataLen;
-	u8Ret = ProtoCockpit_WriteSendBuffer(u8DataBuf, s32DataLen);
-
-	return u8Ret;
-}
-
-/********************************************************************
-* 函数名称:      ProtoCockpit_PackAckEmergencyStop
-* 描述:        组装任务下发响应报文
-* parma in:         u8*  pDataBuf    包缓冲区
-					u8   ucSequenceNum	响应流水号
-* parma out:		u8*  pOutDataLen  协议包长
-* 返回值:       RET_OK/RET_ERROR
-*********************************************************************/
-SANY_U8 Protocol_Cockpit::ProtoCockpit_PackAckPickTask(SANY_U8 *pDataBuf, SANY_U32 *pOutDataLen, SANY_U8 ucSequenceNum)
-{
-	SANY_U8 u8Ret = RET_OK;
-	SANY_U8 u8DataBuf[PROTO_PACK_MAX_LEN] = {0};
-	SANY_S32 s32DataLen = 0;
-	if (!pDataBuf || !pOutDataLen || ucSequenceNum < 1)
-	{
-		MINE_LOG(SANY_LOG_ERROR, "ProtoCockpit_PackPickupTaskACK param err\n");
-		return RET_ERROR;
-	}
-	CP_Header_st *pHeadST = (CP_Header_st *)u8DataBuf;
-	CP_Pickup_Task_Ack_st *pDataST = (CP_Pickup_Task_Ack_st *)pHeadST->ucData;
-
-	/* 填充消息内容 */
-	ProtoCockpit_GetLocalTime(pDataST->ucTime);
-
-	pDataST->ucSequenceNum[0] = ucSequenceNum;
-
-	/* 计算消息长度 */
-	SYS2NET(pHeadST->ucDataByteSize, (sizeof(CP_Pickup_Task_Ack_st)));
-
-	/* 创建消息头 */
-	ProtoCockpit_PackHeader(EV_CP_PICKUP_TASK, EV_WP_ACK, pHeadST);
-
-	s32DataLen = sizeof(CP_Emergency_Stop_Ack_st);
-	/* 计算Check Sum */
-	pHeadST->ucData[s32DataLen] = ProtoCockpit_CalcXOR((SANY_U8 *)pHeadST, s32DataLen + sizeof(CP_Header_st));
-	s32DataLen += sizeof(CP_Header_st) + 1;
-
-	MINE_LOG(SANY_LOG_INFO, "ProtoCockpit_PackPickupTaskACK\n");
-
-	memcpy(pDataBuf, u8DataBuf, s32DataLen);
-	*pOutDataLen = s32DataLen;
-
 	u8Ret = ProtoCockpit_WriteSendBuffer(u8DataBuf, s32DataLen);
 
 	return u8Ret;
@@ -1132,7 +1020,7 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_SendCmdRealtimeRep()
 	/* 填充消息内容 */
 	u8Ret = ProtoCockpit_GetLocalTime(pDataST->ucTime);
 
-	ProtoCockpit_getFeedbackData();
+	u8Ret_Data = ProtoCockpit_getFeedbackData();
 
 	u16TmpDate = (int)struWireCtrlOut.iVehicle_speed * 10;
 	SYS2NET(pDataST->ucCarSpeed, u16TmpDate);
@@ -1409,12 +1297,12 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_SendCmdRealtimeStatusRep()
 	pHeadST->ucData[u32DataLen] = ProtoCockpit_CalcXOR((SANY_U8 *)pHeadST, u32DataLen + sizeof(CP_Header_st));
 	u32DataLen += sizeof(CP_Header_st) + 1;
 
-	// MINE_LOG(SANY_LOG_INFO, "-----------------ProtoCockpit_SendRealtimeStatusRepCmd --- start\n");
-	// MINE_LOG(SANY_LOG_INFO, "current gear: %d\n", WireInfo.trans_current_gear());
-	// MINE_LOG(SANY_LOG_INFO, "water temperature: %d\n", WireInfo.engine_coolant_temperature());
-	// MINE_LOG(SANY_LOG_INFO, "fuel_level: %d\n", WireInfo.fuel_level());
-	// MINE_LOG(SANY_LOG_INFO, "work status: %d\n", current_state);
-	// MINE_LOG(SANY_LOG_INFO, "ProtoCockpit_SendCmdRealtimeRep --- end\n");
+	MINE_LOG(SANY_LOG_INFO, "-----------------ProtoCockpit_SendRealtimeStatusRepCmd --- start\n");
+	MINE_LOG(SANY_LOG_INFO, "current gear: %d\n", WireInfo.trans_current_gear());
+	MINE_LOG(SANY_LOG_INFO, "water temperature: %d\n", WireInfo.engine_coolant_temperature());
+	MINE_LOG(SANY_LOG_INFO, "fuel_level: %d\n", WireInfo.fuel_level());
+	MINE_LOG(SANY_LOG_INFO, "work status: %d\n", current_state);
+	MINE_LOG(SANY_LOG_INFO, "ProtoCockpit_SendCmdRealtimeRep --- end\n");
 
 	u8Ret = ProtoCockpit_WriteSendBuffer(u8DataBuf, u32DataLen);
 
@@ -1470,6 +1358,7 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_WriteSendBuffer(SANY_U8 *pu8DataBuf, SANY
 {
 	if (0 == u32DataLen || NULL == pu8DataBuf)
 	{
+	//	sany_log_set_output(logHandleLocal, SANY_LOG_OUT_BOTH);
 		MINE_LOG(SANY_LOG_ERROR, "ProtoCockpit_WriteSendBuffer param err!\n");
 		return RET_ERROR;
 	}
@@ -1484,6 +1373,7 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_WriteSendBuffer(SANY_U8 *pu8DataBuf, SANY
 		}
 		else
 		{
+		//	sany_log_set_output(logHandleLocal, SANY_LOG_OUT_BOTH);
 			MINE_LOG(SANY_LOG_ERROR, "WriteSendBuffer full!\n");
 			pthread_mutex_unlock(&SendBufferMutex);
 			return RET_ERROR;
@@ -1647,6 +1537,7 @@ void Protocol_Cockpit::funcAppUploadData()
 	static SANY_U32 u32Tick = 0; // 发送分频器
 	static SANY_U32 u8LostTimes = 0;
 	SANY_U8 LoginTimes = 0;
+	SANY_U8 LoginoutTimes = 0;
 
 	while (!u8TaskStopFlag)
 	{
@@ -1662,20 +1553,19 @@ void Protocol_Cockpit::funcAppUploadData()
 					/*5次登录失败，则上报登录失败*/
 					if (4 < LoginTimes)
 					{
+						MINE_LOG(SANY_LOG_ERROR, "Login 5 times fail, exit!!\n");
 						m_pFailureSDK->report(FailureModule_Nebula_RemoteCtrl, 3201, 2, 1);
 						/*登入失败，退出线程*/
-					//	pthread_exit(NULL);			//退出当前线程
-						MINE_LOG(SANY_LOG_ERROR, "Login 5 times fail, exit!!\n");
+						//pthread_exit(NULL);     //退出当前线程
 						stop();
 					}
 					/* 发送登录消息 */
 					u8Ret = ProtoCockpit_SendCmdLogin();
 					if (RET_OK != u8Ret)
 					{
-						LoginTimes++;
 						continue;
 					}
-					
+					LoginTimes++;
 				}
 			}
 			/*已经登录完成，则进行需要上报的数据协议组装*/
@@ -1688,7 +1578,6 @@ void Protocol_Cockpit::funcAppUploadData()
 					u8Ret = ProtoCockpit_SendCmdRealtimeRep();
 					if (RET_OK != u8Ret)
 					{
-						MINE_LOG(SANY_LOG_ERROR, "ProtoCockpit_SendCmdRealtimeRep err!!\n");
 						continue;
 					}
 				}
@@ -1703,8 +1592,9 @@ void Protocol_Cockpit::funcAppUploadData()
 					}
 				}
 			}
+
 			u32Tick++;
-			usleep(1); 
+			usleep(1); // 1ms
 		}
 	}
 }
@@ -1730,12 +1620,11 @@ void Protocol_Cockpit::funcAppDownloadData()
 			if (RET_OK != u8Ret || 0 >= u32DataLen)
 			{
 				/*实时控制情况下，50ms发送一个控车报文，连续500ms没有收到报文则认为网络不稳定，直接刹车处理*/
-				if (1 == u8CtrlStatus )
+				if (u8CtrlStatus)
 				{
-				    	if((500 * 1000 <= u8LostTimes))
-						{
-							u8LostTimes = 0;
-							if(type == "SKT-I")
+					if (500 * 1000 <= u8LostTimes)
+					{
+						if(type == "SKT-I")
 							{
 								struWireCtrlIn.iGearOpening = 0x7D;
 								struWireCtrlIn.iBrakeOpening = 30;
@@ -1749,11 +1638,10 @@ void Protocol_Cockpit::funcAppDownloadData()
 							struWireCtrlIn.iWheelAngle = 0x0190;
 							m_pFailureSDK->report(FailureModule_Nebula_RemoteCtrl, 3203, 5, 1);				
 							MINE_LOG(SANY_LOG_ERROR, "DownloadData timeout, u8LostTimes: %d\n", u8LostTimes);			
-							printf("DownloadData timeout, u8LostTimes: %d\n", u8LostTimes);
 							m_Terminal.comm_socket_client_do_disconnect(m_Socket_CockpitClient);
-						}
-						u8LostTimes++;	
-				}	
+					}
+					u8LostTimes++;
+				}
 			}
 			else
 			{
@@ -1794,6 +1682,7 @@ void Protocol_Cockpit::funcSendData()
 			}
 		}
 	}
+	MINE_LOG(SANY_LOG_ERROR, "funcSendData u8TaskStopFlag\n");
 }
 
 /*******************************************************************************
@@ -1808,91 +1697,129 @@ void Protocol_Cockpit::funcRecvData()
 	struct timeval timeout;
 	CP_Header_st *pHeadST = NULL;
 	SANY_U8 u8HaveRecvHead = 0;
+	SANY_U8 u8ConnectTimes = 0;
 
 	while (!u8TaskStopFlag)
 	{
 		u32ReadLen = 0;
-	
-		if (m_Socket_CockpitClient->b_connected)
+		if (0 == m_Socket_CockpitClient->b_connected)
 		{
-			timeout.tv_sec = 0;
-			timeout.tv_usec = 100;
-
-			FD_ZERO(&fdR);
-			FD_SET(m_Socket_CockpitClient->socket_fd, &fdR);
-
-			switch (select(m_Socket_CockpitClient->socket_fd + 1, &fdR, NULL, NULL, &timeout))
+			/* 断开连接后进行重连 */
+			//u8LoginFlag = 0; // 修改登入状态
+			//u8CtrlStatus = 0;	//
+			/* 定时器到时后尝试重连 */
+			MINE_LOG(SANY_LOG_ERROR, "Reconnect TCP\n");
+			if(9 < u8ConnectTimes)
 			{
-			case -1:
-				break;
-			case 0:
-				break;
-			default:
+				MINE_LOG(SANY_LOG_ERROR, " reconnect 10 times, exit!!! \n");
+				m_pFailureSDK->report(FailureModule_Nebula_RemoteCtrl, 3201, 3, 1);
+				stop();
+			}
+			else
 			{
-				if (FD_ISSET(m_Socket_CockpitClient->socket_fd, &fdR))
+				u32NetStatus = m_Terminal.comm_socket_client_do_connect(m_Socket_CockpitClient);
+				if (1 != u32NetStatus)
 				{
-					/*先接收包头数据，获取数据长度*/
-					if (!u8HaveRecvHead)
-					{
-						bzero(m_Socket_CockpitClient->recv_buffer, sizeof(m_Socket_CockpitClient->recv_buffer));
-						u32ReadLen = m_Terminal.m_Sa_Comm.sa_comm_socket_read(m_Socket_CockpitClient->socket_fd,
-																			m_Socket_CockpitClient->recv_buffer,
-																			sizeof(m_Socket_CockpitClient->recv_buffer),
-																			sizeof(CP_Header_st));
-						if (sizeof(CP_Header_st) != u32ReadLen)
-						{					
-							continue;
-						}
-						else
-						{
-							/*校验包头并获取数据长度,目前先写死成 sizeof(CP_Header_st)*/
-							pHeadST = (CP_Header_st *)m_Socket_CockpitClient->recv_buffer;
-							/*数据区长度 + 校验位*/
-							u32DateLen = (pHeadST->ucDataByteSize[1] * 256 + pHeadST->ucDataByteSize[0]) + 1;
-							if (1 >= u32DateLen)
-							{
-								/* 长度异常 */
-								// 舱端下发的报文数据为空
-								m_pFailureSDK->report(FailureModule_Nebula_RemoteCtrl, 3204, 1, 1);
-								// 通用回复
-								ProtoCockpit_SendAckCom(pHeadST->ucCommand[0], 0x2);
-								// sany_log_set_output(logHandleLocal, SANY_LOG_OUT_BOTH);
-								MINE_LOG(SANY_LOG_ERROR, "Message len %d empty\n", u32DateLen);
-							}
+					u8ConnectTimes++;
+					MINE_LOG(SANY_LOG_ERROR, "sa_comm_socket_client_send fail\n");
+					/*延时1000ms重连*/
+					usleep(1000 * 1000);
+					continue;
+				}
+				/********************************************上报建立连接失败故障清除************************************************/
+				/* 网络连接成功，更新网络状态 */
+				bNetReady = 1;
+				MINE_LOG(SANY_LOG_ERROR, "Reconnect TCP Success!!!\n");
+			}
+	
+		}
+		timeout.tv_sec = 0;
+		timeout.tv_usec = 100;
 
-							if ((Message_Max_Len - sizeof(CP_Header_st)) < u32DateLen)
-							{
-								MINE_LOG(SANY_LOG_ERROR, "Message len %d out of range\n", u32DateLen);
-								u32DateLen = 0;
-								continue;
-							}
-							
-							MINE_LOG(SANY_LOG_INFO, "funcRecvData ucDataByteSize %x %x u32DateLen %d\n", pHeadST->ucDataByteSize[0], pHeadST->ucDataByteSize[1], u32DateLen);
-						}
-						u8HaveRecvHead = 1;
+		FD_ZERO(&fdR);
+		FD_SET(m_Socket_CockpitClient->socket_fd, &fdR);
+
+		switch (select(m_Socket_CockpitClient->socket_fd + 1, &fdR, NULL, NULL, &timeout))
+		{
+		case -1:
+			break;
+		case 0:
+			break;
+		default:
+		{
+			if (FD_ISSET(m_Socket_CockpitClient->socket_fd, &fdR))
+			{
+				/*先接收包头数据，获取数据长度*/
+				if (!u8HaveRecvHead)
+				{
+					bzero(m_Socket_CockpitClient->recv_buffer, sizeof(m_Socket_CockpitClient->recv_buffer));
+					u32ReadLen = m_Terminal.m_Sa_Comm.sa_comm_socket_read(m_Socket_CockpitClient->socket_fd,
+																		  m_Socket_CockpitClient->recv_buffer,
+																		  sizeof(m_Socket_CockpitClient->recv_buffer),
+																		  sizeof(CP_Header_st));
+					if (sizeof(CP_Header_st) != u32ReadLen)
+					{					
+						continue;
 					}
 					else
 					{
-						u32ReadLen = m_Terminal.m_Sa_Comm.sa_comm_socket_read(m_Socket_CockpitClient->socket_fd,
-																			m_Socket_CockpitClient->recv_buffer + sizeof(CP_Header_st),
-																			sizeof(m_Socket_CockpitClient->recv_buffer) - sizeof(CP_Header_st),
-																			u32DateLen);
-
-						if ((u32ReadLen != u32DateLen) || (u32DateLen == 1))
+						/*校验包头并获取数据长度,目前先写死成 sizeof(CP_Header_st)*/
+						pHeadST = (CP_Header_st *)m_Socket_CockpitClient->recv_buffer;
+						/*数据区长度 + 校验位*/
+						u32DateLen = (pHeadST->ucDataByteSize[1] * 256 + pHeadST->ucDataByteSize[0]) + 1;
+						if (1 >= u32DateLen)
 						{
-							u8HaveRecvHead = 0;						
+							/* 长度异常 */
+							// 舱端下发的报文数据为空
+							m_pFailureSDK->report(FailureModule_Nebula_RemoteCtrl, 3204, 1, 1);
+							// 通用回复
+							ProtoCockpit_SendAckCom(pHeadST->ucCommand[0], 0x2);
+							// sany_log_set_output(logHandleLocal, SANY_LOG_OUT_BOTH);
+							MINE_LOG(SANY_LOG_ERROR, "Message len %d empty\n", u32DateLen);
+						}
+
+						if ((Message_Max_Len - sizeof(CP_Header_st)) < u32DateLen)
+						{
+							MINE_LOG(SANY_LOG_ERROR, "Message len %d out of range\n", u32DateLen);
+							u32DateLen = 0;
 							continue;
 						}
-						else
-						{
-							ProtoCockpit_WriteRecvBuffer((SANY_U8 *)m_Socket_CockpitClient->recv_buffer, sizeof(CP_Header_st) + u32DateLen);			
-						}
-						u8HaveRecvHead = 0;
-						u32DateLen = 0;
+
+						MINE_LOG(SANY_LOG_INFO, "funcRecvData ucDataByteSize %x %x u32DateLen %d\n", pHeadST->ucDataByteSize[0], pHeadST->ucDataByteSize[1], u32DateLen);
 					}
+					u8HaveRecvHead = 1;
+				}
+				else
+				{
+					u32ReadLen = m_Terminal.m_Sa_Comm.sa_comm_socket_read(m_Socket_CockpitClient->socket_fd,
+																		  m_Socket_CockpitClient->recv_buffer + sizeof(CP_Header_st),
+																		  sizeof(m_Socket_CockpitClient->recv_buffer) - sizeof(CP_Header_st),
+																		  u32DateLen);
+
+					if ((u32ReadLen != u32DateLen) || (u32DateLen == 1))
+					{
+						u8HaveRecvHead = 0;						
+						continue;
+					}
+					else
+					{
+						ProtoCockpit_WriteRecvBuffer((SANY_U8 *)m_Socket_CockpitClient->recv_buffer, sizeof(CP_Header_st) + u32DateLen);
+						MINE_LOG(SANY_LOG_INFO, "receive data, write to recv buffer!!!!!!!!!!!\n");
+					}
+					u8HaveRecvHead = 0;
+					u32DateLen = 0;
 				}
 			}
-			}
+		}
+		}
+
+		/*是否考虑网络异常，主动断开网络？*/
+
+		if (0 == bNetReady)
+		{
+			/* 主动断开网络 */
+			m_Terminal.comm_socket_client_do_disconnect(m_Socket_CockpitClient);
+			MINE_LOG(SANY_LOG_ERROR, "bNetReady 0 comm_socket_client_do_disconnect!!!\n");
 		}
 	}
 }
@@ -2004,7 +1931,7 @@ void Protocol_Cockpit::start()
 /*模块业务关闭接口，做资源的反初始化*/
 void Protocol_Cockpit::stop()
 {
-//	u8TaskStopFlag = 1;
+	u8TaskStopFlag = 1;
 	m_pFailureSDK->report(FailureModule_Nebula_RemoteCtrl, 3201, 15, 0);
 	m_pFailureSDK->report(FailureModule_Nebula_RemoteCtrl, 3201, 16, 0);
 	m_pFailureSDK->report(FailureModule_Nebula_RemoteCtrl, 3201, 8, 0);
@@ -2016,22 +1943,19 @@ void Protocol_Cockpit::stop()
 	/*延时2S等待，线程退出*/
 	sleep(2);
 
-	if(bNetReady = 1)
-	{
-		/*断开网络连接*/
-		m_Terminal.comm_socket_client_do_disconnect(m_Socket_CockpitClient);
-	}
+	/*断开网络连接*/
+	m_Terminal.comm_socket_client_do_disconnect(m_Socket_CockpitClient);
 	m_Terminal.sa_comm_socket_client_release(m_Socket_CockpitClient);
 
 	/*等待线程退出*/
 	pthread_join(t_upload_data_id, NULL);
-	MINE_LOG(SANY_LOG_ERROR, "t_upload_data_id-----------------------!\n");
+	printf("t_upload_data_id-----------------------\n");
 	pthread_join(t_download_data_id, NULL);
-	MINE_LOG(SANY_LOG_ERROR, "t_download_data_id-----------------------!\n");
+	printf("t_download_data_id-----------------------\n");
 	pthread_join(t_recv_id, NULL);
-	MINE_LOG(SANY_LOG_ERROR, "t_recv_id-----------------------!\n");
+	printf("t_recv_id-----------------------\n");
 	pthread_join(t_send_id, NULL);
-	MINE_LOG(SANY_LOG_ERROR, "t_send_id-----------------------!\n");
+	printf("t_send_id-----------------------\n");
 
 	/*释放动态申请的内存空间*/
 	free(arrSendBuffer);
@@ -2041,7 +1965,6 @@ void Protocol_Cockpit::stop()
 	pthread_mutex_destroy(&SendBufferMutex);
 	pthread_mutex_destroy(&RecvBufferMutex);
 
-	MINE_LOG(SANY_LOG_ERROR, "exit-----------------------!\n");
 	exit(0);
 }
 
@@ -2060,7 +1983,6 @@ void Protocol_Cockpit::ProtoCockpit_setServerName(const char *pServerName)
 	}
 	memcpy(cockpitServerName, pServerName, MIN(strlen(pServerName), sizeof(cockpitServerName)));
 	MINE_LOG(SANY_LOG_INFO, "ProtoCockpit_setServerName cockpitServerName %s\n", cockpitServerName);
-	printf("ProtoCockpit_setServerName cockpitServerName %s\n", cockpitServerName);
 
 	return;
 }
@@ -2076,7 +1998,20 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_getFeedbackData()
 		m_pFailureSDK->report(FailureModule_Nebula_RemoteCtrl, 3202, 1, 1);
 		return RET_ERROR;
 	}
-	 m_pFailureSDK->report(FailureModule_Nebula_RemoteCtrl, 3202, 1, 0);
+
+	// // 上报数据超出有效范围
+	// if ((0.00 > struWireCtrlOut.iVehicle_speed) || (0.00 < (struWireCtrlOut.iVehicle_speed - 300.0)) ||
+	// 	//    (0.00 > struWireCtrlOut.iHeadingAngle) || (0.00 < (struWireCtrlOut.iHeadingAngle - 360.0)) ||
+	// 	//    (0.00 > struWireCtrlOut.iWheelAngleL) || (0.00 < (struWireCtrlOut.iWheelAngleL - 800.0)) ||
+	// 	(0 > struWireCtrlOut.iThrottleOpening) || (0 < (struWireCtrlOut.iThrottleOpening - 100)) ||
+	// 	(0 > struWireCtrlOut.iBrakeOpening) || (0 < (struWireCtrlOut.iBrakeOpening - 100)) ||
+	// 	(-0.000001 > struWireCtrlOut.iEngineSpeed) || (0.00 < (struWireCtrlOut.iEngineSpeed - 40000.0)) ||
+	// 	(0.00 > finitTalDistance) || (0.00 < (finitTalDistance - 9999999)))
+	// {
+	// //	m_pFailureSDK->report(FailureModule_Nebula_RemoteCtrl, 3202, 2, 1);
+
+	// 	return RET_ERROR;
+	// }
 
 	 if (type == "SKT-I")
 	 {
@@ -2179,7 +2114,6 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_getCtrlDate(ImpleResultInfo *pCtrlInfo)
 	pCtrlInfo->steering_angle_req((float)struWireCtrlIn.iWheelAngle * 0.1 - 40);
 	printf("steering angle  req: %f\n", pCtrlInfo->steering_angle_req());
 	/*-------------------档位，1-R, 3-D, 其他-N-------------------*/
-	// 急停时不接收档位数据
 	if(type == "SKT-I")
 	{
 		if (1 == struWireCtrlIn.iGearOpening) // R
@@ -2330,7 +2264,6 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_getCtrlDate(ImpleResultInfo *pCtrlInfo)
 	{
 		// 开取力
 	}
-
 	if (struWireCtrlIn.iKeyOperation2 & 0x08)
 	{
 		// 开驻车
@@ -2340,7 +2273,6 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_getCtrlDate(ImpleResultInfo *pCtrlInfo)
 	{
 		pCtrlInfo->parking_req(0);
 	}
-	
 	if (struWireCtrlIn.iKeyOperation2 & 0x10)
 	{
 		// 开遥控驾驶
@@ -2396,14 +2328,7 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_getCtrlDate(ImpleResultInfo *pCtrlInfo)
 	/*判断是否急停，请求急停则请求驻车*/
 	if (1 == u8EmergencyStopFlg)
 	{
-		if(type == "SKT-E")
-		{
-			pCtrlInfo->trans_req_gear(0);		//N
-		}
-		else
-		{
-			pCtrlInfo->trans_req_gear(0x7D);		//N
-		}
+		pCtrlInfo->trans_req_gear(0);		//N
 		pCtrlInfo->parking_req(true);		//驻车
 		pCtrlInfo->engine_req_torque(0);	//油门
 		pCtrlInfo->traffic_brake_req(30);		//制动
@@ -2425,7 +2350,7 @@ void Protocol_Cockpit::InitFuncArray_Cockpit()
 		{EV_CP_REALTIME_CTRL, EV_WP_CMD, &Protocol_Cockpit::ProtoCockpit_RecvCmdRealtimeCtrl},
 		{EV_CP_SEND_EMERGENCY_STOP, EV_WP_CMD, &Protocol_Cockpit::ProtoCockpit_RecvCmdEmergencyStop},
 		{EV_CP_VEHICLE_SIGNOUT, EV_WP_CMD, &Protocol_Cockpit::ProtoCockpit_RecvCmdLoginOut},
-		{EV_CP_PICKUP_TASK,EV_WP_CMD,&Protocol_Cockpit::ProtoCockpit_RecvCmdPickTask},
+
 		{EV_CP_VEHICLE_REGISTER, EV_WP_ACK, &Protocol_Cockpit::ProtoCockpit_RecvAckLoginPacket},
 
 	};
@@ -2451,7 +2376,6 @@ SANY_U8(Protocol_Cockpit::*Protocol_Cockpit::GetRecvProc_Cockpit(SANY_U8 u8Cmd, 
 		if (arrRecvFunc[i].Cmd == u8Cmd && arrRecvFunc[i].Ack == u8Ack)
 		{
 			MINE_LOG(SANY_LOG_INFO, "arrRecvFunc[i]: %d, arrRecvFunc[i].ACK: %d\n", u8Cmd, u8Ack);
-			printf("arrRecvFunc[i]: %d, arrRecvFunc[i].ACK: %d\n", u8Cmd, u8Ack);
 			return arrRecvFunc[i].pFun;
 		}
 	}

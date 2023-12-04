@@ -1,4 +1,7 @@
-#include "gps_imu_msg.idl"
+#ifndef __CHASSIS_CTRL_IDL__
+#define __CHASSIS_CTRL_IDL__
+
+#include "gps_imu_msg.idl";
 
 struct ActiveDiagnosticTroubleCodes
 {
@@ -318,6 +321,28 @@ struct WirectlFeedbackInfo
     boolean revers_light_start_status; // 倒车灯启动状态，0：OFF 1：ON
     boolean charge_indicator; // 充电指示，0：OFF 1：ON
     unsigned long vehicle_status; // 车辆状态 0： On档 1：启动 2：启动失败
+
+    //tire pressure
+    unsigned long Front_L_tire_pressure;//前左轮轮胎压力
+    unsigned long Front_R_tire_pressure;//前右轮轮胎压力
+    unsigned long MID_LL_tire_pressure;//中左左轮轮胎压力
+    unsigned long MID_LR_tire_pressure;//中左右轮轮胎压力
+    unsigned long MID_RL_tire_pressure;//中右左轮轮胎压力
+    unsigned long MID_RR_tire_pressure;//中右右轮轮胎压力
+    unsigned long BACK_LL_tire_pressure;//后左左轮轮胎压力
+    unsigned long BACK_LR_tire_pressure;//后左右轮轮胎压力
+    unsigned long BACK_RL_tire_pressure;//后右左轮轮胎压力
+    unsigned long BACK_RR_tire_pressure;//后右右轮轮胎压力
+
+    //轮边压力
+    unsigned long Brake_Pressure_FA_Left;//制动压力前桥左
+    unsigned long Brake_Pressure_FA_Right;//制动压力前桥右
+    unsigned long Brake_Pressure_RA1_Left;//制动压力后桥左
+    unsigned long Brake_Pressure_RA1_Right;//制动压力前桥右
+
+    //VCU版本号
+    string VCU_Version;
+    
     //电车
     short ramp_sensor;//坡度传感器
     // Aux motor information
@@ -360,12 +385,14 @@ struct WirectlFeedbackInfo
     float rear_axle_running_brake_pressure_input;//后桥行车制动压力输入0~2.55
     unsigned long weighing_cell_1;//称重传感器10~255
     unsigned long weighing_cell_2;//称重传感器20~255
+    unsigned long num_297;//297与控制的心跳
 
     // Wheel speed information
     float front_left_wheel_speed; // 前左轮车速，单位：km/h
     float front_right_wheel_speed; // 前右轮车速，单位：km/h
     float rear_left_wheel_speed; // 后左轮车速，单位：km/h
     float rear_right_wheel_speed; // 后右轮车速，单位：km/h
+
 
     // Tachograph
     float tachograph_output_shaft_speed; // 变速箱输出轴转速，单位： rpm
@@ -462,3 +489,6 @@ struct WirectlFeedbackInfo
 
     unsigned short Steer_2_Curvature_control;//VCU外发转向系统2控制曲率
 };
+
+
+#endif

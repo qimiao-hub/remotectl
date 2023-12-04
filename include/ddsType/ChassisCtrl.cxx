@@ -36,31 +36,31 @@ using namespace eprosima::fastcdr::exception;
 
 ActiveDiagnosticTroubleCodes::ActiveDiagnosticTroubleCodes()
 {
-    // m_protect_lamp_status com.eprosima.idl.parser.typecode.PrimitiveTypeCode@13c27452
+    // m_protect_lamp_status com.eprosima.idl.parser.typecode.PrimitiveTypeCode@4abdb505
     m_protect_lamp_status = 0;
-    // m_amber_warning_lamp_status com.eprosima.idl.parser.typecode.PrimitiveTypeCode@262b2c86
+    // m_amber_warning_lamp_status com.eprosima.idl.parser.typecode.PrimitiveTypeCode@7ce6a65d
     m_amber_warning_lamp_status = 0;
-    // m_red_stop_lamp_status com.eprosima.idl.parser.typecode.PrimitiveTypeCode@371a67ec
+    // m_red_stop_lamp_status com.eprosima.idl.parser.typecode.PrimitiveTypeCode@1500955a
     m_red_stop_lamp_status = 0;
-    // m_malfunction_indicator_lamp_status com.eprosima.idl.parser.typecode.PrimitiveTypeCode@7a3d45bd
+    // m_malfunction_indicator_lamp_status com.eprosima.idl.parser.typecode.PrimitiveTypeCode@60285225
     m_malfunction_indicator_lamp_status = 0;
-    // m_flash_protect_lamp com.eprosima.idl.parser.typecode.PrimitiveTypeCode@1e7c7811
+    // m_flash_protect_lamp com.eprosima.idl.parser.typecode.PrimitiveTypeCode@7113b13f
     m_flash_protect_lamp = 0;
-    // m_flash_amber_warn_lamp com.eprosima.idl.parser.typecode.PrimitiveTypeCode@77ec78b9
+    // m_flash_amber_warn_lamp com.eprosima.idl.parser.typecode.PrimitiveTypeCode@45820e51
     m_flash_amber_warn_lamp = 0;
-    // m_flash_red_stop_lamp com.eprosima.idl.parser.typecode.PrimitiveTypeCode@1a3869f4
+    // m_flash_red_stop_lamp com.eprosima.idl.parser.typecode.PrimitiveTypeCode@42d8062c
     m_flash_red_stop_lamp = 0;
-    // m_flash_malfunction_indicator_lamp com.eprosima.idl.parser.typecode.PrimitiveTypeCode@a38d7a3
+    // m_flash_malfunction_indicator_lamp com.eprosima.idl.parser.typecode.PrimitiveTypeCode@6043cd28
     m_flash_malfunction_indicator_lamp = 0;
-    // m_SPN_LSB com.eprosima.idl.parser.typecode.PrimitiveTypeCode@77f99a05
+    // m_SPN_LSB com.eprosima.idl.parser.typecode.PrimitiveTypeCode@cb51256
     m_SPN_LSB = 0;
-    // m_SPN_MSB com.eprosima.idl.parser.typecode.PrimitiveTypeCode@63440df3
+    // m_SPN_MSB com.eprosima.idl.parser.typecode.PrimitiveTypeCode@59906517
     m_SPN_MSB = 0;
-    // m_FMI com.eprosima.idl.parser.typecode.PrimitiveTypeCode@3aeaafa6
+    // m_FMI com.eprosima.idl.parser.typecode.PrimitiveTypeCode@5bfbf16f
     m_FMI = 0;
-    // m_occurence_count com.eprosima.idl.parser.typecode.PrimitiveTypeCode@76a3e297
+    // m_occurence_count com.eprosima.idl.parser.typecode.PrimitiveTypeCode@25af5db5
     m_occurence_count = 0;
-    // m_conversion_method com.eprosima.idl.parser.typecode.PrimitiveTypeCode@4d3167f4
+    // m_conversion_method com.eprosima.idl.parser.typecode.PrimitiveTypeCode@12cdcf4
     m_conversion_method = false;
 
 }
@@ -714,275 +714,275 @@ void ActiveDiagnosticTroubleCodes::serializeKey(
 
 FaultDiagnosisFrom297Info::FaultDiagnosisFrom297Info()
 {
-    // m_tbox_on_line com.eprosima.idl.parser.typecode.PrimitiveTypeCode@757942a1
+    // m_tbox_on_line com.eprosima.idl.parser.typecode.PrimitiveTypeCode@77ec78b9
     m_tbox_on_line = false;
-    // m_acu_on_line com.eprosima.idl.parser.typecode.PrimitiveTypeCode@4a87761d
+    // m_acu_on_line com.eprosima.idl.parser.typecode.PrimitiveTypeCode@1a3869f4
     m_acu_on_line = false;
-    // m_symc_on_line com.eprosima.idl.parser.typecode.PrimitiveTypeCode@8646db9
+    // m_symc_on_line com.eprosima.idl.parser.typecode.PrimitiveTypeCode@77f99a05
     m_symc_on_line = false;
-    // m_ebs_on_line com.eprosima.idl.parser.typecode.PrimitiveTypeCode@2db7a79b
+    // m_ebs_on_line com.eprosima.idl.parser.typecode.PrimitiveTypeCode@76a3e297
     m_ebs_on_line = false;
-    // m_ic_on_line com.eprosima.idl.parser.typecode.PrimitiveTypeCode@6950e31
+    // m_ic_on_line com.eprosima.idl.parser.typecode.PrimitiveTypeCode@4d3167f4
     m_ic_on_line = false;
-    // m_ecm_on_line com.eprosima.idl.parser.typecode.PrimitiveTypeCode@b7dd107
+    // m_ecm_on_line com.eprosima.idl.parser.typecode.PrimitiveTypeCode@ed9d034
     m_ecm_on_line = false;
-    // m_tcu_on_line com.eprosima.idl.parser.typecode.PrimitiveTypeCode@42eca56e
+    // m_tcu_on_line com.eprosima.idl.parser.typecode.PrimitiveTypeCode@6121c9d6
     m_tcu_on_line = false;
-    // m_steering_controller_1_on_line com.eprosima.idl.parser.typecode.PrimitiveTypeCode@52f759d7
+    // m_steering_controller_1_on_line com.eprosima.idl.parser.typecode.PrimitiveTypeCode@87f383f
     m_steering_controller_1_on_line = false;
-    // m_sas_sensor_on_line com.eprosima.idl.parser.typecode.PrimitiveTypeCode@7cbd213e
+    // m_sas_sensor_on_line com.eprosima.idl.parser.typecode.PrimitiveTypeCode@4eb7f003
     m_sas_sensor_on_line = false;
-    // m_wheel_angle_sensor_on_line com.eprosima.idl.parser.typecode.PrimitiveTypeCode@192d3247
+    // m_wheel_angle_sensor_on_line com.eprosima.idl.parser.typecode.PrimitiveTypeCode@eafc191
     m_wheel_angle_sensor_on_line = false;
-    // m_steering_controller_2_on_line com.eprosima.idl.parser.typecode.PrimitiveTypeCode@3ecd23d9
+    // m_steering_controller_2_on_line com.eprosima.idl.parser.typecode.PrimitiveTypeCode@612fc6eb
     m_steering_controller_2_on_line = false;
-    // m_wheel_angle_sensor_2_on_line com.eprosima.idl.parser.typecode.PrimitiveTypeCode@569cfc36
+    // m_wheel_angle_sensor_2_on_line com.eprosima.idl.parser.typecode.PrimitiveTypeCode@1060b431
     m_wheel_angle_sensor_2_on_line = false;
-    // m_vcu_on_line com.eprosima.idl.parser.typecode.PrimitiveTypeCode@43bd930a
+    // m_vcu_on_line com.eprosima.idl.parser.typecode.PrimitiveTypeCode@612679d6
     m_vcu_on_line = false;
-    // m_inertial_navigation_on_line com.eprosima.idl.parser.typecode.PrimitiveTypeCode@33723e30
+    // m_inertial_navigation_on_line com.eprosima.idl.parser.typecode.PrimitiveTypeCode@11758f2a
     m_inertial_navigation_on_line = false;
-    // m_electromagnetic_switch_state com.eprosima.idl.parser.typecode.PrimitiveTypeCode@64f6106c
+    // m_electromagnetic_switch_state com.eprosima.idl.parser.typecode.PrimitiveTypeCode@e720b71
     m_electromagnetic_switch_state = false;
-    // m_electric_start_enable_state com.eprosima.idl.parser.typecode.PrimitiveTypeCode@553a3d88
+    // m_electric_start_enable_state com.eprosima.idl.parser.typecode.PrimitiveTypeCode@1b26f7b2
     m_electric_start_enable_state = false;
-    // m_vehicle_start_control_state com.eprosima.idl.parser.typecode.PrimitiveTypeCode@7a30d1e6
+    // m_vehicle_start_control_state com.eprosima.idl.parser.typecode.PrimitiveTypeCode@491cc5c9
     m_vehicle_start_control_state = false;
-    // m_enters_unmanned_driving_state com.eprosima.idl.parser.typecode.PrimitiveTypeCode@5891e32e
+    // m_enters_unmanned_driving_state com.eprosima.idl.parser.typecode.PrimitiveTypeCode@74ad1f1f
     m_enters_unmanned_driving_state = false;
-    // m_vehicle_speed com.eprosima.idl.parser.typecode.PrimitiveTypeCode@cb0ed20
+    // m_vehicle_speed com.eprosima.idl.parser.typecode.PrimitiveTypeCode@6a1aab78
     m_vehicle_speed = false;
-    // m_vehicle_start_state com.eprosima.idl.parser.typecode.PrimitiveTypeCode@8e24743
+    // m_vehicle_start_state com.eprosima.idl.parser.typecode.PrimitiveTypeCode@462d5aee
     m_vehicle_start_state = false;
-    // m_vehicle_gear_state com.eprosima.idl.parser.typecode.PrimitiveTypeCode@74a10858
+    // m_vehicle_gear_state com.eprosima.idl.parser.typecode.PrimitiveTypeCode@69b0fd6f
     m_vehicle_gear_state = false;
-    // m_parking com.eprosima.idl.parser.typecode.PrimitiveTypeCode@23fe1d71
+    // m_parking com.eprosima.idl.parser.typecode.PrimitiveTypeCode@757942a1
     m_parking = false;
-    // m_request_switch_reset_state com.eprosima.idl.parser.typecode.PrimitiveTypeCode@28ac3dc3
+    // m_request_switch_reset_state com.eprosima.idl.parser.typecode.PrimitiveTypeCode@4a87761d
     m_request_switch_reset_state = false;
-    // m_car_reset_state com.eprosima.idl.parser.typecode.PrimitiveTypeCode@32eebfca
+    // m_car_reset_state com.eprosima.idl.parser.typecode.PrimitiveTypeCode@66d1af89
     m_car_reset_state = false;
-    // m_can_bus_communication_state com.eprosima.idl.parser.typecode.PrimitiveTypeCode@4e718207
+    // m_can_bus_communication_state com.eprosima.idl.parser.typecode.PrimitiveTypeCode@8646db9
     m_can_bus_communication_state = false;
-    // m_unmanned_driving_system_state com.eprosima.idl.parser.typecode.PrimitiveTypeCode@1d371b2d
+    // m_unmanned_driving_system_state com.eprosima.idl.parser.typecode.PrimitiveTypeCode@37374a5e
     m_unmanned_driving_system_state = false;
-    // m_steering_system_state com.eprosima.idl.parser.typecode.PrimitiveTypeCode@543c6f6d
+    // m_steering_system_state com.eprosima.idl.parser.typecode.PrimitiveTypeCode@4671e53b
     m_steering_system_state = false;
-    // m_symc_agrees_state com.eprosima.idl.parser.typecode.PrimitiveTypeCode@13eb8acf
+    // m_symc_agrees_state com.eprosima.idl.parser.typecode.PrimitiveTypeCode@2db7a79b
     m_symc_agrees_state = false;
-    // m_tbox_request_state com.eprosima.idl.parser.typecode.PrimitiveTypeCode@51c8530f
+    // m_tbox_request_state com.eprosima.idl.parser.typecode.PrimitiveTypeCode@6950e31
     m_tbox_request_state = false;
-    // m_shift_switching_state com.eprosima.idl.parser.typecode.PrimitiveTypeCode@7403c468
+    // m_shift_switching_state com.eprosima.idl.parser.typecode.PrimitiveTypeCode@b7dd107
     m_shift_switching_state = false;
-    // m_cloud_exit com.eprosima.idl.parser.typecode.PrimitiveTypeCode@43738a82
+    // m_cloud_exit com.eprosima.idl.parser.typecode.PrimitiveTypeCode@42eca56e
     m_cloud_exit = false;
-    // m_traffic_brake_take_over com.eprosima.idl.parser.typecode.PrimitiveTypeCode@c81cdd1
+    // m_traffic_brake_take_over com.eprosima.idl.parser.typecode.PrimitiveTypeCode@52f759d7
     m_traffic_brake_take_over = false;
-    // m_unmanned_warping_switch_Reset com.eprosima.idl.parser.typecode.PrimitiveTypeCode@1fc2b765
+    // m_unmanned_warping_switch_Reset com.eprosima.idl.parser.typecode.PrimitiveTypeCode@7cbd213e
     m_unmanned_warping_switch_Reset = false;
-    // m_symc_offline com.eprosima.idl.parser.typecode.PrimitiveTypeCode@75881071
+    // m_symc_offline com.eprosima.idl.parser.typecode.PrimitiveTypeCode@192d3247
     m_symc_offline = false;
-    // m_power_CAN_offline com.eprosima.idl.parser.typecode.PrimitiveTypeCode@2a70a3d8
+    // m_power_CAN_offline com.eprosima.idl.parser.typecode.PrimitiveTypeCode@3ecd23d9
     m_power_CAN_offline = false;
-    // m_steering_system_Abnormal com.eprosima.idl.parser.typecode.PrimitiveTypeCode@289d1c02
+    // m_steering_system_Abnormal com.eprosima.idl.parser.typecode.PrimitiveTypeCode@569cfc36
     m_steering_system_Abnormal = false;
-    // m_car_end_Level_3_fault com.eprosima.idl.parser.typecode.PrimitiveTypeCode@22eeefeb
+    // m_car_end_Level_3_fault com.eprosima.idl.parser.typecode.PrimitiveTypeCode@43bd930a
     m_car_end_Level_3_fault = false;
-    // m_unmanned_driving_system_Level_3_fault com.eprosima.idl.parser.typecode.PrimitiveTypeCode@17d0685f
+    // m_unmanned_driving_system_Level_3_fault com.eprosima.idl.parser.typecode.PrimitiveTypeCode@33723e30
     m_unmanned_driving_system_Level_3_fault = false;
-    // m_SYMC_abnormally_exits com.eprosima.idl.parser.typecode.PrimitiveTypeCode@3891771e
+    // m_SYMC_abnormally_exits com.eprosima.idl.parser.typecode.PrimitiveTypeCode@64f6106c
     m_SYMC_abnormally_exits = false;
-    // m_emergency_stop_switch com.eprosima.idl.parser.typecode.PrimitiveTypeCode@78ac1102
+    // m_emergency_stop_switch com.eprosima.idl.parser.typecode.PrimitiveTypeCode@553a3d88
     m_emergency_stop_switch = false;
-    // m_vehicle_end_control_signal_does_not_respond_substandard com.eprosima.idl.parser.typecode.PrimitiveTypeCode@2de8284b
+    // m_vehicle_end_control_signal_does_not_respond_substandard com.eprosima.idl.parser.typecode.PrimitiveTypeCode@7a30d1e6
     m_vehicle_end_control_signal_does_not_respond_substandard = false;
-    // m_vehicle_control_deviates_from_the_route com.eprosima.idl.parser.typecode.PrimitiveTypeCode@396e2f39
+    // m_vehicle_control_deviates_from_the_route com.eprosima.idl.parser.typecode.PrimitiveTypeCode@5891e32e
     m_vehicle_control_deviates_from_the_route = false;
-    // m_throttle_take_over_state com.eprosima.idl.parser.typecode.PrimitiveTypeCode@a74868d
+    // m_throttle_take_over_state com.eprosima.idl.parser.typecode.PrimitiveTypeCode@cb0ed20
     m_throttle_take_over_state = false;
-    // m_vehicle_failure_grade com.eprosima.idl.parser.typecode.PrimitiveTypeCode@12c8a2c0
+    // m_vehicle_failure_grade com.eprosima.idl.parser.typecode.PrimitiveTypeCode@8e24743
     m_vehicle_failure_grade = 0;
-    // m_vehicle_error_source com.eprosima.idl.parser.typecode.PrimitiveTypeCode@7e0e6aa2
+    // m_vehicle_error_source com.eprosima.idl.parser.typecode.PrimitiveTypeCode@74a10858
     m_vehicle_error_source = 0;
-    // m_gearbox_fault_level com.eprosima.idl.parser.typecode.PrimitiveTypeCode@365185bd
+    // m_gearbox_fault_level com.eprosima.idl.parser.typecode.PrimitiveTypeCode@23fe1d71
     m_gearbox_fault_level = 0;
-    // m_gearbox_SPN_LSN com.eprosima.idl.parser.typecode.PrimitiveTypeCode@18bf3d14
+    // m_gearbox_SPN_LSN com.eprosima.idl.parser.typecode.PrimitiveTypeCode@28ac3dc3
     m_gearbox_SPN_LSN = 0;
-    // m_gearbox_SPN_MSB com.eprosima.idl.parser.typecode.PrimitiveTypeCode@4fb64261
+    // m_gearbox_SPN_MSB com.eprosima.idl.parser.typecode.PrimitiveTypeCode@32eebfca
     m_gearbox_SPN_MSB = 0;
-    // m_gearbox_FMI com.eprosima.idl.parser.typecode.PrimitiveTypeCode@42607a4f
+    // m_gearbox_FMI com.eprosima.idl.parser.typecode.PrimitiveTypeCode@4e718207
     m_gearbox_FMI = 0;
-    // m_steering_1_safety_controller_failure_level com.eprosima.idl.parser.typecode.PrimitiveTypeCode@782663d3
+    // m_steering_1_safety_controller_failure_level com.eprosima.idl.parser.typecode.PrimitiveTypeCode@1d371b2d
     m_steering_1_safety_controller_failure_level = 0;
-    // m_turn_to_1_safety_controller com.eprosima.idl.parser.typecode.PrimitiveTypeCode@1990a65e
+    // m_turn_to_1_safety_controller com.eprosima.idl.parser.typecode.PrimitiveTypeCode@543c6f6d
     m_turn_to_1_safety_controller = 0;
-    // m_turn_to_1_safety_controller_SPN_MSB com.eprosima.idl.parser.typecode.PrimitiveTypeCode@64485a47
+    // m_turn_to_1_safety_controller_SPN_MSB com.eprosima.idl.parser.typecode.PrimitiveTypeCode@13eb8acf
     m_turn_to_1_safety_controller_SPN_MSB = 0;
-    // m_steering_1_safety_controller_FMI com.eprosima.idl.parser.typecode.PrimitiveTypeCode@25bbf683
+    // m_steering_1_safety_controller_FMI com.eprosima.idl.parser.typecode.PrimitiveTypeCode@51c8530f
     m_steering_1_safety_controller_FMI = 0;
-    // m_steering_1_main_controller_failure_level com.eprosima.idl.parser.typecode.PrimitiveTypeCode@6ec8211c
+    // m_steering_1_main_controller_failure_level com.eprosima.idl.parser.typecode.PrimitiveTypeCode@7403c468
     m_steering_1_main_controller_failure_level = 0;
-    // m_turn_to_1_master_controller_SPN_LSN com.eprosima.idl.parser.typecode.PrimitiveTypeCode@7276c8cd
+    // m_turn_to_1_master_controller_SPN_LSN com.eprosima.idl.parser.typecode.PrimitiveTypeCode@43738a82
     m_turn_to_1_master_controller_SPN_LSN = 0;
-    // m_go_to_1_master_controller_SPN_MSB com.eprosima.idl.parser.typecode.PrimitiveTypeCode@544a2ea6
+    // m_go_to_1_master_controller_SPN_MSB com.eprosima.idl.parser.typecode.PrimitiveTypeCode@c81cdd1
     m_go_to_1_master_controller_SPN_MSB = 0;
-    // m_turn_to_1_main_controller_FMI com.eprosima.idl.parser.typecode.PrimitiveTypeCode@2e3fc542
+    // m_turn_to_1_main_controller_FMI com.eprosima.idl.parser.typecode.PrimitiveTypeCode@1fc2b765
     m_turn_to_1_main_controller_FMI = 0;
-    // m_steering_2_safety_controller_failure_level com.eprosima.idl.parser.typecode.PrimitiveTypeCode@150c158
+    // m_steering_2_safety_controller_failure_level com.eprosima.idl.parser.typecode.PrimitiveTypeCode@75881071
     m_steering_2_safety_controller_failure_level = 0;
-    // m_steering_2_safety_controller_SPN_LSN com.eprosima.idl.parser.typecode.PrimitiveTypeCode@4524411f
+    // m_steering_2_safety_controller_SPN_LSN com.eprosima.idl.parser.typecode.PrimitiveTypeCode@2a70a3d8
     m_steering_2_safety_controller_SPN_LSN = 0;
-    // m_steering_2_Safety_Controller_SPN_MSB com.eprosima.idl.parser.typecode.PrimitiveTypeCode@401e7803
+    // m_steering_2_Safety_Controller_SPN_MSB com.eprosima.idl.parser.typecode.PrimitiveTypeCode@289d1c02
     m_steering_2_Safety_Controller_SPN_MSB = 0;
-    // m_steering_2_Safety_Controller_FMI com.eprosima.idl.parser.typecode.PrimitiveTypeCode@10dba097
+    // m_steering_2_Safety_Controller_FMI com.eprosima.idl.parser.typecode.PrimitiveTypeCode@22eeefeb
     m_steering_2_Safety_Controller_FMI = 0;
-    // m_steering_2_main_controller_failure_level com.eprosima.idl.parser.typecode.PrimitiveTypeCode@1786f9d5
+    // m_steering_2_main_controller_failure_level com.eprosima.idl.parser.typecode.PrimitiveTypeCode@17d0685f
     m_steering_2_main_controller_failure_level = 0;
-    // m_turn_to_2_master_controller_SPN_LSN com.eprosima.idl.parser.typecode.PrimitiveTypeCode@704d6e83
+    // m_turn_to_2_master_controller_SPN_LSN com.eprosima.idl.parser.typecode.PrimitiveTypeCode@3891771e
     m_turn_to_2_master_controller_SPN_LSN = 0;
-    // m_go_to_2_master_controller_SPN_MSB com.eprosima.idl.parser.typecode.PrimitiveTypeCode@43a0cee9
+    // m_go_to_2_master_controller_SPN_MSB com.eprosima.idl.parser.typecode.PrimitiveTypeCode@78ac1102
     m_go_to_2_master_controller_SPN_MSB = 0;
-    // m_turn_to_2_main_controller_FMI com.eprosima.idl.parser.typecode.PrimitiveTypeCode@eb21112
+    // m_turn_to_2_main_controller_FMI com.eprosima.idl.parser.typecode.PrimitiveTypeCode@2de8284b
     m_turn_to_2_main_controller_FMI = 0;
-    // m_ControlByte com.eprosima.idl.parser.typecode.PrimitiveTypeCode@2eda0940
+    // m_ControlByte com.eprosima.idl.parser.typecode.PrimitiveTypeCode@396e2f39
     m_ControlByte = 0;
-    // m_TotalNumberByte com.eprosima.idl.parser.typecode.PrimitiveTypeCode@3578436e
+    // m_TotalNumberByte com.eprosima.idl.parser.typecode.PrimitiveTypeCode@a74868d
     m_TotalNumberByte = 0.0;
-    // m_TotalNumberPacket com.eprosima.idl.parser.typecode.PrimitiveTypeCode@706a04ae
+    // m_TotalNumberPacket com.eprosima.idl.parser.typecode.PrimitiveTypeCode@12c8a2c0
     m_TotalNumberPacket = 0;
-    // m_PGN com.eprosima.idl.parser.typecode.PrimitiveTypeCode@6eceb130
+    // m_PGN com.eprosima.idl.parser.typecode.PrimitiveTypeCode@7e0e6aa2
     m_PGN = 0.0;
-    // m_SequenceNumber com.eprosima.idl.parser.typecode.PrimitiveTypeCode@10a035a0
+    // m_SequenceNumber com.eprosima.idl.parser.typecode.PrimitiveTypeCode@365185bd
     m_SequenceNumber = 0;
-    // m_TP_DT_Byte1 com.eprosima.idl.parser.typecode.PrimitiveTypeCode@67b467e9
+    // m_TP_DT_Byte1 com.eprosima.idl.parser.typecode.PrimitiveTypeCode@18bf3d14
     m_TP_DT_Byte1 = 0;
-    // m_TP_DT_Byte2_3 com.eprosima.idl.parser.typecode.PrimitiveTypeCode@47db50c5
+    // m_TP_DT_Byte2_3 com.eprosima.idl.parser.typecode.PrimitiveTypeCode@4fb64261
     m_TP_DT_Byte2_3 = 0.0;
-    // m_TP_DT_Byte4 com.eprosima.idl.parser.typecode.PrimitiveTypeCode@5c072e3f
+    // m_TP_DT_Byte4 com.eprosima.idl.parser.typecode.PrimitiveTypeCode@42607a4f
     m_TP_DT_Byte4 = 0;
-    // m_TP_DT_Byte5 com.eprosima.idl.parser.typecode.PrimitiveTypeCode@4d1b0d2a
+    // m_TP_DT_Byte5 com.eprosima.idl.parser.typecode.PrimitiveTypeCode@782663d3
     m_TP_DT_Byte5 = 0;
-    // m_TP_DT_Byte6 com.eprosima.idl.parser.typecode.PrimitiveTypeCode@954b04f
+    // m_TP_DT_Byte6 com.eprosima.idl.parser.typecode.PrimitiveTypeCode@1990a65e
     m_TP_DT_Byte6 = 0;
-    // m_TP_DT_Byte7 com.eprosima.idl.parser.typecode.PrimitiveTypeCode@149494d8
+    // m_TP_DT_Byte7 com.eprosima.idl.parser.typecode.PrimitiveTypeCode@64485a47
     m_TP_DT_Byte7 = 0;
-    // m_DTC_Sequence_number com.eprosima.idl.parser.typecode.PrimitiveTypeCode@710726a3
+    // m_DTC_Sequence_number com.eprosima.idl.parser.typecode.PrimitiveTypeCode@25bbf683
     m_DTC_Sequence_number = 0;
-    // m_FMI com.eprosima.idl.parser.typecode.PrimitiveTypeCode@646007f4
+    // m_FMI com.eprosima.idl.parser.typecode.PrimitiveTypeCode@6ec8211c
     m_FMI = 0;
-    // m_SPN_MSB com.eprosima.idl.parser.typecode.PrimitiveTypeCode@481a15ff
+    // m_SPN_MSB com.eprosima.idl.parser.typecode.PrimitiveTypeCode@7276c8cd
     m_SPN_MSB = 0;
-    // m_SPN_LSB com.eprosima.idl.parser.typecode.PrimitiveTypeCode@78186a70
+    // m_SPN_LSB com.eprosima.idl.parser.typecode.PrimitiveTypeCode@544a2ea6
     m_SPN_LSB = 0;
-    // m_Error_level com.eprosima.idl.parser.typecode.PrimitiveTypeCode@306279ee
+    // m_Error_level com.eprosima.idl.parser.typecode.PrimitiveTypeCode@2e3fc542
     m_Error_level = 0;
-    // m_Multi_Send_Enable com.eprosima.idl.parser.typecode.PrimitiveTypeCode@545997b1
+    // m_Multi_Send_Enable com.eprosima.idl.parser.typecode.PrimitiveTypeCode@150c158
     m_Multi_Send_Enable = false;
-    // m_Fault_resource com.eprosima.idl.parser.typecode.PrimitiveTypeCode@4cf4d528
+    // m_Fault_resource com.eprosima.idl.parser.typecode.PrimitiveTypeCode@4524411f
     m_Fault_resource = 0;
-    // m_Multi_Send_Num com.eprosima.idl.parser.typecode.PrimitiveTypeCode@77846d2c
+    // m_Multi_Send_Num com.eprosima.idl.parser.typecode.PrimitiveTypeCode@401e7803
     m_Multi_Send_Num = 0;
-    // m_Auxiliary_driveMotor_Error_list com.eprosima.idl.parser.typecode.PrimitiveTypeCode@548ad73b
+    // m_Auxiliary_driveMotor_Error_list com.eprosima.idl.parser.typecode.PrimitiveTypeCode@10dba097
     m_Auxiliary_driveMotor_Error_list = 0.0;
-    // m_Main_driveMotor_Error_list com.eprosima.idl.parser.typecode.PrimitiveTypeCode@4c762604
+    // m_Main_driveMotor_Error_list com.eprosima.idl.parser.typecode.PrimitiveTypeCode@1786f9d5
     m_Main_driveMotor_Error_list = 0.0;
-    // m_Mauxiliary_DriveMotor_Fault com.eprosima.idl.parser.typecode.PrimitiveTypeCode@2641e737
+    // m_Mauxiliary_DriveMotor_Fault com.eprosima.idl.parser.typecode.PrimitiveTypeCode@704d6e83
     m_Mauxiliary_DriveMotor_Fault = 0;
-    // m_Main_DriveMotor_Fault_Code com.eprosima.idl.parser.typecode.PrimitiveTypeCode@727803de
+    // m_Main_DriveMotor_Fault_Code com.eprosima.idl.parser.typecode.PrimitiveTypeCode@43a0cee9
     m_Main_DriveMotor_Fault_Code = 0;
-    // m_TCU_SystemFault_Code_Table com.eprosima.idl.parser.typecode.PrimitiveTypeCode@704921a5
+    // m_TCU_SystemFault_Code_Table com.eprosima.idl.parser.typecode.PrimitiveTypeCode@eb21112
     m_TCU_SystemFault_Code_Table = 0;
-    // m_TCU_OtherFault_Code_Table com.eprosima.idl.parser.typecode.PrimitiveTypeCode@df27fae
+    // m_TCU_OtherFault_Code_Table com.eprosima.idl.parser.typecode.PrimitiveTypeCode@2eda0940
     m_TCU_OtherFault_Code_Table = 0;
-    // m_occurrence_Count1Copy2 com.eprosima.idl.parser.typecode.PrimitiveTypeCode@24a35978
+    // m_occurrence_Count1Copy2 com.eprosima.idl.parser.typecode.PrimitiveTypeCode@3578436e
     m_occurrence_Count1Copy2 = 0;
-    // m_Conversion_MethodCopy_2 com.eprosima.idl.parser.typecode.PrimitiveTypeCode@16f7c8c1
+    // m_Conversion_MethodCopy_2 com.eprosima.idl.parser.typecode.PrimitiveTypeCode@706a04ae
     m_Conversion_MethodCopy_2 = 0;
-    // m_steering_1_safety_controller_failure_level_elec com.eprosima.idl.parser.typecode.PrimitiveTypeCode@2f0a87b3
+    // m_steering_1_safety_controller_failure_level_elec com.eprosima.idl.parser.typecode.PrimitiveTypeCode@6eceb130
     m_steering_1_safety_controller_failure_level_elec = 0;
-    // m_turn_to_1_safety_controller_elec com.eprosima.idl.parser.typecode.PrimitiveTypeCode@319b92f3
+    // m_turn_to_1_safety_controller_elec com.eprosima.idl.parser.typecode.PrimitiveTypeCode@10a035a0
     m_turn_to_1_safety_controller_elec = 0;
-    // m_turn_to_1_safety_controller_SPN_MSB_elec com.eprosima.idl.parser.typecode.PrimitiveTypeCode@fcd6521
+    // m_turn_to_1_safety_controller_SPN_MSB_elec com.eprosima.idl.parser.typecode.PrimitiveTypeCode@67b467e9
     m_turn_to_1_safety_controller_SPN_MSB_elec = 0;
-    // m_steering_1_safety_controller_FMI_elec com.eprosima.idl.parser.typecode.PrimitiveTypeCode@27d415d9
+    // m_steering_1_safety_controller_FMI_elec com.eprosima.idl.parser.typecode.PrimitiveTypeCode@47db50c5
     m_steering_1_safety_controller_FMI_elec = 0;
-    // m_Protect_LampStatusc_Copy_2 com.eprosima.idl.parser.typecode.PrimitiveTypeCode@5c18298f
+    // m_Protect_LampStatusc_Copy_2 com.eprosima.idl.parser.typecode.PrimitiveTypeCode@5c072e3f
     m_Protect_LampStatusc_Copy_2 = 0;
-    // m_Amber_WarningLamp_Status_Copy_2 com.eprosima.idl.parser.typecode.PrimitiveTypeCode@31f924f5
+    // m_Amber_WarningLamp_Status_Copy_2 com.eprosima.idl.parser.typecode.PrimitiveTypeCode@4d1b0d2a
     m_Amber_WarningLamp_Status_Copy_2 = 0;
-    // m_Red_StopLamp_Status_Copy_2 com.eprosima.idl.parser.typecode.PrimitiveTypeCode@5579bb86
+    // m_Red_StopLamp_Status_Copy_2 com.eprosima.idl.parser.typecode.PrimitiveTypeCode@954b04f
     m_Red_StopLamp_Status_Copy_2 = 0;
-    // m_Malfunction_IndicatorLamp3 com.eprosima.idl.parser.typecode.PrimitiveTypeCode@5204062d
+    // m_Malfunction_IndicatorLamp3 com.eprosima.idl.parser.typecode.PrimitiveTypeCode@149494d8
     m_Malfunction_IndicatorLamp3 = 0;
-    // m_occurrence_Count1Copy3 com.eprosima.idl.parser.typecode.PrimitiveTypeCode@4fcd19b3
+    // m_occurrence_Count1Copy3 com.eprosima.idl.parser.typecode.PrimitiveTypeCode@710726a3
     m_occurrence_Count1Copy3 = 0;
-    // m_Conversion_MethodCopy_3 com.eprosima.idl.parser.typecode.PrimitiveTypeCode@376b4233
+    // m_Conversion_MethodCopy_3 com.eprosima.idl.parser.typecode.PrimitiveTypeCode@646007f4
     m_Conversion_MethodCopy_3 = 0;
-    // m_steering_1_main_controller_failure_level_elec com.eprosima.idl.parser.typecode.PrimitiveTypeCode@2fd66ad3
+    // m_steering_1_main_controller_failure_level_elec com.eprosima.idl.parser.typecode.PrimitiveTypeCode@481a15ff
     m_steering_1_main_controller_failure_level_elec = 0;
-    // m_turn_to_1_master_controller_SPN_LSN_elec com.eprosima.idl.parser.typecode.PrimitiveTypeCode@5d11346a
+    // m_turn_to_1_master_controller_SPN_LSN_elec com.eprosima.idl.parser.typecode.PrimitiveTypeCode@78186a70
     m_turn_to_1_master_controller_SPN_LSN_elec = 0;
-    // m_go_to_1_master_controller_SPN_MSB_elec com.eprosima.idl.parser.typecode.PrimitiveTypeCode@7a36aefa
+    // m_go_to_1_master_controller_SPN_MSB_elec com.eprosima.idl.parser.typecode.PrimitiveTypeCode@306279ee
     m_go_to_1_master_controller_SPN_MSB_elec = 0;
-    // m_turn_to_1_main_controller_FMI_elec com.eprosima.idl.parser.typecode.PrimitiveTypeCode@17211155
+    // m_turn_to_1_main_controller_FMI_elec com.eprosima.idl.parser.typecode.PrimitiveTypeCode@545997b1
     m_turn_to_1_main_controller_FMI_elec = 0;
-    // m_Protect_LampStatusc_Copy_3 com.eprosima.idl.parser.typecode.PrimitiveTypeCode@b3d7190
+    // m_Protect_LampStatusc_Copy_3 com.eprosima.idl.parser.typecode.PrimitiveTypeCode@4cf4d528
     m_Protect_LampStatusc_Copy_3 = 0;
-    // m_Amber_WarningLamp_Status_Copy_3 com.eprosima.idl.parser.typecode.PrimitiveTypeCode@5fdba6f9
+    // m_Amber_WarningLamp_Status_Copy_3 com.eprosima.idl.parser.typecode.PrimitiveTypeCode@77846d2c
     m_Amber_WarningLamp_Status_Copy_3 = 0;
-    // m_Red_StopLamp_Status_Copy_3 com.eprosima.idl.parser.typecode.PrimitiveTypeCode@10d59286
+    // m_Red_StopLamp_Status_Copy_3 com.eprosima.idl.parser.typecode.PrimitiveTypeCode@548ad73b
     m_Red_StopLamp_Status_Copy_3 = 0;
-    // m_Malfunction_IndicatorLamp4 com.eprosima.idl.parser.typecode.PrimitiveTypeCode@fe18270
+    // m_Malfunction_IndicatorLamp4 com.eprosima.idl.parser.typecode.PrimitiveTypeCode@4c762604
     m_Malfunction_IndicatorLamp4 = 0;
-    // m_occurrence_Count1Copy4 com.eprosima.idl.parser.typecode.PrimitiveTypeCode@6fb0d3ed
+    // m_occurrence_Count1Copy4 com.eprosima.idl.parser.typecode.PrimitiveTypeCode@2641e737
     m_occurrence_Count1Copy4 = 0;
-    // m_Conversion_MethodCopy_4 com.eprosima.idl.parser.typecode.PrimitiveTypeCode@6dde5c8c
+    // m_Conversion_MethodCopy_4 com.eprosima.idl.parser.typecode.PrimitiveTypeCode@727803de
     m_Conversion_MethodCopy_4 = 0;
-    // m_steering_2_safety_controller_failure_level_elec com.eprosima.idl.parser.typecode.PrimitiveTypeCode@5123a213
+    // m_steering_2_safety_controller_failure_level_elec com.eprosima.idl.parser.typecode.PrimitiveTypeCode@704921a5
     m_steering_2_safety_controller_failure_level_elec = 0;
-    // m_steering_2_safety_controller_SPN_LSN_elec com.eprosima.idl.parser.typecode.PrimitiveTypeCode@52525845
+    // m_steering_2_safety_controller_SPN_LSN_elec com.eprosima.idl.parser.typecode.PrimitiveTypeCode@df27fae
     m_steering_2_safety_controller_SPN_LSN_elec = 0;
-    // m_steering_2_Safety_Controller_SPN_MSB_elec com.eprosima.idl.parser.typecode.PrimitiveTypeCode@3b94d659
+    // m_steering_2_Safety_Controller_SPN_MSB_elec com.eprosima.idl.parser.typecode.PrimitiveTypeCode@24a35978
     m_steering_2_Safety_Controller_SPN_MSB_elec = 0;
-    // m_steering_2_Safety_Controller_FMI_elec com.eprosima.idl.parser.typecode.PrimitiveTypeCode@24b1d79b
+    // m_steering_2_Safety_Controller_FMI_elec com.eprosima.idl.parser.typecode.PrimitiveTypeCode@16f7c8c1
     m_steering_2_Safety_Controller_FMI_elec = 0;
-    // m_Protect_LampStatusc_Copy_4 com.eprosima.idl.parser.typecode.PrimitiveTypeCode@68ceda24
+    // m_Protect_LampStatusc_Copy_4 com.eprosima.idl.parser.typecode.PrimitiveTypeCode@2f0a87b3
     m_Protect_LampStatusc_Copy_4 = 0;
-    // m_Amber_WarningLamp_Status_Copy_4 com.eprosima.idl.parser.typecode.PrimitiveTypeCode@281e3708
+    // m_Amber_WarningLamp_Status_Copy_4 com.eprosima.idl.parser.typecode.PrimitiveTypeCode@319b92f3
     m_Amber_WarningLamp_Status_Copy_4 = 0;
-    // m_Red_StopLamp_Status_Copy_4 com.eprosima.idl.parser.typecode.PrimitiveTypeCode@35a50a4c
+    // m_Red_StopLamp_Status_Copy_4 com.eprosima.idl.parser.typecode.PrimitiveTypeCode@fcd6521
     m_Red_StopLamp_Status_Copy_4 = 0;
-    // m_Malfunction_IndicatorLamp5 com.eprosima.idl.parser.typecode.PrimitiveTypeCode@1f021e6c
+    // m_Malfunction_IndicatorLamp5 com.eprosima.idl.parser.typecode.PrimitiveTypeCode@27d415d9
     m_Malfunction_IndicatorLamp5 = 0;
-    // m_occurrence_Count1Copy5 com.eprosima.idl.parser.typecode.PrimitiveTypeCode@103f852
+    // m_occurrence_Count1Copy5 com.eprosima.idl.parser.typecode.PrimitiveTypeCode@5c18298f
     m_occurrence_Count1Copy5 = 0;
-    // m_Conversion_MethodCopy_5 com.eprosima.idl.parser.typecode.PrimitiveTypeCode@587c290d
+    // m_Conversion_MethodCopy_5 com.eprosima.idl.parser.typecode.PrimitiveTypeCode@31f924f5
     m_Conversion_MethodCopy_5 = 0;
-    // m_steering_2_main_controller_failure_level_elec com.eprosima.idl.parser.typecode.PrimitiveTypeCode@4516af24
+    // m_steering_2_main_controller_failure_level_elec com.eprosima.idl.parser.typecode.PrimitiveTypeCode@5579bb86
     m_steering_2_main_controller_failure_level_elec = 0;
-    // m_turn_to_2_master_controller_SPN_LSN_elec com.eprosima.idl.parser.typecode.PrimitiveTypeCode@4ae82894
+    // m_turn_to_2_master_controller_SPN_LSN_elec com.eprosima.idl.parser.typecode.PrimitiveTypeCode@5204062d
     m_turn_to_2_master_controller_SPN_LSN_elec = 0;
-    // m_go_to_2_master_controller_SPN_MSB_elec com.eprosima.idl.parser.typecode.PrimitiveTypeCode@543788f3
+    // m_go_to_2_master_controller_SPN_MSB_elec com.eprosima.idl.parser.typecode.PrimitiveTypeCode@4fcd19b3
     m_go_to_2_master_controller_SPN_MSB_elec = 0;
-    // m_turn_to_2_main_controller_FMI_elec com.eprosima.idl.parser.typecode.PrimitiveTypeCode@6d3af739
+    // m_turn_to_2_main_controller_FMI_elec com.eprosima.idl.parser.typecode.PrimitiveTypeCode@376b4233
     m_turn_to_2_main_controller_FMI_elec = 0;
-    // m_Protect_LampStatusc_Copy_5 com.eprosima.idl.parser.typecode.PrimitiveTypeCode@1da51a35
+    // m_Protect_LampStatusc_Copy_5 com.eprosima.idl.parser.typecode.PrimitiveTypeCode@2fd66ad3
     m_Protect_LampStatusc_Copy_5 = 0;
-    // m_Amber_WarningLamp_Status_Copy_5 com.eprosima.idl.parser.typecode.PrimitiveTypeCode@16022d9d
+    // m_Amber_WarningLamp_Status_Copy_5 com.eprosima.idl.parser.typecode.PrimitiveTypeCode@5d11346a
     m_Amber_WarningLamp_Status_Copy_5 = 0;
-    // m_Red_StopLamp_Status_Copy_5 com.eprosima.idl.parser.typecode.PrimitiveTypeCode@7e9a5fbe
+    // m_Red_StopLamp_Status_Copy_5 com.eprosima.idl.parser.typecode.PrimitiveTypeCode@7a36aefa
     m_Red_StopLamp_Status_Copy_5 = 0;
-    // m_Malfunction_IndicatorLamp6 com.eprosima.idl.parser.typecode.PrimitiveTypeCode@44a3ec6b
+    // m_Malfunction_IndicatorLamp6 com.eprosima.idl.parser.typecode.PrimitiveTypeCode@17211155
     m_Malfunction_IndicatorLamp6 = 0;
-    // m_course_Angle_condition com.eprosima.idl.parser.typecode.PrimitiveTypeCode@71623278
+    // m_course_Angle_condition com.eprosima.idl.parser.typecode.PrimitiveTypeCode@b3d7190
     m_course_Angle_condition = 0;
-    // m_vehicle_status_marker com.eprosima.idl.parser.typecode.PrimitiveTypeCode@768b970c
+    // m_vehicle_status_marker com.eprosima.idl.parser.typecode.PrimitiveTypeCode@5fdba6f9
     m_vehicle_status_marker = 0;
-    // m_GpsNumSatsUsed com.eprosima.idl.parser.typecode.PrimitiveTypeCode@5a4041cc
+    // m_GpsNumSatsUsed com.eprosima.idl.parser.typecode.PrimitiveTypeCode@10d59286
     m_GpsNumSatsUsed = 0;
-    // m_GpsNumSats2Used com.eprosima.idl.parser.typecode.PrimitiveTypeCode@15b3e5b
+    // m_GpsNumSats2Used com.eprosima.idl.parser.typecode.PrimitiveTypeCode@fe18270
     m_GpsNumSats2Used = 0;
-    // m_longegrated_navigation_overall_status_flag_bits com.eprosima.idl.parser.typecode.PrimitiveTypeCode@61ca2dfa
+    // m_longegrated_navigation_overall_status_flag_bits com.eprosima.idl.parser.typecode.PrimitiveTypeCode@6fb0d3ed
     m_longegrated_navigation_overall_status_flag_bits = 0;
 
 }
@@ -6760,13 +6760,13 @@ void FaultDiagnosisFrom297Info::serializeKey(
 
 TransportProtocolConnectionManage::TransportProtocolConnectionManage()
 {
-    // m_control_byte com.eprosima.idl.parser.typecode.PrimitiveTypeCode@4b53f538
+    // m_control_byte com.eprosima.idl.parser.typecode.PrimitiveTypeCode@6dde5c8c
     m_control_byte = 0;
-    // m_total_message_size com.eprosima.idl.parser.typecode.PrimitiveTypeCode@134593bf
+    // m_total_message_size com.eprosima.idl.parser.typecode.PrimitiveTypeCode@5123a213
     m_total_message_size = 0;
-    // m_total_number_of_packets com.eprosima.idl.parser.typecode.PrimitiveTypeCode@4bb4de6a
+    // m_total_number_of_packets com.eprosima.idl.parser.typecode.PrimitiveTypeCode@52525845
     m_total_number_of_packets = 0;
-    // m_PGN com.eprosima.idl.parser.typecode.PrimitiveTypeCode@7ba18f1b
+    // m_PGN com.eprosima.idl.parser.typecode.PrimitiveTypeCode@3b94d659
     m_PGN = 0;
 
 }
@@ -7042,9 +7042,9 @@ void TransportProtocolConnectionManage::serializeKey(
 
 TransportProtocolDataTransfer::TransportProtocolDataTransfer()
 {
-    // m_sequence_number com.eprosima.idl.parser.typecode.PrimitiveTypeCode@2f8f5f62
+    // m_sequence_number com.eprosima.idl.parser.typecode.PrimitiveTypeCode@24b1d79b
     m_sequence_number = 0;
-    // m_packetized_data com.eprosima.idl.parser.typecode.PrimitiveTypeCode@1068e947
+    // m_packetized_data com.eprosima.idl.parser.typecode.PrimitiveTypeCode@68ceda24
     m_packetized_data = 0;
 
 }
@@ -7236,321 +7236,353 @@ void TransportProtocolDataTransfer::serializeKey(
 
 WirectlFeedbackInfo::WirectlFeedbackInfo()
 {
-    // m_engine_torque_mode com.eprosima.idl.parser.typecode.PrimitiveTypeCode@aecb35a
+    // m_engine_torque_mode com.eprosima.idl.parser.typecode.PrimitiveTypeCode@587c290d
     m_engine_torque_mode = 0;
-    // m_main_DriveMotor_Tem_raw com.eprosima.idl.parser.typecode.PrimitiveTypeCode@5fcd892a
+    // m_main_DriveMotor_Tem_raw com.eprosima.idl.parser.typecode.PrimitiveTypeCode@4516af24
     m_main_DriveMotor_Tem_raw = 0;
-    // m_main_driveMotor_speed_raw com.eprosima.idl.parser.typecode.PrimitiveTypeCode@8b87145
+    // m_main_driveMotor_speed_raw com.eprosima.idl.parser.typecode.PrimitiveTypeCode@4ae82894
     m_main_driveMotor_speed_raw = 0.0;
-    // m_main_DriveMotor_Current_raw com.eprosima.idl.parser.typecode.PrimitiveTypeCode@6483f5ae
+    // m_main_DriveMotor_Current_raw com.eprosima.idl.parser.typecode.PrimitiveTypeCode@543788f3
     m_main_DriveMotor_Current_raw = 0.0;
-    // m_mainDriveMotorControllerTemp_raw com.eprosima.idl.parser.typecode.PrimitiveTypeCode@b9afc07
+    // m_mainDriveMotorControllerTemp_raw com.eprosima.idl.parser.typecode.PrimitiveTypeCode@6d3af739
     m_mainDriveMotorControllerTemp_raw = 0;
-    // m_Powertrain_outputTorque com.eprosima.idl.parser.typecode.PrimitiveTypeCode@382db087
+    // m_Powertrain_outputTorque com.eprosima.idl.parser.typecode.PrimitiveTypeCode@1da51a35
     m_Powertrain_outputTorque = 0.0;
-    // m_actual_engine_fractional_torque com.eprosima.idl.parser.typecode.PrimitiveTypeCode@73d4cc9e
+    // m_actual_engine_fractional_torque com.eprosima.idl.parser.typecode.PrimitiveTypeCode@16022d9d
     m_actual_engine_fractional_torque = 0.0;
-    // m_driver_demand_engine_percent_torque com.eprosima.idl.parser.typecode.PrimitiveTypeCode@80169cf
+    // m_driver_demand_engine_percent_torque com.eprosima.idl.parser.typecode.PrimitiveTypeCode@7e9a5fbe
     m_driver_demand_engine_percent_torque = 0;
-    // m_actual_engine_torque com.eprosima.idl.parser.typecode.PrimitiveTypeCode@5427c60c
+    // m_actual_engine_torque com.eprosima.idl.parser.typecode.PrimitiveTypeCode@44a3ec6b
     m_actual_engine_torque = 0;
-    // m_engine_speed com.eprosima.idl.parser.typecode.PrimitiveTypeCode@15bfd87
+    // m_engine_speed com.eprosima.idl.parser.typecode.PrimitiveTypeCode@71623278
     m_engine_speed = 0;
-    // m_src_address_ctrl_dev_for_engine com.eprosima.idl.parser.typecode.PrimitiveTypeCode@543e710e
+    // m_src_address_ctrl_dev_for_engine com.eprosima.idl.parser.typecode.PrimitiveTypeCode@768b970c
     m_src_address_ctrl_dev_for_engine = 0;
-    // m_accel_pedal_position com.eprosima.idl.parser.typecode.PrimitiveTypeCode@57f23557
+    // m_accel_pedal_position com.eprosima.idl.parser.typecode.PrimitiveTypeCode@5a4041cc
     m_accel_pedal_position = 0;
-    // m_accelerator_requestStatus com.eprosima.idl.parser.typecode.PrimitiveTypeCode@3d0f8e03
+    // m_accelerator_requestStatus com.eprosima.idl.parser.typecode.PrimitiveTypeCode@15b3e5b
     m_accelerator_requestStatus = false;
-    // m_engine_demand_percent_torque com.eprosima.idl.parser.typecode.PrimitiveTypeCode@6366ebe0
+    // m_engine_demand_percent_torque com.eprosima.idl.parser.typecode.PrimitiveTypeCode@61ca2dfa
     m_engine_demand_percent_torque = 0;
-    // m_vehicle_loss_ctrl com.eprosima.idl.parser.typecode.PrimitiveTypeCode@44f75083
+    // m_vehicle_loss_ctrl com.eprosima.idl.parser.typecode.PrimitiveTypeCode@4b53f538
     m_vehicle_loss_ctrl = false;
-    // m_brake_pedal_SYMC com.eprosima.idl.parser.typecode.PrimitiveTypeCode@2698dc7
+    // m_brake_pedal_SYMC com.eprosima.idl.parser.typecode.PrimitiveTypeCode@134593bf
     m_brake_pedal_SYMC = 0;
-    // m_actual_retarder_percent_torque com.eprosima.idl.parser.typecode.PrimitiveTypeCode@43d7741f
+    // m_actual_retarder_percent_torque com.eprosima.idl.parser.typecode.PrimitiveTypeCode@4bb4de6a
     m_actual_retarder_percent_torque = 0;
-    // m_foot_valve_info com.eprosima.idl.parser.typecode.PrimitiveTypeCode@17baae6e
+    // m_foot_valve_info com.eprosima.idl.parser.typecode.PrimitiveTypeCode@7ba18f1b
     m_foot_valve_info = 0.0;
-    // m_parking_brake_signal_status com.eprosima.idl.parser.typecode.PrimitiveTypeCode@69379752
+    // m_parking_brake_signal_status com.eprosima.idl.parser.typecode.PrimitiveTypeCode@2f8f5f62
     m_parking_brake_signal_status = false;
-    // m_exhaust_brake_status com.eprosima.idl.parser.typecode.PrimitiveTypeCode@27fe3806
+    // m_exhaust_brake_status com.eprosima.idl.parser.typecode.PrimitiveTypeCode@1068e947
     m_exhaust_brake_status = false;
-    // m_hydraulic_startup_status com.eprosima.idl.parser.typecode.PrimitiveTypeCode@5f71c76a
+    // m_hydraulic_startup_status com.eprosima.idl.parser.typecode.PrimitiveTypeCode@7dc222ae
     m_hydraulic_startup_status = false;
-    // m_steering_angle_request com.eprosima.idl.parser.typecode.PrimitiveTypeCode@1d7acb34
+    // m_steering_angle_request com.eprosima.idl.parser.typecode.PrimitiveTypeCode@aecb35a
     m_steering_angle_request = 0.0;
-    // m_steering_left_angle_info com.eprosima.idl.parser.typecode.PrimitiveTypeCode@48a242ce
+    // m_steering_left_angle_info com.eprosima.idl.parser.typecode.PrimitiveTypeCode@5fcd892a
     m_steering_left_angle_info = 0.0;
-    // m_steering_right_angle_info com.eprosima.idl.parser.typecode.PrimitiveTypeCode@1e4a7dd4
+    // m_steering_right_angle_info com.eprosima.idl.parser.typecode.PrimitiveTypeCode@8b87145
     m_steering_right_angle_info = 0.0;
-    // m_trans_current_gear com.eprosima.idl.parser.typecode.PrimitiveTypeCode@4f51b3e0
+    // m_trans_current_gear com.eprosima.idl.parser.typecode.PrimitiveTypeCode@6483f5ae
     m_trans_current_gear = 0;
-    // m_Accumulated_charged_electric_quanlity com.eprosima.idl.parser.typecode.PrimitiveTypeCode@4b9e255
+    // m_Accumulated_charged_electric_quanlity com.eprosima.idl.parser.typecode.PrimitiveTypeCode@b9afc07
     m_Accumulated_charged_electric_quanlity = 0.0;
-    // m_Accumulated_discharged_electric_quanlity com.eprosima.idl.parser.typecode.PrimitiveTypeCode@5e57643e
+    // m_Accumulated_discharged_electric_quanlity com.eprosima.idl.parser.typecode.PrimitiveTypeCode@382db087
     m_Accumulated_discharged_electric_quanlity = 0.0;
-    // m_Single_charged_electric_quanlity com.eprosima.idl.parser.typecode.PrimitiveTypeCode@133e16fd
+    // m_Single_charged_electric_quanlity com.eprosima.idl.parser.typecode.PrimitiveTypeCode@73d4cc9e
     m_Single_charged_electric_quanlity = 0;
-    // m_Battery_power_raw com.eprosima.idl.parser.typecode.PrimitiveTypeCode@51b279c9
+    // m_Battery_power_raw com.eprosima.idl.parser.typecode.PrimitiveTypeCode@80169cf
     m_Battery_power_raw = 0.0;
-    // m_engine_total_hours com.eprosima.idl.parser.typecode.PrimitiveTypeCode@1ad282e0
+    // m_engine_total_hours com.eprosima.idl.parser.typecode.PrimitiveTypeCode@5427c60c
     m_engine_total_hours = 0.0;
-    // m_battery_voltage com.eprosima.idl.parser.typecode.PrimitiveTypeCode@7f416310
+    // m_battery_voltage com.eprosima.idl.parser.typecode.PrimitiveTypeCode@15bfd87
     m_battery_voltage = 0.0;
-    // m_Acc_Power_On_Status com.eprosima.idl.parser.typecode.PrimitiveTypeCode@1cab0bfb
+    // m_Acc_Power_On_Status com.eprosima.idl.parser.typecode.PrimitiveTypeCode@543e710e
     m_Acc_Power_On_Status = 0;
-    // m_Charge_Gun_Status com.eprosima.idl.parser.typecode.PrimitiveTypeCode@5e955596
+    // m_Charge_Gun_Status com.eprosima.idl.parser.typecode.PrimitiveTypeCode@57f23557
     m_Charge_Gun_Status = 0;
-    // m_Force_State com.eprosima.idl.parser.typecode.PrimitiveTypeCode@50de0926
+    // m_Force_State com.eprosima.idl.parser.typecode.PrimitiveTypeCode@3d0f8e03
     m_Force_State = 0;
-    // m_Vehicle_Remote_Start_Error com.eprosima.idl.parser.typecode.PrimitiveTypeCode@2473b9ce
+    // m_Vehicle_Remote_Start_Error com.eprosima.idl.parser.typecode.PrimitiveTypeCode@6366ebe0
     m_Vehicle_Remote_Start_Error = 0;
-    // m_transmission_requested_range com.eprosima.idl.parser.typecode.PrimitiveTypeCode@60438a68
+    // m_transmission_requested_range com.eprosima.idl.parser.typecode.PrimitiveTypeCode@44f75083
     m_transmission_requested_range = 0;
-    // m_shifting_gears com.eprosima.idl.parser.typecode.PrimitiveTypeCode@140e5a13
+    // m_shifting_gears com.eprosima.idl.parser.typecode.PrimitiveTypeCode@2698dc7
     m_shifting_gears = 0;
-    // m_Locking_gearboxTorqueConverter com.eprosima.idl.parser.typecode.PrimitiveTypeCode@3439f68d
+    // m_Locking_gearboxTorqueConverter com.eprosima.idl.parser.typecode.PrimitiveTypeCode@43d7741f
     m_Locking_gearboxTorqueConverter = 0;
-    // m_lift_condition com.eprosima.idl.parser.typecode.PrimitiveTypeCode@dbd940d
+    // m_lift_condition com.eprosima.idl.parser.typecode.PrimitiveTypeCode@17baae6e
     m_lift_condition = 0;
-    // m_lift_longo_position_status com.eprosima.idl.parser.typecode.PrimitiveTypeCode@71d15f18
+    // m_lift_longo_position_status com.eprosima.idl.parser.typecode.PrimitiveTypeCode@69379752
     m_lift_longo_position_status = false;
-    // m_drop_longo_position_status com.eprosima.idl.parser.typecode.PrimitiveTypeCode@17695df3
+    // m_drop_longo_position_status com.eprosima.idl.parser.typecode.PrimitiveTypeCode@27fe3806
     m_drop_longo_position_status = false;
-    // m_left_turn_start_status com.eprosima.idl.parser.typecode.PrimitiveTypeCode@6c9f5c0d
+    // m_left_turn_start_status com.eprosima.idl.parser.typecode.PrimitiveTypeCode@5f71c76a
     m_left_turn_start_status = false;
-    // m_right_turn_start_status com.eprosima.idl.parser.typecode.PrimitiveTypeCode@de3a06f
+    // m_right_turn_start_status com.eprosima.idl.parser.typecode.PrimitiveTypeCode@1d7acb34
     m_right_turn_start_status = false;
-    // m_hazard_start_status com.eprosima.idl.parser.typecode.PrimitiveTypeCode@76b10754
+    // m_hazard_start_status com.eprosima.idl.parser.typecode.PrimitiveTypeCode@48a242ce
     m_hazard_start_status = false;
-    // m_flash_start_status com.eprosima.idl.parser.typecode.PrimitiveTypeCode@2bea5ab4
+    // m_flash_start_status com.eprosima.idl.parser.typecode.PrimitiveTypeCode@1e4a7dd4
     m_flash_start_status = false;
-    // m_fog_lamp_start_status com.eprosima.idl.parser.typecode.PrimitiveTypeCode@3d8314f0
+    // m_fog_lamp_start_status com.eprosima.idl.parser.typecode.PrimitiveTypeCode@4f51b3e0
     m_fog_lamp_start_status = false;
-    // m_outline_lamp_start_status com.eprosima.idl.parser.typecode.PrimitiveTypeCode@2df32bf7
+    // m_outline_lamp_start_status com.eprosima.idl.parser.typecode.PrimitiveTypeCode@4b9e255
     m_outline_lamp_start_status = false;
-    // m_low_light_start_status com.eprosima.idl.parser.typecode.PrimitiveTypeCode@530612ba
+    // m_low_light_start_status com.eprosima.idl.parser.typecode.PrimitiveTypeCode@5e57643e
     m_low_light_start_status = false;
-    // m_high_beam_start_status com.eprosima.idl.parser.typecode.PrimitiveTypeCode@2a40cd94
+    // m_high_beam_start_status com.eprosima.idl.parser.typecode.PrimitiveTypeCode@133e16fd
     m_high_beam_start_status = false;
-    // m_head_light_status com.eprosima.idl.parser.typecode.PrimitiveTypeCode@f4168b8
+    // m_head_light_status com.eprosima.idl.parser.typecode.PrimitiveTypeCode@51b279c9
     m_head_light_status = false;
-    // m_rear_light_start_status com.eprosima.idl.parser.typecode.PrimitiveTypeCode@3bd94634
+    // m_rear_light_start_status com.eprosima.idl.parser.typecode.PrimitiveTypeCode@1ad282e0
     m_rear_light_start_status = false;
-    // m_wiper_start_status com.eprosima.idl.parser.typecode.PrimitiveTypeCode@58a90037
+    // m_wiper_start_status com.eprosima.idl.parser.typecode.PrimitiveTypeCode@7f416310
     m_wiper_start_status = false;
-    // m_wiper_longermit_start_status com.eprosima.idl.parser.typecode.PrimitiveTypeCode@74294adb
+    // m_wiper_longermit_start_status com.eprosima.idl.parser.typecode.PrimitiveTypeCode@1cab0bfb
     m_wiper_longermit_start_status = false;
-    // m_wiper_slow_start_status com.eprosima.idl.parser.typecode.PrimitiveTypeCode@70a9f84e
+    // m_wiper_slow_start_status com.eprosima.idl.parser.typecode.PrimitiveTypeCode@5e955596
     m_wiper_slow_start_status = false;
-    // m_wiper_high_start_status com.eprosima.idl.parser.typecode.PrimitiveTypeCode@130f889
+    // m_wiper_high_start_status com.eprosima.idl.parser.typecode.PrimitiveTypeCode@50de0926
     m_wiper_high_start_status = false;
-    // m_horn_start_status com.eprosima.idl.parser.typecode.PrimitiveTypeCode@1188e820
+    // m_horn_start_status com.eprosima.idl.parser.typecode.PrimitiveTypeCode@2473b9ce
     m_horn_start_status = false;
-    // m_axle_differential com.eprosima.idl.parser.typecode.PrimitiveTypeCode@2f490758
+    // m_axle_differential com.eprosima.idl.parser.typecode.PrimitiveTypeCode@60438a68
     m_axle_differential = false;
-    // m_go_to_unmanned_status com.eprosima.idl.parser.typecode.PrimitiveTypeCode@101df177
+    // m_go_to_unmanned_status com.eprosima.idl.parser.typecode.PrimitiveTypeCode@140e5a13
     m_go_to_unmanned_status = false;
-    // m_slow_light_start_status com.eprosima.idl.parser.typecode.PrimitiveTypeCode@166fa74d
+    // m_slow_light_start_status com.eprosima.idl.parser.typecode.PrimitiveTypeCode@3439f68d
     m_slow_light_start_status = false;
-    // m_brake_light_start_status com.eprosima.idl.parser.typecode.PrimitiveTypeCode@40f08448
+    // m_brake_light_start_status com.eprosima.idl.parser.typecode.PrimitiveTypeCode@dbd940d
     m_brake_light_start_status = false;
-    // m_revers_light_start_status com.eprosima.idl.parser.typecode.PrimitiveTypeCode@276438c9
+    // m_revers_light_start_status com.eprosima.idl.parser.typecode.PrimitiveTypeCode@71d15f18
     m_revers_light_start_status = false;
-    // m_charge_indicator com.eprosima.idl.parser.typecode.PrimitiveTypeCode@588df31b
+    // m_charge_indicator com.eprosima.idl.parser.typecode.PrimitiveTypeCode@17695df3
     m_charge_indicator = false;
-    // m_vehicle_status com.eprosima.idl.parser.typecode.PrimitiveTypeCode@33b37288
+    // m_vehicle_status com.eprosima.idl.parser.typecode.PrimitiveTypeCode@6c9f5c0d
     m_vehicle_status = 0;
-    // m_ramp_sensor com.eprosima.idl.parser.typecode.PrimitiveTypeCode@77a57272
+    // m_Front_L_tire_pressure com.eprosima.idl.parser.typecode.PrimitiveTypeCode@de3a06f
+    m_Front_L_tire_pressure = 0;
+    // m_Front_R_tire_pressure com.eprosima.idl.parser.typecode.PrimitiveTypeCode@76b10754
+    m_Front_R_tire_pressure = 0;
+    // m_MID_LL_tire_pressure com.eprosima.idl.parser.typecode.PrimitiveTypeCode@2bea5ab4
+    m_MID_LL_tire_pressure = 0;
+    // m_MID_LR_tire_pressure com.eprosima.idl.parser.typecode.PrimitiveTypeCode@3d8314f0
+    m_MID_LR_tire_pressure = 0;
+    // m_MID_RL_tire_pressure com.eprosima.idl.parser.typecode.PrimitiveTypeCode@2df32bf7
+    m_MID_RL_tire_pressure = 0;
+    // m_MID_RR_tire_pressure com.eprosima.idl.parser.typecode.PrimitiveTypeCode@530612ba
+    m_MID_RR_tire_pressure = 0;
+    // m_BACK_LL_tire_pressure com.eprosima.idl.parser.typecode.PrimitiveTypeCode@2a40cd94
+    m_BACK_LL_tire_pressure = 0;
+    // m_BACK_LR_tire_pressure com.eprosima.idl.parser.typecode.PrimitiveTypeCode@f4168b8
+    m_BACK_LR_tire_pressure = 0;
+    // m_BACK_RL_tire_pressure com.eprosima.idl.parser.typecode.PrimitiveTypeCode@3bd94634
+    m_BACK_RL_tire_pressure = 0;
+    // m_BACK_RR_tire_pressure com.eprosima.idl.parser.typecode.PrimitiveTypeCode@58a90037
+    m_BACK_RR_tire_pressure = 0;
+    // m_Brake_Pressure_FA_Left com.eprosima.idl.parser.typecode.PrimitiveTypeCode@74294adb
+    m_Brake_Pressure_FA_Left = 0;
+    // m_Brake_Pressure_FA_Right com.eprosima.idl.parser.typecode.PrimitiveTypeCode@70a9f84e
+    m_Brake_Pressure_FA_Right = 0;
+    // m_Brake_Pressure_RA1_Left com.eprosima.idl.parser.typecode.PrimitiveTypeCode@130f889
+    m_Brake_Pressure_RA1_Left = 0;
+    // m_Brake_Pressure_RA1_Right com.eprosima.idl.parser.typecode.PrimitiveTypeCode@1188e820
+    m_Brake_Pressure_RA1_Right = 0;
+    // m_VCU_Version com.eprosima.idl.parser.typecode.StringTypeCode@2f490758
+    m_VCU_Version ="";
+    // m_ramp_sensor com.eprosima.idl.parser.typecode.PrimitiveTypeCode@101df177
     m_ramp_sensor = 0;
-    // m_rxauxiliary_DriveMotor_Tem_raw com.eprosima.idl.parser.typecode.PrimitiveTypeCode@7181ae3f
+    // m_rxauxiliary_DriveMotor_Tem_raw com.eprosima.idl.parser.typecode.PrimitiveTypeCode@166fa74d
     m_rxauxiliary_DriveMotor_Tem_raw = 0;
-    // m_rxauxiliary_driveMotor_speed_raw com.eprosima.idl.parser.typecode.PrimitiveTypeCode@46238e3f
+    // m_rxauxiliary_driveMotor_speed_raw com.eprosima.idl.parser.typecode.PrimitiveTypeCode@40f08448
     m_rxauxiliary_driveMotor_speed_raw = 0.0;
-    // m_rxauxiliary_DriveMotor_Current_raw com.eprosima.idl.parser.typecode.PrimitiveTypeCode@6e2c9341
+    // m_rxauxiliary_DriveMotor_Current_raw com.eprosima.idl.parser.typecode.PrimitiveTypeCode@276438c9
     m_rxauxiliary_DriveMotor_Current_raw = 0.0;
-    // m_rxauxiliarDriveMotorControllerTemp_raw com.eprosima.idl.parser.typecode.PrimitiveTypeCode@32464a14
+    // m_rxauxiliarDriveMotorControllerTemp_raw com.eprosima.idl.parser.typecode.PrimitiveTypeCode@588df31b
     m_rxauxiliarDriveMotorControllerTemp_raw = 0;
-    // m_endurance_mileage com.eprosima.idl.parser.typecode.PrimitiveTypeCode@4e4aea35
+    // m_endurance_mileage com.eprosima.idl.parser.typecode.PrimitiveTypeCode@33b37288
     m_endurance_mileage = 0;
-    // m_power_consumption com.eprosima.idl.parser.typecode.PrimitiveTypeCode@1442d7b5
+    // m_power_consumption com.eprosima.idl.parser.typecode.PrimitiveTypeCode@77a57272
     m_power_consumption = 0;
-    // m_SOC com.eprosima.idl.parser.typecode.PrimitiveTypeCode@1efee8e7
+    // m_SOC com.eprosima.idl.parser.typecode.PrimitiveTypeCode@7181ae3f
     m_SOC = 0;
-    // m_charging_state com.eprosima.idl.parser.typecode.PrimitiveTypeCode@1ee807c6
+    // m_charging_state com.eprosima.idl.parser.typecode.PrimitiveTypeCode@46238e3f
     m_charging_state = 0;
-    // m_Battery_State com.eprosima.idl.parser.typecode.PrimitiveTypeCode@76a4d6c
+    // m_Battery_State com.eprosima.idl.parser.typecode.PrimitiveTypeCode@6e2c9341
     m_Battery_State = 0;
-    // m_Battery_Current com.eprosima.idl.parser.typecode.PrimitiveTypeCode@517cd4b
+    // m_Battery_Current com.eprosima.idl.parser.typecode.PrimitiveTypeCode@32464a14
     m_Battery_Current = 0.0;
-    // m_Battery_Temperature_raw com.eprosima.idl.parser.typecode.PrimitiveTypeCode@6cc7b4de
+    // m_Battery_Temperature_raw com.eprosima.idl.parser.typecode.PrimitiveTypeCode@4e4aea35
     m_Battery_Temperature_raw = 0;
-    // m_Battery_Fault_Status com.eprosima.idl.parser.typecode.PrimitiveTypeCode@32cf48b7
+    // m_Battery_Fault_Status com.eprosima.idl.parser.typecode.PrimitiveTypeCode@1442d7b5
     m_Battery_Fault_Status = 0;
-    // m_energy_recover com.eprosima.idl.parser.typecode.PrimitiveTypeCode@679b62af
+    // m_energy_recover com.eprosima.idl.parser.typecode.PrimitiveTypeCode@1efee8e7
     m_energy_recover = 0;
-    // m_engine_coolant_temperature com.eprosima.idl.parser.typecode.PrimitiveTypeCode@5cdd8682
+    // m_engine_coolant_temperature com.eprosima.idl.parser.typecode.PrimitiveTypeCode@1ee807c6
     m_engine_coolant_temperature = 0.0;
-    // m_fuel_temperature com.eprosima.idl.parser.typecode.PrimitiveTypeCode@d6da883
+    // m_fuel_temperature com.eprosima.idl.parser.typecode.PrimitiveTypeCode@76a4d6c
     m_fuel_temperature = 0.0;
-    // m_engine_oil_temperature com.eprosima.idl.parser.typecode.PrimitiveTypeCode@45afc369
+    // m_engine_oil_temperature com.eprosima.idl.parser.typecode.PrimitiveTypeCode@517cd4b
     m_engine_oil_temperature = 0.0;
-    // m_engine_oil_level com.eprosima.idl.parser.typecode.PrimitiveTypeCode@799d4f69
+    // m_engine_oil_level com.eprosima.idl.parser.typecode.PrimitiveTypeCode@6cc7b4de
     m_engine_oil_level = 0.0;
-    // m_engine_oil_pressure com.eprosima.idl.parser.typecode.PrimitiveTypeCode@49c43f4e
+    // m_engine_oil_pressure com.eprosima.idl.parser.typecode.PrimitiveTypeCode@32cf48b7
     m_engine_oil_pressure = 0.0;
-    // m_engine_fuel_rate com.eprosima.idl.parser.typecode.PrimitiveTypeCode@290dbf45
+    // m_engine_fuel_rate com.eprosima.idl.parser.typecode.PrimitiveTypeCode@679b62af
     m_engine_fuel_rate = 0.0;
-    // m_engine_instant_fuel_economy com.eprosima.idl.parser.typecode.PrimitiveTypeCode@12028586
+    // m_engine_instant_fuel_economy com.eprosima.idl.parser.typecode.PrimitiveTypeCode@5cdd8682
     m_engine_instant_fuel_economy = 0.0;
-    // m_engine_average_fuel_economy com.eprosima.idl.parser.typecode.PrimitiveTypeCode@17776a8
+    // m_engine_average_fuel_economy com.eprosima.idl.parser.typecode.PrimitiveTypeCode@d6da883
     m_engine_average_fuel_economy = 0.0;
-    // m_fuel_level com.eprosima.idl.parser.typecode.PrimitiveTypeCode@69a10787
+    // m_fuel_level com.eprosima.idl.parser.typecode.PrimitiveTypeCode@45afc369
     m_fuel_level = 0;
-    // m_Engine_wait_to_lamp com.eprosima.idl.parser.typecode.PrimitiveTypeCode@2d127a61
+    // m_Engine_wait_to_lamp com.eprosima.idl.parser.typecode.PrimitiveTypeCode@799d4f69
     m_Engine_wait_to_lamp = 0;
-    // m_air_pressure_1 com.eprosima.idl.parser.typecode.PrimitiveTypeCode@2bbaf4f0
+    // m_air_pressure_1 com.eprosima.idl.parser.typecode.PrimitiveTypeCode@49c43f4e
     m_air_pressure_1 = 0.0;
-    // m_air_pressure_2 com.eprosima.idl.parser.typecode.PrimitiveTypeCode@11c20519
+    // m_air_pressure_2 com.eprosima.idl.parser.typecode.PrimitiveTypeCode@290dbf45
     m_air_pressure_2 = 0.0;
-    // m_front_axle_running_brake_pressure_input com.eprosima.idl.parser.typecode.PrimitiveTypeCode@70beb599
+    // m_front_axle_running_brake_pressure_input com.eprosima.idl.parser.typecode.PrimitiveTypeCode@12028586
     m_front_axle_running_brake_pressure_input = 0.0;
-    // m_brake_pressure_input_in_middle_axle com.eprosima.idl.parser.typecode.PrimitiveTypeCode@4e41089d
+    // m_brake_pressure_input_in_middle_axle com.eprosima.idl.parser.typecode.PrimitiveTypeCode@17776a8
     m_brake_pressure_input_in_middle_axle = 0.0;
-    // m_rear_axle_running_brake_pressure_input com.eprosima.idl.parser.typecode.PrimitiveTypeCode@32a068d1
+    // m_rear_axle_running_brake_pressure_input com.eprosima.idl.parser.typecode.PrimitiveTypeCode@69a10787
     m_rear_axle_running_brake_pressure_input = 0.0;
-    // m_weighing_cell_1 com.eprosima.idl.parser.typecode.PrimitiveTypeCode@33cb5951
+    // m_weighing_cell_1 com.eprosima.idl.parser.typecode.PrimitiveTypeCode@2d127a61
     m_weighing_cell_1 = 0;
-    // m_weighing_cell_2 com.eprosima.idl.parser.typecode.PrimitiveTypeCode@365c30cc
+    // m_weighing_cell_2 com.eprosima.idl.parser.typecode.PrimitiveTypeCode@2bbaf4f0
     m_weighing_cell_2 = 0;
-    // m_front_left_wheel_speed com.eprosima.idl.parser.typecode.PrimitiveTypeCode@701fc37a
+    // m_num_297 com.eprosima.idl.parser.typecode.PrimitiveTypeCode@11c20519
+    m_num_297 = 0;
+    // m_front_left_wheel_speed com.eprosima.idl.parser.typecode.PrimitiveTypeCode@70beb599
     m_front_left_wheel_speed = 0.0;
-    // m_front_right_wheel_speed com.eprosima.idl.parser.typecode.PrimitiveTypeCode@4148db48
+    // m_front_right_wheel_speed com.eprosima.idl.parser.typecode.PrimitiveTypeCode@4e41089d
     m_front_right_wheel_speed = 0.0;
-    // m_rear_left_wheel_speed com.eprosima.idl.parser.typecode.PrimitiveTypeCode@282003e1
+    // m_rear_left_wheel_speed com.eprosima.idl.parser.typecode.PrimitiveTypeCode@32a068d1
     m_rear_left_wheel_speed = 0.0;
-    // m_rear_right_wheel_speed com.eprosima.idl.parser.typecode.PrimitiveTypeCode@7fad8c79
+    // m_rear_right_wheel_speed com.eprosima.idl.parser.typecode.PrimitiveTypeCode@33cb5951
     m_rear_right_wheel_speed = 0.0;
-    // m_tachograph_output_shaft_speed com.eprosima.idl.parser.typecode.PrimitiveTypeCode@71a794e5
+    // m_tachograph_output_shaft_speed com.eprosima.idl.parser.typecode.PrimitiveTypeCode@365c30cc
     m_tachograph_output_shaft_speed = 0.0;
-    // m_tachograph_vehicle_speed com.eprosima.idl.parser.typecode.PrimitiveTypeCode@76329302
+    // m_tachograph_vehicle_speed com.eprosima.idl.parser.typecode.PrimitiveTypeCode@701fc37a
     m_tachograph_vehicle_speed = 0.0;
-    // m_total_vehicle_distance com.eprosima.idl.parser.typecode.PrimitiveTypeCode@5e25a92e
+    // m_total_vehicle_distance com.eprosima.idl.parser.typecode.PrimitiveTypeCode@4148db48
     m_total_vehicle_distance = 0.0;
-    // m_engine_totalFuel_used com.eprosima.idl.parser.typecode.PrimitiveTypeCode@4df828d7
+    // m_engine_totalFuel_used com.eprosima.idl.parser.typecode.PrimitiveTypeCode@282003e1
     m_engine_totalFuel_used = 0.0;
-    // m_trip_fuel_consumption com.eprosima.idl.parser.typecode.PrimitiveTypeCode@b59d31
+    // m_trip_fuel_consumption com.eprosima.idl.parser.typecode.PrimitiveTypeCode@7fad8c79
     m_trip_fuel_consumption = 0.0;
-    // m_steering_left_angle_info_mv com.eprosima.idl.parser.typecode.PrimitiveTypeCode@62fdb4a6
+    // m_steering_left_angle_info_mv com.eprosima.idl.parser.typecode.PrimitiveTypeCode@71a794e5
     m_steering_left_angle_info_mv = 0.0;
-    // m_steering_right_angle_info_mv com.eprosima.idl.parser.typecode.PrimitiveTypeCode@11e21d0e
+    // m_steering_right_angle_info_mv com.eprosima.idl.parser.typecode.PrimitiveTypeCode@76329302
     m_steering_right_angle_info_mv = 0.0;
-    // m_vcu_state com.eprosima.idl.parser.typecode.PrimitiveTypeCode@1dd02175
+    // m_vcu_state com.eprosima.idl.parser.typecode.PrimitiveTypeCode@5e25a92e
     m_vcu_state = 0;
-    // m_udpindex com.eprosima.idl.parser.typecode.PrimitiveTypeCode@31206beb
+    // m_udpindex com.eprosima.idl.parser.typecode.PrimitiveTypeCode@4df828d7
     m_udpindex = 0;
-    // m_dm1_ecm_diag_trouble com.eprosima.fastdds.idl.parser.typecode.StructTypeCode@3e77a1ed
+    // m_dm1_ecm_diag_trouble com.eprosima.fastdds.idl.parser.typecode.StructTypeCode@b59d31
 
-    // m_ecm_tpcm com.eprosima.fastdds.idl.parser.typecode.StructTypeCode@3ffcd140
+    // m_ecm_tpcm com.eprosima.fastdds.idl.parser.typecode.StructTypeCode@62fdb4a6
 
-    // m_ecm_tpdt com.eprosima.fastdds.idl.parser.typecode.StructTypeCode@23bb8443
+    // m_ecm_tpdt com.eprosima.fastdds.idl.parser.typecode.StructTypeCode@1dd02175
 
-    // m_dm1_tcu_diag_trouble com.eprosima.fastdds.idl.parser.typecode.StructTypeCode@3e77a1ed
+    // m_dm1_tcu_diag_trouble com.eprosima.fastdds.idl.parser.typecode.StructTypeCode@b59d31
 
-    // m_tcu_tpcm com.eprosima.fastdds.idl.parser.typecode.StructTypeCode@3ffcd140
+    // m_tcu_tpcm com.eprosima.fastdds.idl.parser.typecode.StructTypeCode@62fdb4a6
 
-    // m_tcu_tpdt com.eprosima.fastdds.idl.parser.typecode.StructTypeCode@23bb8443
+    // m_tcu_tpdt com.eprosima.fastdds.idl.parser.typecode.StructTypeCode@1dd02175
 
-    // m_sca_diag_trouble com.eprosima.fastdds.idl.parser.typecode.StructTypeCode@3e77a1ed
+    // m_sca_diag_trouble com.eprosima.fastdds.idl.parser.typecode.StructTypeCode@b59d31
 
-    // m_sca_diag_trouble1 com.eprosima.fastdds.idl.parser.typecode.StructTypeCode@3e77a1ed
+    // m_sca_diag_trouble1 com.eprosima.fastdds.idl.parser.typecode.StructTypeCode@b59d31
 
-    // m_sca_diag_trouble2 com.eprosima.fastdds.idl.parser.typecode.StructTypeCode@3e77a1ed
+    // m_sca_diag_trouble2 com.eprosima.fastdds.idl.parser.typecode.StructTypeCode@b59d31
 
-    // m_mca_diag_trouble com.eprosima.fastdds.idl.parser.typecode.StructTypeCode@3e77a1ed
+    // m_mca_diag_trouble com.eprosima.fastdds.idl.parser.typecode.StructTypeCode@b59d31
 
-    // m_mca_diag_trouble1 com.eprosima.fastdds.idl.parser.typecode.StructTypeCode@3e77a1ed
+    // m_mca_diag_trouble1 com.eprosima.fastdds.idl.parser.typecode.StructTypeCode@b59d31
 
-    // m_mca_diag_trouble2 com.eprosima.fastdds.idl.parser.typecode.StructTypeCode@3e77a1ed
+    // m_mca_diag_trouble2 com.eprosima.fastdds.idl.parser.typecode.StructTypeCode@b59d31
 
-    // m_on_voltage com.eprosima.idl.parser.typecode.PrimitiveTypeCode@120d6fe6
+    // m_on_voltage com.eprosima.idl.parser.typecode.PrimitiveTypeCode@31206beb
     m_on_voltage = 0.0;
-    // m_parking com.eprosima.idl.parser.typecode.PrimitiveTypeCode@4ba2ca36
+    // m_parking com.eprosima.idl.parser.typecode.PrimitiveTypeCode@3e77a1ed
     m_parking = false;
-    // m_low_air_pressure_alarm com.eprosima.idl.parser.typecode.PrimitiveTypeCode@3444d69d
+    // m_low_air_pressure_alarm com.eprosima.idl.parser.typecode.PrimitiveTypeCode@3ffcd140
     m_low_air_pressure_alarm = 0;
-    // m_Autopilot_enable_bit com.eprosima.idl.parser.typecode.PrimitiveTypeCode@1372ed45
+    // m_Autopilot_enable_bit com.eprosima.idl.parser.typecode.PrimitiveTypeCode@23bb8443
     m_Autopilot_enable_bit = false;
-    // m_Power_control_enable_bit com.eprosima.idl.parser.typecode.PrimitiveTypeCode@6a79c292
+    // m_Power_control_enable_bit com.eprosima.idl.parser.typecode.PrimitiveTypeCode@1176dcec
     m_Power_control_enable_bit = false;
-    // m_Shift_request_status com.eprosima.idl.parser.typecode.PrimitiveTypeCode@37574691
+    // m_Shift_request_status com.eprosima.idl.parser.typecode.PrimitiveTypeCode@120d6fe6
     m_Shift_request_status = false;
-    // m_accelerator_request_status com.eprosima.idl.parser.typecode.PrimitiveTypeCode@25359ed8
+    // m_accelerator_request_status com.eprosima.idl.parser.typecode.PrimitiveTypeCode@4ba2ca36
     m_accelerator_request_status = false;
-    // m_Parking_request com.eprosima.idl.parser.typecode.PrimitiveTypeCode@21a947fe
+    // m_Parking_request com.eprosima.idl.parser.typecode.PrimitiveTypeCode@3444d69d
     m_Parking_request = false;
-    // m_Brake_request_status com.eprosima.idl.parser.typecode.PrimitiveTypeCode@5606c0b
+    // m_Brake_request_status com.eprosima.idl.parser.typecode.PrimitiveTypeCode@1372ed45
     m_Brake_request_status = false;
-    // m_No15_power_supply_control com.eprosima.idl.parser.typecode.PrimitiveTypeCode@80ec1f8
+    // m_No15_power_supply_control com.eprosima.idl.parser.typecode.PrimitiveTypeCode@6a79c292
     m_No15_power_supply_control = false;
-    // m_Brake_light_control com.eprosima.idl.parser.typecode.PrimitiveTypeCode@1445d7f
+    // m_Brake_light_control com.eprosima.idl.parser.typecode.PrimitiveTypeCode@37574691
     m_Brake_light_control = false;
-    // m_Gear_request com.eprosima.idl.parser.typecode.PrimitiveTypeCode@6a396c1e
+    // m_Gear_request com.eprosima.idl.parser.typecode.PrimitiveTypeCode@25359ed8
     m_Gear_request = 0;
-    // m_ACC_power_control com.eprosima.idl.parser.typecode.PrimitiveTypeCode@6c3f5566
+    // m_ACC_power_control com.eprosima.idl.parser.typecode.PrimitiveTypeCode@21a947fe
     m_ACC_power_control = false;
-    // m_Container_control com.eprosima.idl.parser.typecode.PrimitiveTypeCode@12405818
+    // m_Container_control com.eprosima.idl.parser.typecode.PrimitiveTypeCode@5606c0b
     m_Container_control = 0;
-    // m_Left_turn_signal com.eprosima.idl.parser.typecode.PrimitiveTypeCode@314c508a
+    // m_Left_turn_signal com.eprosima.idl.parser.typecode.PrimitiveTypeCode@80ec1f8
     m_Left_turn_signal = false;
-    // m_Right_turn_signal com.eprosima.idl.parser.typecode.PrimitiveTypeCode@10b48321
+    // m_Right_turn_signal com.eprosima.idl.parser.typecode.PrimitiveTypeCode@1445d7f
     m_Right_turn_signal = false;
-    // m_accelerator_request com.eprosima.idl.parser.typecode.PrimitiveTypeCode@6b67034
+    // m_accelerator_request com.eprosima.idl.parser.typecode.PrimitiveTypeCode@6a396c1e
     m_accelerator_request = 0;
-    // m_Brake_request com.eprosima.idl.parser.typecode.PrimitiveTypeCode@16267862
+    // m_Brake_request com.eprosima.idl.parser.typecode.PrimitiveTypeCode@6c3f5566
     m_Brake_request = 0;
-    // m_backup_light com.eprosima.idl.parser.typecode.PrimitiveTypeCode@453da22c
+    // m_backup_light com.eprosima.idl.parser.typecode.PrimitiveTypeCode@12405818
     m_backup_light = false;
-    // m_Fog_lamp_control com.eprosima.idl.parser.typecode.PrimitiveTypeCode@71248c21
+    // m_Fog_lamp_control com.eprosima.idl.parser.typecode.PrimitiveTypeCode@314c508a
     m_Fog_lamp_control = false;
-    // m_Small_lights com.eprosima.idl.parser.typecode.PrimitiveTypeCode@442675e1
+    // m_Small_lights com.eprosima.idl.parser.typecode.PrimitiveTypeCode@10b48321
     m_Small_lights = false;
-    // m_lower_beam_lamb com.eprosima.idl.parser.typecode.PrimitiveTypeCode@6166e06f
+    // m_lower_beam_lamb com.eprosima.idl.parser.typecode.PrimitiveTypeCode@6b67034
     m_lower_beam_lamb = false;
-    // m_higher_beam_lamb com.eprosima.idl.parser.typecode.PrimitiveTypeCode@49e202ad
+    // m_higher_beam_lamb com.eprosima.idl.parser.typecode.PrimitiveTypeCode@16267862
     m_higher_beam_lamb = false;
-    // m_Wipers_spray_water com.eprosima.idl.parser.typecode.PrimitiveTypeCode@1c72da34
+    // m_Wipers_spray_water com.eprosima.idl.parser.typecode.PrimitiveTypeCode@453da22c
     m_Wipers_spray_water = false;
-    // m_Wiper_intermission com.eprosima.idl.parser.typecode.PrimitiveTypeCode@6b0c2d26
+    // m_Wiper_intermission com.eprosima.idl.parser.typecode.PrimitiveTypeCode@71248c21
     m_Wiper_intermission = false;
-    // m_Wiper_low_speed com.eprosima.idl.parser.typecode.PrimitiveTypeCode@3d3fcdb0
+    // m_Wiper_low_speed com.eprosima.idl.parser.typecode.PrimitiveTypeCode@442675e1
     m_Wiper_low_speed = false;
-    // m_Wiper_high_speed com.eprosima.idl.parser.typecode.PrimitiveTypeCode@641147d0
+    // m_Wiper_high_speed com.eprosima.idl.parser.typecode.PrimitiveTypeCode@6166e06f
     m_Wiper_high_speed = false;
-    // m_Axle_lock_control com.eprosima.idl.parser.typecode.PrimitiveTypeCode@6e38921c
+    // m_Axle_lock_control com.eprosima.idl.parser.typecode.PrimitiveTypeCode@49e202ad
     m_Axle_lock_control = false;
-    // m_Power_takeoff_start com.eprosima.idl.parser.typecode.PrimitiveTypeCode@64d7f7e0
+    // m_Power_takeoff_start com.eprosima.idl.parser.typecode.PrimitiveTypeCode@1c72da34
     m_Power_takeoff_start = false;
-    // m_Flash_lamp com.eprosima.idl.parser.typecode.PrimitiveTypeCode@27c6e487
+    // m_Flash_lamp com.eprosima.idl.parser.typecode.PrimitiveTypeCode@6b0c2d26
     m_Flash_lamp = false;
-    // m_Headlights com.eprosima.idl.parser.typecode.PrimitiveTypeCode@49070868
+    // m_Headlights com.eprosima.idl.parser.typecode.PrimitiveTypeCode@3d3fcdb0
     m_Headlights = false;
-    // m_Rear_light com.eprosima.idl.parser.typecode.PrimitiveTypeCode@6385cb26
+    // m_Rear_light com.eprosima.idl.parser.typecode.PrimitiveTypeCode@641147d0
     m_Rear_light = false;
-    // m_Horn_on com.eprosima.idl.parser.typecode.PrimitiveTypeCode@38364841
+    // m_Horn_on com.eprosima.idl.parser.typecode.PrimitiveTypeCode@6e38921c
     m_Horn_on = false;
-    // m_S_gear_control com.eprosima.idl.parser.typecode.PrimitiveTypeCode@28c4711c
+    // m_S_gear_control com.eprosima.idl.parser.typecode.PrimitiveTypeCode@64d7f7e0
     m_S_gear_control = false;
-    // m_Emergency_Stop_Switch_Status60 com.eprosima.idl.parser.typecode.PrimitiveTypeCode@59717824
+    // m_Emergency_Stop_Switch_Status60 com.eprosima.idl.parser.typecode.PrimitiveTypeCode@27c6e487
     m_Emergency_Stop_Switch_Status60 = false;
-    // m_Hazard_Warning_Lamp_Control54 com.eprosima.idl.parser.typecode.PrimitiveTypeCode@146044d7
+    // m_Hazard_Warning_Lamp_Control54 com.eprosima.idl.parser.typecode.PrimitiveTypeCode@49070868
     m_Hazard_Warning_Lamp_Control54 = false;
-    // m_Remote_or_Unman com.eprosima.idl.parser.typecode.PrimitiveTypeCode@1e9e725a
+    // m_Remote_or_Unman com.eprosima.idl.parser.typecode.PrimitiveTypeCode@6385cb26
     m_Remote_or_Unman = 0;
-    // m_Steer_1_Curvature_control com.eprosima.idl.parser.typecode.PrimitiveTypeCode@15d9bc04
+    // m_Steer_1_Curvature_control com.eprosima.idl.parser.typecode.PrimitiveTypeCode@38364841
     m_Steer_1_Curvature_control = 0;
-    // m_Steer_2_Curvature_control com.eprosima.idl.parser.typecode.PrimitiveTypeCode@473b46c3
+    // m_Steer_2_Curvature_control com.eprosima.idl.parser.typecode.PrimitiveTypeCode@28c4711c
     m_Steer_2_Curvature_control = 0;
 
 }
@@ -7715,6 +7747,22 @@ WirectlFeedbackInfo::~WirectlFeedbackInfo()
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
 
 WirectlFeedbackInfo::WirectlFeedbackInfo(
@@ -7783,6 +7831,21 @@ WirectlFeedbackInfo::WirectlFeedbackInfo(
     m_revers_light_start_status = x.m_revers_light_start_status;
     m_charge_indicator = x.m_charge_indicator;
     m_vehicle_status = x.m_vehicle_status;
+    m_Front_L_tire_pressure = x.m_Front_L_tire_pressure;
+    m_Front_R_tire_pressure = x.m_Front_R_tire_pressure;
+    m_MID_LL_tire_pressure = x.m_MID_LL_tire_pressure;
+    m_MID_LR_tire_pressure = x.m_MID_LR_tire_pressure;
+    m_MID_RL_tire_pressure = x.m_MID_RL_tire_pressure;
+    m_MID_RR_tire_pressure = x.m_MID_RR_tire_pressure;
+    m_BACK_LL_tire_pressure = x.m_BACK_LL_tire_pressure;
+    m_BACK_LR_tire_pressure = x.m_BACK_LR_tire_pressure;
+    m_BACK_RL_tire_pressure = x.m_BACK_RL_tire_pressure;
+    m_BACK_RR_tire_pressure = x.m_BACK_RR_tire_pressure;
+    m_Brake_Pressure_FA_Left = x.m_Brake_Pressure_FA_Left;
+    m_Brake_Pressure_FA_Right = x.m_Brake_Pressure_FA_Right;
+    m_Brake_Pressure_RA1_Left = x.m_Brake_Pressure_RA1_Left;
+    m_Brake_Pressure_RA1_Right = x.m_Brake_Pressure_RA1_Right;
+    m_VCU_Version = x.m_VCU_Version;
     m_ramp_sensor = x.m_ramp_sensor;
     m_rxauxiliary_DriveMotor_Tem_raw = x.m_rxauxiliary_DriveMotor_Tem_raw;
     m_rxauxiliary_driveMotor_speed_raw = x.m_rxauxiliary_driveMotor_speed_raw;
@@ -7814,6 +7877,7 @@ WirectlFeedbackInfo::WirectlFeedbackInfo(
     m_rear_axle_running_brake_pressure_input = x.m_rear_axle_running_brake_pressure_input;
     m_weighing_cell_1 = x.m_weighing_cell_1;
     m_weighing_cell_2 = x.m_weighing_cell_2;
+    m_num_297 = x.m_num_297;
     m_front_left_wheel_speed = x.m_front_left_wheel_speed;
     m_front_right_wheel_speed = x.m_front_right_wheel_speed;
     m_rear_left_wheel_speed = x.m_rear_left_wheel_speed;
@@ -7946,6 +8010,21 @@ WirectlFeedbackInfo::WirectlFeedbackInfo(
     m_revers_light_start_status = x.m_revers_light_start_status;
     m_charge_indicator = x.m_charge_indicator;
     m_vehicle_status = x.m_vehicle_status;
+    m_Front_L_tire_pressure = x.m_Front_L_tire_pressure;
+    m_Front_R_tire_pressure = x.m_Front_R_tire_pressure;
+    m_MID_LL_tire_pressure = x.m_MID_LL_tire_pressure;
+    m_MID_LR_tire_pressure = x.m_MID_LR_tire_pressure;
+    m_MID_RL_tire_pressure = x.m_MID_RL_tire_pressure;
+    m_MID_RR_tire_pressure = x.m_MID_RR_tire_pressure;
+    m_BACK_LL_tire_pressure = x.m_BACK_LL_tire_pressure;
+    m_BACK_LR_tire_pressure = x.m_BACK_LR_tire_pressure;
+    m_BACK_RL_tire_pressure = x.m_BACK_RL_tire_pressure;
+    m_BACK_RR_tire_pressure = x.m_BACK_RR_tire_pressure;
+    m_Brake_Pressure_FA_Left = x.m_Brake_Pressure_FA_Left;
+    m_Brake_Pressure_FA_Right = x.m_Brake_Pressure_FA_Right;
+    m_Brake_Pressure_RA1_Left = x.m_Brake_Pressure_RA1_Left;
+    m_Brake_Pressure_RA1_Right = x.m_Brake_Pressure_RA1_Right;
+    m_VCU_Version = std::move(x.m_VCU_Version);
     m_ramp_sensor = x.m_ramp_sensor;
     m_rxauxiliary_DriveMotor_Tem_raw = x.m_rxauxiliary_DriveMotor_Tem_raw;
     m_rxauxiliary_driveMotor_speed_raw = x.m_rxauxiliary_driveMotor_speed_raw;
@@ -7977,6 +8056,7 @@ WirectlFeedbackInfo::WirectlFeedbackInfo(
     m_rear_axle_running_brake_pressure_input = x.m_rear_axle_running_brake_pressure_input;
     m_weighing_cell_1 = x.m_weighing_cell_1;
     m_weighing_cell_2 = x.m_weighing_cell_2;
+    m_num_297 = x.m_num_297;
     m_front_left_wheel_speed = x.m_front_left_wheel_speed;
     m_front_right_wheel_speed = x.m_front_right_wheel_speed;
     m_rear_left_wheel_speed = x.m_rear_left_wheel_speed;
@@ -8110,6 +8190,21 @@ WirectlFeedbackInfo& WirectlFeedbackInfo::operator =(
     m_revers_light_start_status = x.m_revers_light_start_status;
     m_charge_indicator = x.m_charge_indicator;
     m_vehicle_status = x.m_vehicle_status;
+    m_Front_L_tire_pressure = x.m_Front_L_tire_pressure;
+    m_Front_R_tire_pressure = x.m_Front_R_tire_pressure;
+    m_MID_LL_tire_pressure = x.m_MID_LL_tire_pressure;
+    m_MID_LR_tire_pressure = x.m_MID_LR_tire_pressure;
+    m_MID_RL_tire_pressure = x.m_MID_RL_tire_pressure;
+    m_MID_RR_tire_pressure = x.m_MID_RR_tire_pressure;
+    m_BACK_LL_tire_pressure = x.m_BACK_LL_tire_pressure;
+    m_BACK_LR_tire_pressure = x.m_BACK_LR_tire_pressure;
+    m_BACK_RL_tire_pressure = x.m_BACK_RL_tire_pressure;
+    m_BACK_RR_tire_pressure = x.m_BACK_RR_tire_pressure;
+    m_Brake_Pressure_FA_Left = x.m_Brake_Pressure_FA_Left;
+    m_Brake_Pressure_FA_Right = x.m_Brake_Pressure_FA_Right;
+    m_Brake_Pressure_RA1_Left = x.m_Brake_Pressure_RA1_Left;
+    m_Brake_Pressure_RA1_Right = x.m_Brake_Pressure_RA1_Right;
+    m_VCU_Version = x.m_VCU_Version;
     m_ramp_sensor = x.m_ramp_sensor;
     m_rxauxiliary_DriveMotor_Tem_raw = x.m_rxauxiliary_DriveMotor_Tem_raw;
     m_rxauxiliary_driveMotor_speed_raw = x.m_rxauxiliary_driveMotor_speed_raw;
@@ -8141,6 +8236,7 @@ WirectlFeedbackInfo& WirectlFeedbackInfo::operator =(
     m_rear_axle_running_brake_pressure_input = x.m_rear_axle_running_brake_pressure_input;
     m_weighing_cell_1 = x.m_weighing_cell_1;
     m_weighing_cell_2 = x.m_weighing_cell_2;
+    m_num_297 = x.m_num_297;
     m_front_left_wheel_speed = x.m_front_left_wheel_speed;
     m_front_right_wheel_speed = x.m_front_right_wheel_speed;
     m_rear_left_wheel_speed = x.m_rear_left_wheel_speed;
@@ -8276,6 +8372,21 @@ WirectlFeedbackInfo& WirectlFeedbackInfo::operator =(
     m_revers_light_start_status = x.m_revers_light_start_status;
     m_charge_indicator = x.m_charge_indicator;
     m_vehicle_status = x.m_vehicle_status;
+    m_Front_L_tire_pressure = x.m_Front_L_tire_pressure;
+    m_Front_R_tire_pressure = x.m_Front_R_tire_pressure;
+    m_MID_LL_tire_pressure = x.m_MID_LL_tire_pressure;
+    m_MID_LR_tire_pressure = x.m_MID_LR_tire_pressure;
+    m_MID_RL_tire_pressure = x.m_MID_RL_tire_pressure;
+    m_MID_RR_tire_pressure = x.m_MID_RR_tire_pressure;
+    m_BACK_LL_tire_pressure = x.m_BACK_LL_tire_pressure;
+    m_BACK_LR_tire_pressure = x.m_BACK_LR_tire_pressure;
+    m_BACK_RL_tire_pressure = x.m_BACK_RL_tire_pressure;
+    m_BACK_RR_tire_pressure = x.m_BACK_RR_tire_pressure;
+    m_Brake_Pressure_FA_Left = x.m_Brake_Pressure_FA_Left;
+    m_Brake_Pressure_FA_Right = x.m_Brake_Pressure_FA_Right;
+    m_Brake_Pressure_RA1_Left = x.m_Brake_Pressure_RA1_Left;
+    m_Brake_Pressure_RA1_Right = x.m_Brake_Pressure_RA1_Right;
+    m_VCU_Version = std::move(x.m_VCU_Version);
     m_ramp_sensor = x.m_ramp_sensor;
     m_rxauxiliary_DriveMotor_Tem_raw = x.m_rxauxiliary_DriveMotor_Tem_raw;
     m_rxauxiliary_driveMotor_speed_raw = x.m_rxauxiliary_driveMotor_speed_raw;
@@ -8307,6 +8418,7 @@ WirectlFeedbackInfo& WirectlFeedbackInfo::operator =(
     m_rear_axle_running_brake_pressure_input = x.m_rear_axle_running_brake_pressure_input;
     m_weighing_cell_1 = x.m_weighing_cell_1;
     m_weighing_cell_2 = x.m_weighing_cell_2;
+    m_num_297 = x.m_num_297;
     m_front_left_wheel_speed = x.m_front_left_wheel_speed;
     m_front_right_wheel_speed = x.m_front_right_wheel_speed;
     m_rear_left_wheel_speed = x.m_rear_left_wheel_speed;
@@ -8379,7 +8491,7 @@ bool WirectlFeedbackInfo::operator ==(
         const WirectlFeedbackInfo& x) const
 {
 
-    return (m_engine_torque_mode == x.m_engine_torque_mode && m_main_DriveMotor_Tem_raw == x.m_main_DriveMotor_Tem_raw && m_main_driveMotor_speed_raw == x.m_main_driveMotor_speed_raw && m_main_DriveMotor_Current_raw == x.m_main_DriveMotor_Current_raw && m_mainDriveMotorControllerTemp_raw == x.m_mainDriveMotorControllerTemp_raw && m_Powertrain_outputTorque == x.m_Powertrain_outputTorque && m_actual_engine_fractional_torque == x.m_actual_engine_fractional_torque && m_driver_demand_engine_percent_torque == x.m_driver_demand_engine_percent_torque && m_actual_engine_torque == x.m_actual_engine_torque && m_engine_speed == x.m_engine_speed && m_src_address_ctrl_dev_for_engine == x.m_src_address_ctrl_dev_for_engine && m_accel_pedal_position == x.m_accel_pedal_position && m_accelerator_requestStatus == x.m_accelerator_requestStatus && m_engine_demand_percent_torque == x.m_engine_demand_percent_torque && m_vehicle_loss_ctrl == x.m_vehicle_loss_ctrl && m_brake_pedal_SYMC == x.m_brake_pedal_SYMC && m_actual_retarder_percent_torque == x.m_actual_retarder_percent_torque && m_foot_valve_info == x.m_foot_valve_info && m_parking_brake_signal_status == x.m_parking_brake_signal_status && m_exhaust_brake_status == x.m_exhaust_brake_status && m_hydraulic_startup_status == x.m_hydraulic_startup_status && m_steering_angle_request == x.m_steering_angle_request && m_steering_left_angle_info == x.m_steering_left_angle_info && m_steering_right_angle_info == x.m_steering_right_angle_info && m_trans_current_gear == x.m_trans_current_gear && m_Accumulated_charged_electric_quanlity == x.m_Accumulated_charged_electric_quanlity && m_Accumulated_discharged_electric_quanlity == x.m_Accumulated_discharged_electric_quanlity && m_Single_charged_electric_quanlity == x.m_Single_charged_electric_quanlity && m_Battery_power_raw == x.m_Battery_power_raw && m_engine_total_hours == x.m_engine_total_hours && m_battery_voltage == x.m_battery_voltage && m_Acc_Power_On_Status == x.m_Acc_Power_On_Status && m_Charge_Gun_Status == x.m_Charge_Gun_Status && m_Force_State == x.m_Force_State && m_Vehicle_Remote_Start_Error == x.m_Vehicle_Remote_Start_Error && m_transmission_requested_range == x.m_transmission_requested_range && m_shifting_gears == x.m_shifting_gears && m_Locking_gearboxTorqueConverter == x.m_Locking_gearboxTorqueConverter && m_lift_condition == x.m_lift_condition && m_lift_longo_position_status == x.m_lift_longo_position_status && m_drop_longo_position_status == x.m_drop_longo_position_status && m_left_turn_start_status == x.m_left_turn_start_status && m_right_turn_start_status == x.m_right_turn_start_status && m_hazard_start_status == x.m_hazard_start_status && m_flash_start_status == x.m_flash_start_status && m_fog_lamp_start_status == x.m_fog_lamp_start_status && m_outline_lamp_start_status == x.m_outline_lamp_start_status && m_low_light_start_status == x.m_low_light_start_status && m_high_beam_start_status == x.m_high_beam_start_status && m_head_light_status == x.m_head_light_status && m_rear_light_start_status == x.m_rear_light_start_status && m_wiper_start_status == x.m_wiper_start_status && m_wiper_longermit_start_status == x.m_wiper_longermit_start_status && m_wiper_slow_start_status == x.m_wiper_slow_start_status && m_wiper_high_start_status == x.m_wiper_high_start_status && m_horn_start_status == x.m_horn_start_status && m_axle_differential == x.m_axle_differential && m_go_to_unmanned_status == x.m_go_to_unmanned_status && m_slow_light_start_status == x.m_slow_light_start_status && m_brake_light_start_status == x.m_brake_light_start_status && m_revers_light_start_status == x.m_revers_light_start_status && m_charge_indicator == x.m_charge_indicator && m_vehicle_status == x.m_vehicle_status && m_ramp_sensor == x.m_ramp_sensor && m_rxauxiliary_DriveMotor_Tem_raw == x.m_rxauxiliary_DriveMotor_Tem_raw && m_rxauxiliary_driveMotor_speed_raw == x.m_rxauxiliary_driveMotor_speed_raw && m_rxauxiliary_DriveMotor_Current_raw == x.m_rxauxiliary_DriveMotor_Current_raw && m_rxauxiliarDriveMotorControllerTemp_raw == x.m_rxauxiliarDriveMotorControllerTemp_raw && m_endurance_mileage == x.m_endurance_mileage && m_power_consumption == x.m_power_consumption && m_SOC == x.m_SOC && m_charging_state == x.m_charging_state && m_Battery_State == x.m_Battery_State && m_Battery_Current == x.m_Battery_Current && m_Battery_Temperature_raw == x.m_Battery_Temperature_raw && m_Battery_Fault_Status == x.m_Battery_Fault_Status && m_energy_recover == x.m_energy_recover && m_engine_coolant_temperature == x.m_engine_coolant_temperature && m_fuel_temperature == x.m_fuel_temperature && m_engine_oil_temperature == x.m_engine_oil_temperature && m_engine_oil_level == x.m_engine_oil_level && m_engine_oil_pressure == x.m_engine_oil_pressure && m_engine_fuel_rate == x.m_engine_fuel_rate && m_engine_instant_fuel_economy == x.m_engine_instant_fuel_economy && m_engine_average_fuel_economy == x.m_engine_average_fuel_economy && m_fuel_level == x.m_fuel_level && m_Engine_wait_to_lamp == x.m_Engine_wait_to_lamp && m_air_pressure_1 == x.m_air_pressure_1 && m_air_pressure_2 == x.m_air_pressure_2 && m_front_axle_running_brake_pressure_input == x.m_front_axle_running_brake_pressure_input && m_brake_pressure_input_in_middle_axle == x.m_brake_pressure_input_in_middle_axle && m_rear_axle_running_brake_pressure_input == x.m_rear_axle_running_brake_pressure_input && m_weighing_cell_1 == x.m_weighing_cell_1 && m_weighing_cell_2 == x.m_weighing_cell_2 && m_front_left_wheel_speed == x.m_front_left_wheel_speed && m_front_right_wheel_speed == x.m_front_right_wheel_speed && m_rear_left_wheel_speed == x.m_rear_left_wheel_speed && m_rear_right_wheel_speed == x.m_rear_right_wheel_speed && m_tachograph_output_shaft_speed == x.m_tachograph_output_shaft_speed && m_tachograph_vehicle_speed == x.m_tachograph_vehicle_speed && m_total_vehicle_distance == x.m_total_vehicle_distance && m_engine_totalFuel_used == x.m_engine_totalFuel_used && m_trip_fuel_consumption == x.m_trip_fuel_consumption && m_steering_left_angle_info_mv == x.m_steering_left_angle_info_mv && m_steering_right_angle_info_mv == x.m_steering_right_angle_info_mv && m_vcu_state == x.m_vcu_state && m_udpindex == x.m_udpindex && m_dm1_ecm_diag_trouble == x.m_dm1_ecm_diag_trouble && m_ecm_tpcm == x.m_ecm_tpcm && m_ecm_tpdt == x.m_ecm_tpdt && m_dm1_tcu_diag_trouble == x.m_dm1_tcu_diag_trouble && m_tcu_tpcm == x.m_tcu_tpcm && m_tcu_tpdt == x.m_tcu_tpdt && m_sca_diag_trouble == x.m_sca_diag_trouble && m_sca_diag_trouble1 == x.m_sca_diag_trouble1 && m_sca_diag_trouble2 == x.m_sca_diag_trouble2 && m_mca_diag_trouble == x.m_mca_diag_trouble && m_mca_diag_trouble1 == x.m_mca_diag_trouble1 && m_mca_diag_trouble2 == x.m_mca_diag_trouble2 && m_on_voltage == x.m_on_voltage && m_parking == x.m_parking && m_low_air_pressure_alarm == x.m_low_air_pressure_alarm && m_Autopilot_enable_bit == x.m_Autopilot_enable_bit && m_Power_control_enable_bit == x.m_Power_control_enable_bit && m_Shift_request_status == x.m_Shift_request_status && m_accelerator_request_status == x.m_accelerator_request_status && m_Parking_request == x.m_Parking_request && m_Brake_request_status == x.m_Brake_request_status && m_No15_power_supply_control == x.m_No15_power_supply_control && m_Brake_light_control == x.m_Brake_light_control && m_Gear_request == x.m_Gear_request && m_ACC_power_control == x.m_ACC_power_control && m_Container_control == x.m_Container_control && m_Left_turn_signal == x.m_Left_turn_signal && m_Right_turn_signal == x.m_Right_turn_signal && m_accelerator_request == x.m_accelerator_request && m_Brake_request == x.m_Brake_request && m_backup_light == x.m_backup_light && m_Fog_lamp_control == x.m_Fog_lamp_control && m_Small_lights == x.m_Small_lights && m_lower_beam_lamb == x.m_lower_beam_lamb && m_higher_beam_lamb == x.m_higher_beam_lamb && m_Wipers_spray_water == x.m_Wipers_spray_water && m_Wiper_intermission == x.m_Wiper_intermission && m_Wiper_low_speed == x.m_Wiper_low_speed && m_Wiper_high_speed == x.m_Wiper_high_speed && m_Axle_lock_control == x.m_Axle_lock_control && m_Power_takeoff_start == x.m_Power_takeoff_start && m_Flash_lamp == x.m_Flash_lamp && m_Headlights == x.m_Headlights && m_Rear_light == x.m_Rear_light && m_Horn_on == x.m_Horn_on && m_S_gear_control == x.m_S_gear_control && m_Emergency_Stop_Switch_Status60 == x.m_Emergency_Stop_Switch_Status60 && m_Hazard_Warning_Lamp_Control54 == x.m_Hazard_Warning_Lamp_Control54 && m_Remote_or_Unman == x.m_Remote_or_Unman && m_Steer_1_Curvature_control == x.m_Steer_1_Curvature_control && m_Steer_2_Curvature_control == x.m_Steer_2_Curvature_control);
+    return (m_engine_torque_mode == x.m_engine_torque_mode && m_main_DriveMotor_Tem_raw == x.m_main_DriveMotor_Tem_raw && m_main_driveMotor_speed_raw == x.m_main_driveMotor_speed_raw && m_main_DriveMotor_Current_raw == x.m_main_DriveMotor_Current_raw && m_mainDriveMotorControllerTemp_raw == x.m_mainDriveMotorControllerTemp_raw && m_Powertrain_outputTorque == x.m_Powertrain_outputTorque && m_actual_engine_fractional_torque == x.m_actual_engine_fractional_torque && m_driver_demand_engine_percent_torque == x.m_driver_demand_engine_percent_torque && m_actual_engine_torque == x.m_actual_engine_torque && m_engine_speed == x.m_engine_speed && m_src_address_ctrl_dev_for_engine == x.m_src_address_ctrl_dev_for_engine && m_accel_pedal_position == x.m_accel_pedal_position && m_accelerator_requestStatus == x.m_accelerator_requestStatus && m_engine_demand_percent_torque == x.m_engine_demand_percent_torque && m_vehicle_loss_ctrl == x.m_vehicle_loss_ctrl && m_brake_pedal_SYMC == x.m_brake_pedal_SYMC && m_actual_retarder_percent_torque == x.m_actual_retarder_percent_torque && m_foot_valve_info == x.m_foot_valve_info && m_parking_brake_signal_status == x.m_parking_brake_signal_status && m_exhaust_brake_status == x.m_exhaust_brake_status && m_hydraulic_startup_status == x.m_hydraulic_startup_status && m_steering_angle_request == x.m_steering_angle_request && m_steering_left_angle_info == x.m_steering_left_angle_info && m_steering_right_angle_info == x.m_steering_right_angle_info && m_trans_current_gear == x.m_trans_current_gear && m_Accumulated_charged_electric_quanlity == x.m_Accumulated_charged_electric_quanlity && m_Accumulated_discharged_electric_quanlity == x.m_Accumulated_discharged_electric_quanlity && m_Single_charged_electric_quanlity == x.m_Single_charged_electric_quanlity && m_Battery_power_raw == x.m_Battery_power_raw && m_engine_total_hours == x.m_engine_total_hours && m_battery_voltage == x.m_battery_voltage && m_Acc_Power_On_Status == x.m_Acc_Power_On_Status && m_Charge_Gun_Status == x.m_Charge_Gun_Status && m_Force_State == x.m_Force_State && m_Vehicle_Remote_Start_Error == x.m_Vehicle_Remote_Start_Error && m_transmission_requested_range == x.m_transmission_requested_range && m_shifting_gears == x.m_shifting_gears && m_Locking_gearboxTorqueConverter == x.m_Locking_gearboxTorqueConverter && m_lift_condition == x.m_lift_condition && m_lift_longo_position_status == x.m_lift_longo_position_status && m_drop_longo_position_status == x.m_drop_longo_position_status && m_left_turn_start_status == x.m_left_turn_start_status && m_right_turn_start_status == x.m_right_turn_start_status && m_hazard_start_status == x.m_hazard_start_status && m_flash_start_status == x.m_flash_start_status && m_fog_lamp_start_status == x.m_fog_lamp_start_status && m_outline_lamp_start_status == x.m_outline_lamp_start_status && m_low_light_start_status == x.m_low_light_start_status && m_high_beam_start_status == x.m_high_beam_start_status && m_head_light_status == x.m_head_light_status && m_rear_light_start_status == x.m_rear_light_start_status && m_wiper_start_status == x.m_wiper_start_status && m_wiper_longermit_start_status == x.m_wiper_longermit_start_status && m_wiper_slow_start_status == x.m_wiper_slow_start_status && m_wiper_high_start_status == x.m_wiper_high_start_status && m_horn_start_status == x.m_horn_start_status && m_axle_differential == x.m_axle_differential && m_go_to_unmanned_status == x.m_go_to_unmanned_status && m_slow_light_start_status == x.m_slow_light_start_status && m_brake_light_start_status == x.m_brake_light_start_status && m_revers_light_start_status == x.m_revers_light_start_status && m_charge_indicator == x.m_charge_indicator && m_vehicle_status == x.m_vehicle_status && m_Front_L_tire_pressure == x.m_Front_L_tire_pressure && m_Front_R_tire_pressure == x.m_Front_R_tire_pressure && m_MID_LL_tire_pressure == x.m_MID_LL_tire_pressure && m_MID_LR_tire_pressure == x.m_MID_LR_tire_pressure && m_MID_RL_tire_pressure == x.m_MID_RL_tire_pressure && m_MID_RR_tire_pressure == x.m_MID_RR_tire_pressure && m_BACK_LL_tire_pressure == x.m_BACK_LL_tire_pressure && m_BACK_LR_tire_pressure == x.m_BACK_LR_tire_pressure && m_BACK_RL_tire_pressure == x.m_BACK_RL_tire_pressure && m_BACK_RR_tire_pressure == x.m_BACK_RR_tire_pressure && m_Brake_Pressure_FA_Left == x.m_Brake_Pressure_FA_Left && m_Brake_Pressure_FA_Right == x.m_Brake_Pressure_FA_Right && m_Brake_Pressure_RA1_Left == x.m_Brake_Pressure_RA1_Left && m_Brake_Pressure_RA1_Right == x.m_Brake_Pressure_RA1_Right && m_VCU_Version == x.m_VCU_Version && m_ramp_sensor == x.m_ramp_sensor && m_rxauxiliary_DriveMotor_Tem_raw == x.m_rxauxiliary_DriveMotor_Tem_raw && m_rxauxiliary_driveMotor_speed_raw == x.m_rxauxiliary_driveMotor_speed_raw && m_rxauxiliary_DriveMotor_Current_raw == x.m_rxauxiliary_DriveMotor_Current_raw && m_rxauxiliarDriveMotorControllerTemp_raw == x.m_rxauxiliarDriveMotorControllerTemp_raw && m_endurance_mileage == x.m_endurance_mileage && m_power_consumption == x.m_power_consumption && m_SOC == x.m_SOC && m_charging_state == x.m_charging_state && m_Battery_State == x.m_Battery_State && m_Battery_Current == x.m_Battery_Current && m_Battery_Temperature_raw == x.m_Battery_Temperature_raw && m_Battery_Fault_Status == x.m_Battery_Fault_Status && m_energy_recover == x.m_energy_recover && m_engine_coolant_temperature == x.m_engine_coolant_temperature && m_fuel_temperature == x.m_fuel_temperature && m_engine_oil_temperature == x.m_engine_oil_temperature && m_engine_oil_level == x.m_engine_oil_level && m_engine_oil_pressure == x.m_engine_oil_pressure && m_engine_fuel_rate == x.m_engine_fuel_rate && m_engine_instant_fuel_economy == x.m_engine_instant_fuel_economy && m_engine_average_fuel_economy == x.m_engine_average_fuel_economy && m_fuel_level == x.m_fuel_level && m_Engine_wait_to_lamp == x.m_Engine_wait_to_lamp && m_air_pressure_1 == x.m_air_pressure_1 && m_air_pressure_2 == x.m_air_pressure_2 && m_front_axle_running_brake_pressure_input == x.m_front_axle_running_brake_pressure_input && m_brake_pressure_input_in_middle_axle == x.m_brake_pressure_input_in_middle_axle && m_rear_axle_running_brake_pressure_input == x.m_rear_axle_running_brake_pressure_input && m_weighing_cell_1 == x.m_weighing_cell_1 && m_weighing_cell_2 == x.m_weighing_cell_2 && m_num_297 == x.m_num_297 && m_front_left_wheel_speed == x.m_front_left_wheel_speed && m_front_right_wheel_speed == x.m_front_right_wheel_speed && m_rear_left_wheel_speed == x.m_rear_left_wheel_speed && m_rear_right_wheel_speed == x.m_rear_right_wheel_speed && m_tachograph_output_shaft_speed == x.m_tachograph_output_shaft_speed && m_tachograph_vehicle_speed == x.m_tachograph_vehicle_speed && m_total_vehicle_distance == x.m_total_vehicle_distance && m_engine_totalFuel_used == x.m_engine_totalFuel_used && m_trip_fuel_consumption == x.m_trip_fuel_consumption && m_steering_left_angle_info_mv == x.m_steering_left_angle_info_mv && m_steering_right_angle_info_mv == x.m_steering_right_angle_info_mv && m_vcu_state == x.m_vcu_state && m_udpindex == x.m_udpindex && m_dm1_ecm_diag_trouble == x.m_dm1_ecm_diag_trouble && m_ecm_tpcm == x.m_ecm_tpcm && m_ecm_tpdt == x.m_ecm_tpdt && m_dm1_tcu_diag_trouble == x.m_dm1_tcu_diag_trouble && m_tcu_tpcm == x.m_tcu_tpcm && m_tcu_tpdt == x.m_tcu_tpdt && m_sca_diag_trouble == x.m_sca_diag_trouble && m_sca_diag_trouble1 == x.m_sca_diag_trouble1 && m_sca_diag_trouble2 == x.m_sca_diag_trouble2 && m_mca_diag_trouble == x.m_mca_diag_trouble && m_mca_diag_trouble1 == x.m_mca_diag_trouble1 && m_mca_diag_trouble2 == x.m_mca_diag_trouble2 && m_on_voltage == x.m_on_voltage && m_parking == x.m_parking && m_low_air_pressure_alarm == x.m_low_air_pressure_alarm && m_Autopilot_enable_bit == x.m_Autopilot_enable_bit && m_Power_control_enable_bit == x.m_Power_control_enable_bit && m_Shift_request_status == x.m_Shift_request_status && m_accelerator_request_status == x.m_accelerator_request_status && m_Parking_request == x.m_Parking_request && m_Brake_request_status == x.m_Brake_request_status && m_No15_power_supply_control == x.m_No15_power_supply_control && m_Brake_light_control == x.m_Brake_light_control && m_Gear_request == x.m_Gear_request && m_ACC_power_control == x.m_ACC_power_control && m_Container_control == x.m_Container_control && m_Left_turn_signal == x.m_Left_turn_signal && m_Right_turn_signal == x.m_Right_turn_signal && m_accelerator_request == x.m_accelerator_request && m_Brake_request == x.m_Brake_request && m_backup_light == x.m_backup_light && m_Fog_lamp_control == x.m_Fog_lamp_control && m_Small_lights == x.m_Small_lights && m_lower_beam_lamb == x.m_lower_beam_lamb && m_higher_beam_lamb == x.m_higher_beam_lamb && m_Wipers_spray_water == x.m_Wipers_spray_water && m_Wiper_intermission == x.m_Wiper_intermission && m_Wiper_low_speed == x.m_Wiper_low_speed && m_Wiper_high_speed == x.m_Wiper_high_speed && m_Axle_lock_control == x.m_Axle_lock_control && m_Power_takeoff_start == x.m_Power_takeoff_start && m_Flash_lamp == x.m_Flash_lamp && m_Headlights == x.m_Headlights && m_Rear_light == x.m_Rear_light && m_Horn_on == x.m_Horn_on && m_S_gear_control == x.m_S_gear_control && m_Emergency_Stop_Switch_Status60 == x.m_Emergency_Stop_Switch_Status60 && m_Hazard_Warning_Lamp_Control54 == x.m_Hazard_Warning_Lamp_Control54 && m_Remote_or_Unman == x.m_Remote_or_Unman && m_Steer_1_Curvature_control == x.m_Steer_1_Curvature_control && m_Steer_2_Curvature_control == x.m_Steer_2_Curvature_control);
 }
 
 bool WirectlFeedbackInfo::operator !=(
@@ -8583,6 +8695,50 @@ size_t WirectlFeedbackInfo::getMaxCdrSerializedSize(
     current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4);
 
 
+    current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4);
+
+
+    current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4);
+
+
+    current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4);
+
+
+    current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4);
+
+
+    current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4);
+
+
+    current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4);
+
+
+    current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4);
+
+
+    current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4);
+
+
+    current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4);
+
+
+    current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4);
+
+
+    current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4);
+
+
+    current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4);
+
+
+    current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4);
+
+
+    current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4);
+
+
+    current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4) + 255 + 1;
+
     current_alignment += 2 + eprosima::fastcdr::Cdr::alignment(current_alignment, 2);
 
 
@@ -8650,6 +8806,9 @@ size_t WirectlFeedbackInfo::getMaxCdrSerializedSize(
 
 
     current_alignment += 2 + eprosima::fastcdr::Cdr::alignment(current_alignment, 2);
+
+
+    current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4);
 
 
     current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4);
@@ -9045,6 +9204,50 @@ size_t WirectlFeedbackInfo::getCdrSerializedSize(
     current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4);
 
 
+    current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4);
+
+
+    current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4);
+
+
+    current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4);
+
+
+    current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4);
+
+
+    current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4);
+
+
+    current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4);
+
+
+    current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4);
+
+
+    current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4);
+
+
+    current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4);
+
+
+    current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4);
+
+
+    current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4);
+
+
+    current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4);
+
+
+    current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4);
+
+
+    current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4);
+
+
+    current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4) + data.VCU_Version().size() + 1;
+
     current_alignment += 2 + eprosima::fastcdr::Cdr::alignment(current_alignment, 2);
 
 
@@ -9112,6 +9315,9 @@ size_t WirectlFeedbackInfo::getCdrSerializedSize(
 
 
     current_alignment += 2 + eprosima::fastcdr::Cdr::alignment(current_alignment, 2);
+
+
+    current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4);
 
 
     current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4);
@@ -9377,6 +9583,21 @@ void WirectlFeedbackInfo::serialize(
     scdr << m_revers_light_start_status;
     scdr << m_charge_indicator;
     scdr << m_vehicle_status;
+    scdr << m_Front_L_tire_pressure;
+    scdr << m_Front_R_tire_pressure;
+    scdr << m_MID_LL_tire_pressure;
+    scdr << m_MID_LR_tire_pressure;
+    scdr << m_MID_RL_tire_pressure;
+    scdr << m_MID_RR_tire_pressure;
+    scdr << m_BACK_LL_tire_pressure;
+    scdr << m_BACK_LR_tire_pressure;
+    scdr << m_BACK_RL_tire_pressure;
+    scdr << m_BACK_RR_tire_pressure;
+    scdr << m_Brake_Pressure_FA_Left;
+    scdr << m_Brake_Pressure_FA_Right;
+    scdr << m_Brake_Pressure_RA1_Left;
+    scdr << m_Brake_Pressure_RA1_Right;
+    scdr << m_VCU_Version.c_str();
     scdr << m_ramp_sensor;
     scdr << m_rxauxiliary_DriveMotor_Tem_raw;
     scdr << m_rxauxiliary_driveMotor_speed_raw;
@@ -9408,6 +9629,7 @@ void WirectlFeedbackInfo::serialize(
     scdr << m_rear_axle_running_brake_pressure_input;
     scdr << m_weighing_cell_1;
     scdr << m_weighing_cell_2;
+    scdr << m_num_297;
     scdr << m_front_left_wheel_speed;
     scdr << m_front_right_wheel_speed;
     scdr << m_rear_left_wheel_speed;
@@ -9542,6 +9764,21 @@ void WirectlFeedbackInfo::deserialize(
     dcdr >> m_revers_light_start_status;
     dcdr >> m_charge_indicator;
     dcdr >> m_vehicle_status;
+    dcdr >> m_Front_L_tire_pressure;
+    dcdr >> m_Front_R_tire_pressure;
+    dcdr >> m_MID_LL_tire_pressure;
+    dcdr >> m_MID_LR_tire_pressure;
+    dcdr >> m_MID_RL_tire_pressure;
+    dcdr >> m_MID_RR_tire_pressure;
+    dcdr >> m_BACK_LL_tire_pressure;
+    dcdr >> m_BACK_LR_tire_pressure;
+    dcdr >> m_BACK_RL_tire_pressure;
+    dcdr >> m_BACK_RR_tire_pressure;
+    dcdr >> m_Brake_Pressure_FA_Left;
+    dcdr >> m_Brake_Pressure_FA_Right;
+    dcdr >> m_Brake_Pressure_RA1_Left;
+    dcdr >> m_Brake_Pressure_RA1_Right;
+    dcdr >> m_VCU_Version;
     dcdr >> m_ramp_sensor;
     dcdr >> m_rxauxiliary_DriveMotor_Tem_raw;
     dcdr >> m_rxauxiliary_driveMotor_speed_raw;
@@ -9573,6 +9810,7 @@ void WirectlFeedbackInfo::deserialize(
     dcdr >> m_rear_axle_running_brake_pressure_input;
     dcdr >> m_weighing_cell_1;
     dcdr >> m_weighing_cell_2;
+    dcdr >> m_num_297;
     dcdr >> m_front_left_wheel_speed;
     dcdr >> m_front_right_wheel_speed;
     dcdr >> m_rear_left_wheel_speed;
@@ -11404,6 +11642,435 @@ uint32_t& WirectlFeedbackInfo::vehicle_status()
 }
 
 /*!
+ * @brief This function sets a value in member Front_L_tire_pressure
+ * @param _Front_L_tire_pressure New value for member Front_L_tire_pressure
+ */
+void WirectlFeedbackInfo::Front_L_tire_pressure(
+        uint32_t _Front_L_tire_pressure)
+{
+    m_Front_L_tire_pressure = _Front_L_tire_pressure;
+}
+
+/*!
+ * @brief This function returns the value of member Front_L_tire_pressure
+ * @return Value of member Front_L_tire_pressure
+ */
+uint32_t WirectlFeedbackInfo::Front_L_tire_pressure() const
+{
+    return m_Front_L_tire_pressure;
+}
+
+/*!
+ * @brief This function returns a reference to member Front_L_tire_pressure
+ * @return Reference to member Front_L_tire_pressure
+ */
+uint32_t& WirectlFeedbackInfo::Front_L_tire_pressure()
+{
+    return m_Front_L_tire_pressure;
+}
+
+/*!
+ * @brief This function sets a value in member Front_R_tire_pressure
+ * @param _Front_R_tire_pressure New value for member Front_R_tire_pressure
+ */
+void WirectlFeedbackInfo::Front_R_tire_pressure(
+        uint32_t _Front_R_tire_pressure)
+{
+    m_Front_R_tire_pressure = _Front_R_tire_pressure;
+}
+
+/*!
+ * @brief This function returns the value of member Front_R_tire_pressure
+ * @return Value of member Front_R_tire_pressure
+ */
+uint32_t WirectlFeedbackInfo::Front_R_tire_pressure() const
+{
+    return m_Front_R_tire_pressure;
+}
+
+/*!
+ * @brief This function returns a reference to member Front_R_tire_pressure
+ * @return Reference to member Front_R_tire_pressure
+ */
+uint32_t& WirectlFeedbackInfo::Front_R_tire_pressure()
+{
+    return m_Front_R_tire_pressure;
+}
+
+/*!
+ * @brief This function sets a value in member MID_LL_tire_pressure
+ * @param _MID_LL_tire_pressure New value for member MID_LL_tire_pressure
+ */
+void WirectlFeedbackInfo::MID_LL_tire_pressure(
+        uint32_t _MID_LL_tire_pressure)
+{
+    m_MID_LL_tire_pressure = _MID_LL_tire_pressure;
+}
+
+/*!
+ * @brief This function returns the value of member MID_LL_tire_pressure
+ * @return Value of member MID_LL_tire_pressure
+ */
+uint32_t WirectlFeedbackInfo::MID_LL_tire_pressure() const
+{
+    return m_MID_LL_tire_pressure;
+}
+
+/*!
+ * @brief This function returns a reference to member MID_LL_tire_pressure
+ * @return Reference to member MID_LL_tire_pressure
+ */
+uint32_t& WirectlFeedbackInfo::MID_LL_tire_pressure()
+{
+    return m_MID_LL_tire_pressure;
+}
+
+/*!
+ * @brief This function sets a value in member MID_LR_tire_pressure
+ * @param _MID_LR_tire_pressure New value for member MID_LR_tire_pressure
+ */
+void WirectlFeedbackInfo::MID_LR_tire_pressure(
+        uint32_t _MID_LR_tire_pressure)
+{
+    m_MID_LR_tire_pressure = _MID_LR_tire_pressure;
+}
+
+/*!
+ * @brief This function returns the value of member MID_LR_tire_pressure
+ * @return Value of member MID_LR_tire_pressure
+ */
+uint32_t WirectlFeedbackInfo::MID_LR_tire_pressure() const
+{
+    return m_MID_LR_tire_pressure;
+}
+
+/*!
+ * @brief This function returns a reference to member MID_LR_tire_pressure
+ * @return Reference to member MID_LR_tire_pressure
+ */
+uint32_t& WirectlFeedbackInfo::MID_LR_tire_pressure()
+{
+    return m_MID_LR_tire_pressure;
+}
+
+/*!
+ * @brief This function sets a value in member MID_RL_tire_pressure
+ * @param _MID_RL_tire_pressure New value for member MID_RL_tire_pressure
+ */
+void WirectlFeedbackInfo::MID_RL_tire_pressure(
+        uint32_t _MID_RL_tire_pressure)
+{
+    m_MID_RL_tire_pressure = _MID_RL_tire_pressure;
+}
+
+/*!
+ * @brief This function returns the value of member MID_RL_tire_pressure
+ * @return Value of member MID_RL_tire_pressure
+ */
+uint32_t WirectlFeedbackInfo::MID_RL_tire_pressure() const
+{
+    return m_MID_RL_tire_pressure;
+}
+
+/*!
+ * @brief This function returns a reference to member MID_RL_tire_pressure
+ * @return Reference to member MID_RL_tire_pressure
+ */
+uint32_t& WirectlFeedbackInfo::MID_RL_tire_pressure()
+{
+    return m_MID_RL_tire_pressure;
+}
+
+/*!
+ * @brief This function sets a value in member MID_RR_tire_pressure
+ * @param _MID_RR_tire_pressure New value for member MID_RR_tire_pressure
+ */
+void WirectlFeedbackInfo::MID_RR_tire_pressure(
+        uint32_t _MID_RR_tire_pressure)
+{
+    m_MID_RR_tire_pressure = _MID_RR_tire_pressure;
+}
+
+/*!
+ * @brief This function returns the value of member MID_RR_tire_pressure
+ * @return Value of member MID_RR_tire_pressure
+ */
+uint32_t WirectlFeedbackInfo::MID_RR_tire_pressure() const
+{
+    return m_MID_RR_tire_pressure;
+}
+
+/*!
+ * @brief This function returns a reference to member MID_RR_tire_pressure
+ * @return Reference to member MID_RR_tire_pressure
+ */
+uint32_t& WirectlFeedbackInfo::MID_RR_tire_pressure()
+{
+    return m_MID_RR_tire_pressure;
+}
+
+/*!
+ * @brief This function sets a value in member BACK_LL_tire_pressure
+ * @param _BACK_LL_tire_pressure New value for member BACK_LL_tire_pressure
+ */
+void WirectlFeedbackInfo::BACK_LL_tire_pressure(
+        uint32_t _BACK_LL_tire_pressure)
+{
+    m_BACK_LL_tire_pressure = _BACK_LL_tire_pressure;
+}
+
+/*!
+ * @brief This function returns the value of member BACK_LL_tire_pressure
+ * @return Value of member BACK_LL_tire_pressure
+ */
+uint32_t WirectlFeedbackInfo::BACK_LL_tire_pressure() const
+{
+    return m_BACK_LL_tire_pressure;
+}
+
+/*!
+ * @brief This function returns a reference to member BACK_LL_tire_pressure
+ * @return Reference to member BACK_LL_tire_pressure
+ */
+uint32_t& WirectlFeedbackInfo::BACK_LL_tire_pressure()
+{
+    return m_BACK_LL_tire_pressure;
+}
+
+/*!
+ * @brief This function sets a value in member BACK_LR_tire_pressure
+ * @param _BACK_LR_tire_pressure New value for member BACK_LR_tire_pressure
+ */
+void WirectlFeedbackInfo::BACK_LR_tire_pressure(
+        uint32_t _BACK_LR_tire_pressure)
+{
+    m_BACK_LR_tire_pressure = _BACK_LR_tire_pressure;
+}
+
+/*!
+ * @brief This function returns the value of member BACK_LR_tire_pressure
+ * @return Value of member BACK_LR_tire_pressure
+ */
+uint32_t WirectlFeedbackInfo::BACK_LR_tire_pressure() const
+{
+    return m_BACK_LR_tire_pressure;
+}
+
+/*!
+ * @brief This function returns a reference to member BACK_LR_tire_pressure
+ * @return Reference to member BACK_LR_tire_pressure
+ */
+uint32_t& WirectlFeedbackInfo::BACK_LR_tire_pressure()
+{
+    return m_BACK_LR_tire_pressure;
+}
+
+/*!
+ * @brief This function sets a value in member BACK_RL_tire_pressure
+ * @param _BACK_RL_tire_pressure New value for member BACK_RL_tire_pressure
+ */
+void WirectlFeedbackInfo::BACK_RL_tire_pressure(
+        uint32_t _BACK_RL_tire_pressure)
+{
+    m_BACK_RL_tire_pressure = _BACK_RL_tire_pressure;
+}
+
+/*!
+ * @brief This function returns the value of member BACK_RL_tire_pressure
+ * @return Value of member BACK_RL_tire_pressure
+ */
+uint32_t WirectlFeedbackInfo::BACK_RL_tire_pressure() const
+{
+    return m_BACK_RL_tire_pressure;
+}
+
+/*!
+ * @brief This function returns a reference to member BACK_RL_tire_pressure
+ * @return Reference to member BACK_RL_tire_pressure
+ */
+uint32_t& WirectlFeedbackInfo::BACK_RL_tire_pressure()
+{
+    return m_BACK_RL_tire_pressure;
+}
+
+/*!
+ * @brief This function sets a value in member BACK_RR_tire_pressure
+ * @param _BACK_RR_tire_pressure New value for member BACK_RR_tire_pressure
+ */
+void WirectlFeedbackInfo::BACK_RR_tire_pressure(
+        uint32_t _BACK_RR_tire_pressure)
+{
+    m_BACK_RR_tire_pressure = _BACK_RR_tire_pressure;
+}
+
+/*!
+ * @brief This function returns the value of member BACK_RR_tire_pressure
+ * @return Value of member BACK_RR_tire_pressure
+ */
+uint32_t WirectlFeedbackInfo::BACK_RR_tire_pressure() const
+{
+    return m_BACK_RR_tire_pressure;
+}
+
+/*!
+ * @brief This function returns a reference to member BACK_RR_tire_pressure
+ * @return Reference to member BACK_RR_tire_pressure
+ */
+uint32_t& WirectlFeedbackInfo::BACK_RR_tire_pressure()
+{
+    return m_BACK_RR_tire_pressure;
+}
+
+/*!
+ * @brief This function sets a value in member Brake_Pressure_FA_Left
+ * @param _Brake_Pressure_FA_Left New value for member Brake_Pressure_FA_Left
+ */
+void WirectlFeedbackInfo::Brake_Pressure_FA_Left(
+        uint32_t _Brake_Pressure_FA_Left)
+{
+    m_Brake_Pressure_FA_Left = _Brake_Pressure_FA_Left;
+}
+
+/*!
+ * @brief This function returns the value of member Brake_Pressure_FA_Left
+ * @return Value of member Brake_Pressure_FA_Left
+ */
+uint32_t WirectlFeedbackInfo::Brake_Pressure_FA_Left() const
+{
+    return m_Brake_Pressure_FA_Left;
+}
+
+/*!
+ * @brief This function returns a reference to member Brake_Pressure_FA_Left
+ * @return Reference to member Brake_Pressure_FA_Left
+ */
+uint32_t& WirectlFeedbackInfo::Brake_Pressure_FA_Left()
+{
+    return m_Brake_Pressure_FA_Left;
+}
+
+/*!
+ * @brief This function sets a value in member Brake_Pressure_FA_Right
+ * @param _Brake_Pressure_FA_Right New value for member Brake_Pressure_FA_Right
+ */
+void WirectlFeedbackInfo::Brake_Pressure_FA_Right(
+        uint32_t _Brake_Pressure_FA_Right)
+{
+    m_Brake_Pressure_FA_Right = _Brake_Pressure_FA_Right;
+}
+
+/*!
+ * @brief This function returns the value of member Brake_Pressure_FA_Right
+ * @return Value of member Brake_Pressure_FA_Right
+ */
+uint32_t WirectlFeedbackInfo::Brake_Pressure_FA_Right() const
+{
+    return m_Brake_Pressure_FA_Right;
+}
+
+/*!
+ * @brief This function returns a reference to member Brake_Pressure_FA_Right
+ * @return Reference to member Brake_Pressure_FA_Right
+ */
+uint32_t& WirectlFeedbackInfo::Brake_Pressure_FA_Right()
+{
+    return m_Brake_Pressure_FA_Right;
+}
+
+/*!
+ * @brief This function sets a value in member Brake_Pressure_RA1_Left
+ * @param _Brake_Pressure_RA1_Left New value for member Brake_Pressure_RA1_Left
+ */
+void WirectlFeedbackInfo::Brake_Pressure_RA1_Left(
+        uint32_t _Brake_Pressure_RA1_Left)
+{
+    m_Brake_Pressure_RA1_Left = _Brake_Pressure_RA1_Left;
+}
+
+/*!
+ * @brief This function returns the value of member Brake_Pressure_RA1_Left
+ * @return Value of member Brake_Pressure_RA1_Left
+ */
+uint32_t WirectlFeedbackInfo::Brake_Pressure_RA1_Left() const
+{
+    return m_Brake_Pressure_RA1_Left;
+}
+
+/*!
+ * @brief This function returns a reference to member Brake_Pressure_RA1_Left
+ * @return Reference to member Brake_Pressure_RA1_Left
+ */
+uint32_t& WirectlFeedbackInfo::Brake_Pressure_RA1_Left()
+{
+    return m_Brake_Pressure_RA1_Left;
+}
+
+/*!
+ * @brief This function sets a value in member Brake_Pressure_RA1_Right
+ * @param _Brake_Pressure_RA1_Right New value for member Brake_Pressure_RA1_Right
+ */
+void WirectlFeedbackInfo::Brake_Pressure_RA1_Right(
+        uint32_t _Brake_Pressure_RA1_Right)
+{
+    m_Brake_Pressure_RA1_Right = _Brake_Pressure_RA1_Right;
+}
+
+/*!
+ * @brief This function returns the value of member Brake_Pressure_RA1_Right
+ * @return Value of member Brake_Pressure_RA1_Right
+ */
+uint32_t WirectlFeedbackInfo::Brake_Pressure_RA1_Right() const
+{
+    return m_Brake_Pressure_RA1_Right;
+}
+
+/*!
+ * @brief This function returns a reference to member Brake_Pressure_RA1_Right
+ * @return Reference to member Brake_Pressure_RA1_Right
+ */
+uint32_t& WirectlFeedbackInfo::Brake_Pressure_RA1_Right()
+{
+    return m_Brake_Pressure_RA1_Right;
+}
+
+/*!
+ * @brief This function copies the value in member VCU_Version
+ * @param _VCU_Version New value to be copied in member VCU_Version
+ */
+void WirectlFeedbackInfo::VCU_Version(
+        const std::string& _VCU_Version)
+{
+    m_VCU_Version = _VCU_Version;
+}
+
+/*!
+ * @brief This function moves the value in member VCU_Version
+ * @param _VCU_Version New value to be moved in member VCU_Version
+ */
+void WirectlFeedbackInfo::VCU_Version(
+        std::string&& _VCU_Version)
+{
+    m_VCU_Version = std::move(_VCU_Version);
+}
+
+/*!
+ * @brief This function returns a constant reference to member VCU_Version
+ * @return Constant reference to member VCU_Version
+ */
+const std::string& WirectlFeedbackInfo::VCU_Version() const
+{
+    return m_VCU_Version;
+}
+
+/*!
+ * @brief This function returns a reference to member VCU_Version
+ * @return Reference to member VCU_Version
+ */
+std::string& WirectlFeedbackInfo::VCU_Version()
+{
+    return m_VCU_Version;
+}
+/*!
  * @brief This function sets a value in member ramp_sensor
  * @param _ramp_sensor New value for member ramp_sensor
  */
@@ -12269,6 +12936,34 @@ uint32_t WirectlFeedbackInfo::weighing_cell_2() const
 uint32_t& WirectlFeedbackInfo::weighing_cell_2()
 {
     return m_weighing_cell_2;
+}
+
+/*!
+ * @brief This function sets a value in member num_297
+ * @param _num_297 New value for member num_297
+ */
+void WirectlFeedbackInfo::num_297(
+        uint32_t _num_297)
+{
+    m_num_297 = _num_297;
+}
+
+/*!
+ * @brief This function returns the value of member num_297
+ * @return Value of member num_297
+ */
+uint32_t WirectlFeedbackInfo::num_297() const
+{
+    return m_num_297;
+}
+
+/*!
+ * @brief This function returns a reference to member num_297
+ * @return Reference to member num_297
+ */
+uint32_t& WirectlFeedbackInfo::num_297()
+{
+    return m_num_297;
 }
 
 /*!
@@ -14337,6 +15032,22 @@ size_t WirectlFeedbackInfo::getKeyMaxCdrSerializedSize(
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     return current_align;
 }
 
@@ -14349,5 +15060,5 @@ void WirectlFeedbackInfo::serializeKey(
         eprosima::fastcdr::Cdr& scdr) const
 {
     (void) scdr;
-                                                                                                                                                                  
+                                                                                                                                                                                  
 }
