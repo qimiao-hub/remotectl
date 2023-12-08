@@ -81,6 +81,7 @@ int main()
 	// Remote2Control remote_ctrl;
 	// TopicDataType *pDataTypeCtrl = new Remote2ControlPubSubType();
 	// ddsPublisher<Remote2Control> *pPubCtrl = new ddsPublisher<Remote2Control>(pDataTypeCtrl);
+	SANY_U8 Remote_Enable5 = 0;
 
 	while (1)
 	{
@@ -91,22 +92,24 @@ int main()
 			pCockpit->ProtoCockpit_getCtrlDate(&imple_result_info);
 			/*发布遥控控制数据*/
 			pPubImple->publish(imple_result_info);
-			
+			Remote_Enable5 = 0;
 			/*遥控接管使能位和最大车速to主控*/
 			// pCockpit->ProtoCockpit_getMaxSpeed(&remote_ctrl);
 			// pPubCtrl->publish(remote_ctrl);
 		}
-		else if(2 == u8CtrlStatus)
+		else if((2 == u8CtrlStatus) && (10 > Remote_Enable5))
 		{
 			imple_result_info.Remote_enable(5);
 			imple_result_info.unmanned_enable(1);
 			pPubImple->publish(imple_result_info);
+			Remote_Enable5++;
 		}
 		else if(3 == u8CtrlStatus)
 		{
 			imple_result_info.Remote_enable(5);
 			imple_result_info.unmanned_enable(0);
 			pPubImple->publish(imple_result_info);
+			Remote_Enable5 = 0;
 		}
 		usleep(50 * 1000);
 	}

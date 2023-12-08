@@ -417,7 +417,7 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_RecvCmdRepCtrl(Protocol_Cockpit_Buffer_st
 	/*标志位非法返回错误*/
 	if (0x01 != pReqCtrlCmdDataST->ucCtrlSwitch[0] && 0x00 != pReqCtrlCmdDataST->ucCtrlSwitch[0] && 0x02 != pReqCtrlCmdDataST->ucCtrlSwitch[0])
 	{
-		MINE_LOG(SANY_LOG_ERROR, "EV_CP_REQ_CTRL ucCtrlSwitch %d err \n", u8LoginFlag);
+		MINE_LOG(SANY_LOG_ERROR, "EV_CP_REQ_CTRL ucCtrlSwitch %d err \n", pReqCtrlCmdDataST->ucCtrlSwitch[0]);
 		return RET_ERROR;
 	}
 	/*控车状态置位*/
@@ -614,7 +614,6 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_RecvCmdLoginOut(Protocol_Cockpit_Buffer_s
 	{
 		m_pFailureSDK->report(FailureModule_Nebula_RemoteCtrl, 3201, 16, 1);
 		MINE_LOG(SANY_LOG_ERROR, "ucloginOutNum err\n");
-	//	return RET_ERROR;
 	}
 
 	/*通用ACK组包接口*/
@@ -989,6 +988,7 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_SendCmdLogin()
 	headST->ucData[u32DataLen] = ProtoCockpit_CalcXOR((SANY_U8 *)headST, u32DataLen + sizeof(CP_Header_st));
 	u32DataLen += sizeof(CP_Header_st) + 1;
 
+	MINE_LOG(SANY_LOG_INFO, "vcu status: %d, remote_or_unman: %d\n, ", WireInfo.vcu_state(), WireInfo.Remote_or_Unman());
 	MINE_LOG(SANY_LOG_INFO, "Begin to login\n");
 	MINE_LOG(SANY_LOG_INFO, "current work status: %d\n", dataST->ucWorkStatus[0]);
 	MINE_LOG(SANY_LOG_INFO, "current gear: %d\n", dataST->ucCurrentGear[0]);	
@@ -1573,11 +1573,12 @@ void Protocol_Cockpit::funcAppUploadData()
 			{
 
 				/*100ms发一次*/
-				if (0 == (u32Tick % SEND_RTDATA_UPLOAD_TICK) && u32RTDataFlg)
+				if ((0 == (u32Tick % SEND_RTDATA_UPLOAD_TICK) && u32RTDataFlg) && (1 != u8CtrlStatus))
 				{
 					u8Ret = ProtoCockpit_SendCmdRealtimeRep();
 					if (RET_OK != u8Ret)
 					{
+						MINE_LOG(SANY_LOG_ERROR, "ProtoCockpit_SendCmdRealtimeRep err!!\n");
 						continue;
 					}
 				}
@@ -1594,7 +1595,7 @@ void Protocol_Cockpit::funcAppUploadData()
 			}
 
 			u32Tick++;
-			usleep(1); // 1ms
+			usleep(1000); // 1ms
 		}
 	}
 }
@@ -1620,7 +1621,7 @@ void Protocol_Cockpit::funcAppDownloadData()
 			if (RET_OK != u8Ret || 0 >= u32DataLen)
 			{
 				/*实时控制情况下，50ms发送一个控车报文，连续500ms没有收到报文则认为网络不稳定，直接刹车处理*/
-				if (u8CtrlStatus)
+				if (1 == u8CtrlStatus)
 				{
 					if (500 * 1000 <= u8LostTimes)
 					{
@@ -1638,7 +1639,7 @@ void Protocol_Cockpit::funcAppDownloadData()
 							struWireCtrlIn.iWheelAngle = 0x0190;
 							m_pFailureSDK->report(FailureModule_Nebula_RemoteCtrl, 3203, 5, 1);				
 							MINE_LOG(SANY_LOG_ERROR, "DownloadData timeout, u8LostTimes: %d\n", u8LostTimes);			
-							m_Terminal.comm_socket_client_do_disconnect(m_Socket_CockpitClient);
+							m_Terminal.comm_socket_client_do_disconnect(m_Socket_CockpitClient);												
 					}
 					u8LostTimes++;
 				}
@@ -1650,6 +1651,7 @@ void Protocol_Cockpit::funcAppDownloadData()
 				ProtoCockpit_ParsePacket(szRecvBuffer, u32DataLen);
 			}
 		}
+		usleep(1);
 	}
 }
 
@@ -1697,7 +1699,7 @@ void Protocol_Cockpit::funcRecvData()
 	struct timeval timeout;
 	CP_Header_st *pHeadST = NULL;
 	SANY_U8 u8HaveRecvHead = 0;
-	SANY_U8 u8ConnectTimes = 0;
+    SANY_U8 u8ConnectTimes = 0;
 
 	while (!u8TaskStopFlag)
 	{
@@ -1709,9 +1711,9 @@ void Protocol_Cockpit::funcRecvData()
 			//u8CtrlStatus = 0;	//
 			/* 定时器到时后尝试重连 */
 			MINE_LOG(SANY_LOG_ERROR, "Reconnect TCP\n");
-			if(9 < u8ConnectTimes)
+			if(19 < u8ConnectTimes)
 			{
-				MINE_LOG(SANY_LOG_ERROR, " reconnect 10 times, exit!!! \n");
+				MINE_LOG(SANY_LOG_ERROR, " reconnect 10 seconds, exit!!! \n");
 				m_pFailureSDK->report(FailureModule_Nebula_RemoteCtrl, 3201, 3, 1);
 				stop();
 			}
@@ -1720,15 +1722,16 @@ void Protocol_Cockpit::funcRecvData()
 				u32NetStatus = m_Terminal.comm_socket_client_do_connect(m_Socket_CockpitClient);
 				if (1 != u32NetStatus)
 				{
-					u8ConnectTimes++;
+				//	u8ConnectTimes++;
 					MINE_LOG(SANY_LOG_ERROR, "sa_comm_socket_client_send fail\n");
-					/*延时1000ms重连*/
-					usleep(1000 * 1000);
+					/*延时500ms重连*/
+					usleep(500 * 1000);
 					continue;
 				}
 				/********************************************上报建立连接失败故障清除************************************************/
 				/* 网络连接成功，更新网络状态 */
 				bNetReady = 1;
+				u8ConnectTimes = 0;
 				MINE_LOG(SANY_LOG_ERROR, "Reconnect TCP Success!!!\n");
 			}
 	
@@ -1896,6 +1899,7 @@ void Protocol_Cockpit::start()
 	m_pFailureSDK->report(FailureModule_Nebula_RemoteCtrl, 3201, 11, 0);
 	m_pFailureSDK->report(FailureModule_Nebula_RemoteCtrl, 3201, 12, 0);
 	m_pFailureSDK->report(FailureModule_Nebula_RemoteCtrl, 3201, 13, 0);
+	m_pFailureSDK->report(FailureModule_Nebula_RemoteCtrl, 3202, 1, 0);
 	m_pFailureSDK->report(FailureModule_Nebula_RemoteCtrl, 3203, 5, 0);
 	m_pFailureSDK->report(FailureModule_Nebula_RemoteCtrl, 3204, 1, 0);
 	m_pFailureSDK->report(FailureModule_Nebula_RemoteCtrl, 3204, 3, 0);
@@ -1935,6 +1939,8 @@ void Protocol_Cockpit::stop()
 	m_pFailureSDK->report(FailureModule_Nebula_RemoteCtrl, 3201, 15, 0);
 	m_pFailureSDK->report(FailureModule_Nebula_RemoteCtrl, 3201, 16, 0);
 	m_pFailureSDK->report(FailureModule_Nebula_RemoteCtrl, 3201, 8, 0);
+	m_pFailureSDK->report(FailureModule_Nebula_RemoteCtrl, 3201, 2, 0);
+	m_pFailureSDK->report(FailureModule_Nebula_RemoteCtrl, 3201, 3, 0);
 	m_pFailureSDK->report(FailureModule_Nebula_RemoteCtrl, 3202, 1, 0);
 	m_pFailureSDK->report(FailureModule_Nebula_RemoteCtrl, 3203, 5, 0);	
 	m_pFailureSDK->report(FailureModule_Nebula_RemoteCtrl, 3204, 1, 0);
@@ -1998,20 +2004,6 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_getFeedbackData()
 		m_pFailureSDK->report(FailureModule_Nebula_RemoteCtrl, 3202, 1, 1);
 		return RET_ERROR;
 	}
-
-	// // 上报数据超出有效范围
-	// if ((0.00 > struWireCtrlOut.iVehicle_speed) || (0.00 < (struWireCtrlOut.iVehicle_speed - 300.0)) ||
-	// 	//    (0.00 > struWireCtrlOut.iHeadingAngle) || (0.00 < (struWireCtrlOut.iHeadingAngle - 360.0)) ||
-	// 	//    (0.00 > struWireCtrlOut.iWheelAngleL) || (0.00 < (struWireCtrlOut.iWheelAngleL - 800.0)) ||
-	// 	(0 > struWireCtrlOut.iThrottleOpening) || (0 < (struWireCtrlOut.iThrottleOpening - 100)) ||
-	// 	(0 > struWireCtrlOut.iBrakeOpening) || (0 < (struWireCtrlOut.iBrakeOpening - 100)) ||
-	// 	(-0.000001 > struWireCtrlOut.iEngineSpeed) || (0.00 < (struWireCtrlOut.iEngineSpeed - 40000.0)) ||
-	// 	(0.00 > finitTalDistance) || (0.00 < (finitTalDistance - 9999999)))
-	// {
-	// //	m_pFailureSDK->report(FailureModule_Nebula_RemoteCtrl, 3202, 2, 1);
-
-	// 	return RET_ERROR;
-	// }
 
 	 if (type == "SKT-I")
 	 {
