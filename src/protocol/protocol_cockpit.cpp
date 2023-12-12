@@ -1677,7 +1677,7 @@ void Protocol_Cockpit::funcSendData()
 			}
 			if (!m_Terminal.sa_comm_socket_client_send(m_Socket_CockpitClient, (char *)szSendBuffer, (int)u32SendLen))
 			{
-				MINE_LOG(SANY_LOG_ERROR, "sa_comm_socket_client_send err\n");
+				MINE_LOG(SANY_LOG_ERROR, "sa_comm_socket_client_send err, u32SendLen: %d\n", u32SendLen);
 				/*发送失败，复位网络状态*/
 				bNetReady = 0;
 				continue;
@@ -1722,7 +1722,7 @@ void Protocol_Cockpit::funcRecvData()
 				u32NetStatus = m_Terminal.comm_socket_client_do_connect(m_Socket_CockpitClient);
 				if (1 != u32NetStatus)
 				{
-				//	u8ConnectTimes++;
+					u8ConnectTimes++;
 					MINE_LOG(SANY_LOG_ERROR, "sa_comm_socket_client_send fail\n");
 					/*延时500ms重连*/
 					usleep(500 * 1000);
@@ -1821,8 +1821,8 @@ void Protocol_Cockpit::funcRecvData()
 		if (0 == bNetReady)
 		{
 			/* 主动断开网络 */
-			m_Terminal.comm_socket_client_do_disconnect(m_Socket_CockpitClient);
 			MINE_LOG(SANY_LOG_ERROR, "bNetReady 0 comm_socket_client_do_disconnect!!!\n");
+			m_Terminal.comm_socket_client_do_disconnect(m_Socket_CockpitClient);
 		}
 	}
 }
@@ -1846,6 +1846,7 @@ void Protocol_Cockpit::InitSocket_Cockpit()
 		count++;
 		sleep(1);
 	}
+	count = 0;
 	m_pFailureSDK->report(FailureModule_Nebula_RemoteCtrl, 3201, 3, 0);
 	bNetReady = 1;
 #elif
@@ -2320,10 +2321,18 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_getCtrlDate(ImpleResultInfo *pCtrlInfo)
 	/*判断是否急停，请求急停则请求驻车*/
 	if (1 == u8EmergencyStopFlg)
 	{
-		pCtrlInfo->trans_req_gear(0);		//N
+		if("SKT-I" == type)
+		{
+			pCtrlInfo->trans_req_gear(0x7D);		//N
+			pCtrlInfo->traffic_brake_req(30);		//制动
+		}
+		else if ("SKT-E" == type)
+		{
+			pCtrlInfo->trans_req_gear(0);		//N
+			pCtrlInfo->traffic_brake_req(60);		//制动
+		}
 		pCtrlInfo->parking_req(true);		//驻车
 		pCtrlInfo->engine_req_torque(0);	//油门
-		pCtrlInfo->traffic_brake_req(30);		//制动
 		pCtrlInfo->brake_req_status(true);		//刹车请求状态
 		pCtrlInfo->brake_light_ctrl(true);		//制动灯
 		MINE_LOG(SANY_LOG_INFO, "receive EmergencyStop cmd, gear: %d,  parking_req: %d,  traffic_brake_req: %f\n", pCtrlInfo->trans_req_gear(), pCtrlInfo->parking_req(), pCtrlInfo->traffic_brake_req());
