@@ -14,29 +14,14 @@
 #include <iostream>
 #include "common/sany_type.h"
 #include "protocol/protocol_cockpit.h"
-#include "common/debugLog.h"
-
-
 
 CmdCtrlACK ctrlACK;
 TopicDataType *pDataTypeACK = new CmdCtrlACKPubSubType();
 ddsPublisher<CmdCtrlACK> *pPubACK = new ddsPublisher<CmdCtrlACK>(pDataTypeACK);
 Protocol_Cockpit *pCockpit = new Protocol_Cockpit();
 FailureReporter *m_pFailureSDK = new FailureReporter();
-SANY_U8 ip_flag = 0;
-
-SANY_U8 u8CtrlStatus = 0;
-
-void sig_handler(int sig)
-{
-	printf("-------------sig_handler Signal %d-------------\n", sig);
-	// if (sig == SIGINT)
-	// {
-	// }
-
-	//	return;
-	exit(0);
-}
+SANY_U8 g_IpFlag = 0;
+SANY_U8 g_u8CtrlState = 0;
 
 void cockpit_ctrlACK(CmdtoRemoteCtrl *addr)
 {
@@ -47,7 +32,7 @@ void cockpit_ctrlACK(CmdtoRemoteCtrl *addr)
 
 void cockpit_addressCallback(CmdtoRemoteCtrl *addr)
 {
-	if (0 == ip_flag)
+	if (0 == g_IpFlag)
 	{
 		pCockpit->ProtoCockpit_setServerName(addr->ipaddr().c_str());
 		cockpit_ctrlACK(addr);
@@ -60,15 +45,13 @@ int main()
 {
 	zkbs::init("syzk-remotectl");
 	DaemonHandl Hdl = daemon_create("syzk-remotectl", 500, DEV_TYPE_XINGYUN);
-	zkbs::setVersion(VER("1.1"));
+	zkbs::setVersion(VER("1.3"));
 
 	mine_log::set_log_level(SANY_LOG_INFO);
 	mine_log::set_log_output(SANY_LOG_OUT_FILE);
 	/*驾驶舱IP+PORT订阅*/
 	TopicDataType *pDataTypeCockpit = new CmdtoRemoteCtrlPubSubType();
 	ddsSubscriber<CmdtoRemoteCtrl> *pSubCockpit = new ddsSubscriber<CmdtoRemoteCtrl>(pDataTypeCockpit, &cockpit_addressCallback);
-
-	printf("------------------main strart--------------------\n");
 
 	m_pFailureSDK->init();
 	m_pFailureSDK->setModule(FailureModule_Nebula_RemoteCtrl);
@@ -86,7 +69,7 @@ int main()
 	while (1)
 	{
 
-		if (1 == u8CtrlStatus)
+		if (1 == g_u8CtrlState)
 		{
 			/*获取通信模块遥控控制数据*/
 			pCockpit->ProtoCockpit_getCtrlDate(&imple_result_info);
@@ -97,20 +80,17 @@ int main()
 			// pCockpit->ProtoCockpit_getMaxSpeed(&remote_ctrl);
 			// pPubCtrl->publish(remote_ctrl);
 		}
-		else if((2 == u8CtrlStatus) && (10 > Remote_Enable5))
+		else if((2 == g_u8CtrlState) ||  (3 == g_u8CtrlState))
 		{
-			imple_result_info.Remote_enable(5);
-			imple_result_info.unmanned_enable(1);
-			pPubImple->publish(imple_result_info);
-			Remote_Enable5++;
+			if(10 > Remote_Enable5)
+			{
+				pCockpit->ProtoCockpit_getCtrlDate(&imple_result_info);
+				pPubImple->publish(imple_result_info);
+				Remote_Enable5++;
+				MINE_LOG(SANY_LOG_INFO, "exit from remote-control, publish dds times: %d\n", Remote_Enable5);
+			}
 		}
-		else if(3 == u8CtrlStatus)
-		{
-			imple_result_info.Remote_enable(5);
-			imple_result_info.unmanned_enable(0);
-			pPubImple->publish(imple_result_info);
-			Remote_Enable5 = 0;
-		}
+
 		usleep(50 * 1000);
 	}
 

@@ -15,12 +15,11 @@
 #include <stdlib.h>
 #include <string.h>
 #include "terminal_client.h"
-#include "file.h"
 #include <sys/time.h>
-#include "../common/debugLog.h"
 #include "FailureReporter.h"
 #include "daemon_sdk.h"
 #include "read_ini.h"
+#include "./common/yaml.h"
 
 #include "../include/ddsType/ChassisCtrl.h"
 #include "../include/ddsType/ChassisCtrlPubSubTypes.h"
@@ -32,8 +31,6 @@
 #include "../include/ddsType/imple_msgPubSubTypes.h"
 #include "../include/ddsType/Cockpit_address.h"
 #include "../include/ddsType/Cockpit_addressPubSubTypes.h"
-#include "../include/ddsType/Remote2Ctrl.h"
-#include "../include/ddsType/Remote2CtrlPubSubTypes.h"
 #include <zkbs/ddsBase/ddsPubBase.h>
 #include <zkbs/ddsBase/ddsSubBase.h>
 #include "zkbs/zkbs.hpp"
@@ -45,15 +42,8 @@
 #define RET_ERROR 0
 #endif
 
-// #define vehicle_type SKT90EI
-
-// #define ELEC_CAR 0
-// #define SKT90I 1
-// #define A04_PLAT 2
-// #define SKT90EI 3
-
 #define SEND_RTDATA_UPLOAD_TICK (100)
-#define SEND_STATUS_DATA_UPLOAD_TICK (100)
+#define SEND_STATUS_DATA_UPLOAD_TICK (10)
 
 #define PROTOCOL_COCKPIT_SEND_BUF 40
 #define PROTOCOL_COCKPIT_RECV_BUF 40
@@ -115,13 +105,13 @@ class Protocol_Cockpit
 public:
 	std::thread m_thread;
 
-	SANY_U8 bNetReady = 0;
-	SANY_U8 old_current_state = 0;
-	SANY_U8 current_state = 0;
+	SANY_U8 g_bNetReady = 0;
+	SANY_U8 g_old_current_state = 0;
+	SANY_U8 g_current_state = 0;
 
 	char cockpitServerName[22] = {0};
 	const char HostclientName[22] = "192.168.8.249:8080";
-	ini::iniReader config;
+//	ini::iniReader config;
 
 	/*遥控控制命令*/
 	RemoteDrivingWirectlInInfo struWireCtrlIn;
@@ -139,9 +129,6 @@ public:
 
 	ddsSubscriber<WirectlFeedbackInfo> *pSubWire = NULL;
 	ddsSubscriber<GpsImuInfo> *pSubGps =  NULL;
-
-	/*故障上报相关*/
-	//extern FailureReporter *m_pFailureSDK;
 
 	/*进程通信定义分界线----------------------------end*/
 
@@ -166,46 +153,38 @@ public:
 //	SANY_U8 ProtoCockpit_getMaxSpeed(Remote2Control *pRemoteCtrl);
 
 	/*读取配置文件*/
-	void Read_INI(ini::iniReader config);
+//	void Read_INI(ini::iniReader config);
+	void Read_Config();
 
 private:
 	/*heartbeat with 297*/
-	SANY_U16 count = 0;
+	SANY_U16 g_count = 0;
 
 	/*登录状态 0未登录 1已登录，未登录状态下，不处理命令协议*/ /*延时程序写死成1*/
-	SANY_U8 u8LoginFlag = 0;
+	SANY_U8 g_u8LoginFlag = 0;
 
 	/*登录流水号*/
-	SANY_U8 u8LoginSeqNum = 0;
-
-	/*实时控制标识,收到控制指令时置位，响应实时控制后置0*/
-//	SANY_U8 u8RealtimeCtrl = 0;
-
-	/*登出标识，是否登出*/
-//	SANY_U8 u8LoginoutFlag = 0;
+	SANY_U8 g_u8LoginSeqNum = 0;
 
 	/* 发送标识，是否开始实时上报（高频） */
-	SANY_U32 u32RTDataFlg = 0; // 实时数据上报标识
+	SANY_U32 g_u32RTDataFlg = 0; // 实时数据上报标识
 
 	/* 发送标识，是否开始实时上报（状态） */
-	SANY_U32 u32NLDataFlg = 0; // normal data flag
-
-	/*控车状态，驾驶舱发送控车请求后，控车状态置位。置位状态下才允许实时控制*/
-//	SANY_U8 u8CtrlStatus = 0;
+	SANY_U32 g_u32NLDataFlg = 0; // normal data flag
 
 	/* 急停标识 */
-	SANY_U8 u8EmergencyStopFlg = 0; // normal data flag
+	SANY_U8 g_u8EmergencyStopFlg = 0; // normal data flag
 
 	/*任务结束标识，驾舱登出后释放线程资源，置位后四个线程退出*/
-	volatile SANY_U8 u8TaskStopFlag = 0;
+	volatile SANY_U8 g_u8TaskStopFlag = 0;
 
 	/*读取配置文件*/
-	string iccid;
-	string vin;
-	string HardVer;
-	string SoftVer;
-	string type;
-//	float max_speed;
+	std::string iccid;
+	std::string vin;
+	std::string type;
+	std::string HardVer = "0101";
+	std::string SoftVer = "0213";
+	SANY_U32 v_type = 0;
 
 	pthread_t t_recv_id;
 	pthread_t t_upload_data_id;
@@ -216,16 +195,16 @@ private:
 
 	/*发送缓冲区*/
 	pthread_mutex_t SendBufferMutex; /*做互斥锁，锁住整个发送缓冲区*/
-	SANY_U8 u8SendBufferWriteIndex = 0;
-	SANY_U8 u8SendBufferReadIndex = 0;
-	SANY_U8 u8SendBufferDateLen = 0;
+	SANY_U8 g_u8SendBufferWriteIndex = 0;
+	SANY_U8 g_u8SendBufferReadIndex = 0;
+	SANY_U8 g_u8SendBufferDateLen = 0;
 	Protocol_Cockpit_Buffer_st *arrSendBuffer;
 
 	/*接收缓冲区*/
 	pthread_mutex_t RecvBufferMutex; /*做互斥锁，锁住整个接收缓冲区*/
-	SANY_U8 u8RecvBufferWriteIndex = 0;
-	SANY_U8 u8RecvBufferReadIndex = 0;
-	SANY_U8 u8RecvBufferDateLen = 0;
+	SANY_U8 g_u8RecvBufferWriteIndex = 0;
+	SANY_U8 g_u8RecvBufferReadIndex = 0;
+	SANY_U8 g_u8RecvBufferDateLen = 0;
 	Protocol_Cockpit_Buffer_st *arrRecvBuffer;
 
 	sa_comm_socket_client *m_Socket_CockpitClient;

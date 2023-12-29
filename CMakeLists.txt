@@ -20,6 +20,7 @@ include_directories(${CMAKE_SOURCE_DIR}/include)
 include_directories(${CMAKE_SOURCE_DIR}/src)
 
 file(GLOB SRC_LIST
+	"include/yaml.h"
 	"include/ddsType/*.h"
 	"include/ddsType/*.cxx"
 	"include/*.hpp"
@@ -37,6 +38,7 @@ target_link_libraries(${PROJECT_NAME}
     daemon_sdk	
 	zkbs   
 	FailureReporter
+	yaml-cpp
 	fastrtps
 	fastcdr
 	pthread
