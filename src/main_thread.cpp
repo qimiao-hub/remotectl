@@ -37,6 +37,7 @@ void cockpit_addressCallback(CmdtoRemoteCtrl *addr)
 		pCockpit->ProtoCockpit_setServerName(addr->ipaddr().c_str());
 		cockpit_ctrlACK(addr);
 		pCockpit->start();
+		g_IpFlag = 1;		//V2.1.4
 	}
 	return;
 }
@@ -87,8 +88,8 @@ int main()
 				pCockpit->ProtoCockpit_getCtrlDate(&imple_result_info);
 				pPubImple->publish(imple_result_info);
 				Remote_Enable5++;
-				MINE_LOG(SANY_LOG_INFO, "exit from remote-control, publish dds times: %d\n", Remote_Enable5);
 			}
+			MINE_LOG(SANY_LOG_INFO, "exit from remote-control, publish dds times: %d\n", Remote_Enable5);
 		}
 
 		usleep(50 * 1000);

@@ -46,7 +46,7 @@ target_link_libraries(${PROJECT_NAME}
 	-ldl
 )
 
-file(COPY ${CMAKE_SOURCE_DIR}/src/protocol/remote.ini DESTINATION ${CMAKE_BINARY_DIR}/config)
+#file(COPY ${CMAKE_SOURCE_DIR}/src/protocol/remote.ini DESTINATION ${CMAKE_BINARY_DIR}/config)
 
 # #增加设备型号宏
 # # add_definitions(-DCONFIG_ELEC_CAR)

@@ -411,7 +411,7 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_RecvAckLoginPacket(Protocol_Cockpit_Buffe
 	m_pFailureSDK->report(FailureModule_Nebula_RemoteCtrl, 3201, 12, 0);
 	m_pFailureSDK->report(FailureModule_Nebula_RemoteCtrl, 3201, 13, 0);
 
-	g_IpFlag = 1;
+//	g_IpFlag = 1;					//V2.1.3，出现登录慢，登录成功前再次收到ip，连接出错
 	/* 开启实时上报 */
 	g_u32RTDataFlg = 1;
 	/* 开启状态变化上报 */
@@ -1856,13 +1856,13 @@ void Protocol_Cockpit::funcRecvData()
 			}
 		}
 		
-		/*是否考虑网络异常，主动断开网络？*/
-		if (0 == g_bNetReady)
-		{
-			/* 主动断开网络 */
-			MINE_LOG(SANY_LOG_ERROR, "g_bNetReady 0 comm_socket_client_do_disconnect!!!\n");
-			m_Terminal.comm_socket_client_do_disconnect(m_Socket_CockpitClient);
-		}
+		/*是否考虑网络异常，主动断开网络？V2.1.4取消判断*/
+		// if (0 == g_bNetReady)
+		// {
+		// 	/* 主动断开网络 */
+		// 	MINE_LOG(SANY_LOG_ERROR, "g_bNetReady 0 comm_socket_client_do_disconnect!!!\n");
+		// 	m_Terminal.comm_socket_client_do_disconnect(m_Socket_CockpitClient);
+		// }
 	}
 }
 
