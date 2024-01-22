@@ -37,7 +37,7 @@ void cockpit_addressCallback(CmdtoRemoteCtrl *addr)
 		pCockpit->ProtoCockpit_setServerName(addr->ipaddr().c_str());
 		cockpit_ctrlACK(addr);
 		pCockpit->start();
-		g_IpFlag = 1;		//V2.1.4
+		g_IpFlag = 1;		
 	}
 	return;
 }

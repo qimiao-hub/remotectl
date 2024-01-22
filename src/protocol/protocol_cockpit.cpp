@@ -1613,6 +1613,7 @@ void Protocol_Cockpit::funcAppUploadData()
 						if (RET_OK != u8Ret)
 						{
 							MINE_LOG(SANY_LOG_ERROR, "ProtoCockpit_SendCmdRealtimeRep err!!\n");
+							u32Tick++;
 							continue;
 						}
 					}
@@ -1666,7 +1667,7 @@ void Protocol_Cockpit::funcAppDownloadData()
 						if(type == "SKT-I")
 							{
 								struWireCtrlIn.iGearOpening = 0x7D;
-								struWireCtrlIn.iBrakeOpening = 30;
+								struWireCtrlIn.iBrakeOpening = 50;
 							}
 							else if(type == "SKT-E")
 							{
@@ -2388,7 +2389,7 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_getCtrlDate(ImpleResultInfo *pCtrlInfo)
 		if("SKT-I" == type)
 		{
 			pCtrlInfo->trans_req_gear(0x7D);		//N
-			pCtrlInfo->traffic_brake_req(30);		//制动
+			pCtrlInfo->traffic_brake_req(50);		//制动
 		}
 		else if ("SKT-E" == type)
 		{
