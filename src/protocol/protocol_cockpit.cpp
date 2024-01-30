@@ -1672,7 +1672,7 @@ void Protocol_Cockpit::funcAppDownloadData()
 							else if(type == "SKT-E")
 							{
 								struWireCtrlIn.iGearOpening = 0;
-								struWireCtrlIn.iBrakeOpening = 60;
+								struWireCtrlIn.iBrakeOpening = 80;
 							}
 							struWireCtrlIn.iThrottleOpening = 0;
 							struWireCtrlIn.iWheelAngle = 0x0190;
@@ -1977,6 +1977,7 @@ void Protocol_Cockpit::start()
 /*模块业务关闭接口，做资源的反初始化*/
 void Protocol_Cockpit::stop()
 {
+	g_u8CtrlState = 2;
 	g_u8TaskStopFlag = 1;
 	m_pFailureSDK->report(FailureModule_Nebula_RemoteCtrl, 3201, 15, 0);
 	m_pFailureSDK->report(FailureModule_Nebula_RemoteCtrl, 3201, 16, 0);
@@ -2105,14 +2106,15 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_initCtrlData()
 	if(type == "SKT-E")
 	{
 		struWireCtrlIn.iGearOpening = 0;
+		struWireCtrlIn.iBrakeOpening = 80;
 	}
 	else
 	{
 		struWireCtrlIn.iGearOpening = 0x7D;
+		struWireCtrlIn.iBrakeOpening = 50;
 	}
 	struWireCtrlIn.iWheelAngle = 0;
 	struWireCtrlIn.iThrottleOpening = 0;
-	struWireCtrlIn.iBrakeOpening = 0;
 	struWireCtrlIn.iCombinedGearL = 0;
 	struWireCtrlIn.iCombinedGearR = 0;
 	struWireCtrlIn.iKeyOperation1 = 0;
@@ -2143,7 +2145,7 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_getCtrlDate(ImpleResultInfo *pCtrlInfo)
 		pCtrlInfo->unmanned_enable(1);
 		ProtoCockpit_initCtrlData();				
 	}
-	else
+	else if(g_u8CtrlState == 3)
 	{
 		pCtrlInfo->Remote_enable(5);
 		pCtrlInfo->unmanned_enable(0);
