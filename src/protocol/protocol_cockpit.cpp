@@ -106,6 +106,8 @@ void Protocol_Cockpit::Read_Config()
 		vin = config["vehicle"]["vehicle_VIN"].as<std::string>();
 		iccid = config["vehicle"]["vehicle_ICCID"].as<std::string>();
 		v_type = config["vehicle"]["vehicle_type"].as<int>();
+		brake_delay = config["vehicle"]["vehicle_delay"].as<int>();
+		read_brakeing = config["vehicle"]["vehicle_brake"].as<int>();
 		if(v_type == 0)
 		{
 			MINE_LOG(SANY_LOG_ERROR, "Read Config-runSetup.yaml vehicle_type is 0 !!!");
@@ -1662,25 +1664,36 @@ void Protocol_Cockpit::funcAppDownloadData()
 				/*实时控制情况下，50ms发送一个控车报文，连续500ms没有收到报文则认为网络不稳定，直接刹车处理*/
 				if (1 == g_u8CtrlState)
 				{
+					
 					if (500  <= u8LostTimes)
 					{
+						/*
+						if(struGpsInfo.gps_pitch() >= 2 || struGpsInfo.gps_pitch() <= -2)
+						{
+							g_u8EmergencyStopFlg = 1;
+						}
+						*/
 						if(type == "SKT-I")
-							{
-								struWireCtrlIn.iGearOpening = 0x7D;
-								struWireCtrlIn.iBrakeOpening = 50;
-							}
-							else if(type == "SKT-E")
-							{
-								struWireCtrlIn.iGearOpening = 0;
-								struWireCtrlIn.iBrakeOpening = 80;
-							}
+						{
+							struWireCtrlIn.iGearOpening = 0x7D;
+							struWireCtrlIn.iBrakeOpening = 100;
 							struWireCtrlIn.iThrottleOpening = 0;
 							struWireCtrlIn.iWheelAngle = 0x0190;
-							m_pFailureSDK->report(FailureModule_Nebula_RemoteCtrl, 3203, 5, 1);				
-							MINE_LOG(SANY_LOG_ERROR, "DownloadData timeout, u8LostTimes: %d\n", u8LostTimes);			
-							m_Terminal.comm_socket_client_do_disconnect(m_Socket_CockpitClient);		
-							u8LostTimes = 0;
-							MINE_LOG(SANY_LOG_ERROR, "lost control-data 500ms, comm_socket_client_do_disconnect, u8LostTimes is : %d\n", u8LostTimes);						
+						}
+						else if(type == "SKT-E")
+						{
+							struWireCtrlIn.iGearOpening = 0;
+							struWireCtrlIn.iBrakeOpening = 100;
+							struWireCtrlIn.iThrottleOpening = 0;
+							struWireCtrlIn.iWheelAngle = 0x0190;
+						}
+						struWireCtrlIn.iKeyOperation2 = 0x08;	
+						m_pFailureSDK->report(FailureModule_Nebula_RemoteCtrl, 3203, 5, 1);				
+						MINE_LOG(SANY_LOG_ERROR, "DownloadData timeout, u8LostTimes: %d\n", u8LostTimes);			
+						m_Terminal.comm_socket_client_do_disconnect(m_Socket_CockpitClient);		
+						u8LostTimes = 0;
+						MINE_LOG(SANY_LOG_ERROR, "lost control-data 500ms, comm_socket_client_do_disconnect, u8LostTimes is : %d\n", u8LostTimes);		
+						MINE_LOG(SANY_LOG_ERROR, "lost control-data 500ms, current Gear: %d, BrakeOpening: %d, Parking State: %d\n", WireInfo.trans_current_gear(), WireInfo.brake_pedal_SYMC(), WireInfo.parking());				
 					}
 					u8LostTimes++;
 				}
@@ -1688,6 +1701,7 @@ void Protocol_Cockpit::funcAppDownloadData()
 			else
 			{
 				u8LostTimes = 0;
+			//	g_u8EmergencyStopFlg = 0;
 				/*处理数据包*/
 				ProtoCockpit_ParsePacket(szRecvBuffer, u32DataLen);
 			}
@@ -1712,7 +1726,7 @@ void Protocol_Cockpit::funcAppDownloadData()
 				if (1 != u32NetStatus)
 				{
 					u8ConnectTimes++;
-					MINE_LOG(SANY_LOG_ERROR, "sa_comm_socket_client_send fail, u8ConnectTimes: %d\n", u8ConnectTimes);
+					MINE_LOG(SANY_LOG_ERROR, "sa_comm_socket_client_send fail, u8ConnectTimes: %d\n", u8ConnectTimes);					
 					/*延时500ms重连*/
 					usleep(500 * 1000);
 					continue;
@@ -1979,6 +1993,7 @@ void Protocol_Cockpit::stop()
 {
 	g_u8CtrlState = 2;
 	g_u8TaskStopFlag = 1;
+	MINE_LOG(SANY_LOG_ERROR, "STOP, g_u8CtrlState is  %d,  g_u8TaskStopFlag is  %d\n", g_u8CtrlState, g_u8TaskStopFlag);
 	m_pFailureSDK->report(FailureModule_Nebula_RemoteCtrl, 3201, 15, 0);
 	m_pFailureSDK->report(FailureModule_Nebula_RemoteCtrl, 3201, 16, 0);
 	m_pFailureSDK->report(FailureModule_Nebula_RemoteCtrl, 3201, 8, 0);
@@ -2106,14 +2121,14 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_initCtrlData()
 	if(type == "SKT-E")
 	{
 		struWireCtrlIn.iGearOpening = 0;
-		struWireCtrlIn.iBrakeOpening = 80;
+		struWireCtrlIn.iBrakeOpening = 100;
 	}
 	else
 	{
 		struWireCtrlIn.iGearOpening = 0x7D;
-		struWireCtrlIn.iBrakeOpening = 50;
+		struWireCtrlIn.iBrakeOpening = 100;
 	}
-	struWireCtrlIn.iWheelAngle = 0;
+	struWireCtrlIn.iWheelAngle =  0x0190;
 	struWireCtrlIn.iThrottleOpening = 0;
 	struWireCtrlIn.iCombinedGearL = 0;
 	struWireCtrlIn.iCombinedGearR = 0;
@@ -2126,6 +2141,8 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_initCtrlData()
 
 SANY_U8 Protocol_Cockpit::ProtoCockpit_getCtrlDate(ImpleResultInfo *pCtrlInfo)
 {
+	float BrakeValue;
+	int brake_count = 0;
 	if (!pCtrlInfo)
 	{
 		MINE_LOG(SANY_LOG_ERROR, "ProtoCockpit_getCtrlDate param invalid \n");
@@ -2207,8 +2224,35 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_getCtrlDate(ImpleResultInfo *pCtrlInfo)
 	printf("ctrl gear: %d\n", pCtrlInfo->trans_req_gear());
 		
 	/*-------------------制动，0-100-------------------*/
-	pCtrlInfo->traffic_brake_req((float)struWireCtrlIn.iBrakeOpening);
-	printf("traffic brake req: %f\n", pCtrlInfo->traffic_brake_req());
+	if((struGpsInfo.gps_pitch() > 2) && (brake_count < brake_delay))
+	{
+		if((struWireCtrlIn.iBrakeOpening == 0) && (BrakeValue > 0.1))
+		{
+		//	pCtrlInfo->traffic_brake_req(50);
+			pCtrlInfo->traffic_brake_req((float)read_brakeing);
+			brake_count ++;
+		}
+		else if(struWireCtrlIn.iThrottleOpening > 20)
+		{
+		//	pCtrlInfo->traffic_brake_req(50);
+			pCtrlInfo->traffic_brake_req((float)read_brakeing);
+			brake_count ++;
+		}
+		else
+		{
+			BrakeValue = (float)struWireCtrlIn.iBrakeOpening;
+			pCtrlInfo->traffic_brake_req(BrakeValue);
+		}
+		MINE_LOG(SANY_LOG_INFO, "brakeing delay 3 seconds, gps_pitch is : %d, brake_count: %d,  traffic_brake_req: %f\n", struGpsInfo.gps_pitch(), brake_count, pCtrlInfo->traffic_brake_req());
+	} 
+	else
+	{
+		brake_count = 0;
+		BrakeValue = (float)struWireCtrlIn.iBrakeOpening;
+		pCtrlInfo->traffic_brake_req(BrakeValue);
+	}
+	
+//	printf("traffic brake req: %f\n", pCtrlInfo->traffic_brake_req());
 
 	if (pCtrlInfo->traffic_brake_req() > 0)
 	{
@@ -2391,12 +2435,12 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_getCtrlDate(ImpleResultInfo *pCtrlInfo)
 		if("SKT-I" == type)
 		{
 			pCtrlInfo->trans_req_gear(0x7D);		//N
-			pCtrlInfo->traffic_brake_req(50);		//制动
+			pCtrlInfo->traffic_brake_req(100);		//制动
 		}
 		else if ("SKT-E" == type)
 		{
 			pCtrlInfo->trans_req_gear(0);		//N
-			pCtrlInfo->traffic_brake_req(60);		//制动
+			pCtrlInfo->traffic_brake_req(100);		//制动
 		}
 		pCtrlInfo->parking_req(true);		//驻车
 		pCtrlInfo->engine_req_torque(0);	//油门
