@@ -155,6 +155,13 @@ public:
 	/*读取配置文件*/
 //	void Read_INI(ini::iniReader config);
 	void Read_Config();
+	/*溜车判断-计算车速航向*/
+	float Speed_Heading(const float gps_vn, const float gps_ve, const float heading);
+	SANY_U8 Is_Rolling();
+	/*停车策略*/
+	void do_Rolling_Stop();
+
+
 
 private:
 	/*heartbeat with 297*/

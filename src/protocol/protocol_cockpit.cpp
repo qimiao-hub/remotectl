@@ -2116,6 +2116,79 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_getFeedbackData()
 	return RET_OK;
 }
 
+float Protocol_Cockpit::Speed_Heading(const float gps_vn, const float gps_ve, const float heading)
+{
+	 float speed_heading = 0,vn = 0, ve = 0, theta = 0;
+    vn = fabs(gps_vn);
+    ve = fabs(gps_ve);
+
+    if(vn > 0.1 && ve > 0.1 )
+    {
+        theta = atan(ve / vn)*(180/3.14);
+        if(gps_vn > 0 && gps_ve >= 0)
+            speed_heading = theta;
+        else if(gps_vn < 0 && gps_ve > 0)
+            speed_heading = 180 - theta;
+        else if(gps_vn < 0 && gps_ve <= 0)
+            speed_heading = 180 + theta;
+        else if(gps_vn >0 && gps_ve < 0)
+            speed_heading = 360 - theta;
+    }
+    else
+    {
+        if(gps_ve > 0.1 && vn < 0.1)
+            speed_heading = 90;
+        else if (gps_ve < (-0.1) && vn < 0.1)
+            speed_heading = 270;
+        else if (gps_vn > 0.1 && ve < 0.1)
+            speed_heading = 0;
+        else if (gps_vn < (-0.1) && ve < 0.1)
+            speed_heading = 180;
+        else
+            speed_heading = heading;
+    }
+    // if(steering_angle > 10 || steering_angle < -10)
+    //         speed_heading = heading;
+    MINE_LOG(SANY_LOG_INFO, "speed_heading, gps_vn : %f, gps_ve : %f, theta is : %f, speed_heading is : %f, heading is : %f\n", 
+    gps_vn,gps_ve,theta,speed_heading,heading);
+    return speed_heading;
+}
+
+SANY_U8 Protocol_Cockpit::Is_Rolling()
+{
+	float speed_heading = Speed_Heading(struGpsInfo.gps_vn(),struGpsInfo.gps_ve(),struGpsInfo.gps_heading());
+    float vehicle_heading = struGpsInfo.gps_heading();
+	SANY_U8 rolling_need_stop = 0;
+	if ( (fabs(struGpsInfo.gps_vn()) > 0.1 || fabs(struGpsInfo.gps_ve()) > 0.1))
+    {
+        vehicle_heading += 180;
+        if (vehicle_heading >= 360)
+                vehicle_heading -= 360;
+    }
+    float heading_error = fabs(vehicle_heading - speed_heading);
+    static SANY_U32 heading_count = 0;
+    if (heading_error > 150 && heading_error < 210)
+    {
+        if (heading_count >= 20)
+        {
+            heading_count = 20;
+            rolling_need_stop = 1;
+            MINE_LOG(SANY_LOG_ERROR, "rolling_need_stop : %d\n", rolling_need_stop);
+        }
+        else
+        {
+            heading_count++;
+        }
+    }
+    else
+    {
+        heading_count = 0;
+    }
+	return rolling_need_stop;
+}
+
+
+
 SANY_U8 Protocol_Cockpit::ProtoCockpit_initCtrlData()
 {
 	if(type == "SKT-E")
@@ -2435,12 +2508,12 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_getCtrlDate(ImpleResultInfo *pCtrlInfo)
 		if("SKT-I" == type)
 		{
 			pCtrlInfo->trans_req_gear(0x7D);		//N
-			pCtrlInfo->traffic_brake_req(100);		//制动
+			pCtrlInfo->traffic_brake_req(90);		//制动
 		}
 		else if ("SKT-E" == type)
 		{
 			pCtrlInfo->trans_req_gear(0);		//N
-			pCtrlInfo->traffic_brake_req(100);		//制动
+			pCtrlInfo->traffic_brake_req(90);		//制动
 		}
 		pCtrlInfo->parking_req(true);		//驻车
 		pCtrlInfo->engine_req_torque(0);	//油门
@@ -2448,6 +2521,21 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_getCtrlDate(ImpleResultInfo *pCtrlInfo)
 		pCtrlInfo->brake_light_ctrl(true);		//制动灯
 		MINE_LOG(SANY_LOG_INFO, "receive EmergencyStop cmd, gear: %d,  parking_req: %d,  traffic_brake_req: %f\n", pCtrlInfo->trans_req_gear(), pCtrlInfo->parking_req(), pCtrlInfo->traffic_brake_req());
 		// printf("start EmergencyStop, gear: %d,  parking_req: %d,  traffic_brake_req: %f\n", pCtrlInfo->trans_req_gear(), pCtrlInfo->parking_req(), pCtrlInfo->traffic_brake_req());
+	}
+	/*判断溜车*/
+	if(Is_Rolling())
+	{
+		pCtrlInfo->traffic_brake_req(100);		//制动
+		pCtrlInfo->parking_req(true);	
+		if("SKT-I" == type)
+		{
+			pCtrlInfo->trans_req_gear(0x7D);		//N
+		}
+		else if("SKT-E" == type)
+		{
+			pCtrlInfo->trans_req_gear(0);		//N
+		}
+		MINE_LOG(SANY_LOG_INFO, "rolling stop, gear: %d,  parking_req: %d,  traffic_brake_req: %f\n", pCtrlInfo->trans_req_gear(), pCtrlInfo->parking_req(), pCtrlInfo->traffic_brake_req());
 	}
 
 	return RET_OK;
