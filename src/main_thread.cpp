@@ -88,9 +88,9 @@ int main()
 				pCockpit->ProtoCockpit_getCtrlDate(&imple_result_info);
 				pPubImple->publish(imple_result_info);
 				Remote_Enable5++;
-				MINE_LOG(SANY_LOG_INFO, "exit from remote-control, current Gear: %d, BrakeOpening: %d, Parking State: %d\n", imple_result_info.trans_req_gear(), imple_result_info.traffic_brake_req(), imple_result_info.parking_req());
+				MINE_LOG(SANY_LOG_INFO, "exit from remote-control, current Gear: %d, BrakeOpening: %f, Parking State: %d\n", imple_result_info.trans_req_gear(), imple_result_info.traffic_brake_req(), imple_result_info.parking_req());
 			}
-			MINE_LOG(SANY_LOG_INFO, "exit from remote-control, publish dds times: %d\n", Remote_Enable5);
+		
 		}
 
 		usleep(50 * 1000);

@@ -123,6 +123,8 @@ void Protocol_Cockpit::Read_Config()
 		MINE_LOG(SANY_LOG_INFO, "Device VIN is %s\n", vin.c_str());
 		MINE_LOG(SANY_LOG_INFO, "Device ICCID is %s\n", iccid.c_str());
 		MINE_LOG(SANY_LOG_INFO, "Device type is %s\n", type.c_str());
+		MINE_LOG(SANY_LOG_INFO, "brake delay is %d\n", brake_delay);
+		MINE_LOG(SANY_LOG_INFO, "brakeing is %d\n", read_brakeing);
 	}
 }
 
@@ -2215,7 +2217,7 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_initCtrlData()
 SANY_U8 Protocol_Cockpit::ProtoCockpit_getCtrlDate(ImpleResultInfo *pCtrlInfo)
 {
 	float BrakeValue;
-	int brake_count = 0;
+	SANY_U32 brake_count = 0;
 	if (!pCtrlInfo)
 	{
 		MINE_LOG(SANY_LOG_ERROR, "ProtoCockpit_getCtrlDate param invalid \n");
@@ -2297,32 +2299,33 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_getCtrlDate(ImpleResultInfo *pCtrlInfo)
 	printf("ctrl gear: %d\n", pCtrlInfo->trans_req_gear());
 		
 	/*-------------------制动，0-100-------------------*/
-	if((struGpsInfo.gps_pitch() > 2) && (brake_count < brake_delay))
+	if((struGpsInfo.gps_pitch() > 2) && (brake_count < 60))
 	{
 		if((struWireCtrlIn.iBrakeOpening == 0) && (BrakeValue > 0.1))
 		{
-		//	pCtrlInfo->traffic_brake_req(50);
-			pCtrlInfo->traffic_brake_req((float)read_brakeing);
+			pCtrlInfo->traffic_brake_req(100);
+		//	pCtrlInfo->traffic_brake_req((float)read_brakeing);
 			brake_count ++;
 		}
-		else if(struWireCtrlIn.iThrottleOpening > 20)
+		else if((struWireCtrlIn.iThrottleOpening > 20) && (struWireCtrlOut.iVehicle_speed < 1) && (WireInfo.trans_current_gear() != 0) && (WireInfo.trans_current_gear() != -1))
 		{
-		//	pCtrlInfo->traffic_brake_req(50);
-			pCtrlInfo->traffic_brake_req((float)read_brakeing);
+			pCtrlInfo->traffic_brake_req(100);
+		//	pCtrlInfo->traffic_brake_req((float)read_brakeing);
 			brake_count ++;
+			MINE_LOG(SANY_LOG_INFO, "brakeing delay, current speed : %f, brake_count: %d,  traffic_brake_req: %f, current gear: %d\n", struWireCtrlOut.iVehicle_speed, brake_count, pCtrlInfo->traffic_brake_req(), WireInfo.trans_current_gear());
 		}
 		else
 		{
-			BrakeValue = (float)struWireCtrlIn.iBrakeOpening;
-			pCtrlInfo->traffic_brake_req(BrakeValue);
+		//	BrakeValue = (float)struWireCtrlIn.iBrakeOpening;
+			pCtrlInfo->traffic_brake_req((float)struWireCtrlIn.iBrakeOpening);
 		}
-		MINE_LOG(SANY_LOG_INFO, "brakeing delay 3 seconds, gps_pitch is : %d, brake_count: %d,  traffic_brake_req: %f\n", struGpsInfo.gps_pitch(), brake_count, pCtrlInfo->traffic_brake_req());
+		MINE_LOG(SANY_LOG_INFO, "brakeing delay 3 seconds, gps_pitch is : %f, brake_count: %d,  traffic_brake_req: %f\n", struWireCtrlOut.iPitchAngle, brake_count, pCtrlInfo->traffic_brake_req());
 	} 
 	else
 	{
 		brake_count = 0;
 		BrakeValue = (float)struWireCtrlIn.iBrakeOpening;
-		pCtrlInfo->traffic_brake_req(BrakeValue);
+		pCtrlInfo->traffic_brake_req((float)struWireCtrlIn.iBrakeOpening);
 	}
 	
 //	printf("traffic brake req: %f\n", pCtrlInfo->traffic_brake_req());
@@ -2502,26 +2505,7 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_getCtrlDate(ImpleResultInfo *pCtrlInfo)
 			pCtrlInfo->container_ctrl(0);
 		}
 	}
-	/*判断是否急停，请求急停则请求驻车*/
-	if (1 == g_u8EmergencyStopFlg)
-	{
-		if("SKT-I" == type)
-		{
-			pCtrlInfo->trans_req_gear(0x7D);		//N
-			pCtrlInfo->traffic_brake_req(90);		//制动
-		}
-		else if ("SKT-E" == type)
-		{
-			pCtrlInfo->trans_req_gear(0);		//N
-			pCtrlInfo->traffic_brake_req(90);		//制动
-		}
-		pCtrlInfo->parking_req(true);		//驻车
-		pCtrlInfo->engine_req_torque(0);	//油门
-		pCtrlInfo->brake_req_status(true);		//刹车请求状态
-		pCtrlInfo->brake_light_ctrl(true);		//制动灯
-		MINE_LOG(SANY_LOG_INFO, "receive EmergencyStop cmd, gear: %d,  parking_req: %d,  traffic_brake_req: %f\n", pCtrlInfo->trans_req_gear(), pCtrlInfo->parking_req(), pCtrlInfo->traffic_brake_req());
-		// printf("start EmergencyStop, gear: %d,  parking_req: %d,  traffic_brake_req: %f\n", pCtrlInfo->trans_req_gear(), pCtrlInfo->parking_req(), pCtrlInfo->traffic_brake_req());
-	}
+
 	/*判断溜车*/
 	if(Is_Rolling())
 	{
@@ -2535,8 +2519,31 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_getCtrlDate(ImpleResultInfo *pCtrlInfo)
 		{
 			pCtrlInfo->trans_req_gear(0);		//N
 		}
-		MINE_LOG(SANY_LOG_INFO, "rolling stop, gear: %d,  parking_req: %d,  traffic_brake_req: %f\n", pCtrlInfo->trans_req_gear(), pCtrlInfo->parking_req(), pCtrlInfo->traffic_brake_req());
+	//	g_u8EmergencyStopFlg = 1;
+		MINE_LOG(SANY_LOG_INFO, "rolling stop, emergency stop!!!");
 	}
+
+	/*判断是否急停，请求急停则请求驻车*/
+	if (1 == g_u8EmergencyStopFlg)
+	{
+		if("SKT-I" == type)
+		{
+			pCtrlInfo->trans_req_gear(0x7D);		//N
+			pCtrlInfo->traffic_brake_req(100);		//制动
+		}
+		else if ("SKT-E" == type)
+		{
+			pCtrlInfo->trans_req_gear(0);		//N
+			pCtrlInfo->traffic_brake_req(100);		//制动
+		}
+		pCtrlInfo->parking_req(true);		//驻车
+		pCtrlInfo->engine_req_torque(0);	//油门
+		pCtrlInfo->brake_req_status(true);		//刹车请求状态
+		pCtrlInfo->brake_light_ctrl(true);		//制动灯
+		MINE_LOG(SANY_LOG_INFO, "receive EmergencyStop cmd, gear: %d,  parking_req: %d,  traffic_brake_req: %f\n", pCtrlInfo->trans_req_gear(), pCtrlInfo->parking_req(), pCtrlInfo->traffic_brake_req());
+		// printf("start EmergencyStop, gear: %d,  parking_req: %d,  traffic_brake_req: %f\n", pCtrlInfo->trans_req_gear(), pCtrlInfo->parking_req(), pCtrlInfo->traffic_brake_req());
+	}
+	
 
 	return RET_OK;
 }
