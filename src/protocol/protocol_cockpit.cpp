@@ -106,8 +106,8 @@ void Protocol_Cockpit::Read_Config()
 		vin = config["vehicle"]["vehicle_VIN"].as<std::string>();
 		iccid = config["vehicle"]["vehicle_ICCID"].as<std::string>();
 		v_type = config["vehicle"]["vehicle_type"].as<int>();
-		brake_delay = config["vehicle"]["vehicle_delay"].as<int>();
-		read_brakeing = config["vehicle"]["vehicle_brake"].as<int>();
+	//	brake_delay = config["vehicle"]["vehicle_delay"].as<int>();
+	//	read_brakeing = config["vehicle"]["vehicle_brake"].as<int>();
 		if(v_type == 0)
 		{
 			MINE_LOG(SANY_LOG_ERROR, "Read Config-runSetup.yaml vehicle_type is 0 !!!");
@@ -123,8 +123,8 @@ void Protocol_Cockpit::Read_Config()
 		MINE_LOG(SANY_LOG_INFO, "Device VIN is %s\n", vin.c_str());
 		MINE_LOG(SANY_LOG_INFO, "Device ICCID is %s\n", iccid.c_str());
 		MINE_LOG(SANY_LOG_INFO, "Device type is %s\n", type.c_str());
-		MINE_LOG(SANY_LOG_INFO, "brake delay is %d\n", brake_delay);
-		MINE_LOG(SANY_LOG_INFO, "brakeing is %d\n", read_brakeing);
+	//	MINE_LOG(SANY_LOG_INFO, "brake delay is %d\n", brake_delay);
+	//	MINE_LOG(SANY_LOG_INFO, "brakeing is %d\n", read_brakeing);
 	}
 }
 
@@ -1727,6 +1727,7 @@ void Protocol_Cockpit::funcAppDownloadData()
 				MINE_LOG(SANY_LOG_ERROR, "comm_socket_client_do_connect, u32NetStatus: %d\n", u32NetStatus);
 				if (1 != u32NetStatus)
 				{
+					ProtoCockpit_initCtrlData();
 					u8ConnectTimes++;
 					MINE_LOG(SANY_LOG_ERROR, "sa_comm_socket_client_send fail, u8ConnectTimes: %d\n", u8ConnectTimes);					
 					/*延时500ms重连*/
@@ -2161,7 +2162,7 @@ SANY_U8 Protocol_Cockpit::Is_Rolling()
 	float speed_heading = Speed_Heading(struGpsInfo.gps_vn(),struGpsInfo.gps_ve(),struGpsInfo.gps_heading());
     float vehicle_heading = struGpsInfo.gps_heading();
 	SANY_U8 rolling_need_stop = 0;
-	if ( (fabs(struGpsInfo.gps_vn()) > 0.1 || fabs(struGpsInfo.gps_ve()) > 0.1))
+	if ( (fabs(struGpsInfo.gps_vn()) > 0.1 || fabs(struGpsInfo.gps_ve()) > 0.1) && (WireInfo.trans_current_gear() == -1))
     {
         vehicle_heading += 180;
         if (vehicle_heading >= 360)
@@ -2216,8 +2217,6 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_initCtrlData()
 
 SANY_U8 Protocol_Cockpit::ProtoCockpit_getCtrlDate(ImpleResultInfo *pCtrlInfo)
 {
-	float BrakeValue;
-	SANY_U32 brake_count = 0;
 	if (!pCtrlInfo)
 	{
 		MINE_LOG(SANY_LOG_ERROR, "ProtoCockpit_getCtrlDate param invalid \n");
@@ -2299,27 +2298,37 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_getCtrlDate(ImpleResultInfo *pCtrlInfo)
 	printf("ctrl gear: %d\n", pCtrlInfo->trans_req_gear());
 		
 	/*-------------------制动，0-100-------------------*/
-	if((struGpsInfo.gps_pitch() > 2) && (brake_count < 60))
+	//pCtrlInfo->traffic_brake_req((float)struWireCtrlIn.iBrakeOpening);
+	
+	if((struGpsInfo.gps_pitch() > 2))
 	{
-		if((struWireCtrlIn.iBrakeOpening == 0) && (BrakeValue > 0.1))
+		MINE_LOG(SANY_LOG_INFO, "config brake_delay:  %d\n", brake_delay);
+		if((struWireCtrlIn.iBrakeOpening == 0) && (BrakeValue > 0.1) && (brake_count < brake_delay))
 		{
-			pCtrlInfo->traffic_brake_req(100);
+			pCtrlInfo->traffic_brake_req((float)read_brakeing);
 		//	pCtrlInfo->traffic_brake_req((float)read_brakeing);
 			brake_count ++;
+			MINE_LOG(SANY_LOG_INFO, "brakeing delay 1 seconds, gps_pitch is : %f, brake_count: %d,  traffic_brake_req: %f\n", struWireCtrlOut.iPitchAngle, brake_count, pCtrlInfo->traffic_brake_req());
 		}
-		else if((struWireCtrlIn.iThrottleOpening > 20) && (struWireCtrlOut.iVehicle_speed < 1) && (WireInfo.trans_current_gear() != 0) && (WireInfo.trans_current_gear() != -1))
+		else if((struWireCtrlIn.iThrottleOpening > 20) && (struWireCtrlOut.iVehicle_speed < 1) && (WireInfo.trans_current_gear() != 0) && (WireInfo.trans_current_gear() != -1) && (brake_count < brake_delay))
 		{
-			pCtrlInfo->traffic_brake_req(100);
+			pCtrlInfo->traffic_brake_req((float)read_brakeing );
 		//	pCtrlInfo->traffic_brake_req((float)read_brakeing);
 			brake_count ++;
 			MINE_LOG(SANY_LOG_INFO, "brakeing delay, current speed : %f, brake_count: %d,  traffic_brake_req: %f, current gear: %d\n", struWireCtrlOut.iVehicle_speed, brake_count, pCtrlInfo->traffic_brake_req(), WireInfo.trans_current_gear());
 		}
-		else
+		else if(struWireCtrlOut.iVehicle_speed > 1)
 		{
 		//	BrakeValue = (float)struWireCtrlIn.iBrakeOpening;
+			brake_count = 0;
 			pCtrlInfo->traffic_brake_req((float)struWireCtrlIn.iBrakeOpening);
+			MINE_LOG(SANY_LOG_INFO, "no brakeing delay ,clear brake_count\n");	
 		}
-		MINE_LOG(SANY_LOG_INFO, "brakeing delay 3 seconds, gps_pitch is : %f, brake_count: %d,  traffic_brake_req: %f\n", struWireCtrlOut.iPitchAngle, brake_count, pCtrlInfo->traffic_brake_req());
+		else 
+		{
+			pCtrlInfo->traffic_brake_req((float)struWireCtrlIn.iBrakeOpening);
+			MINE_LOG(SANY_LOG_INFO, "no brakeing delay!\n");	
+		}	
 	} 
 	else
 	{
@@ -2329,6 +2338,7 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_getCtrlDate(ImpleResultInfo *pCtrlInfo)
 	}
 	
 //	printf("traffic brake req: %f\n", pCtrlInfo->traffic_brake_req());
+
 
 	if (pCtrlInfo->traffic_brake_req() > 0)
 	{
@@ -2509,6 +2519,7 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_getCtrlDate(ImpleResultInfo *pCtrlInfo)
 	/*判断溜车*/
 	if(Is_Rolling())
 	{
+		/*
 		pCtrlInfo->traffic_brake_req(100);		//制动
 		pCtrlInfo->parking_req(true);	
 		if("SKT-I" == type)
@@ -2519,9 +2530,12 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_getCtrlDate(ImpleResultInfo *pCtrlInfo)
 		{
 			pCtrlInfo->trans_req_gear(0);		//N
 		}
-	//	g_u8EmergencyStopFlg = 1;
-		MINE_LOG(SANY_LOG_INFO, "rolling stop, emergency stop!!!");
+		//	g_u8EmergencyStopFlg = 1;
+		MINE_LOG(SANY_LOG_INFO, "rolling stop, emergency stop, rolling count: %d\n", rolling_count);
+		*/
+		g_u8EmergencyStopFlg = 1;
 	}
+	
 
 	/*判断是否急停，请求急停则请求驻车*/
 	if (1 == g_u8EmergencyStopFlg)
