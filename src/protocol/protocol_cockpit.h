@@ -191,10 +191,10 @@ private:
 	std::string type;
 	std::string HardVer = "0101";
 	std::string SoftVer = "0213";
-	SANY_U32 brake_delay = 0;
+	SANY_U32 brake_delay = 40;
 	SANY_U32 read_brakeing = 50;
 	SANY_U32 v_type = 0;
-	SANY_U32 brake_count = 40;
+	SANY_U32 brake_count = 0;
 	float BrakeValue;
 	pthread_t t_recv_id;
 	pthread_t t_upload_data_id;
