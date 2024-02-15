@@ -675,6 +675,7 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_RecvCmdLoginOut(Protocol_Cockpit_Buffer_s
 	m_pFailureSDK->report(FailureModule_Nebula_RemoteCtrl, 3203, 5, 0);	
 	m_pFailureSDK->report(FailureModule_Nebula_RemoteCtrl, 3204, 1, 0);
 	m_pFailureSDK->report(FailureModule_Nebula_RemoteCtrl, 3204, 3, 0);
+	MINE_LOG(SANY_LOG_INFO, "report failure clear,! \n");
 	/*关闭Socket，释放线程资源*/
 	stop();
 
@@ -1669,12 +1670,6 @@ void Protocol_Cockpit::funcAppDownloadData()
 					
 					if (500  <= u8LostTimes)
 					{
-						/*
-						if(struGpsInfo.gps_pitch() >= 2 || struGpsInfo.gps_pitch() <= -2)
-						{
-							g_u8EmergencyStopFlg = 1;
-						}
-						*/
 						if(type == "SKT-I")
 						{
 							struWireCtrlIn.iGearOpening = 0x7D;
@@ -1691,11 +1686,11 @@ void Protocol_Cockpit::funcAppDownloadData()
 						}
 						struWireCtrlIn.iKeyOperation2 = 0x08;	
 						m_pFailureSDK->report(FailureModule_Nebula_RemoteCtrl, 3203, 5, 1);				
-						MINE_LOG(SANY_LOG_ERROR, "DownloadData timeout, u8LostTimes: %d\n", u8LostTimes);			
+						MINE_LOG(SANY_LOG_ERROR, "DownloadData timeout, report failure, u8LostTimes: %d\n", u8LostTimes);			
 						m_Terminal.comm_socket_client_do_disconnect(m_Socket_CockpitClient);		
 						u8LostTimes = 0;
-						MINE_LOG(SANY_LOG_ERROR, "lost control-data 500ms, comm_socket_client_do_disconnect, u8LostTimes is : %d\n", u8LostTimes);		
-						MINE_LOG(SANY_LOG_ERROR, "lost control-data 500ms, current Gear: %d, BrakeOpening: %d, Parking State: %d\n", WireInfo.trans_current_gear(), WireInfo.brake_pedal_SYMC(), WireInfo.parking());				
+					//	MINE_LOG(SANY_LOG_ERROR, "lost control-data 500ms, comm_socket_client_do_disconnect, u8LostTimes is : %d\n", u8LostTimes);		
+						MINE_LOG(SANY_LOG_ERROR, "lost control-data 500ms, comm_socket_client_do_disconnect, current Gear: %d, BrakeOpening: %d, Parking State: %d\n", WireInfo.trans_current_gear(), WireInfo.brake_pedal_SYMC(), WireInfo.parking());				
 					}
 					u8LostTimes++;
 				}
@@ -1994,7 +1989,10 @@ void Protocol_Cockpit::start()
 /*模块业务关闭接口，做资源的反初始化*/
 void Protocol_Cockpit::stop()
 {
-	g_u8CtrlState = 2;
+	if(g_u8CtrlState == 1 )
+	{
+		g_u8CtrlState = 2;
+	}
 	g_u8TaskStopFlag = 1;
 	MINE_LOG(SANY_LOG_ERROR, "STOP, g_u8CtrlState is  %d,  g_u8TaskStopFlag is  %d\n", g_u8CtrlState, g_u8TaskStopFlag);
 	m_pFailureSDK->report(FailureModule_Nebula_RemoteCtrl, 3201, 15, 0);
@@ -2006,7 +2004,7 @@ void Protocol_Cockpit::stop()
 	m_pFailureSDK->report(FailureModule_Nebula_RemoteCtrl, 3203, 5, 0);	
 	m_pFailureSDK->report(FailureModule_Nebula_RemoteCtrl, 3204, 1, 0);
 	m_pFailureSDK->report(FailureModule_Nebula_RemoteCtrl, 3204, 3, 0);
-
+	MINE_LOG(SANY_LOG_INFO, "report failure clear! \n");
 	/*延时2S等待，线程退出*/
 	sleep(2);
 
@@ -2017,13 +2015,13 @@ void Protocol_Cockpit::stop()
 
 	/*等待线程退出*/
 	pthread_join(t_upload_data_id, NULL);
-	printf("t_upload_data_id-----------------------\n");
+//	printf("t_upload_data_id-----------------------\n");
 	pthread_join(t_download_data_id, NULL);
-	printf("t_download_data_id-----------------------\n");
+//	printf("t_download_data_id-----------------------\n");
 	pthread_join(t_recv_id, NULL);
-	printf("t_recv_id-----------------------\n");
+//	printf("t_recv_id-----------------------\n");
 	pthread_join(t_send_id, NULL);
-	printf("t_send_id-----------------------\n");
+//	printf("t_send_id-----------------------\n");
 	MINE_LOG(SANY_LOG_ERROR, "STOP, wait for pthread_join!!!\n");
 
 	/*释放动态申请的内存空间*/
@@ -2152,8 +2150,6 @@ float Protocol_Cockpit::Speed_Heading(const float gps_vn, const float gps_ve, co
     }
     // if(steering_angle > 10 || steering_angle < -10)
     //         speed_heading = heading;
-    MINE_LOG(SANY_LOG_INFO, "speed_heading, gps_vn : %f, gps_ve : %f, theta is : %f, speed_heading is : %f, heading is : %f\n", 
-    gps_vn,gps_ve,theta,speed_heading,heading);
     return speed_heading;
 }
 
@@ -2177,6 +2173,8 @@ SANY_U8 Protocol_Cockpit::Is_Rolling()
             heading_count = 20;
             rolling_need_stop = 1;
             MINE_LOG(SANY_LOG_ERROR, "rolling_need_stop : %d\n", rolling_need_stop);
+			MINE_LOG(SANY_LOG_INFO, "speed_heading, gps_vn : %f, gps_ve : %f, theta is : %f, speed_heading is : %f, heading is : %f\n", 
+   			gps_vn,gps_ve,theta,speed_heading,heading);
         }
         else
         {
