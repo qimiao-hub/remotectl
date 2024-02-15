@@ -2173,8 +2173,7 @@ SANY_U8 Protocol_Cockpit::Is_Rolling()
             heading_count = 20;
             rolling_need_stop = 1;
             MINE_LOG(SANY_LOG_ERROR, "rolling_need_stop : %d\n", rolling_need_stop);
-			MINE_LOG(SANY_LOG_INFO, "speed_heading, gps_vn : %f, gps_ve : %f, theta is : %f, speed_heading is : %f, heading is : %f\n", 
-   			gps_vn,gps_ve,theta,speed_heading,heading);
+			MINE_LOG(SANY_LOG_INFO, "speed_heading, gps_vn : %f, gps_ve : %f, speed_heading is : %f, heading is : %f\n", struGpsInfo.gps_vn(), struGpsInfo.gps_ve(), speed_heading, struGpsInfo.gps_heading());
         }
         else
         {
