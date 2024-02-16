@@ -415,7 +415,6 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_RecvAckLoginPacket(Protocol_Cockpit_Buffe
 	m_pFailureSDK->report(FailureModule_Nebula_RemoteCtrl, 3201, 12, 0);
 	m_pFailureSDK->report(FailureModule_Nebula_RemoteCtrl, 3201, 13, 0);
 
-//	g_IpFlag = 1;					//V2.1.3，出现登录慢，登录成功前再次收到ip，连接出错
 	/* 开启实时上报 */
 	g_u32RTDataFlg = 1;
 	/* 开启状态变化上报 */
@@ -1245,6 +1244,10 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_SendCmdRealtimeStatusRep()
 		{
 			pKeySubSt->ucCombinedGearR[0] |= 0x01 << 2;
 		}
+		if(g_u8EmergencyStopFlg == 1)												//急停状态上报
+		{
+			pKeySubSt->ucCombinedGearR[0] |= 0x01 << 3;
+		}
 
 		if (WireInfo.hazard_start_status())
 		{
@@ -1339,6 +1342,7 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_SendCmdRealtimeStatusRep()
 	MINE_LOG(SANY_LOG_INFO, "fuel_level: %d\n", WireInfo.fuel_level());
 	MINE_LOG(SANY_LOG_INFO, "vcu status: %d, remote_or_unman: %d\n, ", WireInfo.vcu_state(), WireInfo.Remote_or_Unman());
 	MINE_LOG(SANY_LOG_INFO, "work status: %d\n", g_current_state);
+	MINE_LOG(SANY_LOG_INFO, "emergency_stop status: %d\n", g_u8EmergencyStopFlg);
 	MINE_LOG(SANY_LOG_INFO, "----ProtoCockpit_SendCmdRealtimeStatusRep --- end\n");
 
 	u8Ret = ProtoCockpit_WriteSendBuffer(u8DataBuf, u32DataLen);
