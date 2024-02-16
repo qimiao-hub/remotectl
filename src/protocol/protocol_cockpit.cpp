@@ -1126,7 +1126,7 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_SendCmdRealtimeStatusRep()
 	SANY_U8 u8DataBuf[PROTO_PACK_MAX_LEN] = {0};
 	SANY_U32 u32DataLen = 0;
 	SANY_U8 *pSubst = NULL;
-	SANY_U16 u16TmpDate = 0;
+//	SANY_U16 u16TmpDate = 0;
 
 	/*线控返回的状态与之前一致的话，则无需进行状态上报*/
 	if (!memcmp(&OldWireInfo, &WireInfo, sizeof(WirectlFeedbackInfo)))
@@ -1572,9 +1572,9 @@ void Protocol_Cockpit::funcAppUploadData()
 {
 	SANY_U8 u8Ret = RET_OK;
 	static SANY_U32 u32Tick = 0; // 发送分频器
-	static SANY_U32 u8LostTimes = 0;
+//	static SANY_U32 u8LostTimes = 0;
 	SANY_U8 LoginTimes = 0;
-	SANY_U8 LoginoutTimes = 0;
+//	SANY_U8 LoginoutTimes = 0;
 
 	while (!g_u8TaskStopFlag)
 	{
@@ -1651,7 +1651,7 @@ void Protocol_Cockpit::funcAppDownloadData()
 	SANY_U32 u32DataLen = 0;
 	SANY_U8 szRecvBuffer[PROTO_PACK_MAX_LEN] = {0};
 	static SANY_U32 u8LostTimes = 0;
-	static SANY_U32 u8LostCtrlTimes = 0;
+//	static SANY_U32 u8LostCtrlTimes = 0;
 	SANY_U32 u32NetStatus = 0;
 	SANY_U8 u8ConnectTimes = 0;
 
@@ -2015,13 +2015,9 @@ void Protocol_Cockpit::stop()
 
 	/*等待线程退出*/
 	pthread_join(t_upload_data_id, NULL);
-//	printf("t_upload_data_id-----------------------\n");
 	pthread_join(t_download_data_id, NULL);
-//	printf("t_download_data_id-----------------------\n");
 	pthread_join(t_recv_id, NULL);
-//	printf("t_recv_id-----------------------\n");
 	pthread_join(t_send_id, NULL);
-//	printf("t_send_id-----------------------\n");
 	MINE_LOG(SANY_LOG_ERROR, "STOP, wait for pthread_join!!!\n");
 
 	/*释放动态申请的内存空间*/
@@ -2324,13 +2320,13 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_getCtrlDate(ImpleResultInfo *pCtrlInfo)
 		else 
 		{
 			pCtrlInfo->traffic_brake_req((float)struWireCtrlIn.iBrakeOpening);
+			BrakeValue = (float)struWireCtrlIn.iBrakeOpening;
 			MINE_LOG(SANY_LOG_INFO, "no brakeing delay!\n");	
 		}	
 	} 
 	else
 	{
 		brake_count = 0;
-		BrakeValue = (float)struWireCtrlIn.iBrakeOpening;
 		pCtrlInfo->traffic_brake_req((float)struWireCtrlIn.iBrakeOpening);
 	}
 	
