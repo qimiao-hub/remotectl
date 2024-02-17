@@ -1248,6 +1248,10 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_SendCmdRealtimeStatusRep()
 		{
 			pKeySubSt->ucCombinedGearR[0] |= 0x01 << 3;
 		}
+		if(rolling_need_stop == 1)														//溜车状态上报
+		{
+			pKeySubSt->ucCombinedGearR[0] |= 0x01 << 4;
+		}
 
 		if (WireInfo.hazard_start_status())
 		{
@@ -1689,10 +1693,11 @@ void Protocol_Cockpit::funcAppDownloadData()
 							struWireCtrlIn.iWheelAngle = 0x0190;
 						}
 						struWireCtrlIn.iKeyOperation2 = 0x08;	
-						m_pFailureSDK->report(FailureModule_Nebula_RemoteCtrl, 3203, 5, 1);				
-						MINE_LOG(SANY_LOG_ERROR, "DownloadData timeout, report failure, u8LostTimes: %d\n", u8LostTimes);			
-						m_Terminal.comm_socket_client_do_disconnect(m_Socket_CockpitClient);		
+						m_pFailureSDK->report(FailureModule_Nebula_RemoteCtrl, 3203, 5, 1);												
+						m_Terminal.comm_socket_client_do_disconnect(m_Socket_CockpitClient);	
 						u8LostTimes = 0;
+						g_u8LoginFlag = 0;
+						MINE_LOG(SANY_LOG_ERROR, "DownloadData timeout, report failure, u8LostTimes: %d, b_connected: %d\n", u8LostTimes, m_Socket_CockpitClient->b_connected);		
 					//	MINE_LOG(SANY_LOG_ERROR, "lost control-data 500ms, comm_socket_client_do_disconnect, u8LostTimes is : %d\n", u8LostTimes);		
 						MINE_LOG(SANY_LOG_ERROR, "lost control-data 500ms, comm_socket_client_do_disconnect, current Gear: %d, BrakeOpening: %d, Parking State: %d\n", WireInfo.trans_current_gear(), WireInfo.brake_pedal_SYMC(), WireInfo.parking());				
 					}
@@ -2157,7 +2162,7 @@ SANY_U8 Protocol_Cockpit::Is_Rolling()
 {
 	float speed_heading = Speed_Heading(struGpsInfo.gps_vn(),struGpsInfo.gps_ve(),struGpsInfo.gps_heading());
     float vehicle_heading = struGpsInfo.gps_heading();
-	SANY_U8 rolling_need_stop = 0;
+	
 	if ( (fabs(struGpsInfo.gps_vn()) > 0.1 || fabs(struGpsInfo.gps_ve()) > 0.1) && (WireInfo.trans_current_gear() == -1))
     {
         vehicle_heading += 180;
@@ -2183,6 +2188,7 @@ SANY_U8 Protocol_Cockpit::Is_Rolling()
     else
     {
         heading_count = 0;
+		rolling_need_stop = 0;
     }
 	return rolling_need_stop;
 }

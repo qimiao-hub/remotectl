@@ -182,6 +182,9 @@ private:
 	/* 急停标识 */
 	SANY_U8 g_u8EmergencyStopFlg = 0; // normal data flag
 
+	/*溜车标识*/
+	SANY_U8 rolling_need_stop = 0;		// normal data flag
+
 	/*任务结束标识，驾舱登出后释放线程资源，置位后四个线程退出*/
 	volatile SANY_U8 g_u8TaskStopFlag = 0;
 
