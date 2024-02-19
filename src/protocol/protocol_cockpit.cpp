@@ -1696,9 +1696,8 @@ void Protocol_Cockpit::funcAppDownloadData()
 						m_pFailureSDK->report(FailureModule_Nebula_RemoteCtrl, 3203, 5, 1);												
 						m_Terminal.comm_socket_client_do_disconnect(m_Socket_CockpitClient);	
 						u8LostTimes = 0;
-						g_u8LoginFlag = 0;
+					//	g_u8LoginFlag = 0;
 						MINE_LOG(SANY_LOG_ERROR, "DownloadData timeout, report failure, u8LostTimes: %d, b_connected: %d\n", u8LostTimes, m_Socket_CockpitClient->b_connected);		
-					//	MINE_LOG(SANY_LOG_ERROR, "lost control-data 500ms, comm_socket_client_do_disconnect, u8LostTimes is : %d\n", u8LostTimes);		
 						MINE_LOG(SANY_LOG_ERROR, "lost control-data 500ms, comm_socket_client_do_disconnect, current Gear: %d, BrakeOpening: %d, Parking State: %d\n", WireInfo.trans_current_gear(), WireInfo.brake_pedal_SYMC(), WireInfo.parking());				
 					}
 					u8LostTimes++;
@@ -1715,10 +1714,10 @@ void Protocol_Cockpit::funcAppDownloadData()
 		else
 		{
 			/* 断开连接后进行重连 */
-			//g_u8LoginFlag = 0; // 修改登入状态
+			g_u8LoginFlag = 0; // 修改登入状态
 			//g_u8CtrlState = 0;	//
 			/* 定时器到时后尝试重连 */
-			MINE_LOG(SANY_LOG_ERROR, "Reconnect TCP\n");
+			MINE_LOG(SANY_LOG_ERROR, "Reconnect TCP, current login flag: %d\n", g_u8LoginFlag);
 			if(19 < u8ConnectTimes)
 			{
 				MINE_LOG(SANY_LOG_ERROR, " reconnect 10 seconds, exit!!! \n");
@@ -1741,7 +1740,7 @@ void Protocol_Cockpit::funcAppDownloadData()
 				/* 网络连接成功，更新网络状态 */
 				g_bNetReady = 1;
 				u8ConnectTimes = 0;
-				MINE_LOG(SANY_LOG_ERROR, "Reconnect TCP Success!!! g_bNetReady: %d, clear u8ConnectTimes: %d\n", g_bNetReady, u8ConnectTimes);
+				MINE_LOG(SANY_LOG_ERROR, "Reconnect TCP Success!!! m_Socket_CockpitClient->b_connected: %d, clear u8ConnectTimes: %d\n", m_Socket_CockpitClient->b_connected, u8ConnectTimes);
 			}
 		}
 		usleep(1000);

@@ -46,7 +46,7 @@ int main()
 {
 	zkbs::init("syzk-remotectl");
 	DaemonHandl Hdl = daemon_create("syzk-remotectl", 500, DEV_TYPE_XINGYUN);
-	zkbs::setVersion(VER("1.4"));
+	zkbs::setVersion(VER("1.5"));
 
 	mine_log::set_log_level(SANY_LOG_INFO);
 	mine_log::set_log_output(SANY_LOG_OUT_FILE);
