@@ -2331,6 +2331,7 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_getCtrlDate(ImpleResultInfo *pCtrlInfo)
 		{
 			pCtrlInfo->traffic_brake_req((float)struWireCtrlIn.iBrakeOpening);
 			BrakeValue = (float)struWireCtrlIn.iBrakeOpening;
+			brake_count = 0;
 			MINE_LOG(SANY_LOG_INFO, "no brakeing delay!\n");	
 		}	
 	} 
