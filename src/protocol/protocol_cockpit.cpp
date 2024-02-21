@@ -1616,6 +1616,7 @@ void Protocol_Cockpit::funcAppUploadData()
 			/*已经登录完成，则进行需要上报的数据协议组装*/
 			else
 			{
+				LoginTimes = 0;
 				/*100ms上报一次*/
 				if(0 == (u32Tick % SEND_RTDATA_UPLOAD_TICK))
 				{
