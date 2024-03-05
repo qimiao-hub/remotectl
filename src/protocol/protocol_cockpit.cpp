@@ -2306,7 +2306,7 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_getCtrlDate(ImpleResultInfo *pCtrlInfo)
 	if((struGpsInfo.gps_pitch() > 2))
 	{
 		MINE_LOG(SANY_LOG_INFO, "config brake_delay:  %d\n", brake_delay);
-		if((struWireCtrlIn.iBrakeOpening == 0) && (BrakeValue > 0.1) && (brake_count < brake_delay))
+		if((struWireCtrlIn.iBrakeOpening == 0) && (BrakeValue > 0.1) && (brake_count < brake_delay) && (struWireCtrlIn.iThrottleOpening < 1))
 		{
 			pCtrlInfo->traffic_brake_req((float)read_brakeing);
 		//	pCtrlInfo->traffic_brake_req((float)read_brakeing);
@@ -2320,7 +2320,7 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_getCtrlDate(ImpleResultInfo *pCtrlInfo)
 			brake_count ++;
 			MINE_LOG(SANY_LOG_INFO, "brakeing delay, current speed : %f, brake_count: %d,  traffic_brake_req: %f, current gear: %d\n", struWireCtrlOut.iVehicle_speed, brake_count, pCtrlInfo->traffic_brake_req(), WireInfo.trans_current_gear());
 		}
-		else if(struWireCtrlOut.iVehicle_speed > 1)
+		else if((struWireCtrlOut.iVehicle_speed > 1) || (BrakeValue == 0))
 		{
 		//	BrakeValue = (float)struWireCtrlIn.iBrakeOpening;
 			brake_count = 0;
@@ -2331,8 +2331,7 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_getCtrlDate(ImpleResultInfo *pCtrlInfo)
 		{
 			pCtrlInfo->traffic_brake_req((float)struWireCtrlIn.iBrakeOpening);
 			BrakeValue = (float)struWireCtrlIn.iBrakeOpening;
-			brake_count = 0;
-			MINE_LOG(SANY_LOG_INFO, "no brakeing delay!\n");	
+			MINE_LOG(SANY_LOG_INFO, "no brakeing delay !\n");	
 		}	
 	} 
 	else
