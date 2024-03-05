@@ -513,7 +513,7 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_RecvCmdRealtimeCtrl(Protocol_Cockpit_Buff
 	CP_Header_st *headST = (CP_Header_st *)pDateBuffer->szDataBuf;
 	CP_Realtime_Ctrl_Cmd_st *pRealtimeCtrlCmdDataST = (CP_Realtime_Ctrl_Cmd_st *)headST->ucData;
 
-	if (!g_u8CtrlState)
+	if (g_u8CtrlState != 1)
 	{
 		MINE_LOG(SANY_LOG_ERROR, "----EV_CP_REQ_CTRL ERR----\n");
 		return RET_ERROR;
