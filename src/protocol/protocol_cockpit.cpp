@@ -1420,6 +1420,7 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_WriteSendBuffer(SANY_U8 *pu8DataBuf, SANY
 		{
 		//	sany_log_set_output(logHandleLocal, SANY_LOG_OUT_BOTH);
 			MINE_LOG(SANY_LOG_ERROR, "WriteSendBuffer full!\n");
+			g_u8SendBufferFull = 1;	
 			pthread_mutex_unlock(&SendBufferMutex);
 			return RET_ERROR;
 		}
@@ -1457,6 +1458,7 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_ReadSendBuffer(SANY_U8 *pu8DataBuf, SANY_
 
 	if (0 >= g_u8SendBufferDateLen)
 	{
+		MINE_LOG(SANY_LOG_ERROR, "ProtoCockpit_ReadSendBuffer  g_u8SendBufferDatalen  <= 0!!!\n");
 		pthread_mutex_unlock(&SendBufferMutex);
 		return RET_ERROR;
 	}
@@ -1468,6 +1470,7 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_ReadSendBuffer(SANY_U8 *pu8DataBuf, SANY_
 
 	if (0 >= arrSendBuffer[g_u8SendBufferReadIndex].u32SendLen)
 	{
+		MINE_LOG(SANY_LOG_ERROR, "ProtoCockpit_ReadSendBuffer  arrSendBuffer[g_u8SendBufferReadIndex].u32SendLen  <= 0!!!\n");
 		pthread_mutex_unlock(&SendBufferMutex);
 		return RET_ERROR;
 	}
@@ -1477,6 +1480,11 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_ReadSendBuffer(SANY_U8 *pu8DataBuf, SANY_
 
 	g_u8SendBufferReadIndex++;
 	g_u8SendBufferDateLen--;
+
+	if((PROTOCOL_COCKPIT_SEND_BUF > g_u8SendBufferWriteIndex) || (PROTOCOL_COCKPIT_SEND_BUF > g_u8SendBufferDateLen))
+	{
+		g_u8SendBufferFull = 0;				
+	}
 	pthread_mutex_unlock(&SendBufferMutex);
 
 	return RET_OK;
@@ -1506,7 +1514,7 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_WriteRecvBuffer(SANY_U8 *pu8DataBuf, SANY
 	{
 		if (PROTOCOL_COCKPIT_RECV_BUF > g_u8RecvBufferDateLen)
 		{
-			g_u8RecvBufferWriteIndex = 0;
+			g_u8RecvBufferWriteIndex = 0;			
 		}
 		else
 		{
@@ -1547,6 +1555,7 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_ReadRecvBuffer(SANY_U8 *pu8DataBuf, SANY_
 	if (0 >= g_u8RecvBufferDateLen)
 	{
 		pthread_mutex_unlock(&RecvBufferMutex);
+		MINE_LOG(SANY_LOG_ERROR, "g_u8RecvBufferDateLen  =  0!!\n");
 		return RET_ERROR;
 	}
 
@@ -1614,7 +1623,7 @@ void Protocol_Cockpit::funcAppUploadData()
 				}
 			}
 			/*已经登录完成，则进行需要上报的数据协议组装*/
-			else
+			else if(g_u8SendBufferFull == 0)
 			{
 				LoginTimes = 0;
 				/*100ms上报一次*/
@@ -1633,7 +1642,7 @@ void Protocol_Cockpit::funcAppUploadData()
 					}
 					
 				}	
-				/*状态变更上报*/
+				/*状态变更上报50ms*/
 				if(g_u32NLDataFlg && (0 == (u32Tick % SEND_STATUS_DATA_UPLOAD_TICK)))
 				{
 					u8Ret = ProtoCockpit_SendCmdRealtimeStatusRep();
@@ -1644,7 +1653,10 @@ void Protocol_Cockpit::funcAppUploadData()
 					}
 				}		
 			}
-
+			else
+			{
+				continue;
+			}
 			u32Tick++;
 			usleep(1000); // 1ms
 		}
@@ -1766,6 +1778,7 @@ void Protocol_Cockpit::funcSendData()
 			u8Ret = ProtoCockpit_ReadSendBuffer(szSendBuffer, &u32SendLen);
 			if (RET_OK != u8Ret || 0 >= u32SendLen)
 			{
+				MINE_LOG(SANY_LOG_ERROR, "ProtoCockpit_ReadSendBuffer error !!\n");
 				continue;
 			}
 			if (!m_Terminal.sa_comm_socket_client_send(m_Socket_CockpitClient, (char *)szSendBuffer, (int)u32SendLen))
@@ -1776,6 +1789,7 @@ void Protocol_Cockpit::funcSendData()
 				continue;
 			}
 		}
+		usleep(1000);
 	}
 	MINE_LOG(SANY_LOG_ERROR, "funcSendData g_u8TaskStopFlag\n");
 }
@@ -1885,13 +1899,14 @@ void Protocol_Cockpit::funcRecvData()
 		// 	MINE_LOG(SANY_LOG_ERROR, "g_bNetReady 0 comm_socket_client_do_disconnect!!!\n");
 		// 	m_Terminal.comm_socket_client_do_disconnect(m_Socket_CockpitClient);
 		// }
+		usleep(1000);
 	}
 }
 
 void Protocol_Cockpit::InitSocket_Cockpit()
 {
 	m_Socket_CockpitClient = m_Terminal.sa_comm_socket_client_new((const char *)cockpitServerName, (const char *)HostclientName, false);
-#if 1
+
 	/*死等网络连接成功*/
 	SANY_U8 g_count = 0;
 	while (!m_Terminal.comm_socket_client_do_connect(m_Socket_CockpitClient))
@@ -1910,14 +1925,14 @@ void Protocol_Cockpit::InitSocket_Cockpit()
 	g_count = 0;
 	m_pFailureSDK->report(FailureModule_Nebula_RemoteCtrl, 3201, 3, 0);
 	g_bNetReady = 1;
-#elif
+	
 	/*连接失败后不处理，接收线程自行做重连*/
 	if (m_Terminal.comm_socket_client_do_connect(m_Socket_CockpitClient))
 	{
 		g_bNetReady = 1;
 		printf("Connect server success\n");
 	}
-#endif
+
 }
 
 /*数据接收线程*/
@@ -2213,6 +2228,7 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_initCtrlData()
 	struWireCtrlIn.iCombinedGearR = 0;
 	struWireCtrlIn.iKeyOperation1 = 0;
 	// struWireCtrlIn.iKeyOperation2 = 0x20;
+	BrakeValue = 0;
 	struWireCtrlIn.iKeyOperation2 = 0x08;		//住车
 
 	return true;

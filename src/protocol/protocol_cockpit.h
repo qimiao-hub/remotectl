@@ -43,7 +43,7 @@
 #endif
 
 #define SEND_RTDATA_UPLOAD_TICK (100)
-#define SEND_STATUS_DATA_UPLOAD_TICK (10)
+#define SEND_STATUS_DATA_UPLOAD_TICK (50)
 
 #define PROTOCOL_COCKPIT_SEND_BUF 40
 #define PROTOCOL_COCKPIT_RECV_BUF 40
@@ -218,6 +218,7 @@ private:
 	SANY_U8 g_u8RecvBufferWriteIndex = 0;
 	SANY_U8 g_u8RecvBufferReadIndex = 0;
 	SANY_U8 g_u8RecvBufferDateLen = 0;
+	SANY_U8 g_u8SendBufferFull = 0;		//发送缓冲区写满标志
 	Protocol_Cockpit_Buffer_st *arrRecvBuffer;
 
 	sa_comm_socket_client *m_Socket_CockpitClient;

@@ -22,7 +22,8 @@ sa_comm_socket *sa_socket_comm::sa_comm_socket_new(const char *server_name,
     sa_comm_socket *sock = (sa_comm_socket *)calloc(1, sizeof(sa_comm_socket));
     if (!server_name) {
         printf("%s: invalid parameter.\n", __func__);
-        return NULL;
+     //   return NULL;
+        goto __invalid;
     }
 
 
@@ -52,6 +53,7 @@ sa_comm_socket *sa_socket_comm::sa_comm_socket_new(const char *server_name,
 
 __error:
     sa_comm_socket_release(sock);
+__invalid:
     return NULL;
 }
 /**
