@@ -1006,7 +1006,7 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_SendCmdLogin()
 	}
 	dataST->ucWorkStatus[0] = g_current_state;
 	g_old_current_state = g_current_state;
-	// printf("login work status: %d\n", dataST->ucWorkStatus[0]);
+	printf("login work status, vcu_state: %d,  Remote_or_Unman: %d\n", WireInfo.vcu_state(), WireInfo.Remote_or_Unman());
 	dataST->ucCurrentGear[0] = WireInfo.trans_current_gear();
 	// printf("login gear: %d\n", dataST->ucCurrentGear[0]);
 	/* 计算消息长度 */
@@ -1155,9 +1155,6 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_SendCmdRealtimeStatusRep()
 		pGearSubSt->ucGearOper[0] = (SANY_U8)WireInfo.trans_current_gear();
 		pDataST->ucCmdNum[0] += 1;
 		u32DataLen += sizeof(CP_Realtime_Stauts_GearOper_SubCmd_st);
-		// printf("status changed, current gear: %d\n", WireInfo.trans_current_gear());
-		// printf("status changed, old gear: %d\n", OldWireInfo.trans_current_gear());
-
 	}
 
 	
@@ -1341,12 +1338,14 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_SendCmdRealtimeStatusRep()
 	u32DataLen += sizeof(CP_Header_st) + 1;
 
 	MINE_LOG(SANY_LOG_INFO, "----ProtoCockpit_SendRealtimeStatusRepCmd --- start\n");
+	MINE_LOG(SANY_LOG_INFO, "ucCmdNum: %d,  u32DataLen: %d\n", pDataST->ucCmdNum[0], u32DataLen);
 	MINE_LOG(SANY_LOG_INFO, "current gear: %d\n", WireInfo.trans_current_gear());
 	MINE_LOG(SANY_LOG_INFO, "water temperature: %d\n", WireInfo.engine_coolant_temperature());
 	MINE_LOG(SANY_LOG_INFO, "fuel_level: %d\n", WireInfo.fuel_level());
 	MINE_LOG(SANY_LOG_INFO, "vcu status: %d, remote_or_unman: %d\n, ", WireInfo.vcu_state(), WireInfo.Remote_or_Unman());
 	MINE_LOG(SANY_LOG_INFO, "work status: %d\n", g_current_state);
 	MINE_LOG(SANY_LOG_INFO, "emergency_stop status: %d\n", g_u8EmergencyStopFlg);
+	MINE_LOG(SANY_LOG_INFO, "rolling to stop: %d\n", rolling_need_stop);
 	MINE_LOG(SANY_LOG_INFO, "----ProtoCockpit_SendCmdRealtimeStatusRep --- end\n");
 
 	u8Ret = ProtoCockpit_WriteSendBuffer(u8DataBuf, u32DataLen);
@@ -1450,7 +1449,7 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_ReadSendBuffer(SANY_U8 *pu8DataBuf, SANY_
 
 	if (NULL == pu8DataBuf || NULL == u32DataLen)
 	{
-		printf("ProtoCockpit_ReadSendBuffer param err!\n");
+		// printf("ProtoCockpit_ReadSendBuffer param err!\n");
 		return RET_ERROR;
 	}
 
@@ -1458,7 +1457,7 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_ReadSendBuffer(SANY_U8 *pu8DataBuf, SANY_
 
 	if (0 >= g_u8SendBufferDateLen)
 	{
-		MINE_LOG(SANY_LOG_ERROR, "ProtoCockpit_ReadSendBuffer  g_u8SendBufferDatalen  <= 0!!!\n");
+//		MINE_LOG(SANY_LOG_ERROR, "ProtoCockpit_ReadSendBuffer  g_u8SendBufferDatalen  <= 0!!!\n");
 		pthread_mutex_unlock(&SendBufferMutex);
 		return RET_ERROR;
 	}
@@ -1470,7 +1469,7 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_ReadSendBuffer(SANY_U8 *pu8DataBuf, SANY_
 
 	if (0 >= arrSendBuffer[g_u8SendBufferReadIndex].u32SendLen)
 	{
-		MINE_LOG(SANY_LOG_ERROR, "ProtoCockpit_ReadSendBuffer  arrSendBuffer[g_u8SendBufferReadIndex].u32SendLen  <= 0!!!\n");
+		// MINE_LOG(SANY_LOG_ERROR, "ProtoCockpit_ReadSendBuffer  arrSendBuffer[g_u8SendBufferReadIndex].u32SendLen  <= 0!!!\n");
 		pthread_mutex_unlock(&SendBufferMutex);
 		return RET_ERROR;
 	}
@@ -1555,7 +1554,7 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_ReadRecvBuffer(SANY_U8 *pu8DataBuf, SANY_
 	if (0 >= g_u8RecvBufferDateLen)
 	{
 		pthread_mutex_unlock(&RecvBufferMutex);
-		MINE_LOG(SANY_LOG_ERROR, "g_u8RecvBufferDateLen  =  0!!\n");
+		// MINE_LOG(SANY_LOG_ERROR, "g_u8RecvBufferDateLen  =  0!!\n");
 		return RET_ERROR;
 	}
 
@@ -1778,7 +1777,7 @@ void Protocol_Cockpit::funcSendData()
 			u8Ret = ProtoCockpit_ReadSendBuffer(szSendBuffer, &u32SendLen);
 			if (RET_OK != u8Ret || 0 >= u32SendLen)
 			{
-				MINE_LOG(SANY_LOG_ERROR, "ProtoCockpit_ReadSendBuffer error !!\n");
+			//	MINE_LOG(SANY_LOG_ERROR, "ProtoCockpit_ReadSendBuffer error !!\n");
 				continue;
 			}
 			if (!m_Terminal.sa_comm_socket_client_send(m_Socket_CockpitClient, (char *)szSendBuffer, (int)u32SendLen))

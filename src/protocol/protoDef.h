@@ -270,7 +270,7 @@ typedef struct {
 /*************车-舱协议*********实时上报(状态变更)子命令*****车辆驾驶状态********/
 typedef struct {
 	SANY_U8	ucInfoType[1];				//信息类型
-    SANY_U8	ucWorkStatus[1];			//组合开关左
+    SANY_U8	ucWorkStatus[1];			//
 } CP_Realtime_Stauts_WorkStatus_SubCmd_st;
 
 /******************************协议通用枚举*********************************/
