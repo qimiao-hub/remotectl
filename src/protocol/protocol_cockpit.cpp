@@ -1685,7 +1685,7 @@ void Protocol_Cockpit::funcAppDownloadData()
 			if (RET_OK != u8Ret || 0 >= u32DataLen)
 			{
 				/*实时控制情况下，50ms发送一个控车报文，连续500ms没有收到报文则认为网络不稳定，直接刹车处理*/
-				if (1 == g_u8CtrlState)
+				if ((1 == g_u8CtrlState) && (1 == g_u8LoginFlag))
 				{
 					
 					if (500  <= u8LostTimes)
