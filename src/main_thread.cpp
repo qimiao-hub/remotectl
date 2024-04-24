@@ -23,6 +23,11 @@ FailureReporter *m_pFailureSDK = new FailureReporter();
 SANY_U8 g_IpFlag = 0;
 SANY_U8 g_u8CtrlState = 0;
 
+void write_Gps2log(int signum)
+{
+	MINE_LOG(SANY_LOG_INFO, "receive gps_info,   gps_lat %f\n", pCockpit->struGpsInfo.gps_lat());
+}
+
 void cockpit_ctrlACK(CmdtoRemoteCtrl *addr)
 {
 	ctrlACK.Seq_Num() = addr->Seq_Num();
@@ -65,6 +70,24 @@ int main()
 	ddsPublisher<ImpleResultInfo> *pPubImple = new ddsPublisher<ImpleResultInfo>(pDataTypeImple);
 	SANY_U8 Remote_Enable5 = 0;
 	SANY_U8 Tick = 0;
+
+		timer_t timer;
+    struct sigevent sev;
+    sev.sigev_notify = SIGEV_SIGNAL;
+    sev.sigev_signo = SIGALRM;
+    sev.sigev_value.sival_ptr = &timer;
+    signal(SIGALRM, write_Gps2log);
+
+    if(timer_create(CLOCK_REALTIME, &sev, &timer) == -1)
+        MINE_LOG(SANY_LOG_ERROR, "Timer_Create Fail!!!!\n");
+    struct itimerspec its;
+    its.it_value.tv_sec = 5;
+    its.it_value.tv_nsec = 0;
+    its.it_interval.tv_sec = 5;
+    its.it_interval.tv_nsec = 0;
+    if(timer_settime(timer, 0, &its, NULL) == -1)
+        MINE_LOG(SANY_LOG_ERROR, "Timer_Settime Fail!!!!\n");
+
 	while (1)
 	{
 
@@ -88,7 +111,7 @@ int main()
 		
 		}
 
-		if((Tick % 10) == 0)
+		if((Tick % 100) == 0)
 		{
 			MINE_LOG(SANY_LOG_INFO, "syzk-remotectl V2.1.6 main is running!! ip_flag is  %d\n", g_IpFlag);
 			Tick = 0;
