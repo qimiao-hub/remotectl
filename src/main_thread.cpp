@@ -32,6 +32,7 @@ void cockpit_ctrlACK(CmdtoRemoteCtrl *addr)
 
 void cockpit_addressCallback(CmdtoRemoteCtrl *addr)
 {
+	MINE_LOG(SANY_LOG_INFO, "receive cockpit address,  ip_flag is %d\n", g_IpFlag);
 	if (0 == g_IpFlag)
 	{
 		pCockpit->ProtoCockpit_setServerName(addr->ipaddr().c_str());
@@ -39,6 +40,7 @@ void cockpit_addressCallback(CmdtoRemoteCtrl *addr)
 		pCockpit->start();
 		g_IpFlag = 1;		
 	}
+	MINE_LOG(SANY_LOG_INFO, "setServerName,  ip_flag is %d\n", g_IpFlag);
 	return;
 }
 
@@ -46,7 +48,7 @@ int main()
 {
 	zkbs::init("syzk-remotectl");
 	DaemonHandl Hdl = daemon_create("syzk-remotectl", 500, DEV_TYPE_XINGYUN);
-	zkbs::setVersion(VER("1.5"));
+	zkbs::setVersion(VER("1.6"));
 
 	mine_log::set_log_level(SANY_LOG_INFO);
 	mine_log::set_log_output(SANY_LOG_OUT_FILE);
@@ -61,12 +63,8 @@ int main()
 	ImpleResultInfo imple_result_info;
 	TopicDataType *pDataTypeImple = new ImpleResultInfoPubSubType();
 	ddsPublisher<ImpleResultInfo> *pPubImple = new ddsPublisher<ImpleResultInfo>(pDataTypeImple);
-	// 给主控发遥控接管使能位+最大车速
-	// Remote2Control remote_ctrl;
-	// TopicDataType *pDataTypeCtrl = new Remote2ControlPubSubType();
-	// ddsPublisher<Remote2Control> *pPubCtrl = new ddsPublisher<Remote2Control>(pDataTypeCtrl);
 	SANY_U8 Remote_Enable5 = 0;
-
+	SANY_U8 Tick = 0;
 	while (1)
 	{
 
@@ -77,9 +75,6 @@ int main()
 			/*发布遥控控制数据*/
 			pPubImple->publish(imple_result_info);
 			Remote_Enable5 = 0;
-			/*遥控接管使能位和最大车速to主控*/
-			// pCockpit->ProtoCockpit_getMaxSpeed(&remote_ctrl);
-			// pPubCtrl->publish(remote_ctrl);
 		}
 		else if((2 == g_u8CtrlState) ||  (3 == g_u8CtrlState))
 		{
@@ -92,6 +87,13 @@ int main()
 			}
 		
 		}
+
+		if((Tick % 10) == 0)
+		{
+			MINE_LOG(SANY_LOG_INFO, "syzk-remotectl V2.1.6 main is running!! ip_flag is  %d\n", g_IpFlag);
+			Tick = 0;
+		}
+		Tick++;
 
 		usleep(50 * 1000);
 	}
