@@ -100,7 +100,8 @@ enum{
     EV_CP_INFO_REALTIME_REP,              	//实时上报（高频数据）
     EV_CP_REQ_CTRL,							//控车请求
     EV_CP_REALTIME_CTRL,					//实时控制
-	EV_CP_STATUS_REALTIME_REP,				//实时上报（状态变更）
+	// EV_CP_STATUS_REALTIME_REP,				//实时上报（状态变更）
+    EV_CP_HEART_BEAT,                       //心跳
 	EV_CP_SEND_EMERGENCY_STOP = 0x06,     	//紧急停车
     EV_CP_VEHICLE_SIGNOUT = 0x08,          	//登出驾驶舱端（主动、被动）
     
@@ -184,23 +185,6 @@ typedef struct {
     SANY_U8	ucKeyOperation2[1];		//按键操作2
 } CP_Realtime_Ctrl_Cmd_st;
 
-/***********************车-舱协议*********实时控制响应*********消息结构体************************/
-typedef struct {
-    SANY_U8	ucTime[8];					//指令时间
-    SANY_U8	ucSequenceNum[1];			//响应流水号
-    SANY_U8	ucCarSpeed[2];				//车速
-    SANY_U8	ucHeadingAngle[2];			//航向角
-    SANY_U8	ucWheelAngleL[2];			//左轮转角
-    SANY_U8	ucThrottleOpening[1];		//油门开度
-    SANY_U8	ucBrakeOpening[1];			//制动开度
-    SANY_U8	ucEngineSpeed[2];			//发动机转速
-    SANY_U8	ucAccumulatedMileage[4];	//累计里程
-    SANY_U8	ucSubtotalMileage[2];		//小计里程
-    SANY_U8 ucPitchAngle[2];            //俯仰角
-    SANY_U8 ucLiftUpStatus[1];         //举升到位状态
-    SANY_U8 ucLiftDownStatus[1];        //下降到位状态
-} CP_Realtime_Ctrl_Ack_st;
-
 /***********************车-舱协议*********紧急停车命令*********消息结构体************************/
 typedef struct {
     SANY_U8	ucTime[8];				//指令时间
@@ -214,6 +198,19 @@ typedef struct {
 	SANY_U8	ucSequenceNum[1];		//响应流水号
 } CP_Emergency_Stop_Ack_st;
 
+//V2.2.0新增车舱心跳
+/***********************车-舱协议*********车舱心跳命令*********消息结构体************************/
+typedef struct {
+	SANY_U8	ucTime[8];				//指令时间
+	SANY_U8	ucSequenceNum[2];		//流水号
+} CP_HeartBeat_Cmd_st;
+
+/***********************车-舱协议*********车舱心跳响应*********消息结构体************************/
+typedef struct {
+	SANY_U8	ucTime[8];				//指令时间
+	SANY_U8	ucSequenceNum[2];		//响应流水号
+} CP_HeartBeat_Ack_st;
+
 /***********************车-舱协议*********实时上报(高频)命令*********消息结构体************************/
 typedef struct {
     SANY_U8	ucTime[8];					//指令时间
@@ -226,52 +223,20 @@ typedef struct {
     SANY_U8	ucAccumulatedMileage[4];	//累计里程
     SANY_U8	ucSubtotalMileage[2];		//小计里程
     SANY_U8 ucPitchAngle[2];            //俯仰角
-} CP_Realtime_Rep_Cmd_st;
-
-/***********************车-舱协议*********实时上报(状态变更)命令*********消息结构体************************/
-typedef struct {
-    SANY_U8	ucTime[8];					//指令时间
-    SANY_U8	ucCmdNum[1];				//指令个数
-    SANY_U8	subCmdData[0];				//子命令信息指针
-} CP_Realtime_Stauts_Rep_Cmd_st;
-
-/*************车-舱协议*********实时上报(状态变更)子命令*****档位操作********/
-typedef struct {
-	SANY_U8	ucInfoType[1];				//信息类型
+    // Version 2.2.0  取消状态变更及实时控制响应，合并至实时上报
     SANY_U8	ucGearOper[1];				//档位操作
-} CP_Realtime_Stauts_GearOper_SubCmd_st;
-
-/*************车-舱协议*********实时上报(状态变更)子命令*****油电水气状态******/
-typedef struct {
-	SANY_U8	ucInfoType[1];				//信息类型
     SANY_U8	ucRemainingOil[1];			//剩余油、电量
     SANY_U8	ucWaterTemp[1];				//水温
-    SANY_U8	ucBatteryVolt[1];			//蓄电池电压
-    SANY_U8	ucOilTemp[2];				//变速箱油温
     SANY_U8	ucBrakeAirPre1[1];			//制动气压1
     SANY_U8	ucBrakeAirPre2[1];			//制动气压2
-} CP_Realtime_Stauts_OEWG_SubCmd_st;
-
-/*************车-舱协议*********实时上报(状态变更)子命令*****故障信息********/
-typedef struct {
-	SANY_U8	ucInfoType[1];				//信息类型
-    SANY_U8	ucFault[1];					//剩余油、电量
-} CP_Realtime_Stauts_Fault_SubCmd_st;
-
-/*************车-舱协议*********实时上报(状态变更)子命令*****按键操作********/
-typedef struct {
-	SANY_U8	ucInfoType[1];				//信息类型
     SANY_U8	ucCombinedGearL[1];			//组合开关左
     SANY_U8	ucCombinedGearR[1];			//组合开关右
     SANY_U8	ucKeyOperation1[1];			//按键操作1
     SANY_U8	ucKeyOperation2[1];			//按键操作2 
-} CP_Realtime_Stauts_KeyOper_SubCmd_st;
-
-/*************车-舱协议*********实时上报(状态变更)子命令*****车辆驾驶状态********/
-typedef struct {
-	SANY_U8	ucInfoType[1];				//信息类型
-    SANY_U8	ucWorkStatus[1];			//
-} CP_Realtime_Stauts_WorkStatus_SubCmd_st;
+    SANY_U8	ucWorkStatus[1];			//车辆驾驶状态
+    SANY_U8 ucLiftUpStatus[1];         //举升到位状态
+    SANY_U8 ucLiftDownStatus[1];        //下降到位状态
+} CP_Realtime_Rep_Cmd_st;
 
 /******************************协议通用枚举*********************************/
 enum{

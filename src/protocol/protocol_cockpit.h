@@ -42,7 +42,7 @@
 #define RET_ERROR 0
 #endif
 
-#define SEND_RTDATA_UPLOAD_TICK (100)
+#define SEND_RTDATA_UPLOAD_TICK (200)
 #define SEND_STATUS_DATA_UPLOAD_TICK (10)
 
 #define PROTOCOL_COCKPIT_SEND_BUF 40
@@ -95,6 +95,16 @@ typedef struct
 	float iPitchAngle;			//俯仰角
 	int iLiftUpStatus;			//举升到位状态
 	int iLiftDownStatus;		//下降到位状态
+	int iGearOpening;	  // 档位操作
+	int iRemainingOil;			//剩余油量/电量
+	int iWaterTemp;				//水温
+	int iBrakeAirPre1;			//气压1
+	int iBrakeAirPre2;			//气压2
+	int	iCombinedGearL;			//组合开关左
+    int	iCombinedGearR;			//组合开关右
+    int	iKeyOperation1;			//按键操作1
+    int	iKeyOperation2;			//按键操作2 
+	int	iWorkStatus;			//车辆驾驶状态
 } RemoteDrivingWirectlOutInfo;
 
 /*********************************************************************
@@ -120,7 +130,7 @@ public:
 	/*进程通信定义分界线----------------------------start*/
 	/*底盘反馈信息*/
 	WirectlFeedbackInfo WireInfo;
-	WirectlFeedbackInfo OldWireInfo; // 用于状态变更时与WireInfo比较
+//	WirectlFeedbackInfo OldWireInfo; // 用于状态变更时与WireInfo比较
 	GpsImuInfo struGpsInfo;
 
 	/*发布参数相关*/
@@ -156,13 +166,13 @@ public:
 //	void Read_INI(ini::iniReader config);
 	void Read_Config();
 	/*溜车判断-计算车速航向*/
-	float Speed_Heading(const float gps_vn, const float gps_ve, const float heading);
-	SANY_U8 Is_Rolling();
-	/*停车策略*/
-	void do_Rolling_Stop();
-
-
-
+	float ProtoCockpit_SpeedHeading(const float gps_vn, const float gps_ve, const float heading);
+	SANY_U8 ProtoCockpit_Rolling();
+	/*心跳、控车数据监测*/
+	SANY_U8 ProtoCockpit_HeartCheck(const SANY_U32 Losttimes);
+	/*断连/心跳丢失停车*/
+	SANY_U8 ProtoCockpit_DoStop();
+	
 private:
 	/*heartbeat with 297*/
 	SANY_U16 g_count = 0;
@@ -193,7 +203,7 @@ private:
 	std::string vin;
 	std::string type;
 	std::string HardVer = "0101";
-	std::string SoftVer = "0213";
+	std::string SoftVer = "0220";
 	SANY_U32 brake_delay = 40;
 	SANY_U32 read_brakeing = 50;
 	SANY_U32 v_type = 0;
@@ -262,7 +272,6 @@ private:
 	/* 命令协议发送接口，内部实现组包、发送；后续考虑将组包和发送分开*/
 	SANY_U8 ProtoCockpit_SendCmdLogin();
 	SANY_U8 ProtoCockpit_SendCmdRealtimeRep();
-	SANY_U8 ProtoCockpit_SendCmdRealtimeStatusRep();
 	/*发送通用ACK*/
 	SANY_U8 ProtoCockpit_SendAckCom(SANY_U8 ucCmd, SANY_U8 ucAckflg);
 
@@ -273,12 +282,13 @@ private:
 	SANY_U8 ProtoCockpit_RecvCmdRepCtrl(Protocol_Cockpit_Buffer_st *pDateBuffer);
 	SANY_U8 ProtoCockpit_RecvCmdRealtimeCtrl(Protocol_Cockpit_Buffer_st *pDateBuffer);
 	SANY_U8 ProtoCockpit_RecvCmdEmergencyStop(Protocol_Cockpit_Buffer_st *pDateBuffer);
+	SANY_U8 ProtoCockpit_RecvCmdHeartBeat(Protocol_Cockpit_Buffer_st *pDateBuffer);
 	SANY_U8 ProtoCockpit_RecvCmdLoginOut(Protocol_Cockpit_Buffer_st *pDateBuffer);
 	SANY_U8 ProtoCockpit_RecvAckLoginPacket(Protocol_Cockpit_Buffer_st *pDateBuffer);
-
+	
 	/*协议组包接口*/
-	SANY_U8 ProtoCockpit_PackAckRealtimeCtrl(SANY_U8 *pDataBuf, SANY_U32 *pOutDataLen, SANY_U8 ucSequenceNum);
 	SANY_U8 ProtoCockpit_PackAckEmergencyStop(SANY_U8 *pDataBuf, SANY_U32 *pOutDataLen, SANY_U8 ucSequenceNum);
+	SANY_U8 ProtoCockpit_PackAckHeartBeat(SANY_U8 *pDataBuf, SANY_U32 *pOutDataLen, SANY_U16 ucSequenceNum);
 	SANY_U8 ProtoCockpit_PackAckLoginOut(SANY_U8 *pDataBuf, SANY_U32 *pOutDataLen);
 	SANY_U8 ProtoCockpit_PackAckRepCtrl(SANY_U8 *pDataBuf, SANY_U32 *pOutDataLen, SANY_U8 ucSequenceNum);
 

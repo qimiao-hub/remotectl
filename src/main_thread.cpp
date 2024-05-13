@@ -53,7 +53,7 @@ int main()
 {
 	zkbs::init("syzk-remotectl");
 	DaemonHandl Hdl = daemon_create("syzk-remotectl", 500, DEV_TYPE_XINGYUN);
-	zkbs::setVersion(VER("1.6"));
+	zkbs::setVersion(VER("2.0"));
 
 	mine_log::set_log_level(SANY_LOG_INFO);
 	mine_log::set_log_output(SANY_LOG_OUT_FILE);
@@ -64,6 +64,9 @@ int main()
 	m_pFailureSDK->init();
 	m_pFailureSDK->setModule(FailureModule_Nebula_RemoteCtrl);
 	m_pFailureSDK->start();
+
+	MINE_LOG(SANY_LOG_INFO, "syzk-remotectl V2.2.0 start!!\n");
+
 	// 发布遥控驾驶控制数据
 	ImpleResultInfo imple_result_info;
 	TopicDataType *pDataTypeImple = new ImpleResultInfoPubSubType();
@@ -71,7 +74,7 @@ int main()
 	SANY_U8 Remote_Enable5 = 0;
 	SANY_U8 Tick = 0;
 
-		timer_t timer;
+	timer_t timer;
     struct sigevent sev;
     sev.sigev_notify = SIGEV_SIGNAL;
     sev.sigev_signo = SIGALRM;
@@ -90,7 +93,6 @@ int main()
 
 	while (1)
 	{
-
 		if (1 == g_u8CtrlState)
 		{
 			/*获取通信模块遥控控制数据*/
@@ -107,21 +109,18 @@ int main()
 				pPubImple->publish(imple_result_info);
 				Remote_Enable5++;
 				MINE_LOG(SANY_LOG_INFO, "exit from remote-control, Remote_enable: %d, current Gear: %d, BrakeOpening: %f, Parking State: %d\n",imple_result_info.Remote_enable(), imple_result_info.trans_req_gear(), imple_result_info.traffic_brake_req(), imple_result_info.parking_req());
-			}
-		
+			}	
 		}
 
 		if((Tick % 100) == 0)
 		{
-			MINE_LOG(SANY_LOG_INFO, "syzk-remotectl V2.1.6 main is running!! ip_flag is  %d\n", g_IpFlag);
+			MINE_LOG(SANY_LOG_INFO, "syzk-remotectl V2.2.0 main is running!! ip_flag is  %d\n", g_IpFlag);
 			Tick = 0;
 		}
 		Tick++;
 
 		usleep(50 * 1000);
 	}
-
-	
 
 	return 0;
 }
