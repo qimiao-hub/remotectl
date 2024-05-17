@@ -98,8 +98,8 @@ typedef struct
 	int iGearOpening;	  // 档位操作
 	int iRemainingOil;			//剩余油量/电量
 	int iWaterTemp;				//水温
-	int iBrakeAirPre1;			//气压1
-	int iBrakeAirPre2;			//气压2
+	float iBrakeAirPre1;			//气压1
+	float iBrakeAirPre2;			//气压2
 	int	iCombinedGearL;			//组合开关左
     int	iCombinedGearR;			//组合开关右
     int	iKeyOperation1;			//按键操作1

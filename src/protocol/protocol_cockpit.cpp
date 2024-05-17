@@ -1060,8 +1060,8 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_SendCmdRealtimeRep()
 	/*水温*/
 	pDataST->ucWaterTemp[0] = (SANY_U8)struWireCtrlOut.iWaterTemp;
 	/*气压1\2*/
-	pDataST->ucBrakeAirPre1[0] = (SANY_U8)struWireCtrlOut.iBrakeAirPre1;
-	pDataST->ucBrakeAirPre2[0] = (SANY_U8)struWireCtrlOut.iBrakeAirPre2;
+	pDataST->ucBrakeAirPre1[0] = (SANY_U8)(struWireCtrlOut.iBrakeAirPre1 / 0.1);
+	pDataST->ucBrakeAirPre2[0] = (SANY_U8)(struWireCtrlOut.iBrakeAirPre2 / 0.1);
 	/*组合开关左右*/
 	pDataST->ucCombinedGearL[0] = (SANY_U8)struWireCtrlOut.iCombinedGearL;
 	pDataST->ucCombinedGearR[0] = (SANY_U8)struWireCtrlOut.iCombinedGearR;
@@ -1881,84 +1881,161 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_getFeedbackData()
 	{
 		struWireCtrlOut.iCombinedGearL |= 0x01;
 	}
+	else
+	{
+		struWireCtrlOut.iCombinedGearL &= 0x00;
+	}
 	if (WireInfo.right_turn_start_status())
 	{
 		struWireCtrlOut.iCombinedGearL |= 0x01 << 1;
+	}
+	else
+	{
+		struWireCtrlOut.iCombinedGearL &= 0x00 << 1;
 	}
 	if (WireInfo.low_light_start_status())
 	{
 		struWireCtrlOut.iCombinedGearL |= 0x01 << 2;
 	}
+	else
+	{
+		struWireCtrlOut.iCombinedGearL &= 0x00 << 2;
+	}
 	if (WireInfo.high_beam_start_status())
 	{
 		struWireCtrlOut.iCombinedGearL |= 0x01 << 3;
+	}
+	else
+	{
+		struWireCtrlOut.iCombinedGearL &= 0x00 << 3;
 	}
 	if (WireInfo.outline_lamp_start_status())
 	{
 		struWireCtrlOut.iCombinedGearL |= 0x01 << 5;
 	}
-
+	else
+	{
+		struWireCtrlOut.iCombinedGearL &= 0x00 << 5;
+	}
 	if (WireInfo.wiper_start_status())
 	{
 		struWireCtrlOut.iCombinedGearR |= 0x01;
+	}
+	else
+	{
+		struWireCtrlOut.iCombinedGearR &= 0x00;
 	}
 	if (WireInfo.wiper_slow_start_status())
 	{
 		struWireCtrlOut.iCombinedGearR |= 0x01 << 1;
 	}
+	else
+	{
+		struWireCtrlOut.iCombinedGearR &= 0x00 << 1;
+	}
 	if (WireInfo.horn_start_status())
 	{
 		struWireCtrlOut.iCombinedGearR |= 0x01 << 2;
+	}
+	else
+	{
+		struWireCtrlOut.iCombinedGearR &= 0x00 << 2;
 	}
 	if(g_u8EmergencyStopFlg == 1)												//急停状态上报
 	{
 		struWireCtrlOut.iCombinedGearR |= 0x01 << 3;
 	}
+	else
+	{
+		struWireCtrlOut.iCombinedGearR &= 0x00 << 3;
+	}
 	if(rolling_need_stop == 1)														//溜车状态上报
 	{
 		struWireCtrlOut.iCombinedGearR |= 0x01 << 4;
 	}
-
+	else
+	{
+		struWireCtrlOut.iCombinedGearR &= 0x00 << 4;
+	}
 	if (WireInfo.hazard_start_status())
 	{
 		struWireCtrlOut.iKeyOperation1 |= 0x01;
+	}
+	else
+	{
+		struWireCtrlOut.iKeyOperation1 &= 0x00;
 	}
 	if (WireInfo.rear_light_start_status())
 	{
 		struWireCtrlOut.iKeyOperation1 |= 0x01 << 2;
 	}
+	else
+	{
+		struWireCtrlOut.iKeyOperation1 &= 0x00 << 2;
+	}
 	if (WireInfo.fog_lamp_start_status())
 	{
 		struWireCtrlOut.iKeyOperation1 |= 0x01 << 3;
+	}
+	else
+	{
+		struWireCtrlOut.iKeyOperation1 &= 0x00 << 3;
 	}
 	if (WireInfo.head_light_status())
 	{
 		struWireCtrlOut.iKeyOperation1 |= 0x01 << 4;
 	}
+	else
+	{
+		struWireCtrlOut.iKeyOperation1 &= 0x00 << 4;
+	}
 	if (WireInfo.exhaust_brake_status())
 	{
 		struWireCtrlOut.iKeyOperation1 |= 0x01 << 5;
+	}
+	else
+	{
+		struWireCtrlOut.iKeyOperation1 &= 0x00 << 5;
 	}
 	if (WireInfo.axle_differential())
 	{
 		struWireCtrlOut.iKeyOperation1 |= 0x01 << 6;
 	}
+	else
+	{
+		struWireCtrlOut.iKeyOperation1 &= 0x00 << 6;
+	}
 	if (1 == WireInfo.lift_condition())
 	{
 		struWireCtrlOut.iKeyOperation1 |= 0x01 << 7;
 	}
-
+	else
+	{
+		struWireCtrlOut.iKeyOperation1 &= 0x00 << 7;
+	}
 	if (WireInfo.flash_start_status())
 	{
 		struWireCtrlOut.iKeyOperation2 |= 0x01 << 1;
+	}
+	else
+	{
+		struWireCtrlOut.iKeyOperation2 &= 0x00 << 1;
 	}
 	if (WireInfo.parking())
 	{
 		struWireCtrlOut.iKeyOperation2 |= 0x01 << 3;
 	}
+	else
+	{
+		struWireCtrlOut.iKeyOperation2 &= 0x00 << 3;
+	}
 	if (2 == WireInfo.lift_condition())
 	{
 		struWireCtrlOut.iKeyOperation2 |= 0x01 << 7;
+	}
+	else
+	{
+		struWireCtrlOut.iKeyOperation2 &= 0x00 << 7;
 	}
 
 	//车辆驾驶状态 
