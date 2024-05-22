@@ -109,7 +109,7 @@ void Protocol_Cockpit::Read_Config()
 	//	read_brakeing = config["vehicle"]["vehicle_brake"].as<int>();
 		if(v_type == 0)
 		{
-			MINE_LOG(SANY_LOG_ERROR, "Read Config-runSetup.yaml vehicle_type is 0 !!!");
+			MINE_LOG(SANY_LOG_ERROR, "Read Config-runSetup.yaml vehicle_type is 0 !!!\n");
 		}
 		else if((v_type % 2) != 0)
 		{
@@ -1088,8 +1088,8 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_SendCmdRealtimeRep()
 	MINE_LOG(SANY_LOG_INFO, "iGearOpening %d\n", (int)(struWireCtrlOut.iGearOpening));					//
 	MINE_LOG(SANY_LOG_INFO, "iRemainingOil %d\n", (int)(struWireCtrlOut.iRemainingOil));				//
 	MINE_LOG(SANY_LOG_INFO, "iWaterTemp %d\n", (int)(struWireCtrlOut.iWaterTemp));					//
-	MINE_LOG(SANY_LOG_INFO, "iBrakeAirPre1 %d\n", (int)(struWireCtrlOut.iBrakeAirPre1));				//    
-	MINE_LOG(SANY_LOG_INFO, "iBrakeAirPre2 %d\n", (int)(struWireCtrlOut.iBrakeAirPre2));
+	MINE_LOG(SANY_LOG_INFO, "iBrakeAirPre1 %d\n", (int)(struWireCtrlOut.iBrakeAirPre1 / 0.1));				//    
+	MINE_LOG(SANY_LOG_INFO, "iBrakeAirPre2 %d\n", (int)(struWireCtrlOut.iBrakeAirPre2 / 0.1));
 	MINE_LOG(SANY_LOG_INFO, "iCombinedGearL %d\n", (int)(struWireCtrlOut.iCombinedGearL));
 	MINE_LOG(SANY_LOG_INFO, "iCombinedGearR %d\n", (int)(struWireCtrlOut.iCombinedGearR));
 	MINE_LOG(SANY_LOG_INFO, "iKeyOperation1 %d\n", (int)(struWireCtrlOut.iKeyOperation1));
@@ -1872,8 +1872,7 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_getFeedbackData()
 	struWireCtrlOut.iLiftUpStatus = WireInfo.lift_longo_position_status();			//举升到位状态
 	struWireCtrlOut.iLiftDownStatus = WireInfo.drop_longo_position_status();				//下降到位状态
 	struWireCtrlOut.iGearOpening =  WireInfo.trans_current_gear();				//档位
-	struWireCtrlOut.iRemainingOil = WireInfo.fuel_level();					//剩余油量
-	struWireCtrlOut.iWaterTemp = WireInfo.engine_coolant_temperature();				//水温
+
 	struWireCtrlOut.iBrakeAirPre1 = WireInfo.air_pressure_1();							//气压1
 	struWireCtrlOut.iBrakeAirPre2 = WireInfo.air_pressure_2();							//气压2
 
@@ -1883,7 +1882,7 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_getFeedbackData()
 	}
 	else
 	{
-		struWireCtrlOut.iCombinedGearL &= 0x00;
+		struWireCtrlOut.iCombinedGearL &= 0xFE;
 	}
 	if (WireInfo.right_turn_start_status())
 	{
@@ -1891,7 +1890,7 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_getFeedbackData()
 	}
 	else
 	{
-		struWireCtrlOut.iCombinedGearL &= 0x00 << 1;
+		struWireCtrlOut.iCombinedGearL &= 0xFD;
 	}
 	if (WireInfo.low_light_start_status())
 	{
@@ -1899,7 +1898,7 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_getFeedbackData()
 	}
 	else
 	{
-		struWireCtrlOut.iCombinedGearL &= 0x00 << 2;
+		struWireCtrlOut.iCombinedGearL &= 0xF9;
 	}
 	if (WireInfo.high_beam_start_status())
 	{
@@ -1907,7 +1906,7 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_getFeedbackData()
 	}
 	else
 	{
-		struWireCtrlOut.iCombinedGearL &= 0x00 << 3;
+		struWireCtrlOut.iCombinedGearL &= 0xF7;
 	}
 	if (WireInfo.outline_lamp_start_status())
 	{
@@ -1915,7 +1914,7 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_getFeedbackData()
 	}
 	else
 	{
-		struWireCtrlOut.iCombinedGearL &= 0x00 << 5;
+		struWireCtrlOut.iCombinedGearL &= 0xDF;
 	}
 	if (WireInfo.wiper_start_status())
 	{
@@ -1923,7 +1922,7 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_getFeedbackData()
 	}
 	else
 	{
-		struWireCtrlOut.iCombinedGearR &= 0x00;
+		struWireCtrlOut.iCombinedGearR &= 0xFE;
 	}
 	if (WireInfo.wiper_slow_start_status())
 	{
@@ -1931,7 +1930,7 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_getFeedbackData()
 	}
 	else
 	{
-		struWireCtrlOut.iCombinedGearR &= 0x00 << 1;
+		struWireCtrlOut.iCombinedGearR &= 0xFD;
 	}
 	if (WireInfo.horn_start_status())
 	{
@@ -1939,7 +1938,7 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_getFeedbackData()
 	}
 	else
 	{
-		struWireCtrlOut.iCombinedGearR &= 0x00 << 2;
+		struWireCtrlOut.iCombinedGearR &= 0xF9;
 	}
 	if(g_u8EmergencyStopFlg == 1)												//急停状态上报
 	{
@@ -1947,7 +1946,7 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_getFeedbackData()
 	}
 	else
 	{
-		struWireCtrlOut.iCombinedGearR &= 0x00 << 3;
+		struWireCtrlOut.iCombinedGearR &= 0xF7;
 	}
 	if(rolling_need_stop == 1)														//溜车状态上报
 	{
@@ -1955,7 +1954,7 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_getFeedbackData()
 	}
 	else
 	{
-		struWireCtrlOut.iCombinedGearR &= 0x00 << 4;
+		struWireCtrlOut.iCombinedGearR &= 0xEF;
 	}
 	if (WireInfo.hazard_start_status())
 	{
@@ -1963,7 +1962,7 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_getFeedbackData()
 	}
 	else
 	{
-		struWireCtrlOut.iKeyOperation1 &= 0x00;
+		struWireCtrlOut.iKeyOperation1 &= 0xFE;
 	}
 	if (WireInfo.rear_light_start_status())
 	{
@@ -1971,7 +1970,7 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_getFeedbackData()
 	}
 	else
 	{
-		struWireCtrlOut.iKeyOperation1 &= 0x00 << 2;
+		struWireCtrlOut.iKeyOperation1 &= 0xF9;
 	}
 	if (WireInfo.fog_lamp_start_status())
 	{
@@ -1979,7 +1978,7 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_getFeedbackData()
 	}
 	else
 	{
-		struWireCtrlOut.iKeyOperation1 &= 0x00 << 3;
+		struWireCtrlOut.iKeyOperation1 &= 0xF7;
 	}
 	if (WireInfo.head_light_status())
 	{
@@ -1987,7 +1986,7 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_getFeedbackData()
 	}
 	else
 	{
-		struWireCtrlOut.iKeyOperation1 &= 0x00 << 4;
+		struWireCtrlOut.iKeyOperation1 &= 0xEF;
 	}
 	if (WireInfo.exhaust_brake_status())
 	{
@@ -1995,7 +1994,7 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_getFeedbackData()
 	}
 	else
 	{
-		struWireCtrlOut.iKeyOperation1 &= 0x00 << 5;
+		struWireCtrlOut.iKeyOperation1 &= 0xDF;
 	}
 	if (WireInfo.axle_differential())
 	{
@@ -2003,7 +2002,7 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_getFeedbackData()
 	}
 	else
 	{
-		struWireCtrlOut.iKeyOperation1 &= 0x00 << 6;
+		struWireCtrlOut.iKeyOperation1 &= 0xBF;
 	}
 	if (1 == WireInfo.lift_condition())
 	{
@@ -2011,7 +2010,7 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_getFeedbackData()
 	}
 	else
 	{
-		struWireCtrlOut.iKeyOperation1 &= 0x00 << 7;
+		struWireCtrlOut.iKeyOperation1 &= 0x7F;
 	}
 	if (WireInfo.flash_start_status())
 	{
@@ -2019,7 +2018,15 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_getFeedbackData()
 	}
 	else
 	{
-		struWireCtrlOut.iKeyOperation2 &= 0x00 << 1;
+		struWireCtrlOut.iKeyOperation2 &= 0xFD;
+	}
+	if(WireInfo.Force_State())
+	{
+		struWireCtrlOut.iKeyOperation2 |= 0x01 << 2;
+	}
+	else
+	{
+		struWireCtrlOut.iKeyOperation2 &= 0xF9;
 	}
 	if (WireInfo.parking())
 	{
@@ -2027,7 +2034,7 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_getFeedbackData()
 	}
 	else
 	{
-		struWireCtrlOut.iKeyOperation2 &= 0x00 << 3;
+		struWireCtrlOut.iKeyOperation2 &= 0xF7;
 	}
 	if (2 == WireInfo.lift_condition())
 	{
@@ -2035,7 +2042,7 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_getFeedbackData()
 	}
 	else
 	{
-		struWireCtrlOut.iKeyOperation2 &= 0x00 << 7;
+		struWireCtrlOut.iKeyOperation2 &= 0x7F;
 	}
 
 	//车辆驾驶状态 
@@ -2058,6 +2065,8 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_getFeedbackData()
 		struWireCtrlOut.iThrottleOpening = WireInfo.accel_pedal_position(); // 油门
 		struWireCtrlOut.iEngineSpeed = WireInfo.engine_speed();	 // 发动机转速 SKT-I
 		struWireCtrlOut.iHeadingAngle = struGpsInfo.gps_heading();					 // 航向角
+		struWireCtrlOut.iRemainingOil = WireInfo.fuel_level();					//剩余油量
+		struWireCtrlOut.iWaterTemp = WireInfo.engine_coolant_temperature();				//水温
 		if (finitTalDistance == 0)
 		{
 			finitTalDistance = WireInfo.total_vehicle_distance();
@@ -2070,6 +2079,9 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_getFeedbackData()
 		struWireCtrlOut.iThrottleOpening = WireInfo.actual_engine_torque(); // 油门
 		struWireCtrlOut.iEngineSpeed = WireInfo.main_driveMotor_speed_raw();			// 发动机转速
 		struWireCtrlOut.iHeadingAngle = struGpsInfo.gps_yaw();							// 航向角
+		struWireCtrlOut.iRemainingOil = WireInfo.SOC();					//剩余电量
+	//	struWireCtrlOut.iWaterTemp = WireInfo.engine_coolant_temperature();				//水温
+		struWireCtrlOut.iWaterTemp = 0;
 		if (finitTalDistance == 0)
 		{
 			finitTalDistance = WireInfo.total_vehicle_distance();
@@ -2078,6 +2090,10 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_getFeedbackData()
 		struWireCtrlOut.iSubtotalMileage = (WireInfo.total_vehicle_distance() - finitTalDistance) / 1000;
 	 }
 
+	MINE_LOG(SANY_LOG_INFO, "---ProtoCockpit_getFeedbackData --- start\n");
+	MINE_LOG(SANY_LOG_INFO, " VCU_State %d, 5 - unman\n", WireInfo.vcu_state());
+	MINE_LOG(SANY_LOG_INFO, "Remote_or_Unman  %d, 6 - unman; 8 - remote\n", WireInfo.Remote_or_Unman());
+	MINE_LOG(SANY_LOG_INFO, "--- ProtoCockpit_getFeedbackData --- end\n");
 	return RET_OK;
 }
 
