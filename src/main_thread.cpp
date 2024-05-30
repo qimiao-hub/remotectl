@@ -15,18 +15,17 @@
 #include "common/sany_type.h"
 #include "protocol/protocol_cockpit.h"
 
-CmdCtrlACK ctrlACK;
-TopicDataType *pDataTypeACK = new CmdCtrlACKPubSubType();
-ddsPublisher<CmdCtrlACK> *pPubACK = new ddsPublisher<CmdCtrlACK>(pDataTypeACK);
 Protocol_Cockpit *pCockpit = new Protocol_Cockpit();
 FailureReporter *m_pFailureSDK = new FailureReporter();
 SANY_U8 g_IpFlag = 0;
 SANY_U8 g_u8CtrlState = 0;
-
-void write_Gps2log(int signum)
-{
-	MINE_LOG(SANY_LOG_INFO, "receive gps_info,   gps_lat %f\n", pCockpit->struGpsInfo.gps_lat());
-}
+CmdCtrlACK ctrlACK;
+SANY_U8 g_u8TaskStopFlag = 0;
+TopicDataType *pDataTypeACK = new CmdCtrlACKPubSubType();
+ddsPublisher<CmdCtrlACK> *pPubACK = new ddsPublisher<CmdCtrlACK>(pDataTypeACK);
+/*驾驶舱IP+PORT订阅*/
+TopicDataType *pDataTypeCockpit = NULL;
+ddsSubscriber<CmdtoRemoteCtrl> *pSubCockpit = NULL;
 
 void cockpit_ctrlACK(CmdtoRemoteCtrl *addr)
 {
@@ -46,31 +45,48 @@ void cockpit_addressCallback(CmdtoRemoteCtrl *addr)
 		g_IpFlag = 1;		
 	}
 	MINE_LOG(SANY_LOG_INFO, "setServerName,  ip_flag is %d\n", g_IpFlag);
+
 	return;
 }
+
+
+
+void write_Gps2log(int signum)
+{
+	MINE_LOG(SANY_LOG_INFO, "receive gps_info,   gps_lat %f\n", pCockpit->struGpsInfo.gps_lat());
+}
+
 
 int main()
 {
 	zkbs::init("syzk-remotectl");
+	MINE_LOG(SANY_LOG_INFO, "syzk-remotectl V2.2.1 start!!\n");
 	DaemonHandl Hdl = daemon_create("syzk-remotectl", 500, DEV_TYPE_XINGYUN);
-	zkbs::setVersion(VER("2.0"));
-
+	MINE_LOG(SANY_LOG_INFO, "SEND HEARTBEAT - DAEMON SUCCESS!!\n");
+	zkbs::setVersion(VER("2.1"));
+	MINE_LOG(SANY_LOG_INFO, "SET VERSION SUCCESS!!\n");
 	mine_log::set_log_level(SANY_LOG_INFO);
 	mine_log::set_log_output(SANY_LOG_OUT_FILE);
+	MINE_LOG(SANY_LOG_INFO, "SET LOG LEVEL SUCCESS!!\n");
 	/*驾驶舱IP+PORT订阅*/
-	TopicDataType *pDataTypeCockpit = new CmdtoRemoteCtrlPubSubType();
-	ddsSubscriber<CmdtoRemoteCtrl> *pSubCockpit = new ddsSubscriber<CmdtoRemoteCtrl>(pDataTypeCockpit, &cockpit_addressCallback);
+	// TopicDataType *pDataTypeCockpit = new CmdtoRemoteCtrlPubSubType();
+	// ddsSubscriber<CmdtoRemoteCtrl> *pSubCockpit = new ddsSubscriber<CmdtoRemoteCtrl>(pDataTypeCockpit, &cockpit_addressCallback);
+	pDataTypeCockpit = new CmdtoRemoteCtrlPubSubType();
+	pSubCockpit = new ddsSubscriber<CmdtoRemoteCtrl>(pDataTypeCockpit, &cockpit_addressCallback);
 
+	MINE_LOG(SANY_LOG_INFO, "CREATE IP SUBSCRIBER SUCCESS!!\n");
 	m_pFailureSDK->init();
+	MINE_LOG(SANY_LOG_INFO, "FAILURE_SDK INIT!!\n");
 	m_pFailureSDK->setModule(FailureModule_Nebula_RemoteCtrl);
+	MINE_LOG(SANY_LOG_INFO, "FAILURE_SDK SET_MODULE!!\n");
 	m_pFailureSDK->start();
-
-	MINE_LOG(SANY_LOG_INFO, "syzk-remotectl V2.2.0 start!!\n");
+	MINE_LOG(SANY_LOG_INFO, "FAILURE_SDK START!!\n");
 
 	// 发布遥控驾驶控制数据
 	ImpleResultInfo imple_result_info;
 	TopicDataType *pDataTypeImple = new ImpleResultInfoPubSubType();
 	ddsPublisher<ImpleResultInfo> *pPubImple = new ddsPublisher<ImpleResultInfo>(pDataTypeImple);
+	MINE_LOG(SANY_LOG_INFO, "CREATE CONTROL_DATA PUBLISHER!!\n");
 	SANY_U8 Remote_Enable5 = 0;
 	SANY_U8 Tick = 0;
 
@@ -90,8 +106,8 @@ int main()
     its.it_interval.tv_nsec = 0;
     if(timer_settime(timer, 0, &its, NULL) == -1)
         MINE_LOG(SANY_LOG_ERROR, "Timer_Settime Fail!!!!\n");
-
-	while (1)
+	MINE_LOG(SANY_LOG_INFO, "CREATE TIMER!!\n");
+	while (! g_u8TaskStopFlag)
 	{
 		if (1 == g_u8CtrlState)
 		{
@@ -110,17 +126,19 @@ int main()
 				Remote_Enable5++;
 				MINE_LOG(SANY_LOG_INFO, "exit from remote-control, Remote_enable: %d, current Gear: %d, BrakeOpening: %f, Parking State: %d\n",imple_result_info.Remote_enable(), imple_result_info.trans_req_gear(), imple_result_info.traffic_brake_req(), imple_result_info.parking_req());
 			}	
+
 		}
 
 		if((Tick % 100) == 0)
 		{
-			MINE_LOG(SANY_LOG_INFO, "syzk-remotectl V2.2.0 main is running!! ip_flag is  %d\n", g_IpFlag);
+			MINE_LOG(SANY_LOG_INFO, "syzk-remotectl V2.2.1 main is running!! ip_flag is  %d\n", g_IpFlag);
 			Tick = 0;
 		}
 		Tick++;
 
 		usleep(50 * 1000);
 	}
-
-	return 0;
+	MINE_LOG(SANY_LOG_INFO, "syzk-remotectl V2.2.1 exit!!!\n");
+	exit(0);
+	// return 0;
 }

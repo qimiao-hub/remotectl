@@ -62,7 +62,7 @@ Protocol_Cockpit::Protocol_Cockpit()
 	g_u32NLDataFlg = 0;
 	g_u8LoginSeqNum = 0;
 	g_u8CtrlState = 0;
-	g_u8TaskStopFlag = 0;
+	g_u8ThreadExitFlag = 0;
 	g_u8EmergencyStopFlg = 0;
 
 	bzero(&struWireCtrlIn, sizeof(struWireCtrlIn));
@@ -694,12 +694,6 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_RecvCmdLoginOut(Protocol_Cockpit_Buffer_s
 	g_IpFlag = 0;
 	/*修改登出标志位*/
 	// g_u8LoginFlag = 0;
-	m_pFailureSDK->report(FailureModule_Nebula_RemoteCtrl, 3201, 15, 0);
-	m_pFailureSDK->report(FailureModule_Nebula_RemoteCtrl, 3201, 16, 0);
-	m_pFailureSDK->report(FailureModule_Nebula_RemoteCtrl, 3203, 5, 0);	
-	m_pFailureSDK->report(FailureModule_Nebula_RemoteCtrl, 3204, 1, 0);
-	m_pFailureSDK->report(FailureModule_Nebula_RemoteCtrl, 3204, 3, 0);
-	MINE_LOG(SANY_LOG_INFO, "report failure clear,! \n");
 	/*关闭Socket，释放线程资源*/
 	stop();
 
@@ -1408,8 +1402,8 @@ void Protocol_Cockpit::funcAppUploadData()
 //	static SANY_U32 u8LostCtrlTimes = 0;
 	SANY_U8 LoginTimes = 0;
 //	SANY_U8 LoginoutTimes = 0;
-
-	while (!g_u8TaskStopFlag)
+	MINE_LOG(SANY_LOG_INFO, "funcAppUploadData thread start!!\n");
+	while (!g_u8ThreadExitFlag)
 	{
 		if (m_Socket_CockpitClient->b_connected)
 		{
@@ -1480,8 +1474,8 @@ void Protocol_Cockpit::funcAppDownloadData()
 	// static SANY_U32 u8LostHeartTimes = 0;
 	SANY_U32 u32NetStatus = 0;
 	SANY_U8 u8ConnectTimes = 0;
-
-	while (!g_u8TaskStopFlag)
+	MINE_LOG(SANY_LOG_INFO, "funcAppDownloadData thread start!!\n");
+	while (!g_u8ThreadExitFlag)
 	{
 		if (m_Socket_CockpitClient->b_connected)
 		{
@@ -1549,8 +1543,8 @@ void Protocol_Cockpit::funcSendData()
 	SANY_U8 u8Ret = RET_OK;
 	SANY_U32 u32SendLen = 0;
 	SANY_U8 szSendBuffer[PROTO_PACK_MAX_LEN] = {0};
-
-	while (!g_u8TaskStopFlag)
+	MINE_LOG(SANY_LOG_INFO, "funcSendData thread start!!\n");
+	while (!g_u8ThreadExitFlag)
 	{
 		if (m_Socket_CockpitClient->b_connected)
 		{
@@ -1572,7 +1566,7 @@ void Protocol_Cockpit::funcSendData()
 		}
 		usleep(1000);
 	}
-	MINE_LOG(SANY_LOG_ERROR, "funcSendData g_u8TaskStopFlag\n");
+	MINE_LOG(SANY_LOG_ERROR, "funcSendData g_u8ThreadExitFlag\n");
 }
 
 /*******************************************************************************
@@ -1586,8 +1580,8 @@ void Protocol_Cockpit::funcRecvData()
 	struct timeval timeout;
 	CP_Header_st *pHeadST = NULL;
 	SANY_U8 u8HaveRecvHead = 0;
-
-	while (!g_u8TaskStopFlag)
+	MINE_LOG(SANY_LOG_INFO, "funcRecvData thread start!!\n");
+	while (!g_u8ThreadExitFlag)
 	{
 		u32ReadLen = 0;
 		if (m_Socket_CockpitClient->b_connected)
@@ -1755,7 +1749,7 @@ void Protocol_Cockpit::start()
 	m_pFailureSDK->report(FailureModule_Nebula_RemoteCtrl, 3204, 1, 0);
 	m_pFailureSDK->report(FailureModule_Nebula_RemoteCtrl, 3204, 3, 0);
 	
-	g_u8TaskStopFlag = 0;
+	// g_u8TaskStopFlag = 0;
 	/* trigger init */
 	ProtoCockpit_SendBufferInit();
 	ProtoCockpit_RecvBufferInit();
@@ -1790,7 +1784,7 @@ void Protocol_Cockpit::stop()
 	{
 		g_u8CtrlState = 2;
 	}
-	g_u8TaskStopFlag = 1;
+	g_u8ThreadExitFlag = 1;
 	MINE_LOG(SANY_LOG_ERROR, "STOP, g_u8CtrlState is  %d,  g_u8TaskStopFlag is  %d\n", g_u8CtrlState, g_u8TaskStopFlag);
 	m_pFailureSDK->report(FailureModule_Nebula_RemoteCtrl, 3201, 15, 0);
 	m_pFailureSDK->report(FailureModule_Nebula_RemoteCtrl, 3201, 16, 0);
@@ -1820,14 +1814,16 @@ void Protocol_Cockpit::stop()
 	/*释放动态申请的内存空间*/
 	free(arrSendBuffer);
 	free(arrRecvBuffer);
-	MINE_LOG(SANY_LOG_ERROR, "STOP,  free up space!!!\n");
+	MINE_LOG(SANY_LOG_ERROR, "STOP,  free up send/recv buffer!!!\n");
 
 	/*销毁互斥锁*/
 	pthread_mutex_destroy(&SendBufferMutex);
 	pthread_mutex_destroy(&RecvBufferMutex);
 	MINE_LOG(SANY_LOG_ERROR, "STOP, destroy pthread mutex!!!\n");
 
-	exit(0);
+	g_u8TaskStopFlag = 1;
+	MINE_LOG(SANY_LOG_ERROR, "STOP, g_u8CtrlState is  %d,  g_u8TaskStopFlag is  %d\n", g_u8CtrlState, g_u8TaskStopFlag);
+	//  exit(0);
 }
 
 /*******************************************************************************
@@ -1839,8 +1835,10 @@ void Protocol_Cockpit::stop()
  ********************************************************************************/
 void Protocol_Cockpit::ProtoCockpit_setServerName(const char *pServerName)
 {
+	MINE_LOG(SANY_LOG_INFO, "ProtoCockpit_setServerName!! \n");
 	if (!pServerName)
 	{
+		MINE_LOG(SANY_LOG_ERROR, "pServerName is NULL, %s\n", cockpitServerName);
 		return;
 	}
 	memcpy(cockpitServerName, pServerName, MIN(strlen(pServerName), sizeof(cockpitServerName)));

@@ -63,6 +63,9 @@
 #endif
 
 extern FailureReporter *m_pFailureSDK;
+extern TopicDataType *pDataTypeCockpit;
+extern ddsSubscriber<CmdtoRemoteCtrl> *pSubCockpit;
+extern SANY_U8 g_u8TaskStopFlag;
 
 typedef struct
 {
@@ -196,7 +199,8 @@ private:
 	SANY_U8 rolling_need_stop = 0;		// normal data flag
 
 	/*任务结束标识，驾舱登出后释放线程资源，置位后四个线程退出*/
-	volatile SANY_U8 g_u8TaskStopFlag = 0;
+	// volatile SANY_U8 g_u8TaskStopFlag = 0;
+	volatile SANY_U8 g_u8ThreadExitFlag = 0;
 
 	/*读取配置文件*/
 	std::string iccid;
