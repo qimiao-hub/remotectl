@@ -2202,24 +2202,6 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_getCtrlDate(ImpleResultInfo *pCtrlInfo)
 	}
 	bzero(pCtrlInfo, sizeof(ImpleResultInfo));
 
-	if (g_u8CtrlState == 1)
-	{
-		pCtrlInfo->Remote_enable(3);
-		pCtrlInfo->unmanned_enable(1);
-	}
-	else if(g_u8CtrlState == 2)
-	{
-		pCtrlInfo->Remote_enable(5);
-		pCtrlInfo->unmanned_enable(1);
-		ProtoCockpit_initCtrlData();				
-	}
-	else if(g_u8CtrlState == 3)
-	{
-		pCtrlInfo->Remote_enable(5);
-		pCtrlInfo->unmanned_enable(0);
-		ProtoCockpit_initCtrlData();			
-	}
-
 	pCtrlInfo->vilid_count(g_count);
 	if (g_count < 255)
 	{
@@ -2518,7 +2500,26 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_getCtrlDate(ImpleResultInfo *pCtrlInfo)
 		// printf("start EmergencyStop, gear: %d,  parking_req: %d,  traffic_brake_req: %f\n", pCtrlInfo->trans_req_gear(), pCtrlInfo->parking_req(), pCtrlInfo->traffic_brake_req());
 	}
 	
-
+	if ((g_u8CtrlState == 1) && (g_u8LoginFlag == 1))
+	{
+		pCtrlInfo->Remote_enable(3);
+		pCtrlInfo->unmanned_enable(1);
+	}
+	else 
+	{
+		if(g_u8CtrlState == 2)
+		{
+			pCtrlInfo->Remote_enable(5);
+			pCtrlInfo->unmanned_enable(1);
+		}
+		 if(g_u8CtrlState == 3)
+		 {
+			pCtrlInfo->Remote_enable(5);
+			pCtrlInfo->unmanned_enable(0);
+		 }
+		ProtoCockpit_initCtrlData();				
+	}
+	
 	return RET_OK;
 }
 
