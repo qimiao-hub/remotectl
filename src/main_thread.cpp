@@ -60,10 +60,10 @@ void write_Gps2log(int signum)
 int main()
 {
 	zkbs::init("syzk-remotectl");
-	MINE_LOG(SANY_LOG_INFO, "syzk-remotectl V2.2.1 start!!\n");
+	MINE_LOG(SANY_LOG_INFO, "syzk-remotectl V2.2.2 start!!\n");
 	DaemonHandl Hdl = daemon_create("syzk-remotectl", 500, DEV_TYPE_XINGYUN);
 	MINE_LOG(SANY_LOG_INFO, "SEND HEARTBEAT - DAEMON SUCCESS!!\n");
-	zkbs::setVersion(VER("2.1"));
+	zkbs::setVersion(VER("2.2"));
 	MINE_LOG(SANY_LOG_INFO, "SET VERSION SUCCESS!!\n");
 	mine_log::set_log_level(SANY_LOG_INFO);
 	mine_log::set_log_output(SANY_LOG_OUT_FILE);
@@ -113,6 +113,8 @@ int main()
 		{
 			/*获取通信模块遥控控制数据*/
 			pCockpit->ProtoCockpit_getCtrlDate(&imple_result_info);
+			imple_result_info.Remote_enable(3);
+			imple_result_info.unmanned_enable(1);
 			/*发布遥控控制数据*/
 			pPubImple->publish(imple_result_info);
 			Remote_Enable5 = 0;
@@ -122,6 +124,8 @@ int main()
 			if(10 > Remote_Enable5)
 			{
 				pCockpit->ProtoCockpit_getCtrlDate(&imple_result_info);
+				imple_result_info.Remote_enable(5);
+				imple_result_info.unmanned_enable(1);
 				pPubImple->publish(imple_result_info);
 				Remote_Enable5++;
 				MINE_LOG(SANY_LOG_INFO, "exit from remote-control, Remote_enable: %d, current Gear: %d, BrakeOpening: %f, Parking State: %d\n",imple_result_info.Remote_enable(), imple_result_info.trans_req_gear(), imple_result_info.traffic_brake_req(), imple_result_info.parking_req());
@@ -131,14 +135,14 @@ int main()
 
 		if((Tick % 100) == 0)
 		{
-			MINE_LOG(SANY_LOG_INFO, "syzk-remotectl V2.2.1 main is running!! ip_flag is  %d\n", g_IpFlag);
+			MINE_LOG(SANY_LOG_INFO, "syzk-remotectl V2.2.2 main is running!! ip_flag is  %d\n", g_IpFlag);
 			Tick = 0;
 		}
 		Tick++;
 
 		usleep(50 * 1000);
 	}
-	MINE_LOG(SANY_LOG_INFO, "syzk-remotectl V2.2.1 exit!!!\n");
+	MINE_LOG(SANY_LOG_INFO, "syzk-remotectl V2.2.2 exit!!!\n");
 	exit(0);
 	// return 0;
 }

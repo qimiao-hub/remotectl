@@ -36,7 +36,7 @@ struct GpsImuInfo
     float gps_days_to_speed;//天向速度
     float gps_height;      //海拔
     float imu_acc_y;       //纵向加速度
-    float imu_acc_x;       //侧向加速度
+    float imu_acc_x;       //侧
     float imu_yaw_z;       //横摆角速度
     float imu_v_y;         //y轴角速度
     float imu_v_x;         //x轴角速度

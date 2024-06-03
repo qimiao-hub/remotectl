@@ -2212,6 +2212,28 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_getCtrlDate(ImpleResultInfo *pCtrlInfo)
 		g_count = 0;
 	}
 
+	// if (g_u8CtrlState == 1) 
+	// {
+	// 	pCtrlInfo->Remote_enable(3);
+	// 	pCtrlInfo->unmanned_enable(1);
+	// }
+	// else if (g_u8CtrlState == 2)
+	// {
+	// 		pCtrlInfo->Remote_enable(5);
+	// 		pCtrlInfo->unmanned_enable(1);
+	// }
+	// else if (g_u8CtrlState == 3)
+	// {
+	// 		pCtrlInfo->Remote_enable(5);
+	// 		pCtrlInfo->unmanned_enable(0);
+	// }
+			
+	if(g_u8LoginFlag == 0)
+	{
+		ProtoCockpit_initCtrlData();	
+		MINE_LOG(SANY_LOG_ERROR, "Login flag is :  %d, init control data!!\n", g_u8LoginFlag);
+	}
+
 	pCtrlInfo->engine_override_ctrl_mode(0b10);
 	pCtrlInfo->engine_req_speed_ctrl_condition(0b10);
 	pCtrlInfo->override_ctrl_mode_priority(0b00);
@@ -2498,26 +2520,6 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_getCtrlDate(ImpleResultInfo *pCtrlInfo)
 		pCtrlInfo->brake_light_ctrl(true);		//制动灯
 		MINE_LOG(SANY_LOG_INFO, "receive EmergencyStop cmd, gear: %d,  parking_req: %d,  traffic_brake_req: %f\n", pCtrlInfo->trans_req_gear(), pCtrlInfo->parking_req(), pCtrlInfo->traffic_brake_req());
 		// printf("start EmergencyStop, gear: %d,  parking_req: %d,  traffic_brake_req: %f\n", pCtrlInfo->trans_req_gear(), pCtrlInfo->parking_req(), pCtrlInfo->traffic_brake_req());
-	}
-	
-	if ((g_u8CtrlState == 1) && (g_u8LoginFlag == 1))
-	{
-		pCtrlInfo->Remote_enable(3);
-		pCtrlInfo->unmanned_enable(1);
-	}
-	else 
-	{
-		if(g_u8CtrlState == 2)
-		{
-			pCtrlInfo->Remote_enable(5);
-			pCtrlInfo->unmanned_enable(1);
-		}
-		 if(g_u8CtrlState == 3)
-		 {
-			pCtrlInfo->Remote_enable(5);
-			pCtrlInfo->unmanned_enable(0);
-		 }
-		ProtoCockpit_initCtrlData();				
 	}
 	
 	return RET_OK;
