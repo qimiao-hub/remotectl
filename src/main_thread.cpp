@@ -60,10 +60,9 @@ void write_Gps2log(int signum)
 int main()
 {
 	zkbs::init("syzk-remotectl");
-	MINE_LOG(SANY_LOG_INFO, "syzk-remotectl V2.2.2 start!!\n");
-	DaemonHandl Hdl = daemon_create("syzk-remotectl", 500, DEV_TYPE_XINGYUN);
-	MINE_LOG(SANY_LOG_INFO, "SEND HEARTBEAT - DAEMON SUCCESS!!\n");
-	zkbs::setVersion(VER("2.2"));
+	MINE_LOG(SANY_LOG_INFO, "syzk-remotectl V2.2.3 start!!\n");
+	
+	zkbs::setVersion(VER("2.3"));
 	MINE_LOG(SANY_LOG_INFO, "SET VERSION SUCCESS!!\n");
 	mine_log::set_log_level(SANY_LOG_INFO);
 	mine_log::set_log_output(SANY_LOG_OUT_FILE);
@@ -107,6 +106,10 @@ int main()
     if(timer_settime(timer, 0, &its, NULL) == -1)
         MINE_LOG(SANY_LOG_ERROR, "Timer_Settime Fail!!!!\n");
 	MINE_LOG(SANY_LOG_INFO, "CREATE TIMER!!\n");
+
+	// 测试
+	DaemonHandl Hdl = daemon_create("syzk-remotectl", 500, DEV_TYPE_XINGYUN);
+	MINE_LOG(SANY_LOG_INFO, "SEND HEARTBEAT - DAEMON SUCCESS!!\n");
 	while (! g_u8TaskStopFlag)
 	{
 		if (1 == g_u8CtrlState)
