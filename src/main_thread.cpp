@@ -12,6 +12,7 @@
 #include <string.h>
 #include <sys/time.h>
 #include <iostream>
+#include <FailureReporter.h>
 #include "common/sany_type.h"
 #include "protocol/protocol_cockpit.h"
 
