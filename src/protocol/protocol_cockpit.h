@@ -122,7 +122,7 @@ public:
 	SANY_U8 g_old_current_state = 0;
 	SANY_U8 g_current_state = 0;
 
-	char cockpitServerName[22] = {0};
+	char cockpitServerName[25] = {0};
 	const char HostclientName[22] = "192.168.8.249:8080";
 //	ini::iniReader config;
 

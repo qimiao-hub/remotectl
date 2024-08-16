@@ -854,7 +854,7 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_PackAckHeartBeat(SANY_U8 *pDataBuf, SANY_
 
 /********************************************************************
  * 函数名称:      ProtoCockpit_PackAckLoginOut
- * 描述:        组装bei动登出响应报文
+ * 描述:        组装被动登出响应报文
  * parma in:         u8*  pDataBuf    包缓冲区
  * parma out:		u8*  pOutDataLen  协议包长
  * 返回值:       RET_OK/RET_ERROR
@@ -1841,12 +1841,20 @@ void Protocol_Cockpit::ProtoCockpit_setServerName(const char *pServerName)
 		MINE_LOG(SANY_LOG_ERROR, "pServerName is NULL, %s\n", cockpitServerName);
 		return;
 	}
+
+	memset(cockpitServerName,0, sizeof(cockpitServerName));
 	memcpy(cockpitServerName, pServerName, MIN(strlen(pServerName), sizeof(cockpitServerName)));
 	MINE_LOG(SANY_LOG_INFO, "ProtoCockpit_setServerName cockpitServerName %s\n", cockpitServerName);
 
 	return;
 }
 
+/*******************************************************************************
+ * 函数名称：		ProtocolCockpit_getFeedbackData
+ * 描述：			获取底盘反馈数据
+ * parma in:			
+ * 返回值：
+ * ****************************************************************************/
 SANY_U8 Protocol_Cockpit::ProtoCockpit_getFeedbackData()
 {
 	static float finitTalDistance = 0;

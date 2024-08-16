@@ -61,9 +61,9 @@ void write_Gps2log(int signum)
 int main()
 {
 	zkbs::init("syzk-remotectl");
-	MINE_LOG(SANY_LOG_INFO, "syzk-remotectl V2.2.3 start!!\n");
+	MINE_LOG(SANY_LOG_INFO, "syzk-remotectl V2.2.4 start!!\n");
 	
-	zkbs::setVersion(VER("2.3"));
+	zkbs::setVersion(VER("2.4"));
 	MINE_LOG(SANY_LOG_INFO, "SET VERSION SUCCESS!!\n");
 	mine_log::set_log_level(SANY_LOG_INFO);
 	mine_log::set_log_output(SANY_LOG_OUT_FILE);
@@ -89,6 +89,7 @@ int main()
 	MINE_LOG(SANY_LOG_INFO, "CREATE CONTROL_DATA PUBLISHER!!\n");
 	SANY_U8 Remote_Enable5 = 0;
 	SANY_U8 Tick = 0;
+	SANY_U8 Tick_Remote_Notice = -1;
 
 	timer_t timer;
     struct sigevent sev;
@@ -117,6 +118,16 @@ int main()
 		{
 			/*获取通信模块遥控控制数据*/
 			pCockpit->ProtoCockpit_getCtrlDate(&imple_result_info);
+			/*遥控提示现场*/
+			if(Tick_Remote_Notice == -1){
+				Tick_Remote_Notice = 0;
+			}
+			Tick_Remote_Notice ++;
+			if(Tick_Remote_Notice % 200 == 0){
+				imple_result_info.horn_start(true);
+				MINE_LOG(SANY_LOG_INFO, "Remote-control is running, notice Horn\n");
+				Tick_Remote_Notice = 0;
+			}
 			imple_result_info.Remote_enable(3);
 			imple_result_info.unmanned_enable(1);
 			/*发布遥控控制数据*/
@@ -127,6 +138,7 @@ int main()
 		{
 			if(10 > Remote_Enable5)
 			{
+				Tick_Remote_Notice = -1;
 				pCockpit->ProtoCockpit_getCtrlDate(&imple_result_info);
 				imple_result_info.Remote_enable(5);
 				imple_result_info.unmanned_enable(1);
@@ -139,14 +151,14 @@ int main()
 
 		if((Tick % 100) == 0)
 		{
-			MINE_LOG(SANY_LOG_INFO, "syzk-remotectl V2.2.2 main is running!! ip_flag is  %d\n", g_IpFlag);
+			MINE_LOG(SANY_LOG_INFO, "syzk-remotectl V2.2.4 main is running!! ip_flag is  %d\n", g_IpFlag);
 			Tick = 0;
 		}
 		Tick++;
 
 		usleep(50 * 1000);
 	}
-	MINE_LOG(SANY_LOG_INFO, "syzk-remotectl V2.2.2 exit!!!\n");
+	MINE_LOG(SANY_LOG_INFO, "syzk-remotectl V2.2.4 exit!!!\n");
 	exit(0);
 	// return 0;
 }
