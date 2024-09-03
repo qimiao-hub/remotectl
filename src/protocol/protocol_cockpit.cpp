@@ -44,6 +44,12 @@ void gpsFeedbackCallback(GpsImuInfo *info)
 	return;
 }
 
+void safeFeedbackCallback(SafeFeedbackInfo *info)
+{
+	memcpy(&pCockpit->struSafeFeedbackInfo, info, sizeof(SafeFeedbackInfo));
+	return;
+}
+
 /********************************************************************
  * 函数名称:      Protocol_Cockpit构造函数
  * 描述:        将该协议中相关全局变量进行初始化
@@ -69,9 +75,11 @@ Protocol_Cockpit::Protocol_Cockpit()
 	bzero(&struWireCtrlOut, sizeof(struWireCtrlOut));
 	bzero(&WireInfo, sizeof(WireInfo));
 	bzero(&struGpsInfo, sizeof(struGpsInfo));
+	bzero(&struSafeFeedbackInfo, sizeof(struSafeFeedbackInfo));
 
 	pSubWire = new ddsSubscriber<WirectlFeedbackInfo>(pDataTypeWire, &wireFeedbackCallback);
 	pSubGps =  new ddsSubscriber<GpsImuInfo>(pDataTypeGps, &gpsFeedbackCallback);
+	pSubSafe = new ddsSubscriber<SafeFeedbackInfo>(pDataTypeSafe, &safeFeedbackCallback);
 }
 /*
 void Protocol_Cockpit::Read_INI(ini::iniReader config)
@@ -526,6 +534,9 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_RecvCmdRealtimeCtrl(Protocol_Cockpit_Buff
 	struWireCtrlIn.iKeyOperation1 = pRealtimeCtrlCmdDataST->ucKeyOperation1[0];		/*按键操作1*/
 	struWireCtrlIn.iKeyOperation2 = pRealtimeCtrlCmdDataST->ucKeyOperation2[0];		/*按键操作2*/
 
+	struWireCtrlIn.iSafeRelease= pRealtimeCtrlCmdDataST->ucSafeRelease[0];				/*安全措施-故障清除*/
+	struWireCtrlIn.iSafeProtect = pRealtimeCtrlCmdDataST->UCSafeProtect[0];				/*安全措施-进入安全模式*/
+
 	MINE_LOG(SANY_LOG_INFO, "-----EV_CP_REALTIME_CTRL start----\n");
 	MINE_LOG(SANY_LOG_INFO, "ucTime %8s\n", pRealtimeCtrlCmdDataST->ucTime);
 	MINE_LOG(SANY_LOG_INFO, "ucSequenceNum %d\n", pRealtimeCtrlCmdDataST->ucSequenceNum[0]);
@@ -537,6 +548,8 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_RecvCmdRealtimeCtrl(Protocol_Cockpit_Buff
 	MINE_LOG(SANY_LOG_INFO, "iKeyOperation2 %d\n", struWireCtrlIn.iKeyOperation2);
 	MINE_LOG(SANY_LOG_INFO, "iThrottleOpening %d\n", struWireCtrlIn.iThrottleOpening);
 	MINE_LOG(SANY_LOG_INFO, "iWheelAngle %2d\n", struWireCtrlIn.iWheelAngle);
+	MINE_LOG(SANY_LOG_INFO, "iSafeRelease%d\n", struWireCtrlIn.iSafeRelease);
+	MINE_LOG(SANY_LOG_INFO, "iSafeProtect%d\n", struWireCtrlIn.iSafeProtect);
 	MINE_LOG(SANY_LOG_INFO, "-----EV_CP_REALTIME_CTRL end----\n");
 
 	return RET_OK;
@@ -1068,6 +1081,9 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_SendCmdRealtimeRep()
 	pDataST->ucLiftUpStatus[0] = (SANY_U8)struWireCtrlOut.iLiftUpStatus;
 	/*下降到位状态*/
 	pDataST->ucLiftDownStatus[0] = (SANY_U8)struWireCtrlOut.iLiftDownStatus;
+	/*safe模块-故障信息*/
+	pDataST->ucSafeInfo1[0] = (SANY_U8)struWireCtrlOut.iSafeInfo1;
+	pDataST->ucSafeInfo2[0] = (SANY_U8)struWireCtrlOut.iSafeInfo2;
 
 	MINE_LOG(SANY_LOG_INFO, "--- ProtoCockpit_SendCmdRealtimeRep --- start\n");
 	MINE_LOG(SANY_LOG_INFO, "iVehicle_speed %d\n", (int)struWireCtrlOut.iVehicle_speed * 10);
@@ -1091,6 +1107,7 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_SendCmdRealtimeRep()
 	MINE_LOG(SANY_LOG_INFO, "iWorkStatus %d\n", (int)(struWireCtrlOut.iWorkStatus));
 	MINE_LOG(SANY_LOG_INFO, "iLiftUpStatus %d\n", (int)(struWireCtrlOut.iLiftUpStatus));
 	MINE_LOG(SANY_LOG_INFO, "iLiftDownStatus %d\n", (int)(struWireCtrlOut.iLiftDownStatus));
+	MINE_LOG(SANY_LOG_INFO, "iSafeInfo %d %d %d %d\n", (int)(struWireCtrlOut.iSafeInfo1), (int)(struWireCtrlOut.iSafeInfo2), (int)pDataST->ucSafeInfo1[0], (int)pDataST->ucSafeInfo2[0]);
 	MINE_LOG(SANY_LOG_INFO, "--- ProtoCockpit_SendCmdRealtimeRep --- end\n");
 
 	/* 计算消息长度 */
@@ -1239,7 +1256,7 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_WriteSendBuffer(SANY_U8 *pu8DataBuf, SANY
 			return RET_ERROR;
 		}
 	}
-
+	// MINE_LOG(SANY_LOG_INFO, "writesendbuffer: s%", pu8DataBuf);
 	memcpy(arrSendBuffer[g_u8SendBufferWriteIndex].szDataBuf, pu8DataBuf, u32DataLen);
 	arrSendBuffer[g_u8SendBufferWriteIndex].u32SendLen = u32DataLen;
 
@@ -1904,7 +1921,7 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_getFeedbackData()
 	}
 	else
 	{
-		struWireCtrlOut.iCombinedGearL &= 0xF9;
+		struWireCtrlOut.iCombinedGearL &= 0xFB;
 	}
 	if (WireInfo.high_beam_start_status())
 	{
@@ -1944,7 +1961,7 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_getFeedbackData()
 	}
 	else
 	{
-		struWireCtrlOut.iCombinedGearR &= 0xF9;
+		struWireCtrlOut.iCombinedGearR &= 0xFB;
 	}
 	if(g_u8EmergencyStopFlg == 1)												//急停状态上报
 	{
@@ -1976,7 +1993,7 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_getFeedbackData()
 	}
 	else
 	{
-		struWireCtrlOut.iKeyOperation1 &= 0xF9;
+		struWireCtrlOut.iKeyOperation1 &= 0xFB;
 	}
 	if (WireInfo.fog_lamp_start_status())
 	{
@@ -2032,7 +2049,7 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_getFeedbackData()
 	}
 	else
 	{
-		struWireCtrlOut.iKeyOperation2 &= 0xF9;
+		struWireCtrlOut.iKeyOperation2 &= 0xFB;
 	}
 	if (WireInfo.parking())
 	{
@@ -2050,7 +2067,7 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_getFeedbackData()
 	{
 		struWireCtrlOut.iKeyOperation2 &= 0x7F;
 	}
-
+	
 	//车辆驾驶状态 
 	if((WireInfo.vcu_state() == 5) && (WireInfo.Remote_or_Unman() == 8))
 	{
@@ -2095,6 +2112,8 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_getFeedbackData()
 		/*小计里程 = 总里程-初始里程*/
 		struWireCtrlOut.iSubtotalMileage = (WireInfo.total_vehicle_distance() - finitTalDistance) / 1000;
 	 }
+	// 安全措施-故障信息
+	ProtoCockpit_PackSafeFeedbackInfo();
 
 	MINE_LOG(SANY_LOG_INFO, "---ProtoCockpit_getFeedbackData --- start\n");
 	MINE_LOG(SANY_LOG_INFO, " VCU_State %d, 5 - unman\n", WireInfo.vcu_state());
@@ -2103,6 +2122,94 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_getFeedbackData()
 	return RET_OK;
 }
 
+/*************************************************************************************
+ * 获取安全模块上报的故障信息，并解析
+*/
+SANY_U8 Protocol_Cockpit::ProtoCockpit_PackSafeFeedbackInfo(){
+	/* 溜车*/
+	if(struSafeFeedbackInfo.rolling_need_stop()){
+		struWireCtrlOut.iSafeInfo1 |= 0x01;
+	}else{
+		struWireCtrlOut.iSafeInfo1 &= 0xFE;
+	}
+	/* 驻车溜车*/
+	if(struSafeFeedbackInfo.parking_rolling()){
+		struWireCtrlOut.iSafeInfo1 |= 0x01 << 1;
+	}else{
+		struWireCtrlOut.iSafeInfo1 &= 0xFD;
+	}
+	/*刹车异常*/
+	if(struSafeFeedbackInfo.braking_failure()){
+		struWireCtrlOut.iSafeInfo1 |= 0x01 << 2;
+	}else{
+		struWireCtrlOut.iSafeInfo1 &= 0xFB;
+	}
+	/* 打滑*/
+	if(struSafeFeedbackInfo.slip_rep()){
+		struWireCtrlOut.iSafeInfo1 |= 0x01 << 3;
+	}else{
+		struWireCtrlOut.iSafeInfo1 &= 0xF7;
+	}
+	/*位置突变停车*/
+	if(struSafeFeedbackInfo.distance_stop_flag()){
+		struWireCtrlOut.iSafeInfo1 |= 0x01 << 4;
+	}else{
+		struWireCtrlOut.iSafeInfo1 &= 0xEF;
+	}
+	/*位置不变停车*/
+	 if(struSafeFeedbackInfo.position_nochange_flag()){
+		struWireCtrlOut.iSafeInfo1 |= 0x01 << 5;
+	}else{
+		struWireCtrlOut.iSafeInfo1 &= 0xDF;
+	}
+	/*驻车异常*/
+	if(struSafeFeedbackInfo.parking_failure()){
+		struWireCtrlOut.iSafeInfo1 |= 0x01 << 6;
+	}else{
+		struWireCtrlOut.iSafeInfo1 &= 0xBF;
+	}
+	/*制动力衰减*/
+	if(struSafeFeedbackInfo.braking_deceleration_weakened()){
+		struWireCtrlOut.iSafeInfo1 |= 0x01 << 7;
+	}else{
+		struWireCtrlOut.iSafeInfo1 &= 0x7F;
+	}
+	/* 热衰退故障*/
+	if(struSafeFeedbackInfo.braking_heat_fade()){
+		struWireCtrlOut.iSafeInfo2 |= 0x01;
+	}else{
+		struWireCtrlOut.iSafeInfo2 &= 0xFE;
+	}
+	/* AEB停车*/
+	if(struSafeFeedbackInfo.AEB_stop()){
+		struWireCtrlOut.iSafeInfo2 |= 0x01 << 1;
+	}else{
+		struWireCtrlOut.iSafeInfo2 &= 0xFD;
+	}
+	if(struSafeFeedbackInfo.transmission_state()){
+		struWireCtrlOut.iSafeInfo2 |= 0x01 << 7;
+	}else{
+		struWireCtrlOut.iSafeInfo2 &= 0x7F;
+	}
+	MINE_LOG(SANY_LOG_INFO, "---ProtoCockpit_SafeFeedbackInfo --- start\n");
+	MINE_LOG(SANY_LOG_INFO, "rolling_need_stop: %d\n", struSafeFeedbackInfo.rolling_need_stop());
+	MINE_LOG(SANY_LOG_INFO, "parking_rolling: %d\n", struSafeFeedbackInfo.parking_rolling());
+	MINE_LOG(SANY_LOG_INFO, "braking_failure: %d\n", struSafeFeedbackInfo.braking_failure());
+	MINE_LOG(SANY_LOG_INFO, "slip_rep: %d\n", struSafeFeedbackInfo.slip_rep());
+	MINE_LOG(SANY_LOG_INFO, "distance_stop_flag: %d\n", struSafeFeedbackInfo.distance_stop_flag());
+	MINE_LOG(SANY_LOG_INFO, "position_nochange_flag: %d\n", struSafeFeedbackInfo.position_nochange_flag());
+	MINE_LOG(SANY_LOG_INFO, "parking_failure: %d\n", struSafeFeedbackInfo.parking_failure());
+	MINE_LOG(SANY_LOG_INFO, "braking_deceleration_weakened: %d\n", struSafeFeedbackInfo.braking_deceleration_weakened());
+	MINE_LOG(SANY_LOG_INFO, "braking_heat_fade: %d\n", struSafeFeedbackInfo.braking_heat_fade());
+	MINE_LOG(SANY_LOG_INFO, "AEB_stop: %d\n", struSafeFeedbackInfo.AEB_stop());
+	MINE_LOG(SANY_LOG_INFO, "transmission_state: %d\n", struSafeFeedbackInfo.transmission_state());
+	MINE_LOG(SANY_LOG_INFO, "---ProtoCockpit_SafeFeedbackInfo --- end\n");
+	return RET_OK;
+}
+
+/*
+溜车
+*/
 float Protocol_Cockpit::ProtoCockpit_SpeedHeading(const float gps_vn, const float gps_ve, const float heading)
 {
 	 float speed_heading = 0,vn = 0, ve = 0, theta = 0;
@@ -2144,7 +2251,7 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_Rolling()
 	float speed_heading = ProtoCockpit_SpeedHeading(struGpsInfo.gps_vn(),struGpsInfo.gps_ve(),struGpsInfo.gps_heading());
     float vehicle_heading = struGpsInfo.gps_heading();
 	
-	if ( (fabs(struGpsInfo.gps_vn()) > 0.1 || fabs(struGpsInfo.gps_ve()) > 0.1) && (WireInfo.trans_current_gear() == -1))
+	if ( (fabs(struGpsInfo.gps_vn()) > 0.1 || fabs(struGpsInfo.gps_ve()) > 0.1) && (WireInfo.trans_current_gear() == -1 || WireInfo.trans_current_gear() == 13))
     {
         vehicle_heading += 180;
         if (vehicle_heading >= 360)
@@ -2195,11 +2302,13 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_initCtrlData()
 	struWireCtrlIn.iKeyOperation1 = 0;
 	// struWireCtrlIn.iKeyOperation2 = 0x20;
 	BrakeValue = 0;
-	struWireCtrlIn.iKeyOperation2 = 0x08;		//住车
-
+	struWireCtrlIn.iKeyOperation2 = 0x08;		//驻车
+	struWireCtrlIn.iSafeRelease = 0x00;	// 安全模块-关闭清除故障
+	struWireCtrlIn.iSafeProtect = 0x00;	// 安全故障-进入安全模式
 	return true;
 }
 
+/* 舱端控制数据转为底盘数据*/
 SANY_U8 Protocol_Cockpit::ProtoCockpit_getCtrlDate(ImpleResultInfo *pCtrlInfo)
 {
 	if (!pCtrlInfo)
@@ -2502,6 +2611,22 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_getCtrlDate(ImpleResultInfo *pCtrlInfo)
 			pCtrlInfo->container_ctrl(0);
 		}
 	}
+	
+	if(1 == struWireCtrlIn.iSafeRelease){
+		// 安全措施-开启清除故障
+		pCtrlInfo->release_measure(true);
+	}else if(0 == struWireCtrlIn.iSafeRelease){
+		// 安全措施-关闭清除故障
+		pCtrlInfo->release_measure(false);
+	}
+
+	if(1 == struWireCtrlIn.iSafeProtect){
+		// 安全措施-进入安全模式
+		pCtrlInfo->protect_measure(true);
+	}else{
+		pCtrlInfo->protect_measure(false);
+	}
+	MINE_LOG(SANY_LOG_INFO, "receive SafeRelease: %d, SafeProtect: %d\n", pCtrlInfo->release_measure(), pCtrlInfo->protect_measure());
 
 	/*判断溜车*/
 	if(ProtoCockpit_Rolling())

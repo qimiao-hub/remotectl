@@ -31,6 +31,8 @@
 #include "../include/ddsType/imple_msgPubSubTypes.h"
 #include "../include/ddsType/Cockpit_address.h"
 #include "../include/ddsType/Cockpit_addressPubSubTypes.h"
+#include "../include/ddsType/safe_ctrl_msg.h"
+#include "../include/ddsType/safe_ctrl_msgPubSubTypes.h"
 #include <zkbs/ddsBase/ddsPubBase.h>
 #include <zkbs/ddsBase/ddsSubBase.h>
 #include "zkbs/zkbs.hpp"
@@ -83,6 +85,8 @@ typedef struct
 	int iCombinedGearR;	  // 组合开关右
 	int iKeyOperation1;	  // 按键操作1
 	int iKeyOperation2;	  // 按键操作2
+	int iSafeRelease;			// 安全措施-清除故障
+	int iSafeProtect;		// 安全措施-进入安全模式
 } RemoteDrivingWirectlInInfo;
 
 typedef struct
@@ -108,6 +112,8 @@ typedef struct
     int	iKeyOperation1;			//按键操作1
     int	iKeyOperation2;			//按键操作2 
 	int	iWorkStatus;			//车辆驾驶状态
+	int iSafeInfo1;				// 安全模块-故障1
+	int iSafeInfo2;				// 安全模块-故障2
 } RemoteDrivingWirectlOutInfo;
 
 /*********************************************************************
@@ -135,13 +141,17 @@ public:
 	WirectlFeedbackInfo WireInfo;
 //	WirectlFeedbackInfo OldWireInfo; // 用于状态变更时与WireInfo比较
 	GpsImuInfo struGpsInfo;
+	/*safe模块-故障信息*/
+	SafeFeedbackInfo struSafeFeedbackInfo;
 
 	/*发布参数相关*/
 	TopicDataType *pDataTypeWire = new WirectlFeedbackInfoPubSubType();
 	TopicDataType *pDataTypeGps = new GpsImuInfoPubSubType();
+	TopicDataType *pDataTypeSafe = new SafeFeedbackInfoPubSubType();
 
 	ddsSubscriber<WirectlFeedbackInfo> *pSubWire = NULL;
 	ddsSubscriber<GpsImuInfo> *pSubGps =  NULL;
+	ddsSubscriber<SafeFeedbackInfo> *pSubSafe = NULL;
 
 	/*进程通信定义分界线----------------------------end*/
 
@@ -295,7 +305,9 @@ private:
 	SANY_U8 ProtoCockpit_PackAckHeartBeat(SANY_U8 *pDataBuf, SANY_U32 *pOutDataLen, SANY_U16 ucSequenceNum);
 	SANY_U8 ProtoCockpit_PackAckLoginOut(SANY_U8 *pDataBuf, SANY_U32 *pOutDataLen);
 	SANY_U8 ProtoCockpit_PackAckRepCtrl(SANY_U8 *pDataBuf, SANY_U32 *pOutDataLen, SANY_U8 ucSequenceNum);
-
+	/*打包安全模块上报的故障信息*/
+	SANY_U8 ProtoCockpit_PackSafeFeedbackInfo();
+	
 	/*网络相关接口*/
 	void InitSocket_Cockpit();
 
@@ -311,6 +323,7 @@ private:
 	SANY_U8 ProtoCockpit_getFeedbackData();
 	/*遥控控制信息初始化*/
 	SANY_U8 ProtoCockpit_initCtrlData();
+	
 };
 
 #endif

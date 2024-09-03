@@ -28,6 +28,7 @@ ddsPublisher<CmdCtrlACK> *pPubACK = new ddsPublisher<CmdCtrlACK>(pDataTypeACK);
 TopicDataType *pDataTypeCockpit = NULL;
 ddsSubscriber<CmdtoRemoteCtrl> *pSubCockpit = NULL;
 
+
 void cockpit_ctrlACK(CmdtoRemoteCtrl *addr)
 {
 	ctrlACK.Seq_Num() = addr->Seq_Num();
@@ -50,8 +51,6 @@ void cockpit_addressCallback(CmdtoRemoteCtrl *addr)
 	return;
 }
 
-
-
 void write_Gps2log(int signum)
 {
 	MINE_LOG(SANY_LOG_INFO, "receive gps_info,   gps_lat %f\n", pCockpit->struGpsInfo.gps_lat());
@@ -61,9 +60,9 @@ void write_Gps2log(int signum)
 int main()
 {
 	zkbs::init("syzk-remotectl");
-	MINE_LOG(SANY_LOG_INFO, "syzk-remotectl V2.2.4 start!!\n");
+	MINE_LOG(SANY_LOG_INFO, "syzk-remotectl V2.3.0-addTransmission_state start!!\n");
 	
-	zkbs::setVersion(VER("2.4"));
+	zkbs::setVersion(VER("3.0"));
 	MINE_LOG(SANY_LOG_INFO, "SET VERSION SUCCESS!!\n");
 	mine_log::set_log_level(SANY_LOG_INFO);
 	mine_log::set_log_output(SANY_LOG_OUT_FILE);
@@ -90,7 +89,7 @@ int main()
 	SANY_U8 Remote_Enable5 = 0;
 	SANY_U8 Tick = 0;
 	SANY_U8 Tick_Remote_Notice = -1;
-
+	
 	timer_t timer;
     struct sigevent sev;
     sev.sigev_notify = SIGEV_SIGNAL;
@@ -123,13 +122,16 @@ int main()
 				Tick_Remote_Notice = 0;
 			}
 			Tick_Remote_Notice ++;
-			if(Tick_Remote_Notice % 200 == 0){
+			if(Tick_Remote_Notice % 210 >= 200 && Tick_Remote_Notice % 210 < 210){
 				imple_result_info.horn_start(true);
 				MINE_LOG(SANY_LOG_INFO, "Remote-control is running, notice Horn\n");
+			}
+			if(Tick_Remote_Notice % 210 == 0){
 				Tick_Remote_Notice = 0;
 			}
 			imple_result_info.Remote_enable(3);
 			imple_result_info.unmanned_enable(1);
+			// imple_result_info.remote_unman_flag(8);
 			/*发布遥控控制数据*/
 			pPubImple->publish(imple_result_info);
 			Remote_Enable5 = 0;
@@ -151,14 +153,14 @@ int main()
 
 		if((Tick % 100) == 0)
 		{
-			MINE_LOG(SANY_LOG_INFO, "syzk-remotectl V2.2.4 main is running!! ip_flag is  %d\n", g_IpFlag);
+			MINE_LOG(SANY_LOG_INFO, "syzk-remotectl V2.3.0 main is running!! ip_flag is  %d\n", g_IpFlag);
 			Tick = 0;
 		}
 		Tick++;
 
 		usleep(50 * 1000);
 	}
-	MINE_LOG(SANY_LOG_INFO, "syzk-remotectl V2.2.4 exit!!!\n");
+	MINE_LOG(SANY_LOG_INFO, "syzk-remotectl V2.3.0 exit!!!\n");
 	exit(0);
 	// return 0;
 }

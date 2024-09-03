@@ -36,94 +36,102 @@ using namespace eprosima::fastcdr::exception;
 
 ImpleResultInfo::ImpleResultInfo()
 {
-    // m_engine_override_ctrl_mode com.eprosima.idl.parser.typecode.PrimitiveTypeCode@3224f60b
+    // m_engine_override_ctrl_mode com.eprosima.idl.parser.typecode.PrimitiveTypeCode@72b6cbcc
     m_engine_override_ctrl_mode = 0;
-    // m_engine_req_speed_ctrl_condition com.eprosima.idl.parser.typecode.PrimitiveTypeCode@63e2203c
+    // m_engine_req_speed_ctrl_condition com.eprosima.idl.parser.typecode.PrimitiveTypeCode@a7e666
     m_engine_req_speed_ctrl_condition = 0;
-    // m_override_ctrl_mode_priority com.eprosima.idl.parser.typecode.PrimitiveTypeCode@1efed156
+    // m_override_ctrl_mode_priority com.eprosima.idl.parser.typecode.PrimitiveTypeCode@68bbe345
     m_override_ctrl_mode_priority = 0;
-    // m_engine_req_speed com.eprosima.idl.parser.typecode.PrimitiveTypeCode@6737fd8f
+    // m_engine_req_speed com.eprosima.idl.parser.typecode.PrimitiveTypeCode@30b8a058
     m_engine_req_speed = 0.0;
-    // m_engine_req_torque com.eprosima.idl.parser.typecode.PrimitiveTypeCode@72b6cbcc
+    // m_engine_req_torque com.eprosima.idl.parser.typecode.PrimitiveTypeCode@7494e528
     m_engine_req_torque = 0.0;
-    // m_trans_req_gear com.eprosima.idl.parser.typecode.PrimitiveTypeCode@a7e666
+    // m_trans_req_gear com.eprosima.idl.parser.typecode.PrimitiveTypeCode@4bbfb90a
     m_trans_req_gear = 0;
-    // m_trans_gearbox_highest_gear_setting com.eprosima.idl.parser.typecode.PrimitiveTypeCode@68bbe345
+    // m_trans_gearbox_highest_gear_setting com.eprosima.idl.parser.typecode.PrimitiveTypeCode@7c29daf3
     m_trans_gearbox_highest_gear_setting = 0;
-    // m_driver_demand_retarder_CCU com.eprosima.idl.parser.typecode.PrimitiveTypeCode@30b8a058
+    // m_driver_demand_retarder_CCU com.eprosima.idl.parser.typecode.PrimitiveTypeCode@9660f4e
     m_driver_demand_retarder_CCU = 0.0;
-    // m_unmanned_enable com.eprosima.idl.parser.typecode.PrimitiveTypeCode@7494e528
+    // m_unmanned_enable com.eprosima.idl.parser.typecode.PrimitiveTypeCode@5a8806ef
     m_unmanned_enable = false;
-    // m_on_start_enable com.eprosima.idl.parser.typecode.PrimitiveTypeCode@4bbfb90a
+    // m_on_start_enable com.eprosima.idl.parser.typecode.PrimitiveTypeCode@6c49835d
     m_on_start_enable = false;
-    // m_vehicle_startup_ctrl com.eprosima.idl.parser.typecode.PrimitiveTypeCode@7c29daf3
+    // m_vehicle_startup_ctrl com.eprosima.idl.parser.typecode.PrimitiveTypeCode@5e853265
     m_vehicle_startup_ctrl = false;
-    // m_flash_ctrl com.eprosima.idl.parser.typecode.PrimitiveTypeCode@9660f4e
+    // m_flash_ctrl com.eprosima.idl.parser.typecode.PrimitiveTypeCode@67205a84
     m_flash_ctrl = false;
-    // m_container_ctrl com.eprosima.idl.parser.typecode.PrimitiveTypeCode@5a8806ef
+    // m_container_ctrl com.eprosima.idl.parser.typecode.PrimitiveTypeCode@7d0587f1
     m_container_ctrl = 0;
-    // m_Remote_enable com.eprosima.idl.parser.typecode.PrimitiveTypeCode@6c49835d
+    // m_Remote_enable com.eprosima.idl.parser.typecode.PrimitiveTypeCode@5d76b067
     m_Remote_enable = 0;
-    // m_left_turn_signal_ctrl com.eprosima.idl.parser.typecode.PrimitiveTypeCode@5e853265
+    // m_left_turn_signal_ctrl com.eprosima.idl.parser.typecode.PrimitiveTypeCode@2a17b7b6
     m_left_turn_signal_ctrl = false;
-    // m_right_turn_signal_ctrl com.eprosima.idl.parser.typecode.PrimitiveTypeCode@7d0587f1
+    // m_right_turn_signal_ctrl com.eprosima.idl.parser.typecode.PrimitiveTypeCode@1e6d1014
     m_right_turn_signal_ctrl = false;
-    // m_fog_lamp_ctrl com.eprosima.idl.parser.typecode.PrimitiveTypeCode@1e6d1014
+    // m_fog_lamp_ctrl com.eprosima.idl.parser.typecode.PrimitiveTypeCode@694e1548
     m_fog_lamp_ctrl = false;
-    // m_outline_lamp_ctrl com.eprosima.idl.parser.typecode.PrimitiveTypeCode@76707e36
+    // m_outline_lamp_ctrl com.eprosima.idl.parser.typecode.PrimitiveTypeCode@1c3a4799
     m_outline_lamp_ctrl = false;
-    // m_low_light_ctrl com.eprosima.idl.parser.typecode.PrimitiveTypeCode@614ddd49
+    // m_low_light_ctrl com.eprosima.idl.parser.typecode.PrimitiveTypeCode@131276c2
     m_low_light_ctrl = false;
-    // m_high_beam_ctrl com.eprosima.idl.parser.typecode.PrimitiveTypeCode@1f554b06
+    // m_high_beam_ctrl com.eprosima.idl.parser.typecode.PrimitiveTypeCode@26aa12dd
     m_high_beam_ctrl = false;
-    // m_wiper_ctrl com.eprosima.idl.parser.typecode.PrimitiveTypeCode@694e1548
+    // m_wiper_ctrl com.eprosima.idl.parser.typecode.PrimitiveTypeCode@3fd7a715
     m_wiper_ctrl = false;
-    // m_wiper_longermittent_ctrl com.eprosima.idl.parser.typecode.PrimitiveTypeCode@1c3a4799
+    // m_wiper_longermittent_ctrl com.eprosima.idl.parser.typecode.PrimitiveTypeCode@711f39f9
     m_wiper_longermittent_ctrl = false;
-    // m_wiper_low_speed_ctrl com.eprosima.idl.parser.typecode.PrimitiveTypeCode@131276c2
+    // m_wiper_low_speed_ctrl com.eprosima.idl.parser.typecode.PrimitiveTypeCode@71bbf57e
     m_wiper_low_speed_ctrl = false;
-    // m_wiper_high_speed_ctrl com.eprosima.idl.parser.typecode.PrimitiveTypeCode@26aa12dd
+    // m_wiper_high_speed_ctrl com.eprosima.idl.parser.typecode.PrimitiveTypeCode@7f13d6e
     m_wiper_high_speed_ctrl = false;
-    // m_hazard_warn_lamp_ctrl com.eprosima.idl.parser.typecode.PrimitiveTypeCode@3fd7a715
+    // m_hazard_warn_lamp_ctrl com.eprosima.idl.parser.typecode.PrimitiveTypeCode@51cdd8a
     m_hazard_warn_lamp_ctrl = false;
-    // m_rear_light_ctrl com.eprosima.idl.parser.typecode.PrimitiveTypeCode@711f39f9
+    // m_rear_light_ctrl com.eprosima.idl.parser.typecode.PrimitiveTypeCode@d44fc21
     m_rear_light_ctrl = false;
-    // m_horn_start com.eprosima.idl.parser.typecode.PrimitiveTypeCode@71bbf57e
+    // m_horn_start com.eprosima.idl.parser.typecode.PrimitiveTypeCode@23faf8f2
     m_horn_start = false;
-    // m_parking_req com.eprosima.idl.parser.typecode.PrimitiveTypeCode@7f13d6e
+    // m_parking_req com.eprosima.idl.parser.typecode.PrimitiveTypeCode@2d6eabae
     m_parking_req = false;
-    // m_brake_req_status com.eprosima.idl.parser.typecode.PrimitiveTypeCode@51cdd8a
+    // m_brake_req_status com.eprosima.idl.parser.typecode.PrimitiveTypeCode@4e7dc304
     m_brake_req_status = false;
-    // m_hydraulic_retarder_ctrl com.eprosima.idl.parser.typecode.PrimitiveTypeCode@d44fc21
+    // m_hydraulic_retarder_ctrl com.eprosima.idl.parser.typecode.PrimitiveTypeCode@64729b1e
     m_hydraulic_retarder_ctrl = false;
-    // m_axial_ctrl com.eprosima.idl.parser.typecode.PrimitiveTypeCode@23faf8f2
+    // m_axial_ctrl com.eprosima.idl.parser.typecode.PrimitiveTypeCode@10bbd20a
     m_axial_ctrl = false;
-    // m_traffic_brake_req com.eprosima.idl.parser.typecode.PrimitiveTypeCode@2d6eabae
+    // m_traffic_brake_req com.eprosima.idl.parser.typecode.PrimitiveTypeCode@48503868
     m_traffic_brake_req = 0.0;
-    // m_exhaust_brake_req com.eprosima.idl.parser.typecode.PrimitiveTypeCode@4e7dc304
+    // m_exhaust_brake_req com.eprosima.idl.parser.typecode.PrimitiveTypeCode@6895a785
     m_exhaust_brake_req = false;
-    // m_brake_light_ctrl com.eprosima.idl.parser.typecode.PrimitiveTypeCode@64729b1e
+    // m_brake_light_ctrl com.eprosima.idl.parser.typecode.PrimitiveTypeCode@184f6be2
     m_brake_light_ctrl = false;
-    // m_slow_light_ctrl com.eprosima.idl.parser.typecode.PrimitiveTypeCode@10bbd20a
+    // m_slow_light_ctrl com.eprosima.idl.parser.typecode.PrimitiveTypeCode@56aac163
     m_slow_light_ctrl = false;
-    // m_head_light_ctrl com.eprosima.idl.parser.typecode.PrimitiveTypeCode@48503868
+    // m_head_light_ctrl com.eprosima.idl.parser.typecode.PrimitiveTypeCode@1f7030a6
     m_head_light_ctrl = false;
-    // m_steering_angle_req com.eprosima.idl.parser.typecode.PrimitiveTypeCode@6895a785
+    // m_steering_angle_req com.eprosima.idl.parser.typecode.PrimitiveTypeCode@5a1c0542
     m_steering_angle_req = 0.0;
-    // m_active_spd com.eprosima.idl.parser.typecode.PrimitiveTypeCode@184f6be2
+    // m_active_spd com.eprosima.idl.parser.typecode.PrimitiveTypeCode@396f6598
     m_active_spd = 0.0;
-    // m_yaw_rate com.eprosima.idl.parser.typecode.PrimitiveTypeCode@56aac163
+    // m_yaw_rate com.eprosima.idl.parser.typecode.PrimitiveTypeCode@394e1a0f
     m_yaw_rate = 0.0;
-    // m_drive_direction com.eprosima.idl.parser.typecode.PrimitiveTypeCode@1f7030a6
+    // m_drive_direction com.eprosima.idl.parser.typecode.PrimitiveTypeCode@27a5f880
     m_drive_direction = 0;
-    // m_desire_speed com.eprosima.idl.parser.typecode.PrimitiveTypeCode@5a1c0542
+    // m_desire_speed com.eprosima.idl.parser.typecode.PrimitiveTypeCode@1d29cf23
     m_desire_speed = 0.0;
-    // m_write_speaker_control_ctr com.eprosima.idl.parser.typecode.PrimitiveTypeCode@396f6598
+    // m_write_speaker_control_ctr com.eprosima.idl.parser.typecode.PrimitiveTypeCode@5f282abb
     m_write_speaker_control_ctr = false;
-    // m_set_max_gear com.eprosima.idl.parser.typecode.PrimitiveTypeCode@394e1a0f
+    // m_set_max_gear com.eprosima.idl.parser.typecode.PrimitiveTypeCode@167fdd33
     m_set_max_gear = 0;
-    // m_vilid_count com.eprosima.idl.parser.typecode.PrimitiveTypeCode@27a5f880
+    // m_vilid_count com.eprosima.idl.parser.typecode.PrimitiveTypeCode@1e965684
     m_vilid_count = 0;
+    // m_dump_complete com.eprosima.idl.parser.typecode.PrimitiveTypeCode@4d95d2a2
+    m_dump_complete = false;
+    // m_remote_unman_flag com.eprosima.idl.parser.typecode.PrimitiveTypeCode@53f65459
+    m_remote_unman_flag = 0;
+    // m_release_measure com.eprosima.idl.parser.typecode.PrimitiveTypeCode@3b088d51
+    m_release_measure = false;
+    // m_protect_measure com.eprosima.idl.parser.typecode.PrimitiveTypeCode@1786dec2
+    m_protect_measure = false;
 
 }
 
@@ -173,6 +181,10 @@ ImpleResultInfo::~ImpleResultInfo()
 
 
 
+
+
+
+
 }
 
 ImpleResultInfo::ImpleResultInfo(
@@ -222,6 +234,10 @@ ImpleResultInfo::ImpleResultInfo(
     m_write_speaker_control_ctr = x.m_write_speaker_control_ctr;
     m_set_max_gear = x.m_set_max_gear;
     m_vilid_count = x.m_vilid_count;
+    m_dump_complete = x.m_dump_complete;
+    m_remote_unman_flag = x.m_remote_unman_flag;
+    m_release_measure = x.m_release_measure;
+    m_protect_measure = x.m_protect_measure;
 }
 
 ImpleResultInfo::ImpleResultInfo(
@@ -271,6 +287,10 @@ ImpleResultInfo::ImpleResultInfo(
     m_write_speaker_control_ctr = x.m_write_speaker_control_ctr;
     m_set_max_gear = x.m_set_max_gear;
     m_vilid_count = x.m_vilid_count;
+    m_dump_complete = x.m_dump_complete;
+    m_remote_unman_flag = x.m_remote_unman_flag;
+    m_release_measure = x.m_release_measure;
+    m_protect_measure = x.m_protect_measure;
 }
 
 ImpleResultInfo& ImpleResultInfo::operator =(
@@ -321,6 +341,10 @@ ImpleResultInfo& ImpleResultInfo::operator =(
     m_write_speaker_control_ctr = x.m_write_speaker_control_ctr;
     m_set_max_gear = x.m_set_max_gear;
     m_vilid_count = x.m_vilid_count;
+    m_dump_complete = x.m_dump_complete;
+    m_remote_unman_flag = x.m_remote_unman_flag;
+    m_release_measure = x.m_release_measure;
+    m_protect_measure = x.m_protect_measure;
 
     return *this;
 }
@@ -373,8 +397,25 @@ ImpleResultInfo& ImpleResultInfo::operator =(
     m_write_speaker_control_ctr = x.m_write_speaker_control_ctr;
     m_set_max_gear = x.m_set_max_gear;
     m_vilid_count = x.m_vilid_count;
+    m_dump_complete = x.m_dump_complete;
+    m_remote_unman_flag = x.m_remote_unman_flag;
+    m_release_measure = x.m_release_measure;
+    m_protect_measure = x.m_protect_measure;
 
     return *this;
+}
+
+bool ImpleResultInfo::operator ==(
+        const ImpleResultInfo& x) const
+{
+
+    return (m_engine_override_ctrl_mode == x.m_engine_override_ctrl_mode && m_engine_req_speed_ctrl_condition == x.m_engine_req_speed_ctrl_condition && m_override_ctrl_mode_priority == x.m_override_ctrl_mode_priority && m_engine_req_speed == x.m_engine_req_speed && m_engine_req_torque == x.m_engine_req_torque && m_trans_req_gear == x.m_trans_req_gear && m_trans_gearbox_highest_gear_setting == x.m_trans_gearbox_highest_gear_setting && m_driver_demand_retarder_CCU == x.m_driver_demand_retarder_CCU && m_unmanned_enable == x.m_unmanned_enable && m_on_start_enable == x.m_on_start_enable && m_vehicle_startup_ctrl == x.m_vehicle_startup_ctrl && m_flash_ctrl == x.m_flash_ctrl && m_container_ctrl == x.m_container_ctrl && m_Remote_enable == x.m_Remote_enable && m_left_turn_signal_ctrl == x.m_left_turn_signal_ctrl && m_right_turn_signal_ctrl == x.m_right_turn_signal_ctrl && m_fog_lamp_ctrl == x.m_fog_lamp_ctrl && m_outline_lamp_ctrl == x.m_outline_lamp_ctrl && m_low_light_ctrl == x.m_low_light_ctrl && m_high_beam_ctrl == x.m_high_beam_ctrl && m_wiper_ctrl == x.m_wiper_ctrl && m_wiper_longermittent_ctrl == x.m_wiper_longermittent_ctrl && m_wiper_low_speed_ctrl == x.m_wiper_low_speed_ctrl && m_wiper_high_speed_ctrl == x.m_wiper_high_speed_ctrl && m_hazard_warn_lamp_ctrl == x.m_hazard_warn_lamp_ctrl && m_rear_light_ctrl == x.m_rear_light_ctrl && m_horn_start == x.m_horn_start && m_parking_req == x.m_parking_req && m_brake_req_status == x.m_brake_req_status && m_hydraulic_retarder_ctrl == x.m_hydraulic_retarder_ctrl && m_axial_ctrl == x.m_axial_ctrl && m_traffic_brake_req == x.m_traffic_brake_req && m_exhaust_brake_req == x.m_exhaust_brake_req && m_brake_light_ctrl == x.m_brake_light_ctrl && m_slow_light_ctrl == x.m_slow_light_ctrl && m_head_light_ctrl == x.m_head_light_ctrl && m_steering_angle_req == x.m_steering_angle_req && m_active_spd == x.m_active_spd && m_yaw_rate == x.m_yaw_rate && m_drive_direction == x.m_drive_direction && m_desire_speed == x.m_desire_speed && m_write_speaker_control_ctr == x.m_write_speaker_control_ctr && m_set_max_gear == x.m_set_max_gear && m_vilid_count == x.m_vilid_count && m_dump_complete == x.m_dump_complete && m_remote_unman_flag == x.m_remote_unman_flag && m_release_measure == x.m_release_measure && m_protect_measure == x.m_protect_measure);
+}
+
+bool ImpleResultInfo::operator !=(
+        const ImpleResultInfo& x) const
+{
+    return !(*this == x);
 }
 
 size_t ImpleResultInfo::getMaxCdrSerializedSize(
@@ -510,6 +551,18 @@ size_t ImpleResultInfo::getMaxCdrSerializedSize(
 
 
     current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4);
+
+
+    current_alignment += 1 + eprosima::fastcdr::Cdr::alignment(current_alignment, 1);
+
+
+    current_alignment += 1 + eprosima::fastcdr::Cdr::alignment(current_alignment, 1);
+
+
+    current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4);
+
+
+    current_alignment += 1 + eprosima::fastcdr::Cdr::alignment(current_alignment, 1);
 
 
     current_alignment += 1 + eprosima::fastcdr::Cdr::alignment(current_alignment, 1);
@@ -659,6 +712,18 @@ size_t ImpleResultInfo::getCdrSerializedSize(
     current_alignment += 1 + eprosima::fastcdr::Cdr::alignment(current_alignment, 1);
 
 
+    current_alignment += 1 + eprosima::fastcdr::Cdr::alignment(current_alignment, 1);
+
+
+    current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4);
+
+
+    current_alignment += 1 + eprosima::fastcdr::Cdr::alignment(current_alignment, 1);
+
+
+    current_alignment += 1 + eprosima::fastcdr::Cdr::alignment(current_alignment, 1);
+
+
 
     return current_alignment - initial_alignment;
 }
@@ -711,6 +776,10 @@ void ImpleResultInfo::serialize(
     scdr << m_write_speaker_control_ctr;
     scdr << m_set_max_gear;
     scdr << m_vilid_count;
+    scdr << m_dump_complete;
+    scdr << m_remote_unman_flag;
+    scdr << m_release_measure;
+    scdr << m_protect_measure;
 
 }
 
@@ -762,6 +831,10 @@ void ImpleResultInfo::deserialize(
     dcdr >> m_write_speaker_control_ctr;
     dcdr >> m_set_max_gear;
     dcdr >> m_vilid_count;
+    dcdr >> m_dump_complete;
+    dcdr >> m_remote_unman_flag;
+    dcdr >> m_release_measure;
+    dcdr >> m_protect_measure;
 }
 
 /*!
@@ -1996,11 +2069,127 @@ uint8_t& ImpleResultInfo::vilid_count()
     return m_vilid_count;
 }
 
+/*!
+ * @brief This function sets a value in member dump_complete
+ * @param _dump_complete New value for member dump_complete
+ */
+void ImpleResultInfo::dump_complete(
+        bool _dump_complete)
+{
+    m_dump_complete = _dump_complete;
+}
+
+/*!
+ * @brief This function returns the value of member dump_complete
+ * @return Value of member dump_complete
+ */
+bool ImpleResultInfo::dump_complete() const
+{
+    return m_dump_complete;
+}
+
+/*!
+ * @brief This function returns a reference to member dump_complete
+ * @return Reference to member dump_complete
+ */
+bool& ImpleResultInfo::dump_complete()
+{
+    return m_dump_complete;
+}
+
+/*!
+ * @brief This function sets a value in member remote_unman_flag
+ * @param _remote_unman_flag New value for member remote_unman_flag
+ */
+void ImpleResultInfo::remote_unman_flag(
+        int32_t _remote_unman_flag)
+{
+    m_remote_unman_flag = _remote_unman_flag;
+}
+
+/*!
+ * @brief This function returns the value of member remote_unman_flag
+ * @return Value of member remote_unman_flag
+ */
+int32_t ImpleResultInfo::remote_unman_flag() const
+{
+    return m_remote_unman_flag;
+}
+
+/*!
+ * @brief This function returns a reference to member remote_unman_flag
+ * @return Reference to member remote_unman_flag
+ */
+int32_t& ImpleResultInfo::remote_unman_flag()
+{
+    return m_remote_unman_flag;
+}
+
+/*!
+ * @brief This function sets a value in member release_measure
+ * @param _release_measure New value for member release_measure
+ */
+void ImpleResultInfo::release_measure(
+        bool _release_measure)
+{
+    m_release_measure = _release_measure;
+}
+
+/*!
+ * @brief This function returns the value of member release_measure
+ * @return Value of member release_measure
+ */
+bool ImpleResultInfo::release_measure() const
+{
+    return m_release_measure;
+}
+
+/*!
+ * @brief This function returns a reference to member release_measure
+ * @return Reference to member release_measure
+ */
+bool& ImpleResultInfo::release_measure()
+{
+    return m_release_measure;
+}
+
+/*!
+ * @brief This function sets a value in member protect_measure
+ * @param _protect_measure New value for member protect_measure
+ */
+void ImpleResultInfo::protect_measure(
+        bool _protect_measure)
+{
+    m_protect_measure = _protect_measure;
+}
+
+/*!
+ * @brief This function returns the value of member protect_measure
+ * @return Value of member protect_measure
+ */
+bool ImpleResultInfo::protect_measure() const
+{
+    return m_protect_measure;
+}
+
+/*!
+ * @brief This function returns a reference to member protect_measure
+ * @return Reference to member protect_measure
+ */
+bool& ImpleResultInfo::protect_measure()
+{
+    return m_protect_measure;
+}
+
 
 size_t ImpleResultInfo::getKeyMaxCdrSerializedSize(
         size_t current_alignment)
 {
     size_t current_align = current_alignment;
+
+
+
+
 
 
 
@@ -2060,5 +2249,5 @@ void ImpleResultInfo::serializeKey(
         eprosima::fastcdr::Cdr& scdr) const
 {
     (void) scdr;
-                                                
+                                                    
 }

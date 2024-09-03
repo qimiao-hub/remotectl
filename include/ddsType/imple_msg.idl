@@ -1,3 +1,6 @@
+#ifndef __IMPLE_MSG_IDL__
+#define __IMPLE_MSG_IDL__
+
 struct ImpleResultInfo
 {
     // Torque/Speed Control 1
@@ -75,5 +78,11 @@ struct ImpleResultInfo
     boolean write_speaker_control_ctr;
     long set_max_gear;
     octet vilid_count;
+    boolean dump_complete; //卸料完成
+
+    int32 remote_unman_flag;//无人或者遥控发送消息的标志位  8
+    boolean release_measure;//释放安全措施 -true请求触发
+    boolean protect_measure;//进入安全措施 -true请求触发
 };
 
+#endif

@@ -183,6 +183,9 @@ typedef struct {
     SANY_U8	ucCombinedGearR[1];		//组合开关右
     SANY_U8	ucKeyOperation1[1];		//按键操作1
     SANY_U8	ucKeyOperation2[1];		//按键操作2
+    //V2.3.0 新增安全措施-清除故障指令 
+    SANY_U8 ucSafeRelease[1];          //安全措施-清除故障
+    SANY_U8 UCSafeProtect[1];           // 安全措施-进入安全模式
 } CP_Realtime_Ctrl_Cmd_st;
 
 /***********************车-舱协议*********紧急停车命令*********消息结构体************************/
@@ -236,7 +239,12 @@ typedef struct {
     SANY_U8	ucWorkStatus[1];			//车辆驾驶状态
     SANY_U8 ucLiftUpStatus[1];         //举升到位状态
     SANY_U8 ucLiftDownStatus[1];        //下降到位状态
+    // V2.2.2 新增安全措施的故障信息反馈
+    SANY_U8 ucSafeInfo1[1];              // 安全措施-故障信息
+    SANY_U8 ucSafeInfo2[1];
 } CP_Realtime_Rep_Cmd_st;
+
+
 
 /******************************协议通用枚举*********************************/
 enum{
@@ -263,7 +271,6 @@ typedef enum
 
     COMM_ANSWER_INVALID = 0xFF
 }Msg_Comm_Answer_Enum;
-
 
 
 /***************************协议8.4 实时信息上报枚举*****************************/
