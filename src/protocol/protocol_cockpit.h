@@ -67,7 +67,7 @@
 extern FailureReporter *m_pFailureSDK;
 extern TopicDataType *pDataTypeCockpit;
 extern ddsSubscriber<CmdtoRemoteCtrl> *pSubCockpit;
-extern SANY_U8 g_u8TaskStopFlag;
+extern SANY_U8 g_u8TaskStartFlag;
 
 typedef struct
 {
@@ -145,13 +145,13 @@ public:
 	SafeFeedbackInfo struSafeFeedbackInfo;
 
 	/*发布参数相关*/
-	TopicDataType *pDataTypeWire = new WirectlFeedbackInfoPubSubType();
-	TopicDataType *pDataTypeGps = new GpsImuInfoPubSubType();
-	TopicDataType *pDataTypeSafe = new SafeFeedbackInfoPubSubType();
+	// TopicDataType *pDataTypeWire = new WirectlFeedbackInfoPubSubType();
+	// TopicDataType *pDataTypeGps = new GpsImuInfoPubSubType();
+	// TopicDataType *pDataTypeSafe = new SafeFeedbackInfoPubSubType();
 
-	ddsSubscriber<WirectlFeedbackInfo> *pSubWire = NULL;
-	ddsSubscriber<GpsImuInfo> *pSubGps =  NULL;
-	ddsSubscriber<SafeFeedbackInfo> *pSubSafe = NULL;
+	// ddsSubscriber<WirectlFeedbackInfo> *pSubWire = NULL;
+	// ddsSubscriber<GpsImuInfo> *pSubGps =  NULL;
+	// ddsSubscriber<SafeFeedbackInfo> *pSubSafe = NULL;
 
 	/*进程通信定义分界线----------------------------end*/
 
@@ -166,8 +166,9 @@ public:
 public:
 	Protocol_Cockpit();
 
-	void start();
-	void stop();
+	void Task_start();
+	void Task_stop();
+	void Task_Reset();
 	void ProtoCockpit_setServerName(const char *pServerName);
 
 	/*遥控控制信息输出*/
@@ -187,6 +188,7 @@ public:
 	SANY_U8 ProtoCockpit_DoStop();
 	
 private:
+	SANY_U8 g_InitFlag = 0;
 	/*heartbeat with 297*/
 	SANY_U16 g_count = 0;
 
