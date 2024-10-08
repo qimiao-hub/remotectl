@@ -1,5 +1,5 @@
 CMakeFiles/syzk-remotectl.dir/src/protocol/protocol_cockpit.cpp.o: \
- /home/liuss/syzk/syzk-remotectl/syzk-remotectl_V2.3.1/dvpn-app-syzk-remotectrl/src/protocol/protocol_cockpit.cpp \
+ /home/liuss/my-syzk/syzk-remotectl/syzk-remotectl_V2.3.1_newidl/dvpn-app-syzk-remotectrl/src/protocol/protocol_cockpit.cpp \
  /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/stdc-predef.h \
  /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/stdio.h \
  /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/bits/libc-header-start.h \
@@ -63,8 +63,8 @@ CMakeFiles/syzk-remotectl.dir/src/protocol/protocol_cockpit.cpp.o: \
  /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/bits/pthreadtypes.h \
  /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/alloca.h \
  /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/bits/stdlib-float.h \
- /home/liuss/syzk/syzk-remotectl/syzk-remotectl_V2.3.1/dvpn-app-syzk-remotectrl/src/protocol/./protoDef.h \
- /home/liuss/syzk/syzk-remotectl/syzk-remotectl_V2.3.1/dvpn-app-syzk-remotectrl/src/protocol/./../common/sany_type.h \
+ /home/liuss/my-syzk/syzk-remotectl/syzk-remotectl_V2.3.1_newidl/dvpn-app-syzk-remotectrl/src/protocol/./protoDef.h \
+ /home/liuss/my-syzk/syzk-remotectl/syzk-remotectl_V2.3.1_newidl/dvpn-app-syzk-remotectrl/src/protocol/./../common/sany_type.h \
  /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/pthread.h \
  /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/sched.h \
  /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/bits/sched.h \
@@ -76,15 +76,15 @@ CMakeFiles/syzk-remotectl.dir/src/protocol/protocol_cockpit.cpp.o: \
  /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/bits/setjmp.h \
  /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/semaphore.h \
  /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/bits/semaphore.h \
- /home/liuss/syzk/syzk-remotectl/syzk-remotectl_V2.3.1/dvpn-app-syzk-remotectrl/src/protocol/protocol_cockpit.h \
+ /home/liuss/my-syzk/syzk-remotectl/syzk-remotectl_V2.3.1_newidl/dvpn-app-syzk-remotectrl/src/protocol/protocol_cockpit.h \
  /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/lib/gcc/aarch64-linux-gnu/7.3.1/include/stdint.h \
  /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/stdint.h \
  /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/bits/wchar.h \
  /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/include/c++/7.3.1/stdlib.h \
  /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/include/c++/7.3.1/cstdlib \
  /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/string.h \
- /home/liuss/syzk/syzk-remotectl/syzk-remotectl_V2.3.1/dvpn-app-syzk-remotectrl/src/protocol/terminal_client.h \
- /home/liuss/syzk/syzk-remotectl/syzk-remotectl_V2.3.1/dvpn-app-syzk-remotectrl/src/protocol/./sa_socket_comm.h \
+ /home/liuss/my-syzk/syzk-remotectl/syzk-remotectl_V2.3.1_newidl/dvpn-app-syzk-remotectrl/src/protocol/terminal_client.h \
+ /home/liuss/my-syzk/syzk-remotectl/syzk-remotectl_V2.3.1_newidl/dvpn-app-syzk-remotectrl/src/protocol/./sa_socket_comm.h \
  /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/arpa/inet.h \
  /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/netinet/in.h \
  /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/sys/socket.h \
@@ -446,12 +446,12 @@ CMakeFiles/syzk-remotectl.dir/src/protocol/protocol_cockpit.cpp.o: \
  /opt/mine/syzkbuildenv/include/fastdds/dds/core/LoanableSequence.hpp \
  /opt/mine/syzkbuildenv/include/fastdds/dds/subscriber/SampleInfo.hpp \
  /opt/mine/syzkbuildenv/include/daemon_sdk.h \
- /home/liuss/syzk/syzk-remotectl/syzk-remotectl_V2.3.1/dvpn-app-syzk-remotectrl/src/protocol/read_ini.h \
+ /home/liuss/my-syzk/syzk-remotectl/syzk-remotectl_V2.3.1_newidl/dvpn-app-syzk-remotectrl/src/protocol/read_ini.h \
  /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/include/c++/7.3.1/fstream \
  /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/include/c++/7.3.1/aarch64-linux-gnu/bits/basic_file.h \
  /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/include/c++/7.3.1/aarch64-linux-gnu/bits/c++io.h \
  /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/include/c++/7.3.1/bits/fstream.tcc \
- /home/liuss/syzk/syzk-remotectl/syzk-remotectl_V2.3.1/dvpn-app-syzk-remotectrl/src/./common/yaml.h \
+ /home/liuss/my-syzk/syzk-remotectl/syzk-remotectl_V2.3.1_newidl/dvpn-app-syzk-remotectrl/src/./common/yaml.h \
  /opt/mine/syzkbuildenv/include/yaml-cpp/parser.h \
  /opt/mine/syzkbuildenv/include/yaml-cpp/dll.h \
  /opt/mine/syzkbuildenv/include/yaml-cpp/noncopyable.h \
@@ -483,21 +483,21 @@ CMakeFiles/syzk-remotectl.dir/src/protocol/protocol_cockpit.cpp.o: \
  /opt/mine/syzkbuildenv/include/yaml-cpp/node/detail/impl.h \
  /opt/mine/syzkbuildenv/include/yaml-cpp/node/parse.h \
  /opt/mine/syzkbuildenv/include/yaml-cpp/node/emit.h \
- /home/liuss/syzk/syzk-remotectl/syzk-remotectl_V2.3.1/dvpn-app-syzk-remotectrl/include/../include/ddsType/ChassisCtrl.h \
- /home/liuss/syzk/syzk-remotectl/syzk-remotectl_V2.3.1/dvpn-app-syzk-remotectrl/include/../include/ddsType/gps_imu_msg.h \
- /home/liuss/syzk/syzk-remotectl/syzk-remotectl_V2.3.1/dvpn-app-syzk-remotectrl/include/../include/ddsType/ChassisCtrlPubSubTypes.h \
- /home/liuss/syzk/syzk-remotectl/syzk-remotectl_V2.3.1/dvpn-app-syzk-remotectrl/include/../include/ddsType/ChassisCtrl.h \
- /home/liuss/syzk/syzk-remotectl/syzk-remotectl_V2.3.1/dvpn-app-syzk-remotectrl/include/../include/ddsType/gps_imu_msg.h \
- /home/liuss/syzk/syzk-remotectl/syzk-remotectl_V2.3.1/dvpn-app-syzk-remotectrl/include/../include/ddsType/gps_imu_msgPubSubTypes.h \
- /home/liuss/syzk/syzk-remotectl/syzk-remotectl_V2.3.1/dvpn-app-syzk-remotectrl/include/../include/ddsType/imple_msg.h \
- /home/liuss/syzk/syzk-remotectl/syzk-remotectl_V2.3.1/dvpn-app-syzk-remotectrl/include/../include/ddsType/imple_msgPubSubTypes.h \
- /home/liuss/syzk/syzk-remotectl/syzk-remotectl_V2.3.1/dvpn-app-syzk-remotectrl/include/../include/ddsType/imple_msg.h \
- /home/liuss/syzk/syzk-remotectl/syzk-remotectl_V2.3.1/dvpn-app-syzk-remotectrl/include/../include/ddsType/Cockpit_address.h \
- /home/liuss/syzk/syzk-remotectl/syzk-remotectl_V2.3.1/dvpn-app-syzk-remotectrl/include/../include/ddsType/Cockpit_addressPubSubTypes.h \
- /home/liuss/syzk/syzk-remotectl/syzk-remotectl_V2.3.1/dvpn-app-syzk-remotectrl/include/../include/ddsType/Cockpit_address.h \
- /home/liuss/syzk/syzk-remotectl/syzk-remotectl_V2.3.1/dvpn-app-syzk-remotectrl/include/../include/ddsType/safe_ctrl_msg.h \
- /home/liuss/syzk/syzk-remotectl/syzk-remotectl_V2.3.1/dvpn-app-syzk-remotectrl/include/../include/ddsType/safe_ctrl_msgPubSubTypes.h \
- /home/liuss/syzk/syzk-remotectl/syzk-remotectl_V2.3.1/dvpn-app-syzk-remotectrl/include/../include/ddsType/safe_ctrl_msg.h \
+ /home/liuss/my-syzk/syzk-remotectl/syzk-remotectl_V2.3.1_newidl/dvpn-app-syzk-remotectrl/include/../include/ddsType/ChassisCtrl.h \
+ /home/liuss/my-syzk/syzk-remotectl/syzk-remotectl_V2.3.1_newidl/dvpn-app-syzk-remotectrl/include/../include/ddsType/gps_imu_msg.h \
+ /home/liuss/my-syzk/syzk-remotectl/syzk-remotectl_V2.3.1_newidl/dvpn-app-syzk-remotectrl/include/../include/ddsType/ChassisCtrlPubSubTypes.h \
+ /home/liuss/my-syzk/syzk-remotectl/syzk-remotectl_V2.3.1_newidl/dvpn-app-syzk-remotectrl/include/../include/ddsType/ChassisCtrl.h \
+ /home/liuss/my-syzk/syzk-remotectl/syzk-remotectl_V2.3.1_newidl/dvpn-app-syzk-remotectrl/include/../include/ddsType/gps_imu_msg.h \
+ /home/liuss/my-syzk/syzk-remotectl/syzk-remotectl_V2.3.1_newidl/dvpn-app-syzk-remotectrl/include/../include/ddsType/gps_imu_msgPubSubTypes.h \
+ /home/liuss/my-syzk/syzk-remotectl/syzk-remotectl_V2.3.1_newidl/dvpn-app-syzk-remotectrl/include/../include/ddsType/imple_msg.h \
+ /home/liuss/my-syzk/syzk-remotectl/syzk-remotectl_V2.3.1_newidl/dvpn-app-syzk-remotectrl/include/../include/ddsType/imple_msgPubSubTypes.h \
+ /home/liuss/my-syzk/syzk-remotectl/syzk-remotectl_V2.3.1_newidl/dvpn-app-syzk-remotectrl/include/../include/ddsType/imple_msg.h \
+ /home/liuss/my-syzk/syzk-remotectl/syzk-remotectl_V2.3.1_newidl/dvpn-app-syzk-remotectrl/include/../include/ddsType/Cockpit_address.h \
+ /home/liuss/my-syzk/syzk-remotectl/syzk-remotectl_V2.3.1_newidl/dvpn-app-syzk-remotectrl/include/../include/ddsType/Cockpit_addressPubSubTypes.h \
+ /home/liuss/my-syzk/syzk-remotectl/syzk-remotectl_V2.3.1_newidl/dvpn-app-syzk-remotectrl/include/../include/ddsType/Cockpit_address.h \
+ /home/liuss/my-syzk/syzk-remotectl/syzk-remotectl_V2.3.1_newidl/dvpn-app-syzk-remotectrl/include/../include/ddsType/safe_ctrl_msg.h \
+ /home/liuss/my-syzk/syzk-remotectl/syzk-remotectl_V2.3.1_newidl/dvpn-app-syzk-remotectrl/include/../include/ddsType/safe_ctrl_msgPubSubTypes.h \
+ /home/liuss/my-syzk/syzk-remotectl/syzk-remotectl_V2.3.1_newidl/dvpn-app-syzk-remotectrl/include/../include/ddsType/safe_ctrl_msg.h \
  /opt/mine/syzkbuildenv/include/zkbs/zkbs.hpp \
  /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/sys/signal.h \
  /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/signal.h \
