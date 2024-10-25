@@ -1920,7 +1920,7 @@ void Protocol_Cockpit::Task_stop()
 		MINE_LOG(SANY_LOG_INFO, "STOP, 1s back to unman\n");
 		sleep(2);
 	}
-	g_IpFlag = 0;
+	
 	
 	g_u8TaskStartFlag = 0;
 	MINE_LOG(SANY_LOG_INFO, "ONE REMOTE TASK END\n");
@@ -1937,8 +1937,8 @@ void Protocol_Cockpit::Task_stop()
 	m_pFailureSDK->report(FailureModule_Nebula_RemoteCtrl, 3204, 3, 0);
 	MINE_LOG(SANY_LOG_INFO, "report failure clear! \n");
 	/*延时2S等待，线程退出*/
-	sleep(2);
-
+	
+	Task_Reset();
 	/*断开网络连接*/
 	if(m_Socket_CockpitClient->b_connected){
 		m_Terminal.comm_socket_client_do_disconnect(m_Socket_CockpitClient);
@@ -1948,8 +1948,8 @@ void Protocol_Cockpit::Task_stop()
 		m_Terminal.sa_comm_socket_client_release(m_Socket_CockpitClient);
 		MINE_LOG(SANY_LOG_ERROR, "STOP, sa_comm_socket_client_release!!!\n");
 	}
-	Task_Reset();
-	
+	sleep(2);
+	g_IpFlag = 0;
 	// /*等待线程退出*/
 	// pthread_join(t_upload_data_id, NULL);
 	// pthread_join(t_download_data_id, NULL);
