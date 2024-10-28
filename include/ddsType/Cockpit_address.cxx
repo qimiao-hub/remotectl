@@ -36,9 +36,9 @@ using namespace eprosima::fastcdr::exception;
 
 CmdtoRemoteCtrl::CmdtoRemoteCtrl()
 {
-    // m_ipaddr com.eprosima.idl.parser.typecode.StringTypeCode@3a883ce7
+    // m_ipaddr com.eprosima.idl.parser.typecode.StringTypeCode@22a67b4
     m_ipaddr ="";
-    // m_Seq_Num com.eprosima.idl.parser.typecode.PrimitiveTypeCode@6321e813
+    // m_Seq_Num com.eprosima.idl.parser.typecode.PrimitiveTypeCode@3b084709
     m_Seq_Num = 0;
 
 }
@@ -237,7 +237,7 @@ void CmdtoRemoteCtrl::serializeKey(
 
 CmdCtrlACK::CmdCtrlACK()
 {
-    // m_Seq_Num com.eprosima.idl.parser.typecode.PrimitiveTypeCode@3224f60b
+    // m_Seq_Num com.eprosima.idl.parser.typecode.PrimitiveTypeCode@72b6cbcc
     m_Seq_Num = 0;
 
 }

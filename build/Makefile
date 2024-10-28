@@ -57,10 +57,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/liuss/my-syzk/syzk-remotectl/syzk-remotectl_V2.3.1_newidl/dvpn-app-syzk-remotectrl
+CMAKE_SOURCE_DIR = /home/liuss/my-syzk/syzk-remotectl/syzk-remotectl_V2.3.1/dvpn-app-syzk-remotectrl
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/liuss/my-syzk/syzk-remotectl/syzk-remotectl_V2.3.1_newidl/dvpn-app-syzk-remotectrl/build
+CMAKE_BINARY_DIR = /home/liuss/my-syzk/syzk-remotectl/syzk-remotectl_V2.3.1/dvpn-app-syzk-remotectrl/build
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -87,9 +87,9 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/liuss/my-syzk/syzk-remotectl/syzk-remotectl_V2.3.1_newidl/dvpn-app-syzk-remotectrl/build/CMakeFiles /home/liuss/my-syzk/syzk-remotectl/syzk-remotectl_V2.3.1_newidl/dvpn-app-syzk-remotectrl/build//CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/liuss/my-syzk/syzk-remotectl/syzk-remotectl_V2.3.1/dvpn-app-syzk-remotectrl/build/CMakeFiles /home/liuss/my-syzk/syzk-remotectl/syzk-remotectl_V2.3.1/dvpn-app-syzk-remotectrl/build//CMakeFiles/progress.marks
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/liuss/my-syzk/syzk-remotectl/syzk-remotectl_V2.3.1_newidl/dvpn-app-syzk-remotectrl/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/liuss/my-syzk/syzk-remotectl/syzk-remotectl_V2.3.1/dvpn-app-syzk-remotectrl/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -465,6 +465,30 @@ include/ddsType/safe_ctrl_msgPubSubTypes.cxx.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/syzk-remotectl.dir/build.make CMakeFiles/syzk-remotectl.dir/include/ddsType/safe_ctrl_msgPubSubTypes.cxx.s
 .PHONY : include/ddsType/safe_ctrl_msgPubSubTypes.cxx.s
 
+src/InitTask.o: src/InitTask.cpp.o
+.PHONY : src/InitTask.o
+
+# target to build an object file
+src/InitTask.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/syzk-remotectl.dir/build.make CMakeFiles/syzk-remotectl.dir/src/InitTask.cpp.o
+.PHONY : src/InitTask.cpp.o
+
+src/InitTask.i: src/InitTask.cpp.i
+.PHONY : src/InitTask.i
+
+# target to preprocess a source file
+src/InitTask.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/syzk-remotectl.dir/build.make CMakeFiles/syzk-remotectl.dir/src/InitTask.cpp.i
+.PHONY : src/InitTask.cpp.i
+
+src/InitTask.s: src/InitTask.cpp.s
+.PHONY : src/InitTask.s
+
+# target to generate assembly for a file
+src/InitTask.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/syzk-remotectl.dir/build.make CMakeFiles/syzk-remotectl.dir/src/InitTask.cpp.s
+.PHONY : src/InitTask.cpp.s
+
 src/main_thread.o: src/main_thread.cpp.o
 .PHONY : src/main_thread.o
 
@@ -612,6 +636,9 @@ help:
 	@echo "... include/ddsType/safe_ctrl_msgPubSubTypes.o"
 	@echo "... include/ddsType/safe_ctrl_msgPubSubTypes.i"
 	@echo "... include/ddsType/safe_ctrl_msgPubSubTypes.s"
+	@echo "... src/InitTask.o"
+	@echo "... src/InitTask.i"
+	@echo "... src/InitTask.s"
 	@echo "... src/main_thread.o"
 	@echo "... src/main_thread.i"
 	@echo "... src/main_thread.s"

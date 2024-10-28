@@ -1,5 +1,5 @@
 CMakeFiles/syzk-remotectl.dir/src/protocol/protocol_cockpit.cpp.o: \
- /home/liuss/my-syzk/syzk-remotectl/syzk-remotectl_V2.3.1_newidl/dvpn-app-syzk-remotectrl/src/protocol/protocol_cockpit.cpp \
+ /home/liuss/my-syzk/syzk-remotectl/syzk-remotectl_V2.3.1/dvpn-app-syzk-remotectrl/src/protocol/protocol_cockpit.cpp \
  /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/stdc-predef.h \
  /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/stdio.h \
  /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/bits/libc-header-start.h \
@@ -63,33 +63,44 @@ CMakeFiles/syzk-remotectl.dir/src/protocol/protocol_cockpit.cpp.o: \
  /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/bits/pthreadtypes.h \
  /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/alloca.h \
  /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/bits/stdlib-float.h \
- /home/liuss/my-syzk/syzk-remotectl/syzk-remotectl_V2.3.1_newidl/dvpn-app-syzk-remotectrl/src/protocol/./protoDef.h \
- /home/liuss/my-syzk/syzk-remotectl/syzk-remotectl_V2.3.1_newidl/dvpn-app-syzk-remotectrl/src/protocol/./../common/sany_type.h \
- /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/pthread.h \
- /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/sched.h \
- /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/bits/sched.h \
  /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/time.h \
  /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/bits/time.h \
  /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/bits/timex.h \
  /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/bits/types/struct_tm.h \
  /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/bits/types/struct_itimerspec.h \
- /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/bits/setjmp.h \
+ /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/sys/time.h \
+ /opt/mine/syzkbuildenv/include/sany_utils.h \
+ /opt/mine/syzkbuildenv/include/utils_include/sany_cutil.h \
+ /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/sys/sem.h \
+ /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/sys/ipc.h \
+ /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/bits/ipctypes.h \
+ /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/bits/ipc.h \
+ /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/bits/sem.h \
  /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/semaphore.h \
  /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/bits/semaphore.h \
- /home/liuss/my-syzk/syzk-remotectl/syzk-remotectl_V2.3.1_newidl/dvpn-app-syzk-remotectrl/src/protocol/protocol_cockpit.h \
+ /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/sys/file.h \
+ /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/fcntl.h \
+ /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/bits/fcntl.h \
+ /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/bits/fcntl-linux.h \
+ /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/bits/uio.h \
+ /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/linux/falloc.h \
+ /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/bits/stat.h \
+ /opt/mine/syzkbuildenv/include/utils_include/util/queue.h \
  /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/lib/gcc/aarch64-linux-gnu/7.3.1/include/stdint.h \
  /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/stdint.h \
  /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/bits/wchar.h \
+ /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/lib/gcc/aarch64-linux-gnu/7.3.1/include/stdbool.h \
+ /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/string.h \
  /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/include/c++/7.3.1/stdlib.h \
  /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/include/c++/7.3.1/cstdlib \
- /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/string.h \
- /home/liuss/my-syzk/syzk-remotectl/syzk-remotectl_V2.3.1_newidl/dvpn-app-syzk-remotectrl/src/protocol/terminal_client.h \
- /home/liuss/my-syzk/syzk-remotectl/syzk-remotectl_V2.3.1_newidl/dvpn-app-syzk-remotectrl/src/protocol/./sa_socket_comm.h \
- /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/arpa/inet.h \
- /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/netinet/in.h \
+ /opt/mine/syzkbuildenv/include/utils_include/utils_common.h \
+ /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/unistd.h \
+ /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/bits/posix_opt.h \
+ /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/bits/environments.h \
+ /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/bits/confname.h \
+ /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/getopt.h \
  /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/sys/socket.h \
  /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/sys/uio.h \
- /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/bits/uio.h \
  /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/bits/socket.h \
  /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/bits/socket_type.h \
  /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/bits/sockaddr.h \
@@ -98,25 +109,129 @@ CMakeFiles/syzk-remotectl.dir/src/protocol/protocol_cockpit.cpp.o: \
  /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/asm/sockios.h \
  /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/asm-generic/sockios.h \
  /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/bits/types/struct_osockaddr.h \
+ /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/netinet/in.h \
  /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/bits/in.h \
+ /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/arpa/inet.h \
+ /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/sys/stat.h \
+ /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/pthread.h \
+ /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/sched.h \
+ /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/bits/sched.h \
+ /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/bits/setjmp.h \
+ /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/net/if.h \
+ /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/ctype.h \
+ /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/sys/un.h \
+ /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/sys/ioctl.h \
+ /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/bits/ioctls.h \
+ /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/asm/ioctls.h \
+ /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/asm-generic/ioctls.h \
+ /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/linux/ioctl.h \
+ /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/asm/ioctl.h \
+ /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/asm-generic/ioctl.h \
+ /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/bits/ioctl-types.h \
+ /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/sys/ttydefaults.h \
+ /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/linux/types.h \
+ /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/asm/types.h \
+ /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/asm-generic/types.h \
+ /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/asm-generic/int-ll64.h \
+ /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/asm/bitsperlong.h \
+ /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/asm-generic/bitsperlong.h \
+ /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/linux/posix_types.h \
+ /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/linux/stddef.h \
+ /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/asm/posix_types.h \
+ /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/asm-generic/posix_types.h \
+ /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/linux/netlink.h \
+ /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/linux/kernel.h \
+ /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/linux/sysinfo.h \
+ /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/linux/socket.h \
  /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/errno.h \
  /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/bits/errno.h \
  /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/linux/errno.h \
  /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/asm/errno.h \
  /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/asm-generic/errno.h \
  /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/asm-generic/errno-base.h \
- /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/unistd.h \
- /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/bits/posix_opt.h \
- /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/bits/environments.h \
- /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/bits/confname.h \
- /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/getopt.h \
+ /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/signal.h \
+ /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/bits/signum.h \
+ /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/bits/siginfo.h \
+ /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/bits/sigaction.h \
+ /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/bits/sigcontext.h \
+ /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/asm/sigcontext.h \
+ /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/bits/sigstack.h \
+ /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/sys/ucontext.h \
+ /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/sys/procfs.h \
+ /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/sys/user.h \
+ /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/bits/sigthread.h \
+ /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/termios.h \
+ /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/bits/termios.h \
+ /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/assert.h \
+ /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/linux/fb.h \
+ /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/linux/i2c.h \
+ /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/sys/mman.h \
+ /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/bits/mman.h \
+ /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/bits/mman-linux.h \
+ /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/poll.h \
+ /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/sys/poll.h \
+ /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/bits/poll.h \
+ /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/sys/msg.h \
+ /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/bits/msq.h \
+ /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/netpacket/packet.h \
+ /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/linux/if_ether.h \
+ /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/net/if_arp.h \
+ /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/sys/epoll.h \
+ /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/bits/epoll.h \
+ /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/sys/timerfd.h \
+ /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/bits/timerfd.h \
+ /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/sys/sendfile.h \
+ /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/sys/shm.h \
+ /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/bits/shm.h \
+ /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/netinet/ip.h \
+ /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/netinet/ether.h \
+ /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/netinet/if_ether.h \
+ /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/net/ethernet.h \
+ /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/net/route.h \
+ /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/linux/rtnetlink.h \
+ /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/linux/if_link.h \
+ /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/linux/if_addr.h \
+ /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/linux/neighbour.h \
+ /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/sys/resource.h \
+ /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/bits/resource.h \
+ /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/sys/vfs.h \
+ /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/sys/statfs.h \
+ /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/bits/statfs.h \
+ /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/execinfo.h \
+ /opt/mine/syzkbuildenv/include/sany_type.h \
+ /opt/mine/syzkbuildenv/include/utils_include/sany_cutil.h \
+ /opt/mine/syzkbuildenv/include/utils_include/util/fifo.h \
+ /opt/mine/syzkbuildenv/include/utils_include/util/queue.h \
+ /opt/mine/syzkbuildenv/include/utils_include/util/mempool.h \
+ /opt/mine/syzkbuildenv/include/utils_include/util/threadpool.h \
+ /opt/mine/syzkbuildenv/include/utils_include/util/fifo.h \
+ /opt/mine/syzkbuildenv/include/utils_include/util/listener.h \
+ /opt/mine/syzkbuildenv/include/utils_include/util/json.h \
+ /opt/mine/syzkbuildenv/include/utils_include/util/timer.h \
+ /opt/mine/syzkbuildenv/include/utils_include/util/listener.h \
+ /opt/mine/syzkbuildenv/include/utils_include/util/ini.h \
+ /opt/mine/syzkbuildenv/include/utils_include/util/buffer.h \
+ /opt/mine/syzkbuildenv/include/utils_include/util/file.h \
+ /opt/mine/syzkbuildenv/include/utils_include/util/smart_mempool.h \
+ /opt/mine/syzkbuildenv/include/utils_include/util/event.h \
+ /opt/mine/syzkbuildenv/include/utils_include/util/print.h \
+ /opt/mine/syzkbuildenv/include/utils_include/util/md5.h \
+ /opt/mine/syzkbuildenv/include/utils_include/util/sany_system.h \
+ /opt/mine/syzkbuildenv/include/utils_include/util/sany_sem.h \
+ /opt/mine/syzkbuildenv/include/utils_include/util/sany_shm.h \
+ /opt/mine/syzkbuildenv/include/utils_include/util/thread.h \
+ /opt/mine/syzkbuildenv/include/utils_include/util/sany_time.h \
+ /opt/mine/syzkbuildenv/include/utils_include/util/log.h \
+ /opt/mine/syzkbuildenv/include/utils_include/util/backtrace.h \
+ /opt/mine/syzkbuildenv/include/utils_include/util/log.h \
+ /opt/mine/syzkbuildenv/include/utils_include/util/csv.h \
+ /home/liuss/my-syzk/syzk-remotectl/syzk-remotectl_V2.3.1/dvpn-app-syzk-remotectrl/src/protocol/./protoDef.h \
+ /home/liuss/my-syzk/syzk-remotectl/syzk-remotectl_V2.3.1/dvpn-app-syzk-remotectrl/src/protocol/./../common/sany_type.h \
+ /home/liuss/my-syzk/syzk-remotectl/syzk-remotectl_V2.3.1/dvpn-app-syzk-remotectrl/src/protocol/./protocol_cockpit.h \
+ /home/liuss/my-syzk/syzk-remotectl/syzk-remotectl_V2.3.1/dvpn-app-syzk-remotectrl/src/protocol/./terminal_client.h \
+ /home/liuss/my-syzk/syzk-remotectl/syzk-remotectl_V2.3.1/dvpn-app-syzk-remotectrl/src/protocol/././sa_socket_comm.h \
  /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/sys/fcntl.h \
- /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/fcntl.h \
- /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/bits/fcntl.h \
- /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/bits/fcntl-linux.h \
- /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/linux/falloc.h \
- /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/bits/stat.h \
- /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/sys/time.h \
+ /home/liuss/my-syzk/syzk-remotectl/syzk-remotectl_V2.3.1/dvpn-app-syzk-remotectrl/src/protocol/././protoDef.h \
  /opt/mine/syzkbuildenv/include/FailureReporter.h \
  /opt/mine/syzkbuildenv/include/FailureReportType/FailureReporterInterface.h \
  /opt/mine/syzkbuildenv/include/fastrtps/utils/fixed_size_string.hpp \
@@ -160,7 +275,6 @@ CMakeFiles/syzk-remotectl.dir/src/protocol/protocol_cockpit.cpp.o: \
  /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/bits/locale.h \
  /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/include/c++/7.3.1/iosfwd \
  /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/include/c++/7.3.1/cctype \
- /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/ctype.h \
  /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/include/c++/7.3.1/bits/ostream_insert.h \
  /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/include/c++/7.3.1/bits/cxxabi_forced.h \
  /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/include/c++/7.3.1/bits/stl_function.h \
@@ -249,7 +363,6 @@ CMakeFiles/syzk-remotectl.dir/src/protocol/protocol_cockpit.cpp.o: \
  /opt/mine/syzkbuildenv/include/fastdds/rtps/common/CDRMessage_t.h \
  /opt/mine/syzkbuildenv/include/fastdds/rtps/common/SerializedPayload.h \
  /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/include/c++/7.3.1/cassert \
- /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/assert.h \
  /opt/mine/syzkbuildenv/include/fastdds/rtps/common/Guid.h \
  /opt/mine/syzkbuildenv/include/fastdds/rtps/common/GuidPrefix_t.hpp \
  /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/include/c++/7.3.1/sstream \
@@ -446,12 +559,12 @@ CMakeFiles/syzk-remotectl.dir/src/protocol/protocol_cockpit.cpp.o: \
  /opt/mine/syzkbuildenv/include/fastdds/dds/core/LoanableSequence.hpp \
  /opt/mine/syzkbuildenv/include/fastdds/dds/subscriber/SampleInfo.hpp \
  /opt/mine/syzkbuildenv/include/daemon_sdk.h \
- /home/liuss/my-syzk/syzk-remotectl/syzk-remotectl_V2.3.1_newidl/dvpn-app-syzk-remotectrl/src/protocol/read_ini.h \
+ /home/liuss/my-syzk/syzk-remotectl/syzk-remotectl_V2.3.1/dvpn-app-syzk-remotectrl/src/protocol/./read_ini.h \
  /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/include/c++/7.3.1/fstream \
  /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/include/c++/7.3.1/aarch64-linux-gnu/bits/basic_file.h \
  /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/include/c++/7.3.1/aarch64-linux-gnu/bits/c++io.h \
  /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/include/c++/7.3.1/bits/fstream.tcc \
- /home/liuss/my-syzk/syzk-remotectl/syzk-remotectl_V2.3.1_newidl/dvpn-app-syzk-remotectrl/src/./common/yaml.h \
+ /home/liuss/my-syzk/syzk-remotectl/syzk-remotectl_V2.3.1/dvpn-app-syzk-remotectrl/src/./common/yaml.h \
  /opt/mine/syzkbuildenv/include/yaml-cpp/parser.h \
  /opt/mine/syzkbuildenv/include/yaml-cpp/dll.h \
  /opt/mine/syzkbuildenv/include/yaml-cpp/noncopyable.h \
@@ -483,45 +596,23 @@ CMakeFiles/syzk-remotectl.dir/src/protocol/protocol_cockpit.cpp.o: \
  /opt/mine/syzkbuildenv/include/yaml-cpp/node/detail/impl.h \
  /opt/mine/syzkbuildenv/include/yaml-cpp/node/parse.h \
  /opt/mine/syzkbuildenv/include/yaml-cpp/node/emit.h \
- /home/liuss/my-syzk/syzk-remotectl/syzk-remotectl_V2.3.1_newidl/dvpn-app-syzk-remotectrl/include/../include/ddsType/ChassisCtrl.h \
- /home/liuss/my-syzk/syzk-remotectl/syzk-remotectl_V2.3.1_newidl/dvpn-app-syzk-remotectrl/include/../include/ddsType/gps_imu_msg.h \
- /home/liuss/my-syzk/syzk-remotectl/syzk-remotectl_V2.3.1_newidl/dvpn-app-syzk-remotectrl/include/../include/ddsType/ChassisCtrlPubSubTypes.h \
- /home/liuss/my-syzk/syzk-remotectl/syzk-remotectl_V2.3.1_newidl/dvpn-app-syzk-remotectrl/include/../include/ddsType/ChassisCtrl.h \
- /home/liuss/my-syzk/syzk-remotectl/syzk-remotectl_V2.3.1_newidl/dvpn-app-syzk-remotectrl/include/../include/ddsType/gps_imu_msg.h \
- /home/liuss/my-syzk/syzk-remotectl/syzk-remotectl_V2.3.1_newidl/dvpn-app-syzk-remotectrl/include/../include/ddsType/gps_imu_msgPubSubTypes.h \
- /home/liuss/my-syzk/syzk-remotectl/syzk-remotectl_V2.3.1_newidl/dvpn-app-syzk-remotectrl/include/../include/ddsType/imple_msg.h \
- /home/liuss/my-syzk/syzk-remotectl/syzk-remotectl_V2.3.1_newidl/dvpn-app-syzk-remotectrl/include/../include/ddsType/imple_msgPubSubTypes.h \
- /home/liuss/my-syzk/syzk-remotectl/syzk-remotectl_V2.3.1_newidl/dvpn-app-syzk-remotectrl/include/../include/ddsType/imple_msg.h \
- /home/liuss/my-syzk/syzk-remotectl/syzk-remotectl_V2.3.1_newidl/dvpn-app-syzk-remotectrl/include/../include/ddsType/Cockpit_address.h \
- /home/liuss/my-syzk/syzk-remotectl/syzk-remotectl_V2.3.1_newidl/dvpn-app-syzk-remotectrl/include/../include/ddsType/Cockpit_addressPubSubTypes.h \
- /home/liuss/my-syzk/syzk-remotectl/syzk-remotectl_V2.3.1_newidl/dvpn-app-syzk-remotectrl/include/../include/ddsType/Cockpit_address.h \
- /home/liuss/my-syzk/syzk-remotectl/syzk-remotectl_V2.3.1_newidl/dvpn-app-syzk-remotectrl/include/../include/ddsType/safe_ctrl_msg.h \
- /home/liuss/my-syzk/syzk-remotectl/syzk-remotectl_V2.3.1_newidl/dvpn-app-syzk-remotectrl/include/../include/ddsType/safe_ctrl_msgPubSubTypes.h \
- /home/liuss/my-syzk/syzk-remotectl/syzk-remotectl_V2.3.1_newidl/dvpn-app-syzk-remotectrl/include/../include/ddsType/safe_ctrl_msg.h \
+ /home/liuss/my-syzk/syzk-remotectl/syzk-remotectl_V2.3.1/dvpn-app-syzk-remotectrl/include/../include/ddsType/ChassisCtrl.h \
+ /home/liuss/my-syzk/syzk-remotectl/syzk-remotectl_V2.3.1/dvpn-app-syzk-remotectrl/include/../include/ddsType/gps_imu_msg.h \
+ /home/liuss/my-syzk/syzk-remotectl/syzk-remotectl_V2.3.1/dvpn-app-syzk-remotectrl/include/../include/ddsType/ChassisCtrlPubSubTypes.h \
+ /home/liuss/my-syzk/syzk-remotectl/syzk-remotectl_V2.3.1/dvpn-app-syzk-remotectrl/include/../include/ddsType/ChassisCtrl.h \
+ /home/liuss/my-syzk/syzk-remotectl/syzk-remotectl_V2.3.1/dvpn-app-syzk-remotectrl/include/../include/ddsType/gps_imu_msg.h \
+ /home/liuss/my-syzk/syzk-remotectl/syzk-remotectl_V2.3.1/dvpn-app-syzk-remotectrl/include/../include/ddsType/gps_imu_msgPubSubTypes.h \
+ /home/liuss/my-syzk/syzk-remotectl/syzk-remotectl_V2.3.1/dvpn-app-syzk-remotectrl/include/../include/ddsType/imple_msg.h \
+ /home/liuss/my-syzk/syzk-remotectl/syzk-remotectl_V2.3.1/dvpn-app-syzk-remotectrl/include/../include/ddsType/imple_msgPubSubTypes.h \
+ /home/liuss/my-syzk/syzk-remotectl/syzk-remotectl_V2.3.1/dvpn-app-syzk-remotectrl/include/../include/ddsType/imple_msg.h \
+ /home/liuss/my-syzk/syzk-remotectl/syzk-remotectl_V2.3.1/dvpn-app-syzk-remotectrl/include/../include/ddsType/safe_ctrl_msg.h \
+ /home/liuss/my-syzk/syzk-remotectl/syzk-remotectl_V2.3.1/dvpn-app-syzk-remotectrl/include/../include/ddsType/safe_ctrl_msgPubSubTypes.h \
+ /home/liuss/my-syzk/syzk-remotectl/syzk-remotectl_V2.3.1/dvpn-app-syzk-remotectrl/include/../include/ddsType/safe_ctrl_msg.h \
+ /home/liuss/my-syzk/syzk-remotectl/syzk-remotectl_V2.3.1/dvpn-app-syzk-remotectrl/include/../include/ddsType/Cockpit_address.h \
+ /home/liuss/my-syzk/syzk-remotectl/syzk-remotectl_V2.3.1/dvpn-app-syzk-remotectrl/include/../include/ddsType/Cockpit_addressPubSubTypes.h \
+ /home/liuss/my-syzk/syzk-remotectl/syzk-remotectl_V2.3.1/dvpn-app-syzk-remotectrl/include/../include/ddsType/Cockpit_address.h \
  /opt/mine/syzkbuildenv/include/zkbs/zkbs.hpp \
  /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/sys/signal.h \
- /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/signal.h \
- /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/bits/signum.h \
- /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/bits/siginfo.h \
- /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/bits/sigaction.h \
- /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/bits/sigcontext.h \
- /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/asm/sigcontext.h \
- /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/linux/types.h \
- /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/asm/types.h \
- /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/asm-generic/types.h \
- /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/asm-generic/int-ll64.h \
- /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/asm/bitsperlong.h \
- /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/asm-generic/bitsperlong.h \
- /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/linux/posix_types.h \
- /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/linux/stddef.h \
- /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/asm/posix_types.h \
- /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/asm-generic/posix_types.h \
- /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/bits/sigstack.h \
- /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/sys/ucontext.h \
- /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/sys/procfs.h \
- /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/sys/user.h \
- /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/bits/sigthread.h \
- /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/execinfo.h \
  /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/boost/uuid/uuid.hpp \
  /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/boost/cstdint.hpp \
  /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/boost/config.hpp \
@@ -1348,96 +1439,6 @@ CMakeFiles/syzk-remotectl.dir/src/protocol/protocol_cockpit.cpp.o: \
  /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/include/c++/7.3.1/bits/atomic_futex.h \
  /opt/mine/syzkbuildenv/include/zkbs/srv_Server.hpp \
  /opt/mine/syzkbuildenv/include/zkbs/mine_log.hpp \
- /opt/mine/syzkbuildenv/include/sany_utils.h \
- /opt/mine/syzkbuildenv/include/utils_include/sany_cutil.h \
- /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/sys/sem.h \
- /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/sys/ipc.h \
- /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/bits/ipctypes.h \
- /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/bits/ipc.h \
- /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/bits/sem.h \
- /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/sys/file.h \
- /opt/mine/syzkbuildenv/include/utils_include/util/queue.h \
- /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/lib/gcc/aarch64-linux-gnu/7.3.1/include/stdbool.h \
- /opt/mine/syzkbuildenv/include/utils_include/utils_common.h \
- /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/sys/stat.h \
- /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/net/if.h \
- /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/sys/un.h \
- /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/sys/ioctl.h \
- /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/bits/ioctls.h \
- /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/asm/ioctls.h \
- /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/asm-generic/ioctls.h \
- /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/linux/ioctl.h \
- /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/asm/ioctl.h \
- /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/asm-generic/ioctl.h \
- /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/bits/ioctl-types.h \
- /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/sys/ttydefaults.h \
- /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/linux/netlink.h \
- /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/linux/kernel.h \
- /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/linux/sysinfo.h \
- /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/linux/socket.h \
- /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/termios.h \
- /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/bits/termios.h \
- /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/linux/fb.h \
- /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/linux/i2c.h \
- /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/sys/mman.h \
- /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/bits/mman.h \
- /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/bits/mman-linux.h \
- /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/poll.h \
- /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/sys/poll.h \
- /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/bits/poll.h \
- /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/sys/msg.h \
- /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/bits/msq.h \
- /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/netpacket/packet.h \
- /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/linux/if_ether.h \
- /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/net/if_arp.h \
- /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/sys/epoll.h \
- /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/bits/epoll.h \
- /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/sys/timerfd.h \
- /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/bits/timerfd.h \
- /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/sys/sendfile.h \
- /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/sys/shm.h \
- /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/bits/shm.h \
- /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/netinet/ip.h \
- /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/netinet/ether.h \
- /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/netinet/if_ether.h \
- /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/net/ethernet.h \
- /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/net/route.h \
- /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/linux/rtnetlink.h \
- /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/linux/if_link.h \
- /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/linux/if_addr.h \
- /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/linux/neighbour.h \
- /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/sys/resource.h \
- /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/bits/resource.h \
- /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/sys/vfs.h \
- /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/sys/statfs.h \
- /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/bits/statfs.h \
- /opt/mine/syzkbuildenv/include/sany_type.h \
- /opt/mine/syzkbuildenv/include/utils_include/sany_cutil.h \
- /opt/mine/syzkbuildenv/include/utils_include/util/fifo.h \
- /opt/mine/syzkbuildenv/include/utils_include/util/queue.h \
- /opt/mine/syzkbuildenv/include/utils_include/util/mempool.h \
- /opt/mine/syzkbuildenv/include/utils_include/util/threadpool.h \
- /opt/mine/syzkbuildenv/include/utils_include/util/fifo.h \
- /opt/mine/syzkbuildenv/include/utils_include/util/listener.h \
- /opt/mine/syzkbuildenv/include/utils_include/util/json.h \
- /opt/mine/syzkbuildenv/include/utils_include/util/timer.h \
- /opt/mine/syzkbuildenv/include/utils_include/util/listener.h \
- /opt/mine/syzkbuildenv/include/utils_include/util/ini.h \
- /opt/mine/syzkbuildenv/include/utils_include/util/buffer.h \
- /opt/mine/syzkbuildenv/include/utils_include/util/file.h \
- /opt/mine/syzkbuildenv/include/utils_include/util/smart_mempool.h \
- /opt/mine/syzkbuildenv/include/utils_include/util/event.h \
- /opt/mine/syzkbuildenv/include/utils_include/util/print.h \
- /opt/mine/syzkbuildenv/include/utils_include/util/md5.h \
- /opt/mine/syzkbuildenv/include/utils_include/util/sany_system.h \
- /opt/mine/syzkbuildenv/include/utils_include/util/sany_sem.h \
- /opt/mine/syzkbuildenv/include/utils_include/util/sany_shm.h \
- /opt/mine/syzkbuildenv/include/utils_include/util/thread.h \
- /opt/mine/syzkbuildenv/include/utils_include/util/sany_time.h \
- /opt/mine/syzkbuildenv/include/utils_include/util/log.h \
- /opt/mine/syzkbuildenv/include/utils_include/util/backtrace.h \
- /opt/mine/syzkbuildenv/include/utils_include/util/log.h \
- /opt/mine/syzkbuildenv/include/utils_include/util/csv.h \
  /opt/mine/syzkbuildenv/include/zkbs/mine_config.hpp \
  /opt/mine/syzkbuildenv/include/zkbs/zkbs.hpp \
  /opt/mine/syzkbuildenv/include/yaml-cpp/yaml.h \

@@ -29,10 +29,10 @@
 // #include "../include/ddsType/FailureReporterInterfacePubSubTypes.h"
 #include "../include/ddsType/imple_msg.h"
 #include "../include/ddsType/imple_msgPubSubTypes.h"
-#include "../include/ddsType/Cockpit_address.h"
-#include "../include/ddsType/Cockpit_addressPubSubTypes.h"
 #include "../include/ddsType/safe_ctrl_msg.h"
 #include "../include/ddsType/safe_ctrl_msgPubSubTypes.h"
+#include "../include/ddsType/Cockpit_address.h"
+#include "../include/ddsType/Cockpit_addressPubSubTypes.h"
 #include <zkbs/ddsBase/ddsPubBase.h>
 #include <zkbs/ddsBase/ddsSubBase.h>
 #include "zkbs/zkbs.hpp"
@@ -65,9 +65,9 @@
 #endif
 
 extern FailureReporter *m_pFailureSDK;
-extern TopicDataType *pDataTypeCockpit;
-extern ddsSubscriber<CmdtoRemoteCtrl> *pSubCockpit;
+extern SANY_U8 g_u8IpFlag;
 extern SANY_U8 g_u8TaskStartFlag;
+extern SANY_U8 g_u8NetReady;
 
 typedef struct
 {
@@ -116,43 +116,19 @@ typedef struct
 	int iSafeInfo2;				// 安全模块-故障2
 } RemoteDrivingWirectlOutInfo;
 
+
+
+
+
+
+
+
 /*********************************************************************
  * CLASS
  */
 class Protocol_Cockpit
 {
 public:
-	std::thread m_thread;
-
-	SANY_U8 g_bNetReady = 0;
-	SANY_U8 g_old_current_state = 0;
-	SANY_U8 g_current_state = 0;
-
-	char cockpitServerName[25] = {0};
-	const char HostclientName[22] = "192.168.8.249:8080";
-//	ini::iniReader config;
-
-	/*遥控控制命令*/
-	RemoteDrivingWirectlInInfo struWireCtrlIn;
-	/*遥控反馈信息*/
-	RemoteDrivingWirectlOutInfo struWireCtrlOut;
-	/*进程通信定义分界线----------------------------start*/
-	/*底盘反馈信息*/
-	WirectlFeedbackInfo WireInfo;
-//	WirectlFeedbackInfo OldWireInfo; // 用于状态变更时与WireInfo比较
-	GpsImuInfo struGpsInfo;
-	/*safe模块-故障信息*/
-	SafeFeedbackInfo struSafeFeedbackInfo;
-
-	/*发布参数相关*/
-	// TopicDataType *pDataTypeWire = new WirectlFeedbackInfoPubSubType();
-	// TopicDataType *pDataTypeGps = new GpsImuInfoPubSubType();
-	// TopicDataType *pDataTypeSafe = new SafeFeedbackInfoPubSubType();
-
-	// ddsSubscriber<WirectlFeedbackInfo> *pSubWire = NULL;
-	// ddsSubscriber<GpsImuInfo> *pSubGps =  NULL;
-	// ddsSubscriber<SafeFeedbackInfo> *pSubSafe = NULL;
-
 	/*进程通信定义分界线----------------------------end*/
 
 	typedef struct
@@ -165,11 +141,13 @@ public:
 
 public:
 	Protocol_Cockpit();
-
+	~Protocol_Cockpit();
+	
+	void InitProtocol();
 	void Task_start();
 	void Task_stop();
 	void Task_Reset();
-	void ProtoCockpit_setServerName(const char *pServerName);
+	// void ProtoCockpit_setServerName(const char *pServerName);
 
 	/*遥控控制信息输出*/
 	SANY_U8 ProtoCockpit_getCtrlDate(ImpleResultInfo *pCtrlInfo);
@@ -178,7 +156,7 @@ public:
 
 	/*读取配置文件*/
 //	void Read_INI(ini::iniReader config);
-	void Read_Config();
+	// void Read_Config();
 	/*溜车判断-计算车速航向*/
 	float ProtoCockpit_SpeedHeading(const float gps_vn, const float gps_ve, const float heading);
 	SANY_U8 ProtoCockpit_Rolling();
@@ -186,51 +164,48 @@ public:
 	SANY_U8 ProtoCockpit_HeartCheck(const SANY_U32 Losttimes);
 	/*断连/心跳丢失停车*/
 	SANY_U8 ProtoCockpit_DoStop();
-	
-private:
-	SANY_U8 g_InitFlag = 0;
-	/*heartbeat with 297*/
-	SANY_U16 g_count = 0;
+	/*遥控控制信息初始化*/
+	SANY_U8 ProtoCockpit_initCtrlData();
+	/*发送通用ACK*/
+	SANY_U8 ProtoCockpit_SendAckCom(SANY_U8 ucCmd, SANY_U8 ucAckflg);
+
+public:
+/*配置文件*/
+	std::string vehicle_iccid;
+	std::string vehicle_vin;
+	std::string vehicle_type;
+	std::string vehicle_HardVer = "0101";
+	std::string vehicle_SoftVer = "0220";
 
 	/*登录状态 0未登录 1已登录，未登录状态下，不处理命令协议*/ /*延时程序写死成1*/
 	SANY_U8 g_u8LoginFlag = 0;
+	
+private:
+	/*heartbeat with 297*/
+	SANY_U16 g_297count = 0;
 
 	/*登录流水号*/
 	SANY_U8 g_u8LoginSeqNum = 0;
-
-	/* 发送标识，是否开始实时上报（高频） */
-	SANY_U32 g_u32RTDataFlg = 0; // 实时数据上报标识
-
-	/* 发送标识，是否开始实时上报（状态） */
-	SANY_U32 g_u32NLDataFlg = 0; // normal data flag
 
 	/* 急停标识 */
 	SANY_U8 g_u8EmergencyStopFlg = 0; // normal data flag
 
 	/*溜车标识*/
-	SANY_U8 rolling_need_stop = 0;		// normal data flag
+	SANY_U8 g_u8RollNeedStopFlg = 0;		// normal data flag
+	
+	/*驾驶模式状态， 0 默认，1 遥控，2 无人，3 人工*/
+	SANY_U8 g_u8CtrlState = 0;
 
-	/*任务结束标识，驾舱登出后释放线程资源，置位后四个线程退出*/
-	// volatile SANY_U8 g_u8TaskStopFlag = 0;
-	volatile SANY_U8 g_u8ThreadExitFlag = 0;
-
-	/*读取配置文件*/
-	std::string iccid;
-	std::string vin;
-	std::string type;
-	std::string HardVer = "0101";
-	std::string SoftVer = "0220";
+	/*缓刹*/
 	SANY_U32 brake_delay = 40;
 	SANY_U32 read_brakeing = 50;
-	SANY_U32 v_type = 0;
 	SANY_U32 brake_count = 0;
 	float BrakeValue;
-	pthread_t t_recv_id;
-	pthread_t t_upload_data_id;
-	pthread_t t_send_id;
-	pthread_t t_download_data_id;
 
-	terminal_client m_Terminal;
+	/*线程id*/
+	pthread_t t_upload_data_id;
+	pthread_t t_download_data_id;
+	pthread_t t_task_id;
 
 	/*发送缓冲区*/
 	pthread_mutex_t SendBufferMutex; /*做互斥锁，锁住整个发送缓冲区*/
@@ -247,30 +222,30 @@ private:
 	SANY_U8 g_u8SendBufferFull = 0;		//发送缓冲区写满标志
 	Protocol_Cockpit_Buffer_st *arrRecvBuffer;
 
-	sa_comm_socket_client *m_Socket_CockpitClient;
+	/*遥控控制命令*/
+	RemoteDrivingWirectlInInfo struWireCtrlIn;
+	/*遥控反馈信息*/
+	RemoteDrivingWirectlOutInfo struWireCtrlOut;
 
 	/*接收处理函数集合*/
 	Protocol_Cockpit_Recv_Func_st arrRecvFunc[PROTOCOL_COCKPIT_MAX_RECV_FUN_NUM];
 
 private:
-	/*数据接收线程*/
-	void funcRecvData();
-	/*数据发送线程*/
-	void funcSendData();
 	/*数据上行业务处理线程*/
 	void funcAppUploadData();
 	/*数据下行业务处理线程*/
 	void funcAppDownloadData();
+	/*任务线程*/
+	void funcTask();
 
-	/*数据接收线程静态成员*/
-	static void *threadRecvData(void *args);
-	/*数据发送线程静态成员*/
-	static void *threadSendData(void *args);
 	/*数据上行业务处理线程静态成员*/
 	static void *threadAppUploadData(void *args);
 	/*数据下行业务处理线程静态成员*/
 	static void *threadAppDownloadData(void *args);
+	/*任务线程静态成员*/
+	static void *threadTask(void *args);
 
+private:
 	/* 通用接口 */
 	void SmalltoBig(SANY_U8 *ucSrc, SANY_U8 *ucDest, SANY_S32 iType);
 	SANY_U8 ProtoCockpit_PackHeader(SANY_U8 u8Cmd, SANY_U8 u8AckFlg, CP_Header_st *pst_DataBuf);
@@ -288,8 +263,7 @@ private:
 	/* 命令协议发送接口，内部实现组包、发送；后续考虑将组包和发送分开*/
 	SANY_U8 ProtoCockpit_SendCmdLogin();
 	SANY_U8 ProtoCockpit_SendCmdRealtimeRep();
-	/*发送通用ACK*/
-	SANY_U8 ProtoCockpit_SendAckCom(SANY_U8 ucCmd, SANY_U8 ucAckflg);
+	
 
 	/*协议解析分发处理接口*/
 	SANY_U8 ProtoCockpit_ParsePacket(SANY_U8 *pu8DataBuf, SANY_U32 u32DataLen);
@@ -309,9 +283,30 @@ private:
 	SANY_U8 ProtoCockpit_PackAckRepCtrl(SANY_U8 *pDataBuf, SANY_U32 *pOutDataLen, SANY_U8 ucSequenceNum);
 	/*打包安全模块上报的故障信息*/
 	SANY_U8 ProtoCockpit_PackSafeFeedbackInfo();
+	/*297反馈信息整合到 struWireCtrlOut*/
+	SANY_U8 ProtoCockpit_getFeedbackData();
 	
+
+/*dds相关*/
+private:
+	/*底盘数据反馈*/
+	TopicDataType *pDataTypeWire = NULL;
+	TopicDataType *pDataTypeGps = NULL;
+	ddsSubscriber<WirectlFeedbackInfo> *pSubWire = NULL;
+	ddsSubscriber<GpsImuInfo> *pSubGps =  NULL;
+
+	/*安全模块反馈*/
+	TopicDataType *pDataTypeSafe = NULL;
+	ddsSubscriber<SafeFeedbackInfo> *pSubSafe = NULL;
+	
+	/*发布遥控驾驶控制数据*/
+	ImpleResultInfo imple_result_info;
+	TopicDataType *pDataTypeImple = NULL;
+	ddsPublisher<ImpleResultInfo> *pPubImple = NULL;
+
+public:
 	/*网络相关接口*/
-	void InitSocket_Cockpit();
+	// void InitSocket_Cockpit();
 
 	SANY_U8 ProtoCockpit_WriteSendBuffer(SANY_U8 *pu8DataBuf, SANY_U32 u32DataLen);
 	SANY_U8 ProtoCockpit_ReadSendBuffer(SANY_U8 *pu8DataBuf, SANY_U32 *u32DataLen);
@@ -320,12 +315,6 @@ private:
 	SANY_U8 ProtoCockpit_WriteRecvBuffer(SANY_U8 *pu8DataBuf, SANY_U32 u32DataLen);
 	SANY_U8 ProtoCockpit_ReadRecvBuffer(SANY_U8 *pu8DataBuf, SANY_U32 *u32DataLen);
 	void ProtoCockpit_RecvBufferInit(void);
-
-	/*遥控反馈信息整合到 struWireCtrlOut*/
-	SANY_U8 ProtoCockpit_getFeedbackData();
-	/*遥控控制信息初始化*/
-	SANY_U8 ProtoCockpit_initCtrlData();
-	
 };
 
 #endif

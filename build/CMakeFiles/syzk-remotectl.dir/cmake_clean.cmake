@@ -27,6 +27,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/syzk-remotectl.dir/include/ddsType/safe_ctrl_msg.cxx.o.d"
   "CMakeFiles/syzk-remotectl.dir/include/ddsType/safe_ctrl_msgPubSubTypes.cxx.o"
   "CMakeFiles/syzk-remotectl.dir/include/ddsType/safe_ctrl_msgPubSubTypes.cxx.o.d"
+  "CMakeFiles/syzk-remotectl.dir/src/InitTask.cpp.o"
+  "CMakeFiles/syzk-remotectl.dir/src/InitTask.cpp.o.d"
   "CMakeFiles/syzk-remotectl.dir/src/main_thread.cpp.o"
   "CMakeFiles/syzk-remotectl.dir/src/main_thread.cpp.o.d"
   "CMakeFiles/syzk-remotectl.dir/src/protocol/protocol_cockpit.cpp.o"

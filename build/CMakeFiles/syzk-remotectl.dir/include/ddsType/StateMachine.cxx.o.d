@@ -1,7 +1,7 @@
 CMakeFiles/syzk-remotectl.dir/include/ddsType/StateMachine.cxx.o: \
- /home/liuss/my-syzk/syzk-remotectl/syzk-remotectl_V2.3.1_newidl/dvpn-app-syzk-remotectrl/include/ddsType/StateMachine.cxx \
+ /home/liuss/my-syzk/syzk-remotectl/syzk-remotectl_V2.3.1/dvpn-app-syzk-remotectrl/include/ddsType/StateMachine.cxx \
  /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/stdc-predef.h \
- /home/liuss/my-syzk/syzk-remotectl/syzk-remotectl_V2.3.1_newidl/dvpn-app-syzk-remotectrl/include/ddsType/StateMachine.h \
+ /home/liuss/my-syzk/syzk-remotectl/syzk-remotectl_V2.3.1/dvpn-app-syzk-remotectrl/include/ddsType/StateMachine.h \
  /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/lib/gcc/aarch64-linux-gnu/7.3.1/include/stdint.h \
  /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/stdint.h \
  /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/bits/libc-header-start.h \
