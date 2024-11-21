@@ -36,11 +36,6 @@ void InitTask::InitStart(){
 	{
 		MINE_LOG(SANY_LOG_ERROR, "create threadSendData thread error!\n");
 	}
-
-	// if (pthread_create(&t_send_id, NULL, threadConnect, this) == -1)
-	// {
-	// 	MINE_LOG(SANY_LOG_ERROR, "create threadSendData thread error!\n");
-	// }
 }
 
 /*IP+PORT确认发布*/
@@ -67,6 +62,7 @@ void InitTask::cockpit_addressCallback(CmdtoRemoteCtrl &addr)
 		}else{
 			g_u8IpFlag = 0;
 			StopSocket_Cockpit();
+			m_pFailureSDK->report(FailureModule_Nebula_RemoteCtrl, 3201, 3, 0);
 		}
 	}
 	MINE_LOG(SANY_LOG_INFO, "setServerName,  g_u8IpFlag is %d\n", g_u8IpFlag);
@@ -146,7 +142,7 @@ void InitTask::funcRecvData()
 					break;
 				}
 				case 0:{
-					MINE_LOG(SANY_LOG_WARNING, "Read data Timeout(%d) r\n",m_Socket_CockpitClient->socket_fd);
+					MINE_LOG(SANY_LOG_WARNING, "Read data Timeout(%d) \r\n",m_Socket_CockpitClient->socket_fd);
 					break;
 				}
 				default:
@@ -208,7 +204,7 @@ void InitTask::funcRecvData()
 							else
 							{
 							 	m_Cockpit->ProtoCockpit_WriteRecvBuffer((SANY_U8 *)m_Socket_CockpitClient->recv_buffer, sizeof(CP_Header_st) + u32DateLen);
-								MINE_LOG(SANY_LOG_INFO, "receive data, write to recv buffer!!!!!!!!!!!\n");
+								// MINE_LOG(SANY_LOG_INFO, "receive data, write to recv buffer!!!!!!!!!!!\n");
 							}
 							u8HaveRecvHead = 0;
 							u32DateLen = 0;
@@ -282,38 +278,46 @@ void InitTask::funcSendData()
 			}
 			else
 			{
-				/* 断开连接后进行重连 */
-				m_Cockpit->g_u8LoginFlag = 0; // 修改登入状态
+				if(m_Cockpit->g_u8LoginFlag != 2){
+					/* 断开连接后进行重连 */
+					m_Cockpit->g_u8LoginFlag = 0; // 修改登入状态
+				}
+				// m_Cockpit->g_BrakeStartCount = 0;
 				// /*断开网络连接*/
 				if(m_Socket_CockpitClient->b_connected){
 					m_Terminal.comm_socket_client_do_disconnect(m_Socket_CockpitClient);
 					MINE_LOG(SANY_LOG_ERROR, "STOP, sa_comm_socket_client_disconnect!!!\n");
 				}
-				/* 定时器到时后尝试重连 */
-				MINE_LOG(SANY_LOG_INFO, "Reconnect TCP, current login flag: %d\n", m_Cockpit->g_u8LoginFlag);
-				if(19 < u8ConnectTimes)
-				{
-					MINE_LOG(SANY_LOG_ERROR, "Reconnect 10 seconds, exit!!! \n");
-					m_pFailureSDK->report(FailureModule_Nebula_RemoteCtrl, 3201, 3, 1);
-					m_Cockpit->Task_stop();
-				}
-				else
-				{
-					u32NetStatus = m_Terminal.comm_socket_client_do_connect(m_Socket_CockpitClient);
-					MINE_LOG(SANY_LOG_INFO, "comm_socket_client_do_connect, u32NetStatus: %d\n", u32NetStatus);
-					if (1 != u32NetStatus)
+				if(m_Cockpit->g_u8LoginFlag != 2){
+					/* 定时器到时后尝试重连 */
+					MINE_LOG(SANY_LOG_INFO, "Reconnect TCP, current login flag: %d\n", m_Cockpit->g_u8LoginFlag);
+					if(19 < u8ConnectTimes)
 					{
-						m_Cockpit->ProtoCockpit_initCtrlData();
-						u8ConnectTimes++;
-						MINE_LOG(SANY_LOG_ERROR, "sa_comm_socket_client_send fail, u8ConnectTimes: %d\n", u8ConnectTimes);					
-						/*延时500ms重连*/
-						usleep(500 * 1000);
-						continue;
+						MINE_LOG(SANY_LOG_ERROR, "Reconnect 10 seconds, exit!!! \n");
+						m_pFailureSDK->report(FailureModule_Nebula_RemoteCtrl, 3201, 3, 1);
+						m_Cockpit->g_u8LoginFlag = 2;
+						m_Cockpit->Task_stop();
 					}
-					/* 网络连接成功，更新网络状态 */
-					g_u8NetReady = 1;
-					u8ConnectTimes = 0;
-					MINE_LOG(SANY_LOG_ERROR, "Reconnect TCP Success!!! m_Socket_CockpitClient->b_connected: %d, clear u8ConnectTimes: %d\n", m_Socket_CockpitClient->b_connected, u8ConnectTimes);
+					else
+					{
+						u32NetStatus = m_Terminal.comm_socket_client_do_connect(m_Socket_CockpitClient);
+						MINE_LOG(SANY_LOG_INFO, "comm_socket_client_do_connect, u32NetStatus: %d\n", u32NetStatus);
+						if (1 != u32NetStatus)
+						{
+							m_Cockpit->ProtoCockpit_initCtrlData();
+							u8ConnectTimes++;
+							MINE_LOG(SANY_LOG_ERROR, "sa_comm_socket_client_send fail, u8ConnectTimes: %d\n", u8ConnectTimes);					
+							/*延时500ms重连*/
+							usleep(500 * 1000);
+							continue;
+						}
+						/* 网络连接成功，更新网络状态 */
+						g_u8NetReady = 1;
+						u8ConnectTimes = 0;
+						MINE_LOG(SANY_LOG_ERROR, "Reconnect TCP Success!!! m_Socket_CockpitClient->b_connected: %d, clear u8ConnectTimes: %d\n", m_Socket_CockpitClient->b_connected, u8ConnectTimes);
+					}
+				}else{
+					MINE_LOG(SANY_LOG_INFO, "EXIT, Socket STOP, g_u8LoginFlag %d\n", m_Cockpit->g_u8LoginFlag);
 				}
 			}
 		}else{
@@ -350,27 +354,6 @@ void *InitTask::threadSendData(void *args)
 {
 	InitTask *pThread = static_cast<InitTask *>(args);
 	pThread->funcSendData();
-}
-
-void InitTask::funcConnect(){
-	while(true){
-		if(1 == g_u8IpFlag){
-			MINE_LOG(SANY_LOG_INFO, "START, begin connect!\n");
-			if(InitSocket_Cockpit() == RET_OK){
-				m_Cockpit->Task_start();
-			}else{
-				g_u8IpFlag = 0;
-				StopSocket_Cockpit();
-			}
-		}else if(0 == g_u8IpFlag){
-			continue;
-		}
-	}
-}
-
-void *InitTask::threadConnect(void *args){
-	InitTask *pThread = static_cast<InitTask *>(args);
-	pThread->funcConnect();
 }
 
 /*初始化建立连接*/

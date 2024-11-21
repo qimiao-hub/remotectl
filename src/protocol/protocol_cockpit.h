@@ -116,13 +116,6 @@ typedef struct
 	int iSafeInfo2;				// 安全模块-故障2
 } RemoteDrivingWirectlOutInfo;
 
-
-
-
-
-
-
-
 /*********************************************************************
  * CLASS
  */
@@ -168,6 +161,8 @@ public:
 	SANY_U8 ProtoCockpit_initCtrlData();
 	/*发送通用ACK*/
 	SANY_U8 ProtoCockpit_SendAckCom(SANY_U8 ucCmd, SANY_U8 ucAckflg);
+	/*遥控刹车启动前初始化 刹车 档位 油门 主车*/
+	SANY_U8 ProtoCockpit_CheckBrakeLimit();
 
 public:
 /*配置文件*/
@@ -175,7 +170,7 @@ public:
 	std::string vehicle_vin;
 	std::string vehicle_type;
 	std::string vehicle_HardVer = "0101";
-	std::string vehicle_SoftVer = "0220";
+	std::string vehicle_SoftVer = "0221";//02软件类型 20软件版本号 20不调整，21调整气压显示，
 
 	/*登录状态 0未登录 1已登录，未登录状态下，不处理命令协议*/ /*延时程序写死成1*/
 	SANY_U8 g_u8LoginFlag = 0;
@@ -193,8 +188,14 @@ private:
 	/*溜车标识*/
 	SANY_U8 g_u8RollNeedStopFlg = 0;		// normal data flag
 	
-	/*驾驶模式状态， 0 默认，1 遥控，2 无人，3 人工*/
+	/*请求驾驶模式状态， 0 默认，1 遥控，2 无人，3 人工*/
 	SANY_U8 g_u8CtrlState = 0;
+	
+	/*响应驾驶模式状态 */
+	SANY_U8 g_u8ResponseCtrlState = 0;
+
+	/* 刹车60启动标志位*/
+	SANY_U32 g_BrakeLimitCount = 0;
 
 	/*缓刹*/
 	SANY_U32 brake_delay = 40;

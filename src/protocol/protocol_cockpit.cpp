@@ -97,6 +97,7 @@ void Protocol_Cockpit::InitProtocol(){
 	g_u8CtrlState = 0;
 	g_u8EmergencyStopFlg = 0;
 	g_u8RollNeedStopFlg = 0;
+	g_BrakeLimitCount = 0;
 
 	/*底盘数据相关订阅*/
 	pDataTypeWire = new WirectlFeedbackInfoPubSubType();
@@ -154,6 +155,7 @@ void Protocol_Cockpit::Task_Reset(){
 	g_u8CtrlState = 0;
 	g_u8EmergencyStopFlg = 0;
 	g_u8RollNeedStopFlg = 0;
+	g_BrakeLimitCount = 0;
 	MINE_LOG(SANY_LOG_INFO, "Clear Flags\n");
 
 	bzero(&struWireCtrlIn, sizeof(struWireCtrlIn));
@@ -207,7 +209,7 @@ void Protocol_Cockpit::Task_start()
 	m_pFailureSDK->report(FailureModule_Nebula_RemoteCtrl, 3203, 5, 0);
 	m_pFailureSDK->report(FailureModule_Nebula_RemoteCtrl, 3204, 1, 0);
 	m_pFailureSDK->report(FailureModule_Nebula_RemoteCtrl, 3204, 3, 0);
-	
+	g_u8LoginFlag = 0;
 	g_u8TaskStartFlag = 1;
 	// sleep(2);
 	MINE_LOG(SANY_LOG_INFO, "ONE REMOTE TASK START\n");
@@ -295,6 +297,7 @@ void Protocol_Cockpit::funcTask(){
 				}
 				imple_result_info.Remote_enable(3);
 				imple_result_info.unmanned_enable(1);
+				imple_result_info.remote_unman_flag(8);
 				/*发布遥控控制数据*/
 				pPubImple->publish(imple_result_info);
 				Remote_Enable5 = 0;
@@ -573,7 +576,7 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_RecvAckLoginPacket(Protocol_Cockpit_Buffe
 	if (g_u8LoginSeqNum != (SANY_U8)dataST->ucSequenceNum[0])
 	{		
 		// 响应流水号与登入流水号不同
-		m_pFailureSDK->report(FailureModule_Nebula_RemoteCtrl, 3201, 8, 1);
+		//m_pFailureSDK->report(FailureModule_Nebula_RemoteCtrl, 3201, 8, 1);
 		MINE_LOG(SANY_LOG_ERROR, "g_u8LoginSeqNum %d dataST->ucSequenceNum[0] %d \n", g_u8LoginSeqNum, (SANY_U8)dataST->ucSequenceNum[0]);
 	//	return RET_ERROR;
 	}
@@ -582,44 +585,51 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_RecvAckLoginPacket(Protocol_Cockpit_Buffe
 	if (0 != dataST->ucLoginStatus[0])
 	{
 		MINE_LOG(SANY_LOG_ERROR, "dataST->ucLoginStatus %d \n", dataST->ucLoginStatus[0]);
+		int loginstatus = dataST->ucLoginStatus[0];
 		// ICCID不匹配
-		if (0x00 != ((dataST->ucLoginStatus[0] & 0x02) << 2))
+		if (loginstatus & 0x80)
 		{
+			MINE_LOG(SANY_LOG_ERROR, "LOGIN ICCID ERROR\n");
 			g_u8LoginFlag = 2;
 			m_pFailureSDK->report(FailureModule_Nebula_RemoteCtrl, 3201, 9, 1);
 			return RET_ERROR;
 		}
 		// 硬件类型不匹配
-		if (0x00 != ((dataST->ucLoginStatus[0] & 0x04) << 3))
+		if (loginstatus & 0x40)
 		{
+			MINE_LOG(SANY_LOG_ERROR, "LOGIN HARD TYPE ERROR\n");
 			g_u8LoginFlag = 2;
 			m_pFailureSDK->report(FailureModule_Nebula_RemoteCtrl, 3201, 10, 1);
 			return RET_ERROR;
 		}
 		// 硬件版本号不匹配
-		if (0x00 != ((dataST->ucLoginStatus[0] & 0x08) << 4))
+		if (loginstatus & 0x20)
 		{
+			MINE_LOG(SANY_LOG_ERROR, "LOGIN HARD VER ERROR\n");
 			g_u8LoginFlag = 2;
 			m_pFailureSDK->report(FailureModule_Nebula_RemoteCtrl, 3201, 11, 1);
 			return RET_ERROR;
 		}
 		// 软件类型不匹配
-		if (0x00 != (dataST->ucLoginStatus[0] & 0x10))
+		if (loginstatus & 0x10)
 		{
+			MINE_LOG(SANY_LOG_ERROR, "LOGIN SOFT TYPE ERROR\n");
 			g_u8LoginFlag = 2;
 			m_pFailureSDK->report(FailureModule_Nebula_RemoteCtrl, 3201, 12, 1);
 			return RET_ERROR;
 		}
 		// 软件版本号不匹配
-		if (0x00 != (dataST->ucLoginStatus[0] & 0x20))
+		if (loginstatus & 0x08)
 		{
+			MINE_LOG(SANY_LOG_ERROR, "LOGIN SOFT VER ERROR\n");
 			g_u8LoginFlag = 2;
 			m_pFailureSDK->report(FailureModule_Nebula_RemoteCtrl, 3201, 13, 1);
 			return RET_ERROR;
 		}
-		if(0x00 != (dataST->ucLoginStatus[0] & 0x04)){
+		// VIN不匹配
+		if (loginstatus & 0x04){
 			g_u8LoginFlag = 2;
-			MINE_LOG(SANY_LOG_ERROR, "VIN ERROR\n");
+			MINE_LOG(SANY_LOG_ERROR, "LOGIN VIN ERROR\n");
 			return RET_ERROR;
 		}
 	//	return RET_ERROR;
@@ -919,7 +929,7 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_RecvCmdLoginOut(Protocol_Cockpit_Buffer_s
 
 	// g_u8IpFlag = 0;
 	/*修改登出标志位*/
-	g_u8LoginFlag = 0;
+	g_u8LoginFlag = 2;
 	/*关闭Socket，释放线程资源*/
 	Task_stop();
 
@@ -1280,9 +1290,9 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_SendCmdRealtimeRep()
 	pDataST->ucRemainingOil[0] = (SANY_U8)struWireCtrlOut.iRemainingOil;
 	/*水温*/
 	pDataST->ucWaterTemp[0] = (SANY_U8)struWireCtrlOut.iWaterTemp;
-	/*气压1\2*/
-	pDataST->ucBrakeAirPre1[0] = (SANY_U8)(struWireCtrlOut.iBrakeAirPre1 / 0.1);
-	pDataST->ucBrakeAirPre2[0] = (SANY_U8)(struWireCtrlOut.iBrakeAirPre2 / 0.1);
+	/*气压1\2 2.3.2 调整数值范围*/
+	pDataST->ucBrakeAirPre1[0] = (SANY_U8)(struWireCtrlOut.iBrakeAirPre1 * 100);
+	pDataST->ucBrakeAirPre2[0] = (SANY_U8)(struWireCtrlOut.iBrakeAirPre2 * 100);
 	/*组合开关左右*/
 	pDataST->ucCombinedGearL[0] = (SANY_U8)struWireCtrlOut.iCombinedGearL;
 	pDataST->ucCombinedGearR[0] = (SANY_U8)struWireCtrlOut.iCombinedGearR;
@@ -1312,8 +1322,8 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_SendCmdRealtimeRep()
 	MINE_LOG(SANY_LOG_INFO, "iGearOpening %d\n", (int)(struWireCtrlOut.iGearOpening));					//
 	MINE_LOG(SANY_LOG_INFO, "iRemainingOil %d\n", (int)(struWireCtrlOut.iRemainingOil));				//
 	MINE_LOG(SANY_LOG_INFO, "iWaterTemp %d\n", (int)(struWireCtrlOut.iWaterTemp));					//
-	MINE_LOG(SANY_LOG_INFO, "iBrakeAirPre1 %d\n", (int)(struWireCtrlOut.iBrakeAirPre1 / 0.1));				//    
-	MINE_LOG(SANY_LOG_INFO, "iBrakeAirPre2 %d\n", (int)(struWireCtrlOut.iBrakeAirPre2 / 0.1));
+	MINE_LOG(SANY_LOG_INFO, "iBrakeAirPre1 %d\n", (int)(struWireCtrlOut.iBrakeAirPre1 * 100));				//    
+	MINE_LOG(SANY_LOG_INFO, "iBrakeAirPre2 %d\n", (int)(struWireCtrlOut.iBrakeAirPre2 * 100));
 	MINE_LOG(SANY_LOG_INFO, "iCombinedGearL %d\n", (int)(struWireCtrlOut.iCombinedGearL));
 	MINE_LOG(SANY_LOG_INFO, "iCombinedGearR %d\n", (int)(struWireCtrlOut.iCombinedGearR));
 	MINE_LOG(SANY_LOG_INFO, "iKeyOperation1 %d\n", (int)(struWireCtrlOut.iKeyOperation1));
@@ -1353,9 +1363,9 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_HeartCheck(const SANY_U32 Losttimes)
 {
 	SANY_U8 u8Ret = RET_OK;
 
-	if(g_u8LoginFlag)
+	if(g_u8LoginFlag == 1)
 	{
-		if(1 == g_u8CtrlState)
+		if(1 == g_u8ResponseCtrlState)
 		{
 			if (500  <= Losttimes)
 			{
@@ -1378,6 +1388,7 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_HeartCheck(const SANY_U32 Losttimes)
 				// 重置网络状态
 				g_u8NetReady = 0;
 				g_u8LoginFlag = 0;
+				g_BrakeLimitCount = 0;
 				MINE_LOG(SANY_LOG_ERROR, "DownloadData timeout, report failure, u8LostCtrlTimes: %d\n", Losttimes);		
 			}	
 			u8Ret = RET_ERROR;
@@ -1389,11 +1400,14 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_HeartCheck(const SANY_U32 Losttimes)
 				// 重置网络状态
 				g_u8NetReady = 0;
 				g_u8LoginFlag = 0;
+				g_BrakeLimitCount = 0;
 				MINE_LOG(SANY_LOG_ERROR, "Lost HeartBeat 5s, do disconnect!!!!  u8LostCtrlTimes: %d\n", Losttimes);		
 			}
 			u8Ret = RET_ERROR;
 		}
-	}	
+	}else{
+		g_BrakeLimitCount = 0;
+	}
 	return u8Ret;
 }
 
@@ -1659,6 +1673,7 @@ void Protocol_Cockpit::funcAppUploadData()
 						m_pFailureSDK->report(FailureModule_Nebula_RemoteCtrl, 3201, 2, 1);
 						/*登入失败，退出线程*/
 						//pthread_exit(NULL);     //退出当前线程
+						g_u8LoginFlag = 2;
 						Task_stop();
 					}
 					/* 发送登录消息 */
@@ -1672,7 +1687,7 @@ void Protocol_Cockpit::funcAppUploadData()
 			}
 			else if(2 == g_u8LoginFlag){ // 登陆失败
 				LoginTimes = 0;
-				MINE_LOG(SANY_LOG_ERROR, "Login Reponse ERRER, exit!!\n");
+				MINE_LOG(SANY_LOG_ERROR, "Login Reponse ERROR, exit!!\n");
 				Task_stop();
 			}
 			else if(1 == g_u8LoginFlag){ // 登录成功
@@ -1825,6 +1840,8 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_getFeedbackData()
 	struWireCtrlOut.iBrakeAirPre1 = WireInfo.air_pressure_1();							//气压1
 	struWireCtrlOut.iBrakeAirPre2 = WireInfo.air_pressure_2();							//气压2
 
+	// MINE_LOG(SANY_LOG_INFO, " AIR_PRESSURE_1 is %f", WireInfo.air_pressure_1());
+
 	if (WireInfo.left_turn_start_status())
 	{
 		struWireCtrlOut.iCombinedGearL |= 0x01;
@@ -1904,6 +1921,15 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_getFeedbackData()
 	else
 	{
 		struWireCtrlOut.iCombinedGearR &= 0xEF;
+	}
+	// 1118 刹车策略
+	if(g_BrakeLimitCount == 1)
+	{
+		struWireCtrlOut.iCombinedGearR |= 0x01 << 5;
+	}
+	else
+	{
+		struWireCtrlOut.iCombinedGearR &= 0xDF;
 	}
 	if (WireInfo.hazard_start_status())
 	{
@@ -1998,15 +2024,23 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_getFeedbackData()
 	if((WireInfo.vcu_state() == 5) && (WireInfo.Remote_or_Unman() == 8))
 	{
 		struWireCtrlOut.iWorkStatus = 2;			//remote
+		g_u8ResponseCtrlState = 2;
+		if(g_BrakeLimitCount == 0){
+			g_BrakeLimitCount = 2;
+		}
 	}
 	else if((WireInfo.vcu_state() == 5) && (WireInfo.Remote_or_Unman() == 6))
 	{
 		struWireCtrlOut.iWorkStatus = 3;			//unman
+		g_u8ResponseCtrlState = 3;
+		g_BrakeLimitCount = 0;
 	}
 	else
 	{
 		struWireCtrlOut.iWorkStatus = 1;			//manual
+		g_u8ResponseCtrlState = 1;
 		g_u8CtrlState = 0;
+		g_BrakeLimitCount = 0;
 	}
 
 	if (vehicle_type == "SKT-I")
@@ -2212,13 +2246,12 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_initCtrlData()
 	if(vehicle_type == "SKT-E")
 	{
 		struWireCtrlIn.iGearOpening = 0;
-		struWireCtrlIn.iBrakeOpening = 100;
 	}
 	else
 	{
 		struWireCtrlIn.iGearOpening = 0x7D;
-		struWireCtrlIn.iBrakeOpening = 100;
 	}
+	struWireCtrlIn.iBrakeOpening = 100;
 	struWireCtrlIn.iWheelAngle =  0x0190;
 	struWireCtrlIn.iThrottleOpening = 0;
 	struWireCtrlIn.iCombinedGearL = 0;
@@ -2280,6 +2313,8 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_getCtrlDate(ImpleResultInfo *pCtrlInfo)
 	pCtrlInfo->override_ctrl_mode_priority(0b00);
 	pCtrlInfo->engine_req_speed(2100); // rpm
 
+	// 2.3.3 增加默认值
+	pCtrlInfo->on_start_enable(false);
 	/*-------------------油门，0-100-------------------*/
 	pCtrlInfo->engine_req_torque((float)struWireCtrlIn.iThrottleOpening);
 	printf("engine_req_torque: %f\n", pCtrlInfo->engine_req_torque());
@@ -2557,9 +2592,10 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_getCtrlDate(ImpleResultInfo *pCtrlInfo)
 	{
 		g_u8EmergencyStopFlg = 1;
 	}
-	
+
+	SANY_U8 brakeLimitRET = ProtoCockpit_CheckBrakeLimit();
 	/*判断是否急停，请求急停则请求驻车*/
-	if (1 == g_u8EmergencyStopFlg)
+	if (1 == g_u8EmergencyStopFlg || brakeLimitRET == RET_ERROR)
 	{
 		if("SKT-I" == vehicle_type)
 		{
@@ -2575,11 +2611,28 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_getCtrlDate(ImpleResultInfo *pCtrlInfo)
 		pCtrlInfo->engine_req_torque(0);	//油门
 		pCtrlInfo->brake_req_status(true);		//刹车请求状态
 		pCtrlInfo->brake_light_ctrl(true);		//制动灯
-		MINE_LOG(SANY_LOG_INFO, "receive EmergencyStop cmd, gear: %d,  parking_req: %d,  traffic_brake_req: %f\n", pCtrlInfo->trans_req_gear(), pCtrlInfo->parking_req(), pCtrlInfo->traffic_brake_req());
+		MINE_LOG(SANY_LOG_INFO, "init Emergency, gear: %d,  parking_req: %d,  traffic_brake_req: %f, g_u8EmergencyStopFlg: %d, brakeLimitRET: %d\n", pCtrlInfo->trans_req_gear(), pCtrlInfo->parking_req(), pCtrlInfo->traffic_brake_req(), g_u8EmergencyStopFlg, brakeLimitRET);
 		// printf("start EmergencyStop, gear: %d,  parking_req: %d,  traffic_brake_req: %f\n", pCtrlInfo->trans_req_gear(), pCtrlInfo->parking_req(), pCtrlInfo->traffic_brake_req());
 	}
 	
 	return RET_OK;
+}
+
+SANY_U8 Protocol_Cockpit::ProtoCockpit_CheckBrakeLimit(){
+	SANY_U8 ret = RET_ERROR;
+	if(g_BrakeLimitCount == 1){
+		return RET_OK;
+	}
+	if(g_BrakeLimitCount >= 2){
+		if(struWireCtrlIn.iBrakeOpening >= 60){
+			g_BrakeLimitCount++;
+		}
+	}
+	if(g_BrakeLimitCount >= 12){
+		g_BrakeLimitCount = 1;
+	}
+	MINE_LOG(SANY_LOG_INFO, "BrakeStartLimit, g_BrakeLimitCount %d, g_u8ResponseCtrlState %d, iBrakeOPening %d\n", g_BrakeLimitCount, g_u8ResponseCtrlState, struWireCtrlIn.iBrakeOpening);
+	return RET_ERROR;
 }
 
 /*初始化函数列表数组*/

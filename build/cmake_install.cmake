@@ -1,4 +1,4 @@
-# Install script for directory: /home/liuss/my-syzk/syzk-remotectl/syzk-remotectl_V2.3.1/dvpn-app-syzk-remotectrl
+# Install script for directory: /home/liuss/syzk/syzk-remotectl/syzk-remotectl_V2.3.3/dvpn-app-syzk-remotectrl
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -50,5 +50,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/liuss/my-syzk/syzk-remotectl/syzk-remotectl_V2.3.1/dvpn-app-syzk-remotectrl/build/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home/liuss/syzk/syzk-remotectl/syzk-remotectl_V2.3.3/dvpn-app-syzk-remotectrl/build/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

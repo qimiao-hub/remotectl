@@ -4,7 +4,7 @@
 # compile CXX with /opt/mine/syzkbuildenv/gcc_tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/bin/aarch64-linux-gnu-g++
 CXX_DEFINES = 
 
-CXX_INCLUDES = -I/home/liuss/my-syzk/syzk-remotectl/syzk-remotectl_V2.3.1/dvpn-app-syzk-remotectrl/include -I/home/liuss/my-syzk/syzk-remotectl/syzk-remotectl_V2.3.1/dvpn-app-syzk-remotectrl/src
+CXX_INCLUDES = -I/home/liuss/syzk/syzk-remotectl/syzk-remotectl_V2.3.3/dvpn-app-syzk-remotectrl/include -I/home/liuss/syzk/syzk-remotectl/syzk-remotectl_V2.3.3/dvpn-app-syzk-remotectrl/src
 
 CXX_FLAGS = -std=c++11 -g   -Wall -rdynamic
 

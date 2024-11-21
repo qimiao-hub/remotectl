@@ -57,10 +57,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/liuss/my-syzk/syzk-remotectl/syzk-remotectl_V2.3.1/dvpn-app-syzk-remotectrl
+CMAKE_SOURCE_DIR = /home/liuss/syzk/syzk-remotectl/syzk-remotectl_V2.3.3/dvpn-app-syzk-remotectrl
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/liuss/my-syzk/syzk-remotectl/syzk-remotectl_V2.3.1/dvpn-app-syzk-remotectrl/build
+CMAKE_BINARY_DIR = /home/liuss/syzk/syzk-remotectl/syzk-remotectl_V2.3.3/dvpn-app-syzk-remotectrl/build
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -87,9 +87,9 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/liuss/my-syzk/syzk-remotectl/syzk-remotectl_V2.3.1/dvpn-app-syzk-remotectrl/build/CMakeFiles /home/liuss/my-syzk/syzk-remotectl/syzk-remotectl_V2.3.1/dvpn-app-syzk-remotectrl/build//CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/liuss/syzk/syzk-remotectl/syzk-remotectl_V2.3.3/dvpn-app-syzk-remotectrl/build/CMakeFiles /home/liuss/syzk/syzk-remotectl/syzk-remotectl_V2.3.3/dvpn-app-syzk-remotectrl/build//CMakeFiles/progress.marks
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/liuss/my-syzk/syzk-remotectl/syzk-remotectl_V2.3.1/dvpn-app-syzk-remotectrl/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/liuss/syzk/syzk-remotectl/syzk-remotectl_V2.3.3/dvpn-app-syzk-remotectrl/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
