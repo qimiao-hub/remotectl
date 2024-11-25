@@ -2624,7 +2624,7 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_CheckBrakeLimit(){
 		return RET_OK;
 	}
 	if(g_BrakeLimitCount >= 2){
-		if(struWireCtrlIn.iBrakeOpening >= 60){
+		if(struWireCtrlIn.iBrakeOpening >= 50){
 			g_BrakeLimitCount++;
 		}
 	}
