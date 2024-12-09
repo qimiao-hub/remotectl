@@ -5152,6 +5152,766 @@ public:
     eProsima_user_DllExport uint32_t& Brake_Pressure_RA1_Right();
 
     /*!
+     * @brief This function sets a value in member Front_L_tire_temperature
+     * @param _Front_L_tire_temperature New value for member Front_L_tire_temperature
+     */
+    eProsima_user_DllExport void Front_L_tire_temperature(
+            int16_t _Front_L_tire_temperature);
+
+    /*!
+     * @brief This function returns the value of member Front_L_tire_temperature
+     * @return Value of member Front_L_tire_temperature
+     */
+    eProsima_user_DllExport int16_t Front_L_tire_temperature() const;
+
+    /*!
+     * @brief This function returns a reference to member Front_L_tire_temperature
+     * @return Reference to member Front_L_tire_temperature
+     */
+    eProsima_user_DllExport int16_t& Front_L_tire_temperature();
+
+    /*!
+     * @brief This function sets a value in member Front_R_tire_temperature
+     * @param _Front_R_tire_temperature New value for member Front_R_tire_temperature
+     */
+    eProsima_user_DllExport void Front_R_tire_temperature(
+            int16_t _Front_R_tire_temperature);
+
+    /*!
+     * @brief This function returns the value of member Front_R_tire_temperature
+     * @return Value of member Front_R_tire_temperature
+     */
+    eProsima_user_DllExport int16_t Front_R_tire_temperature() const;
+
+    /*!
+     * @brief This function returns a reference to member Front_R_tire_temperature
+     * @return Reference to member Front_R_tire_temperature
+     */
+    eProsima_user_DllExport int16_t& Front_R_tire_temperature();
+
+    /*!
+     * @brief This function sets a value in member MID_LL_tire_temperature
+     * @param _MID_LL_tire_temperature New value for member MID_LL_tire_temperature
+     */
+    eProsima_user_DllExport void MID_LL_tire_temperature(
+            int16_t _MID_LL_tire_temperature);
+
+    /*!
+     * @brief This function returns the value of member MID_LL_tire_temperature
+     * @return Value of member MID_LL_tire_temperature
+     */
+    eProsima_user_DllExport int16_t MID_LL_tire_temperature() const;
+
+    /*!
+     * @brief This function returns a reference to member MID_LL_tire_temperature
+     * @return Reference to member MID_LL_tire_temperature
+     */
+    eProsima_user_DllExport int16_t& MID_LL_tire_temperature();
+
+    /*!
+     * @brief This function sets a value in member MID_LR_tire_temperature
+     * @param _MID_LR_tire_temperature New value for member MID_LR_tire_temperature
+     */
+    eProsima_user_DllExport void MID_LR_tire_temperature(
+            int16_t _MID_LR_tire_temperature);
+
+    /*!
+     * @brief This function returns the value of member MID_LR_tire_temperature
+     * @return Value of member MID_LR_tire_temperature
+     */
+    eProsima_user_DllExport int16_t MID_LR_tire_temperature() const;
+
+    /*!
+     * @brief This function returns a reference to member MID_LR_tire_temperature
+     * @return Reference to member MID_LR_tire_temperature
+     */
+    eProsima_user_DllExport int16_t& MID_LR_tire_temperature();
+
+    /*!
+     * @brief This function sets a value in member MID_RL_tire_temperature
+     * @param _MID_RL_tire_temperature New value for member MID_RL_tire_temperature
+     */
+    eProsima_user_DllExport void MID_RL_tire_temperature(
+            int16_t _MID_RL_tire_temperature);
+
+    /*!
+     * @brief This function returns the value of member MID_RL_tire_temperature
+     * @return Value of member MID_RL_tire_temperature
+     */
+    eProsima_user_DllExport int16_t MID_RL_tire_temperature() const;
+
+    /*!
+     * @brief This function returns a reference to member MID_RL_tire_temperature
+     * @return Reference to member MID_RL_tire_temperature
+     */
+    eProsima_user_DllExport int16_t& MID_RL_tire_temperature();
+
+    /*!
+     * @brief This function sets a value in member MID_RR_tire_temperature
+     * @param _MID_RR_tire_temperature New value for member MID_RR_tire_temperature
+     */
+    eProsima_user_DllExport void MID_RR_tire_temperature(
+            int16_t _MID_RR_tire_temperature);
+
+    /*!
+     * @brief This function returns the value of member MID_RR_tire_temperature
+     * @return Value of member MID_RR_tire_temperature
+     */
+    eProsima_user_DllExport int16_t MID_RR_tire_temperature() const;
+
+    /*!
+     * @brief This function returns a reference to member MID_RR_tire_temperature
+     * @return Reference to member MID_RR_tire_temperature
+     */
+    eProsima_user_DllExport int16_t& MID_RR_tire_temperature();
+
+    /*!
+     * @brief This function sets a value in member BACK_LL_tire_temperature
+     * @param _BACK_LL_tire_temperature New value for member BACK_LL_tire_temperature
+     */
+    eProsima_user_DllExport void BACK_LL_tire_temperature(
+            int16_t _BACK_LL_tire_temperature);
+
+    /*!
+     * @brief This function returns the value of member BACK_LL_tire_temperature
+     * @return Value of member BACK_LL_tire_temperature
+     */
+    eProsima_user_DllExport int16_t BACK_LL_tire_temperature() const;
+
+    /*!
+     * @brief This function returns a reference to member BACK_LL_tire_temperature
+     * @return Reference to member BACK_LL_tire_temperature
+     */
+    eProsima_user_DllExport int16_t& BACK_LL_tire_temperature();
+
+    /*!
+     * @brief This function sets a value in member BACK_LR_tire_temperature
+     * @param _BACK_LR_tire_temperature New value for member BACK_LR_tire_temperature
+     */
+    eProsima_user_DllExport void BACK_LR_tire_temperature(
+            int16_t _BACK_LR_tire_temperature);
+
+    /*!
+     * @brief This function returns the value of member BACK_LR_tire_temperature
+     * @return Value of member BACK_LR_tire_temperature
+     */
+    eProsima_user_DllExport int16_t BACK_LR_tire_temperature() const;
+
+    /*!
+     * @brief This function returns a reference to member BACK_LR_tire_temperature
+     * @return Reference to member BACK_LR_tire_temperature
+     */
+    eProsima_user_DllExport int16_t& BACK_LR_tire_temperature();
+
+    /*!
+     * @brief This function sets a value in member BACK_RL_tire_temperature
+     * @param _BACK_RL_tire_temperature New value for member BACK_RL_tire_temperature
+     */
+    eProsima_user_DllExport void BACK_RL_tire_temperature(
+            int16_t _BACK_RL_tire_temperature);
+
+    /*!
+     * @brief This function returns the value of member BACK_RL_tire_temperature
+     * @return Value of member BACK_RL_tire_temperature
+     */
+    eProsima_user_DllExport int16_t BACK_RL_tire_temperature() const;
+
+    /*!
+     * @brief This function returns a reference to member BACK_RL_tire_temperature
+     * @return Reference to member BACK_RL_tire_temperature
+     */
+    eProsima_user_DllExport int16_t& BACK_RL_tire_temperature();
+
+    /*!
+     * @brief This function sets a value in member BACK_RR_tire_temperature
+     * @param _BACK_RR_tire_temperature New value for member BACK_RR_tire_temperature
+     */
+    eProsima_user_DllExport void BACK_RR_tire_temperature(
+            int16_t _BACK_RR_tire_temperature);
+
+    /*!
+     * @brief This function returns the value of member BACK_RR_tire_temperature
+     * @return Value of member BACK_RR_tire_temperature
+     */
+    eProsima_user_DllExport int16_t BACK_RR_tire_temperature() const;
+
+    /*!
+     * @brief This function returns a reference to member BACK_RR_tire_temperature
+     * @return Reference to member BACK_RR_tire_temperature
+     */
+    eProsima_user_DllExport int16_t& BACK_RR_tire_temperature();
+
+    /*!
+     * @brief This function sets a value in member Front_L_tire_code
+     * @param _Front_L_tire_code New value for member Front_L_tire_code
+     */
+    eProsima_user_DllExport void Front_L_tire_code(
+            uint16_t _Front_L_tire_code);
+
+    /*!
+     * @brief This function returns the value of member Front_L_tire_code
+     * @return Value of member Front_L_tire_code
+     */
+    eProsima_user_DllExport uint16_t Front_L_tire_code() const;
+
+    /*!
+     * @brief This function returns a reference to member Front_L_tire_code
+     * @return Reference to member Front_L_tire_code
+     */
+    eProsima_user_DllExport uint16_t& Front_L_tire_code();
+
+    /*!
+     * @brief This function sets a value in member Front_R_tire_code
+     * @param _Front_R_tire_code New value for member Front_R_tire_code
+     */
+    eProsima_user_DllExport void Front_R_tire_code(
+            uint16_t _Front_R_tire_code);
+
+    /*!
+     * @brief This function returns the value of member Front_R_tire_code
+     * @return Value of member Front_R_tire_code
+     */
+    eProsima_user_DllExport uint16_t Front_R_tire_code() const;
+
+    /*!
+     * @brief This function returns a reference to member Front_R_tire_code
+     * @return Reference to member Front_R_tire_code
+     */
+    eProsima_user_DllExport uint16_t& Front_R_tire_code();
+
+    /*!
+     * @brief This function sets a value in member MID_LL_tire_code
+     * @param _MID_LL_tire_code New value for member MID_LL_tire_code
+     */
+    eProsima_user_DllExport void MID_LL_tire_code(
+            uint16_t _MID_LL_tire_code);
+
+    /*!
+     * @brief This function returns the value of member MID_LL_tire_code
+     * @return Value of member MID_LL_tire_code
+     */
+    eProsima_user_DllExport uint16_t MID_LL_tire_code() const;
+
+    /*!
+     * @brief This function returns a reference to member MID_LL_tire_code
+     * @return Reference to member MID_LL_tire_code
+     */
+    eProsima_user_DllExport uint16_t& MID_LL_tire_code();
+
+    /*!
+     * @brief This function sets a value in member MID_LR_tire_code
+     * @param _MID_LR_tire_code New value for member MID_LR_tire_code
+     */
+    eProsima_user_DllExport void MID_LR_tire_code(
+            uint16_t _MID_LR_tire_code);
+
+    /*!
+     * @brief This function returns the value of member MID_LR_tire_code
+     * @return Value of member MID_LR_tire_code
+     */
+    eProsima_user_DllExport uint16_t MID_LR_tire_code() const;
+
+    /*!
+     * @brief This function returns a reference to member MID_LR_tire_code
+     * @return Reference to member MID_LR_tire_code
+     */
+    eProsima_user_DllExport uint16_t& MID_LR_tire_code();
+
+    /*!
+     * @brief This function sets a value in member MID_RL_tire_code
+     * @param _MID_RL_tire_code New value for member MID_RL_tire_code
+     */
+    eProsima_user_DllExport void MID_RL_tire_code(
+            uint16_t _MID_RL_tire_code);
+
+    /*!
+     * @brief This function returns the value of member MID_RL_tire_code
+     * @return Value of member MID_RL_tire_code
+     */
+    eProsima_user_DllExport uint16_t MID_RL_tire_code() const;
+
+    /*!
+     * @brief This function returns a reference to member MID_RL_tire_code
+     * @return Reference to member MID_RL_tire_code
+     */
+    eProsima_user_DllExport uint16_t& MID_RL_tire_code();
+
+    /*!
+     * @brief This function sets a value in member MID_RR_tire_code
+     * @param _MID_RR_tire_code New value for member MID_RR_tire_code
+     */
+    eProsima_user_DllExport void MID_RR_tire_code(
+            uint16_t _MID_RR_tire_code);
+
+    /*!
+     * @brief This function returns the value of member MID_RR_tire_code
+     * @return Value of member MID_RR_tire_code
+     */
+    eProsima_user_DllExport uint16_t MID_RR_tire_code() const;
+
+    /*!
+     * @brief This function returns a reference to member MID_RR_tire_code
+     * @return Reference to member MID_RR_tire_code
+     */
+    eProsima_user_DllExport uint16_t& MID_RR_tire_code();
+
+    /*!
+     * @brief This function sets a value in member BACK_LL_tire_code
+     * @param _BACK_LL_tire_code New value for member BACK_LL_tire_code
+     */
+    eProsima_user_DllExport void BACK_LL_tire_code(
+            uint16_t _BACK_LL_tire_code);
+
+    /*!
+     * @brief This function returns the value of member BACK_LL_tire_code
+     * @return Value of member BACK_LL_tire_code
+     */
+    eProsima_user_DllExport uint16_t BACK_LL_tire_code() const;
+
+    /*!
+     * @brief This function returns a reference to member BACK_LL_tire_code
+     * @return Reference to member BACK_LL_tire_code
+     */
+    eProsima_user_DllExport uint16_t& BACK_LL_tire_code();
+
+    /*!
+     * @brief This function sets a value in member BACK_LR_tire_code
+     * @param _BACK_LR_tire_code New value for member BACK_LR_tire_code
+     */
+    eProsima_user_DllExport void BACK_LR_tire_code(
+            uint16_t _BACK_LR_tire_code);
+
+    /*!
+     * @brief This function returns the value of member BACK_LR_tire_code
+     * @return Value of member BACK_LR_tire_code
+     */
+    eProsima_user_DllExport uint16_t BACK_LR_tire_code() const;
+
+    /*!
+     * @brief This function returns a reference to member BACK_LR_tire_code
+     * @return Reference to member BACK_LR_tire_code
+     */
+    eProsima_user_DllExport uint16_t& BACK_LR_tire_code();
+
+    /*!
+     * @brief This function sets a value in member BACK_RL_tire_code
+     * @param _BACK_RL_tire_code New value for member BACK_RL_tire_code
+     */
+    eProsima_user_DllExport void BACK_RL_tire_code(
+            uint16_t _BACK_RL_tire_code);
+
+    /*!
+     * @brief This function returns the value of member BACK_RL_tire_code
+     * @return Value of member BACK_RL_tire_code
+     */
+    eProsima_user_DllExport uint16_t BACK_RL_tire_code() const;
+
+    /*!
+     * @brief This function returns a reference to member BACK_RL_tire_code
+     * @return Reference to member BACK_RL_tire_code
+     */
+    eProsima_user_DllExport uint16_t& BACK_RL_tire_code();
+
+    /*!
+     * @brief This function sets a value in member BACK_RR_tire_code
+     * @param _BACK_RR_tire_code New value for member BACK_RR_tire_code
+     */
+    eProsima_user_DllExport void BACK_RR_tire_code(
+            uint16_t _BACK_RR_tire_code);
+
+    /*!
+     * @brief This function returns the value of member BACK_RR_tire_code
+     * @return Value of member BACK_RR_tire_code
+     */
+    eProsima_user_DllExport uint16_t BACK_RR_tire_code() const;
+
+    /*!
+     * @brief This function returns a reference to member BACK_RR_tire_code
+     * @return Reference to member BACK_RR_tire_code
+     */
+    eProsima_user_DllExport uint16_t& BACK_RR_tire_code();
+
+    /*!
+     * @brief This function sets a value in member air_power_status
+     * @param _air_power_status New value for member air_power_status
+     */
+    eProsima_user_DllExport void air_power_status(
+            bool _air_power_status);
+
+    /*!
+     * @brief This function returns the value of member air_power_status
+     * @return Value of member air_power_status
+     */
+    eProsima_user_DllExport bool air_power_status() const;
+
+    /*!
+     * @brief This function returns a reference to member air_power_status
+     * @return Reference to member air_power_status
+     */
+    eProsima_user_DllExport bool& air_power_status();
+
+    /*!
+     * @brief This function sets a value in member air_auto_status
+     * @param _air_auto_status New value for member air_auto_status
+     */
+    eProsima_user_DllExport void air_auto_status(
+            bool _air_auto_status);
+
+    /*!
+     * @brief This function returns the value of member air_auto_status
+     * @return Value of member air_auto_status
+     */
+    eProsima_user_DllExport bool air_auto_status() const;
+
+    /*!
+     * @brief This function returns a reference to member air_auto_status
+     * @return Reference to member air_auto_status
+     */
+    eProsima_user_DllExport bool& air_auto_status();
+
+    /*!
+     * @brief This function sets a value in member air_ac_status
+     * @param _air_ac_status New value for member air_ac_status
+     */
+    eProsima_user_DllExport void air_ac_status(
+            bool _air_ac_status);
+
+    /*!
+     * @brief This function returns the value of member air_ac_status
+     * @return Value of member air_ac_status
+     */
+    eProsima_user_DllExport bool air_ac_status() const;
+
+    /*!
+     * @brief This function returns a reference to member air_ac_status
+     * @return Reference to member air_ac_status
+     */
+    eProsima_user_DllExport bool& air_ac_status();
+
+    /*!
+     * @brief This function sets a value in member air_defrost_status
+     * @param _air_defrost_status New value for member air_defrost_status
+     */
+    eProsima_user_DllExport void air_defrost_status(
+            bool _air_defrost_status);
+
+    /*!
+     * @brief This function returns the value of member air_defrost_status
+     * @return Value of member air_defrost_status
+     */
+    eProsima_user_DllExport bool air_defrost_status() const;
+
+    /*!
+     * @brief This function returns a reference to member air_defrost_status
+     * @return Reference to member air_defrost_status
+     */
+    eProsima_user_DllExport bool& air_defrost_status();
+
+    /*!
+     * @brief This function sets a value in member air_cyclemode_status
+     * @param _air_cyclemode_status New value for member air_cyclemode_status
+     */
+    eProsima_user_DllExport void air_cyclemode_status(
+            bool _air_cyclemode_status);
+
+    /*!
+     * @brief This function returns the value of member air_cyclemode_status
+     * @return Value of member air_cyclemode_status
+     */
+    eProsima_user_DllExport bool air_cyclemode_status() const;
+
+    /*!
+     * @brief This function returns a reference to member air_cyclemode_status
+     * @return Reference to member air_cyclemode_status
+     */
+    eProsima_user_DllExport bool& air_cyclemode_status();
+
+    /*!
+     * @brief This function sets a value in member air_outletmode_status
+     * @param _air_outletmode_status New value for member air_outletmode_status
+     */
+    eProsima_user_DllExport void air_outletmode_status(
+            uint16_t _air_outletmode_status);
+
+    /*!
+     * @brief This function returns the value of member air_outletmode_status
+     * @return Value of member air_outletmode_status
+     */
+    eProsima_user_DllExport uint16_t air_outletmode_status() const;
+
+    /*!
+     * @brief This function returns a reference to member air_outletmode_status
+     * @return Reference to member air_outletmode_status
+     */
+    eProsima_user_DllExport uint16_t& air_outletmode_status();
+
+    /*!
+     * @brief This function sets a value in member air_level_status
+     * @param _air_level_status New value for member air_level_status
+     */
+    eProsima_user_DllExport void air_level_status(
+            uint16_t _air_level_status);
+
+    /*!
+     * @brief This function returns the value of member air_level_status
+     * @return Value of member air_level_status
+     */
+    eProsima_user_DllExport uint16_t air_level_status() const;
+
+    /*!
+     * @brief This function returns a reference to member air_level_status
+     * @return Reference to member air_level_status
+     */
+    eProsima_user_DllExport uint16_t& air_level_status();
+
+    /*!
+     * @brief This function sets a value in member air_temperature_statusR
+     * @param _air_temperature_statusR New value for member air_temperature_statusR
+     */
+    eProsima_user_DllExport void air_temperature_statusR(
+            uint16_t _air_temperature_statusR);
+
+    /*!
+     * @brief This function returns the value of member air_temperature_statusR
+     * @return Value of member air_temperature_statusR
+     */
+    eProsima_user_DllExport uint16_t air_temperature_statusR() const;
+
+    /*!
+     * @brief This function returns a reference to member air_temperature_statusR
+     * @return Reference to member air_temperature_statusR
+     */
+    eProsima_user_DllExport uint16_t& air_temperature_statusR();
+
+    /*!
+     * @brief This function sets a value in member cab_temperature_status
+     * @param _cab_temperature_status New value for member cab_temperature_status
+     */
+    eProsima_user_DllExport void cab_temperature_status(
+            int16_t _cab_temperature_status);
+
+    /*!
+     * @brief This function returns the value of member cab_temperature_status
+     * @return Value of member cab_temperature_status
+     */
+    eProsima_user_DllExport int16_t cab_temperature_status() const;
+
+    /*!
+     * @brief This function returns a reference to member cab_temperature_status
+     * @return Reference to member cab_temperature_status
+     */
+    eProsima_user_DllExport int16_t& cab_temperature_status();
+
+    /*!
+     * @brief This function sets a value in member TM_Torque
+     * @param _TM_Torque New value for member TM_Torque
+     */
+    eProsima_user_DllExport void TM_Torque(
+            int16_t _TM_Torque);
+
+    /*!
+     * @brief This function returns the value of member TM_Torque
+     * @return Value of member TM_Torque
+     */
+    eProsima_user_DllExport int16_t TM_Torque() const;
+
+    /*!
+     * @brief This function returns a reference to member TM_Torque
+     * @return Reference to member TM_Torque
+     */
+    eProsima_user_DllExport int16_t& TM_Torque();
+
+    /*!
+     * @brief This function sets a value in member IM_Torque
+     * @param _IM_Torque New value for member IM_Torque
+     */
+    eProsima_user_DllExport void IM_Torque(
+            int16_t _IM_Torque);
+
+    /*!
+     * @brief This function returns the value of member IM_Torque
+     * @return Value of member IM_Torque
+     */
+    eProsima_user_DllExport int16_t IM_Torque() const;
+
+    /*!
+     * @brief This function returns a reference to member IM_Torque
+     * @return Reference to member IM_Torque
+     */
+    eProsima_user_DllExport int16_t& IM_Torque();
+
+    /*!
+     * @brief This function sets a value in member IM_Speed
+     * @param _IM_Speed New value for member IM_Speed
+     */
+    eProsima_user_DllExport void IM_Speed(
+            int16_t _IM_Speed);
+
+    /*!
+     * @brief This function returns the value of member IM_Speed
+     * @return Value of member IM_Speed
+     */
+    eProsima_user_DllExport int16_t IM_Speed() const;
+
+    /*!
+     * @brief This function returns a reference to member IM_Speed
+     * @return Reference to member IM_Speed
+     */
+    eProsima_user_DllExport int16_t& IM_Speed();
+
+    /*!
+     * @brief This function sets a value in member Parking_generation_status
+     * @param _Parking_generation_status New value for member Parking_generation_status
+     */
+    eProsima_user_DllExport void Parking_generation_status(
+            uint16_t _Parking_generation_status);
+
+    /*!
+     * @brief This function returns the value of member Parking_generation_status
+     * @return Value of member Parking_generation_status
+     */
+    eProsima_user_DllExport uint16_t Parking_generation_status() const;
+
+    /*!
+     * @brief This function returns a reference to member Parking_generation_status
+     * @return Reference to member Parking_generation_status
+     */
+    eProsima_user_DllExport uint16_t& Parking_generation_status();
+
+    /*!
+     * @brief This function sets a value in member chassis_rolling
+     * @param _chassis_rolling New value for member chassis_rolling
+     */
+    eProsima_user_DllExport void chassis_rolling(
+            bool _chassis_rolling);
+
+    /*!
+     * @brief This function returns the value of member chassis_rolling
+     * @return Value of member chassis_rolling
+     */
+    eProsima_user_DllExport bool chassis_rolling() const;
+
+    /*!
+     * @brief This function returns a reference to member chassis_rolling
+     * @return Reference to member chassis_rolling
+     */
+    eProsima_user_DllExport bool& chassis_rolling();
+
+    /*!
+     * @brief This function sets a value in member Bucket_pitch
+     * @param _Bucket_pitch New value for member Bucket_pitch
+     */
+    eProsima_user_DllExport void Bucket_pitch(
+            float _Bucket_pitch);
+
+    /*!
+     * @brief This function returns the value of member Bucket_pitch
+     * @return Value of member Bucket_pitch
+     */
+    eProsima_user_DllExport float Bucket_pitch() const;
+
+    /*!
+     * @brief This function returns a reference to member Bucket_pitch
+     * @return Reference to member Bucket_pitch
+     */
+    eProsima_user_DllExport float& Bucket_pitch();
+
+    /*!
+     * @brief This function sets a value in member friction_torque
+     * @param _friction_torque New value for member friction_torque
+     */
+    eProsima_user_DllExport void friction_torque(
+            int16_t _friction_torque);
+
+    /*!
+     * @brief This function returns the value of member friction_torque
+     * @return Value of member friction_torque
+     */
+    eProsima_user_DllExport int16_t friction_torque() const;
+
+    /*!
+     * @brief This function returns a reference to member friction_torque
+     * @return Reference to member friction_torque
+     */
+    eProsima_user_DllExport int16_t& friction_torque();
+
+    /*!
+     * @brief This function sets a value in member brake_temperature
+     * @param _brake_temperature New value for member brake_temperature
+     */
+    eProsima_user_DllExport void brake_temperature(
+            float _brake_temperature);
+
+    /*!
+     * @brief This function returns the value of member brake_temperature
+     * @return Value of member brake_temperature
+     */
+    eProsima_user_DllExport float brake_temperature() const;
+
+    /*!
+     * @brief This function returns a reference to member brake_temperature
+     * @return Reference to member brake_temperature
+     */
+    eProsima_user_DllExport float& brake_temperature();
+
+    /*!
+     * @brief This function sets a value in member EBS_red_alarmlight
+     * @param _EBS_red_alarmlight New value for member EBS_red_alarmlight
+     */
+    eProsima_user_DllExport void EBS_red_alarmlight(
+            uint16_t _EBS_red_alarmlight);
+
+    /*!
+     * @brief This function returns the value of member EBS_red_alarmlight
+     * @return Value of member EBS_red_alarmlight
+     */
+    eProsima_user_DllExport uint16_t EBS_red_alarmlight() const;
+
+    /*!
+     * @brief This function returns a reference to member EBS_red_alarmlight
+     * @return Reference to member EBS_red_alarmlight
+     */
+    eProsima_user_DllExport uint16_t& EBS_red_alarmlight();
+
+    /*!
+     * @brief This function sets a value in member EBS_yellow_alarmlight
+     * @param _EBS_yellow_alarmlight New value for member EBS_yellow_alarmlight
+     */
+    eProsima_user_DllExport void EBS_yellow_alarmlight(
+            uint16_t _EBS_yellow_alarmlight);
+
+    /*!
+     * @brief This function returns the value of member EBS_yellow_alarmlight
+     * @return Value of member EBS_yellow_alarmlight
+     */
+    eProsima_user_DllExport uint16_t EBS_yellow_alarmlight() const;
+
+    /*!
+     * @brief This function returns a reference to member EBS_yellow_alarmlight
+     * @return Reference to member EBS_yellow_alarmlight
+     */
+    eProsima_user_DllExport uint16_t& EBS_yellow_alarmlight();
+
+    /*!
+     * @brief This function sets a value in member Brake_Hold_state
+     * @param _Brake_Hold_state New value for member Brake_Hold_state
+     */
+    eProsima_user_DllExport void Brake_Hold_state(
+            uint16_t _Brake_Hold_state);
+
+    /*!
+     * @brief This function returns the value of member Brake_Hold_state
+     * @return Value of member Brake_Hold_state
+     */
+    eProsima_user_DllExport uint16_t Brake_Hold_state() const;
+
+    /*!
+     * @brief This function returns a reference to member Brake_Hold_state
+     * @return Reference to member Brake_Hold_state
+     */
+    eProsima_user_DllExport uint16_t& Brake_Hold_state();
+
+    /*!
      * @brief This function copies the value in member VCU_Version
      * @param _VCU_Version New value to be copied in member VCU_Version
      */
@@ -7209,6 +7969,46 @@ private:
     uint32_t m_Brake_Pressure_FA_Right;
     uint32_t m_Brake_Pressure_RA1_Left;
     uint32_t m_Brake_Pressure_RA1_Right;
+    int16_t m_Front_L_tire_temperature;
+    int16_t m_Front_R_tire_temperature;
+    int16_t m_MID_LL_tire_temperature;
+    int16_t m_MID_LR_tire_temperature;
+    int16_t m_MID_RL_tire_temperature;
+    int16_t m_MID_RR_tire_temperature;
+    int16_t m_BACK_LL_tire_temperature;
+    int16_t m_BACK_LR_tire_temperature;
+    int16_t m_BACK_RL_tire_temperature;
+    int16_t m_BACK_RR_tire_temperature;
+    uint16_t m_Front_L_tire_code;
+    uint16_t m_Front_R_tire_code;
+    uint16_t m_MID_LL_tire_code;
+    uint16_t m_MID_LR_tire_code;
+    uint16_t m_MID_RL_tire_code;
+    uint16_t m_MID_RR_tire_code;
+    uint16_t m_BACK_LL_tire_code;
+    uint16_t m_BACK_LR_tire_code;
+    uint16_t m_BACK_RL_tire_code;
+    uint16_t m_BACK_RR_tire_code;
+    bool m_air_power_status;
+    bool m_air_auto_status;
+    bool m_air_ac_status;
+    bool m_air_defrost_status;
+    bool m_air_cyclemode_status;
+    uint16_t m_air_outletmode_status;
+    uint16_t m_air_level_status;
+    uint16_t m_air_temperature_statusR;
+    int16_t m_cab_temperature_status;
+    int16_t m_TM_Torque;
+    int16_t m_IM_Torque;
+    int16_t m_IM_Speed;
+    uint16_t m_Parking_generation_status;
+    bool m_chassis_rolling;
+    float m_Bucket_pitch;
+    int16_t m_friction_torque;
+    float m_brake_temperature;
+    uint16_t m_EBS_red_alarmlight;
+    uint16_t m_EBS_yellow_alarmlight;
+    uint16_t m_Brake_Hold_state;
     std::string m_VCU_Version;
     int16_t m_ramp_sensor;
     int16_t m_rxauxiliary_DriveMotor_Tem_raw;

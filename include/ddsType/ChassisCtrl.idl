@@ -340,6 +340,59 @@ struct WirectlFeedbackInfo
     unsigned long Brake_Pressure_RA1_Left;//制动压力后桥左
     unsigned long Brake_Pressure_RA1_Right;//制动压力前桥右
 
+    //tire temperature
+    short Front_L_tire_temperature;//前左轮胎温
+    short Front_R_tire_temperature;//前右轮胎温
+    short MID_LL_tire_temperature;//中左左轮胎温
+    short MID_LR_tire_temperature;//中左右轮胎温
+    short MID_RL_tire_temperature;//中右左轮胎温
+    short MID_RR_tire_temperature;//中右右轮胎温
+    short BACK_LL_tire_temperature;//后左左轮胎温
+    short BACK_LR_tire_temperature;//后左右轮胎温
+    short BACK_RL_tire_temperature;//后右左轮胎温
+    short BACK_RR_tire_temperature;//后右右轮胎温
+
+
+    //tire error code
+    unsigned short Front_L_tire_code;//前左轮胎压故障码
+    unsigned short Front_R_tire_code;//前右轮胎压故障码
+    unsigned short MID_LL_tire_code;//中左左轮胎压故障码
+    unsigned short MID_LR_tire_code;//中左右轮胎压故障码
+    unsigned short MID_RL_tire_code;//中右左轮胎压故障码
+    unsigned short MID_RR_tire_code;//中右右轮胎压故障码
+    unsigned short BACK_LL_tire_code;//后左左轮胎压故障码
+    unsigned short BACK_LR_tire_code;//后左右轮胎压故障码
+    unsigned short BACK_RL_tire_code;//后右左轮胎压故障码
+    unsigned short BACK_RR_tire_code;//后右右轮胎压故障码
+
+    //air_conditioner
+    boolean air_power_status;//空调开关状态
+    boolean air_auto_status;//空调自动状态
+    boolean air_ac_status;//空调AC制冷状态
+    boolean air_defrost_status;//空调除霜状态
+    boolean air_cyclemode_status;//循环模式状态
+    unsigned short air_outletmode_status;//吹风模式状态
+    unsigned short air_level_status;//空调风量状态
+    unsigned short air_temperature_statusR;//设定温度
+    short cab_temperature_status;//驾驶舱温度
+
+    //130HDI新增
+    short TM_Torque;//TM电机实际扭矩 -3200-3200
+    short IM_Torque;//IM电机实际扭矩 -3200-3225
+    short IM_Speed;//IM电机实际转速 -8000-8063
+    unsigned short Parking_generation_status;//停车发电状态
+    boolean chassis_rolling;//底盘自检测溜车状态状态
+    float Bucket_pitch;//货箱俯仰角
+    short friction_torque;//摩擦扭矩
+    float brake_temperature;//刹车片温度
+
+    //EBS light
+    unsigned short EBS_red_alarmlight;
+    unsigned short EBS_yellow_alarmlight;
+    
+    //brake hold state
+    unsigned short Brake_Hold_state;
+
     //VCU版本号
     string VCU_Version;
     
