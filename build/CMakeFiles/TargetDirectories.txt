@@ -1,3 +1,0 @@
-/home/liuss/syzk/syzk-remotectl/syzk-remotectl_V2.3.3/dvpn-app-syzk-remotectrl/build/CMakeFiles/syzk-remotectl.dir
-/home/liuss/syzk/syzk-remotectl/syzk-remotectl_V2.3.3/dvpn-app-syzk-remotectrl/build/CMakeFiles/edit_cache.dir
-/home/liuss/syzk/syzk-remotectl/syzk-remotectl_V2.3.3/dvpn-app-syzk-remotectrl/build/CMakeFiles/rebuild_cache.dir
