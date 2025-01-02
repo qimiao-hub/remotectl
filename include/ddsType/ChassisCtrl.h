@@ -5836,23 +5836,61 @@ public:
     eProsima_user_DllExport int16_t& friction_torque();
 
     /*!
-     * @brief This function sets a value in member brake_temperature
-     * @param _brake_temperature New value for member brake_temperature
+     * @brief This function sets a value in member L_brake_temperature
+     * @param _L_brake_temperature New value for member L_brake_temperature
      */
-    eProsima_user_DllExport void brake_temperature(
-            float _brake_temperature);
+    eProsima_user_DllExport void L_brake_temperature(
+            int16_t _L_brake_temperature);
 
     /*!
-     * @brief This function returns the value of member brake_temperature
-     * @return Value of member brake_temperature
+     * @brief This function returns the value of member L_brake_temperature
+     * @return Value of member L_brake_temperature
      */
-    eProsima_user_DllExport float brake_temperature() const;
+    eProsima_user_DllExport int16_t L_brake_temperature() const;
 
     /*!
-     * @brief This function returns a reference to member brake_temperature
-     * @return Reference to member brake_temperature
+     * @brief This function returns a reference to member L_brake_temperature
+     * @return Reference to member L_brake_temperature
      */
-    eProsima_user_DllExport float& brake_temperature();
+    eProsima_user_DllExport int16_t& L_brake_temperature();
+
+    /*!
+     * @brief This function sets a value in member R_brake_temperature
+     * @param _R_brake_temperature New value for member R_brake_temperature
+     */
+    eProsima_user_DllExport void R_brake_temperature(
+            int16_t _R_brake_temperature);
+
+    /*!
+     * @brief This function returns the value of member R_brake_temperature
+     * @return Value of member R_brake_temperature
+     */
+    eProsima_user_DllExport int16_t R_brake_temperature() const;
+
+    /*!
+     * @brief This function returns a reference to member R_brake_temperature
+     * @return Reference to member R_brake_temperature
+     */
+    eProsima_user_DllExport int16_t& R_brake_temperature();
+
+    /*!
+     * @brief This function sets a value in member Maximum_remaining_electric_braking
+     * @param _Maximum_remaining_electric_braking New value for member Maximum_remaining_electric_braking
+     */
+    eProsima_user_DllExport void Maximum_remaining_electric_braking(
+            int16_t _Maximum_remaining_electric_braking);
+
+    /*!
+     * @brief This function returns the value of member Maximum_remaining_electric_braking
+     * @return Value of member Maximum_remaining_electric_braking
+     */
+    eProsima_user_DllExport int16_t Maximum_remaining_electric_braking() const;
+
+    /*!
+     * @brief This function returns a reference to member Maximum_remaining_electric_braking
+     * @return Reference to member Maximum_remaining_electric_braking
+     */
+    eProsima_user_DllExport int16_t& Maximum_remaining_electric_braking();
 
     /*!
      * @brief This function sets a value in member EBS_red_alarmlight
@@ -8005,7 +8043,9 @@ private:
     bool m_chassis_rolling;
     float m_Bucket_pitch;
     int16_t m_friction_torque;
-    float m_brake_temperature;
+    int16_t m_L_brake_temperature;
+    int16_t m_R_brake_temperature;
+    int16_t m_Maximum_remaining_electric_braking;
     uint16_t m_EBS_red_alarmlight;
     uint16_t m_EBS_yellow_alarmlight;
     uint16_t m_Brake_Hold_state;

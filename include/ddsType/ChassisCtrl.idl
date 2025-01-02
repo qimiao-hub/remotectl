@@ -384,7 +384,9 @@ struct WirectlFeedbackInfo
     boolean chassis_rolling;//底盘自检测溜车状态状态
     float Bucket_pitch;//货箱俯仰角
     short friction_torque;//摩擦扭矩
-    float brake_temperature;//刹车片温度
+    short L_brake_temperature;//左刹车片温度-100～700
+    short R_brake_temperature;//右刹车片温度-100～700
+    short Maximum_remaining_electric_braking;//最大剩余电制动%
 
     //EBS light
     unsigned short EBS_red_alarmlight;

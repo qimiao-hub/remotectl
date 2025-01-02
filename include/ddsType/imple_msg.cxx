@@ -132,12 +132,6 @@ ImpleResultInfo::ImpleResultInfo()
     m_release_measure = false;
     // m_protect_measure com.eprosima.idl.parser.typecode.PrimitiveTypeCode@1786dec2
     m_protect_measure = false;
-    // m_Electric_braking com.eprosima.idl.parser.typecode.PrimitiveTypeCode@74650e52
-    m_Electric_braking = 0.0;
-    // m_Parking_airSup_state com.eprosima.idl.parser.typecode.PrimitiveTypeCode@15d0c81b
-    m_Parking_airSup_state = false;
-    // m_Engine_cylinder_braking com.eprosima.idl.parser.typecode.PrimitiveTypeCode@6acdbdf5
-    m_Engine_cylinder_braking = false;
 
 }
 
@@ -191,9 +185,6 @@ ImpleResultInfo::~ImpleResultInfo()
 
 
 
-
-
-
 }
 
 ImpleResultInfo::ImpleResultInfo(
@@ -247,9 +238,6 @@ ImpleResultInfo::ImpleResultInfo(
     m_remote_unman_flag = x.m_remote_unman_flag;
     m_release_measure = x.m_release_measure;
     m_protect_measure = x.m_protect_measure;
-    m_Electric_braking = x.m_Electric_braking;
-    m_Parking_airSup_state = x.m_Parking_airSup_state;
-    m_Engine_cylinder_braking = x.m_Engine_cylinder_braking;
 }
 
 ImpleResultInfo::ImpleResultInfo(
@@ -303,9 +291,6 @@ ImpleResultInfo::ImpleResultInfo(
     m_remote_unman_flag = x.m_remote_unman_flag;
     m_release_measure = x.m_release_measure;
     m_protect_measure = x.m_protect_measure;
-    m_Electric_braking = x.m_Electric_braking;
-    m_Parking_airSup_state = x.m_Parking_airSup_state;
-    m_Engine_cylinder_braking = x.m_Engine_cylinder_braking;
 }
 
 ImpleResultInfo& ImpleResultInfo::operator =(
@@ -360,9 +345,6 @@ ImpleResultInfo& ImpleResultInfo::operator =(
     m_remote_unman_flag = x.m_remote_unman_flag;
     m_release_measure = x.m_release_measure;
     m_protect_measure = x.m_protect_measure;
-    m_Electric_braking = x.m_Electric_braking;
-    m_Parking_airSup_state = x.m_Parking_airSup_state;
-    m_Engine_cylinder_braking = x.m_Engine_cylinder_braking;
 
     return *this;
 }
@@ -419,9 +401,6 @@ ImpleResultInfo& ImpleResultInfo::operator =(
     m_remote_unman_flag = x.m_remote_unman_flag;
     m_release_measure = x.m_release_measure;
     m_protect_measure = x.m_protect_measure;
-    m_Electric_braking = x.m_Electric_braking;
-    m_Parking_airSup_state = x.m_Parking_airSup_state;
-    m_Engine_cylinder_braking = x.m_Engine_cylinder_braking;
 
     return *this;
 }
@@ -430,7 +409,7 @@ bool ImpleResultInfo::operator ==(
         const ImpleResultInfo& x) const
 {
 
-    return (m_engine_override_ctrl_mode == x.m_engine_override_ctrl_mode && m_engine_req_speed_ctrl_condition == x.m_engine_req_speed_ctrl_condition && m_override_ctrl_mode_priority == x.m_override_ctrl_mode_priority && m_engine_req_speed == x.m_engine_req_speed && m_engine_req_torque == x.m_engine_req_torque && m_trans_req_gear == x.m_trans_req_gear && m_trans_gearbox_highest_gear_setting == x.m_trans_gearbox_highest_gear_setting && m_driver_demand_retarder_CCU == x.m_driver_demand_retarder_CCU && m_unmanned_enable == x.m_unmanned_enable && m_on_start_enable == x.m_on_start_enable && m_vehicle_startup_ctrl == x.m_vehicle_startup_ctrl && m_flash_ctrl == x.m_flash_ctrl && m_container_ctrl == x.m_container_ctrl && m_Remote_enable == x.m_Remote_enable && m_left_turn_signal_ctrl == x.m_left_turn_signal_ctrl && m_right_turn_signal_ctrl == x.m_right_turn_signal_ctrl && m_fog_lamp_ctrl == x.m_fog_lamp_ctrl && m_outline_lamp_ctrl == x.m_outline_lamp_ctrl && m_low_light_ctrl == x.m_low_light_ctrl && m_high_beam_ctrl == x.m_high_beam_ctrl && m_wiper_ctrl == x.m_wiper_ctrl && m_wiper_longermittent_ctrl == x.m_wiper_longermittent_ctrl && m_wiper_low_speed_ctrl == x.m_wiper_low_speed_ctrl && m_wiper_high_speed_ctrl == x.m_wiper_high_speed_ctrl && m_hazard_warn_lamp_ctrl == x.m_hazard_warn_lamp_ctrl && m_rear_light_ctrl == x.m_rear_light_ctrl && m_horn_start == x.m_horn_start && m_parking_req == x.m_parking_req && m_brake_req_status == x.m_brake_req_status && m_hydraulic_retarder_ctrl == x.m_hydraulic_retarder_ctrl && m_axial_ctrl == x.m_axial_ctrl && m_traffic_brake_req == x.m_traffic_brake_req && m_exhaust_brake_req == x.m_exhaust_brake_req && m_brake_light_ctrl == x.m_brake_light_ctrl && m_slow_light_ctrl == x.m_slow_light_ctrl && m_head_light_ctrl == x.m_head_light_ctrl && m_steering_angle_req == x.m_steering_angle_req && m_active_spd == x.m_active_spd && m_yaw_rate == x.m_yaw_rate && m_drive_direction == x.m_drive_direction && m_desire_speed == x.m_desire_speed && m_write_speaker_control_ctr == x.m_write_speaker_control_ctr && m_set_max_gear == x.m_set_max_gear && m_vilid_count == x.m_vilid_count && m_dump_complete == x.m_dump_complete && m_remote_unman_flag == x.m_remote_unman_flag && m_release_measure == x.m_release_measure && m_protect_measure == x.m_protect_measure && m_Electric_braking == x.m_Electric_braking && m_Parking_airSup_state == x.m_Parking_airSup_state && m_Engine_cylinder_braking == x.m_Engine_cylinder_braking);
+    return (m_engine_override_ctrl_mode == x.m_engine_override_ctrl_mode && m_engine_req_speed_ctrl_condition == x.m_engine_req_speed_ctrl_condition && m_override_ctrl_mode_priority == x.m_override_ctrl_mode_priority && m_engine_req_speed == x.m_engine_req_speed && m_engine_req_torque == x.m_engine_req_torque && m_trans_req_gear == x.m_trans_req_gear && m_trans_gearbox_highest_gear_setting == x.m_trans_gearbox_highest_gear_setting && m_driver_demand_retarder_CCU == x.m_driver_demand_retarder_CCU && m_unmanned_enable == x.m_unmanned_enable && m_on_start_enable == x.m_on_start_enable && m_vehicle_startup_ctrl == x.m_vehicle_startup_ctrl && m_flash_ctrl == x.m_flash_ctrl && m_container_ctrl == x.m_container_ctrl && m_Remote_enable == x.m_Remote_enable && m_left_turn_signal_ctrl == x.m_left_turn_signal_ctrl && m_right_turn_signal_ctrl == x.m_right_turn_signal_ctrl && m_fog_lamp_ctrl == x.m_fog_lamp_ctrl && m_outline_lamp_ctrl == x.m_outline_lamp_ctrl && m_low_light_ctrl == x.m_low_light_ctrl && m_high_beam_ctrl == x.m_high_beam_ctrl && m_wiper_ctrl == x.m_wiper_ctrl && m_wiper_longermittent_ctrl == x.m_wiper_longermittent_ctrl && m_wiper_low_speed_ctrl == x.m_wiper_low_speed_ctrl && m_wiper_high_speed_ctrl == x.m_wiper_high_speed_ctrl && m_hazard_warn_lamp_ctrl == x.m_hazard_warn_lamp_ctrl && m_rear_light_ctrl == x.m_rear_light_ctrl && m_horn_start == x.m_horn_start && m_parking_req == x.m_parking_req && m_brake_req_status == x.m_brake_req_status && m_hydraulic_retarder_ctrl == x.m_hydraulic_retarder_ctrl && m_axial_ctrl == x.m_axial_ctrl && m_traffic_brake_req == x.m_traffic_brake_req && m_exhaust_brake_req == x.m_exhaust_brake_req && m_brake_light_ctrl == x.m_brake_light_ctrl && m_slow_light_ctrl == x.m_slow_light_ctrl && m_head_light_ctrl == x.m_head_light_ctrl && m_steering_angle_req == x.m_steering_angle_req && m_active_spd == x.m_active_spd && m_yaw_rate == x.m_yaw_rate && m_drive_direction == x.m_drive_direction && m_desire_speed == x.m_desire_speed && m_write_speaker_control_ctr == x.m_write_speaker_control_ctr && m_set_max_gear == x.m_set_max_gear && m_vilid_count == x.m_vilid_count && m_dump_complete == x.m_dump_complete && m_remote_unman_flag == x.m_remote_unman_flag && m_release_measure == x.m_release_measure && m_protect_measure == x.m_protect_measure);
 }
 
 bool ImpleResultInfo::operator !=(
@@ -566,15 +545,6 @@ size_t ImpleResultInfo::getMaxCdrSerializedSize(
 
 
     current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4);
-
-
-    current_alignment += 1 + eprosima::fastcdr::Cdr::alignment(current_alignment, 1);
-
-
-    current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4);
-
-
-    current_alignment += 1 + eprosima::fastcdr::Cdr::alignment(current_alignment, 1);
 
 
     current_alignment += 1 + eprosima::fastcdr::Cdr::alignment(current_alignment, 1);
@@ -754,15 +724,6 @@ size_t ImpleResultInfo::getCdrSerializedSize(
     current_alignment += 1 + eprosima::fastcdr::Cdr::alignment(current_alignment, 1);
 
 
-    current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4);
-
-
-    current_alignment += 1 + eprosima::fastcdr::Cdr::alignment(current_alignment, 1);
-
-
-    current_alignment += 1 + eprosima::fastcdr::Cdr::alignment(current_alignment, 1);
-
-
 
     return current_alignment - initial_alignment;
 }
@@ -819,9 +780,6 @@ void ImpleResultInfo::serialize(
     scdr << m_remote_unman_flag;
     scdr << m_release_measure;
     scdr << m_protect_measure;
-    scdr << m_Electric_braking;
-    scdr << m_Parking_airSup_state;
-    scdr << m_Engine_cylinder_braking;
 
 }
 
@@ -877,9 +835,6 @@ void ImpleResultInfo::deserialize(
     dcdr >> m_remote_unman_flag;
     dcdr >> m_release_measure;
     dcdr >> m_protect_measure;
-    dcdr >> m_Electric_braking;
-    dcdr >> m_Parking_airSup_state;
-    dcdr >> m_Engine_cylinder_braking;
 }
 
 /*!
@@ -2226,98 +2181,11 @@ bool& ImpleResultInfo::protect_measure()
     return m_protect_measure;
 }
 
-/*!
- * @brief This function sets a value in member Electric_braking
- * @param _Electric_braking New value for member Electric_braking
- */
-void ImpleResultInfo::Electric_braking(
-        float _Electric_braking)
-{
-    m_Electric_braking = _Electric_braking;
-}
-
-/*!
- * @brief This function returns the value of member Electric_braking
- * @return Value of member Electric_braking
- */
-float ImpleResultInfo::Electric_braking() const
-{
-    return m_Electric_braking;
-}
-
-/*!
- * @brief This function returns a reference to member Electric_braking
- * @return Reference to member Electric_braking
- */
-float& ImpleResultInfo::Electric_braking()
-{
-    return m_Electric_braking;
-}
-
-/*!
- * @brief This function sets a value in member Parking_airSup_state
- * @param _Parking_airSup_state New value for member Parking_airSup_state
- */
-void ImpleResultInfo::Parking_airSup_state(
-        bool _Parking_airSup_state)
-{
-    m_Parking_airSup_state = _Parking_airSup_state;
-}
-
-/*!
- * @brief This function returns the value of member Parking_airSup_state
- * @return Value of member Parking_airSup_state
- */
-bool ImpleResultInfo::Parking_airSup_state() const
-{
-    return m_Parking_airSup_state;
-}
-
-/*!
- * @brief This function returns a reference to member Parking_airSup_state
- * @return Reference to member Parking_airSup_state
- */
-bool& ImpleResultInfo::Parking_airSup_state()
-{
-    return m_Parking_airSup_state;
-}
-
-/*!
- * @brief This function sets a value in member Engine_cylinder_braking
- * @param _Engine_cylinder_braking New value for member Engine_cylinder_braking
- */
-void ImpleResultInfo::Engine_cylinder_braking(
-        bool _Engine_cylinder_braking)
-{
-    m_Engine_cylinder_braking = _Engine_cylinder_braking;
-}
-
-/*!
- * @brief This function returns the value of member Engine_cylinder_braking
- * @return Value of member Engine_cylinder_braking
- */
-bool ImpleResultInfo::Engine_cylinder_braking() const
-{
-    return m_Engine_cylinder_braking;
-}
-
-/*!
- * @brief This function returns a reference to member Engine_cylinder_braking
- * @return Reference to member Engine_cylinder_braking
- */
-bool& ImpleResultInfo::Engine_cylinder_braking()
-{
-    return m_Engine_cylinder_braking;
-}
-
 
 size_t ImpleResultInfo::getKeyMaxCdrSerializedSize(
         size_t current_alignment)
 {
     size_t current_align = current_alignment;
-
-
-
 
 
 
@@ -2381,5 +2249,5 @@ void ImpleResultInfo::serializeKey(
         eprosima::fastcdr::Cdr& scdr) const
 {
     (void) scdr;
-                                                       
+                                                    
 }

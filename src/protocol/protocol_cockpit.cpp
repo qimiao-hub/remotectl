@@ -1365,7 +1365,7 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_HeartCheck(const SANY_U32 Losttimes)
 
 	if(g_u8LoginFlag == 1)
 	{
-		if(1 == g_u8ResponseCtrlState)
+		if(2 == g_u8ResponseCtrlState)
 		{
 			if (500  <= Losttimes)
 			{
