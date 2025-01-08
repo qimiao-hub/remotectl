@@ -1035,6 +1035,63 @@ public:
      */
     eProsima_user_DllExport bool& protect_measure();
 
+    /*!
+     * @brief This function sets a value in member Electric_braking
+     * @param _Electric_braking New value for member Electric_braking
+     */
+    eProsima_user_DllExport void Electric_braking(
+            float _Electric_braking);
+
+    /*!
+     * @brief This function returns the value of member Electric_braking
+     * @return Value of member Electric_braking
+     */
+    eProsima_user_DllExport float Electric_braking() const;
+
+    /*!
+     * @brief This function returns a reference to member Electric_braking
+     * @return Reference to member Electric_braking
+     */
+    eProsima_user_DllExport float& Electric_braking();
+
+    /*!
+     * @brief This function sets a value in member Parking_airSup_state
+     * @param _Parking_airSup_state New value for member Parking_airSup_state
+     */
+    eProsima_user_DllExport void Parking_airSup_state(
+            bool _Parking_airSup_state);
+
+    /*!
+     * @brief This function returns the value of member Parking_airSup_state
+     * @return Value of member Parking_airSup_state
+     */
+    eProsima_user_DllExport bool Parking_airSup_state() const;
+
+    /*!
+     * @brief This function returns a reference to member Parking_airSup_state
+     * @return Reference to member Parking_airSup_state
+     */
+    eProsima_user_DllExport bool& Parking_airSup_state();
+
+    /*!
+     * @brief This function sets a value in member Engine_cylinder_braking
+     * @param _Engine_cylinder_braking New value for member Engine_cylinder_braking
+     */
+    eProsima_user_DllExport void Engine_cylinder_braking(
+            bool _Engine_cylinder_braking);
+
+    /*!
+     * @brief This function returns the value of member Engine_cylinder_braking
+     * @return Value of member Engine_cylinder_braking
+     */
+    eProsima_user_DllExport bool Engine_cylinder_braking() const;
+
+    /*!
+     * @brief This function returns a reference to member Engine_cylinder_braking
+     * @return Reference to member Engine_cylinder_braking
+     */
+    eProsima_user_DllExport bool& Engine_cylinder_braking();
+
 
     /*!
      * @brief This function returns the maximum serialized size of an object
@@ -1143,6 +1200,9 @@ private:
     int32_t m_remote_unman_flag;
     bool m_release_measure;
     bool m_protect_measure;
+    float m_Electric_braking;
+    bool m_Parking_airSup_state;
+    bool m_Engine_cylinder_braking;
 };
 
 #endif // _FAST_DDS_GENERATED_IMPLE_MSG_H_
