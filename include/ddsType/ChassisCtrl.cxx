@@ -7462,211 +7462,207 @@ WirectlFeedbackInfo::WirectlFeedbackInfo()
     m_Bucket_pitch = 0.0;
     // m_friction_torque com.eprosima.idl.parser.typecode.PrimitiveTypeCode@25359ed8
     m_friction_torque = 0;
-    // m_L_brake_temperature com.eprosima.idl.parser.typecode.PrimitiveTypeCode@21a947fe
-    m_L_brake_temperature = 0;
-    // m_R_brake_temperature com.eprosima.idl.parser.typecode.PrimitiveTypeCode@5606c0b
-    m_R_brake_temperature = 0;
-    // m_Maximum_remaining_electric_braking com.eprosima.idl.parser.typecode.PrimitiveTypeCode@80ec1f8
-    m_Maximum_remaining_electric_braking = 0;
-    // m_EBS_red_alarmlight com.eprosima.idl.parser.typecode.PrimitiveTypeCode@1445d7f
+    // m_brake_temperature com.eprosima.idl.parser.typecode.PrimitiveTypeCode@21a947fe
+    m_brake_temperature = 0.0;
+    // m_EBS_red_alarmlight com.eprosima.idl.parser.typecode.PrimitiveTypeCode@5606c0b
     m_EBS_red_alarmlight = 0;
-    // m_EBS_yellow_alarmlight com.eprosima.idl.parser.typecode.PrimitiveTypeCode@6a396c1e
+    // m_EBS_yellow_alarmlight com.eprosima.idl.parser.typecode.PrimitiveTypeCode@80ec1f8
     m_EBS_yellow_alarmlight = 0;
-    // m_Brake_Hold_state com.eprosima.idl.parser.typecode.PrimitiveTypeCode@6c3f5566
+    // m_Brake_Hold_state com.eprosima.idl.parser.typecode.PrimitiveTypeCode@1445d7f
     m_Brake_Hold_state = 0;
-    // m_VCU_Version com.eprosima.idl.parser.typecode.StringTypeCode@12405818
+    // m_VCU_Version com.eprosima.idl.parser.typecode.StringTypeCode@6a396c1e
     m_VCU_Version ="";
-    // m_ramp_sensor com.eprosima.idl.parser.typecode.PrimitiveTypeCode@314c508a
+    // m_ramp_sensor com.eprosima.idl.parser.typecode.PrimitiveTypeCode@6c3f5566
     m_ramp_sensor = 0;
-    // m_rxauxiliary_DriveMotor_Tem_raw com.eprosima.idl.parser.typecode.PrimitiveTypeCode@10b48321
+    // m_rxauxiliary_DriveMotor_Tem_raw com.eprosima.idl.parser.typecode.PrimitiveTypeCode@12405818
     m_rxauxiliary_DriveMotor_Tem_raw = 0;
-    // m_rxauxiliary_driveMotor_speed_raw com.eprosima.idl.parser.typecode.PrimitiveTypeCode@6b67034
+    // m_rxauxiliary_driveMotor_speed_raw com.eprosima.idl.parser.typecode.PrimitiveTypeCode@314c508a
     m_rxauxiliary_driveMotor_speed_raw = 0.0;
-    // m_rxauxiliary_DriveMotor_Current_raw com.eprosima.idl.parser.typecode.PrimitiveTypeCode@16267862
+    // m_rxauxiliary_DriveMotor_Current_raw com.eprosima.idl.parser.typecode.PrimitiveTypeCode@10b48321
     m_rxauxiliary_DriveMotor_Current_raw = 0.0;
-    // m_rxauxiliarDriveMotorControllerTemp_raw com.eprosima.idl.parser.typecode.PrimitiveTypeCode@453da22c
+    // m_rxauxiliarDriveMotorControllerTemp_raw com.eprosima.idl.parser.typecode.PrimitiveTypeCode@6b67034
     m_rxauxiliarDriveMotorControllerTemp_raw = 0;
-    // m_endurance_mileage com.eprosima.idl.parser.typecode.PrimitiveTypeCode@71248c21
+    // m_endurance_mileage com.eprosima.idl.parser.typecode.PrimitiveTypeCode@16267862
     m_endurance_mileage = 0;
-    // m_power_consumption com.eprosima.idl.parser.typecode.PrimitiveTypeCode@442675e1
+    // m_power_consumption com.eprosima.idl.parser.typecode.PrimitiveTypeCode@453da22c
     m_power_consumption = 0;
-    // m_SOC com.eprosima.idl.parser.typecode.PrimitiveTypeCode@6166e06f
+    // m_SOC com.eprosima.idl.parser.typecode.PrimitiveTypeCode@71248c21
     m_SOC = 0;
-    // m_charging_state com.eprosima.idl.parser.typecode.PrimitiveTypeCode@49e202ad
+    // m_charging_state com.eprosima.idl.parser.typecode.PrimitiveTypeCode@442675e1
     m_charging_state = 0;
-    // m_Battery_State com.eprosima.idl.parser.typecode.PrimitiveTypeCode@1c72da34
+    // m_Battery_State com.eprosima.idl.parser.typecode.PrimitiveTypeCode@6166e06f
     m_Battery_State = 0;
-    // m_Battery_Current com.eprosima.idl.parser.typecode.PrimitiveTypeCode@6b0c2d26
+    // m_Battery_Current com.eprosima.idl.parser.typecode.PrimitiveTypeCode@49e202ad
     m_Battery_Current = 0.0;
-    // m_Battery_Temperature_raw com.eprosima.idl.parser.typecode.PrimitiveTypeCode@3d3fcdb0
+    // m_Battery_Temperature_raw com.eprosima.idl.parser.typecode.PrimitiveTypeCode@1c72da34
     m_Battery_Temperature_raw = 0;
-    // m_Battery_Fault_Status com.eprosima.idl.parser.typecode.PrimitiveTypeCode@641147d0
+    // m_Battery_Fault_Status com.eprosima.idl.parser.typecode.PrimitiveTypeCode@6b0c2d26
     m_Battery_Fault_Status = 0;
-    // m_energy_recover com.eprosima.idl.parser.typecode.PrimitiveTypeCode@6e38921c
+    // m_energy_recover com.eprosima.idl.parser.typecode.PrimitiveTypeCode@3d3fcdb0
     m_energy_recover = 0;
-    // m_engine_coolant_temperature com.eprosima.idl.parser.typecode.PrimitiveTypeCode@64d7f7e0
+    // m_engine_coolant_temperature com.eprosima.idl.parser.typecode.PrimitiveTypeCode@641147d0
     m_engine_coolant_temperature = 0.0;
-    // m_fuel_temperature com.eprosima.idl.parser.typecode.PrimitiveTypeCode@27c6e487
+    // m_fuel_temperature com.eprosima.idl.parser.typecode.PrimitiveTypeCode@6e38921c
     m_fuel_temperature = 0.0;
-    // m_engine_oil_temperature com.eprosima.idl.parser.typecode.PrimitiveTypeCode@49070868
+    // m_engine_oil_temperature com.eprosima.idl.parser.typecode.PrimitiveTypeCode@64d7f7e0
     m_engine_oil_temperature = 0.0;
-    // m_engine_oil_level com.eprosima.idl.parser.typecode.PrimitiveTypeCode@6385cb26
+    // m_engine_oil_level com.eprosima.idl.parser.typecode.PrimitiveTypeCode@27c6e487
     m_engine_oil_level = 0.0;
-    // m_engine_oil_pressure com.eprosima.idl.parser.typecode.PrimitiveTypeCode@38364841
+    // m_engine_oil_pressure com.eprosima.idl.parser.typecode.PrimitiveTypeCode@49070868
     m_engine_oil_pressure = 0.0;
-    // m_engine_fuel_rate com.eprosima.idl.parser.typecode.PrimitiveTypeCode@28c4711c
+    // m_engine_fuel_rate com.eprosima.idl.parser.typecode.PrimitiveTypeCode@6385cb26
     m_engine_fuel_rate = 0.0;
-    // m_engine_instant_fuel_economy com.eprosima.idl.parser.typecode.PrimitiveTypeCode@59717824
+    // m_engine_instant_fuel_economy com.eprosima.idl.parser.typecode.PrimitiveTypeCode@38364841
     m_engine_instant_fuel_economy = 0.0;
-    // m_engine_average_fuel_economy com.eprosima.idl.parser.typecode.PrimitiveTypeCode@146044d7
+    // m_engine_average_fuel_economy com.eprosima.idl.parser.typecode.PrimitiveTypeCode@28c4711c
     m_engine_average_fuel_economy = 0.0;
-    // m_fuel_level com.eprosima.idl.parser.typecode.PrimitiveTypeCode@1e9e725a
+    // m_fuel_level com.eprosima.idl.parser.typecode.PrimitiveTypeCode@59717824
     m_fuel_level = 0;
-    // m_Engine_wait_to_lamp com.eprosima.idl.parser.typecode.PrimitiveTypeCode@15d9bc04
+    // m_Engine_wait_to_lamp com.eprosima.idl.parser.typecode.PrimitiveTypeCode@146044d7
     m_Engine_wait_to_lamp = 0;
-    // m_air_pressure_1 com.eprosima.idl.parser.typecode.PrimitiveTypeCode@473b46c3
+    // m_air_pressure_1 com.eprosima.idl.parser.typecode.PrimitiveTypeCode@1e9e725a
     m_air_pressure_1 = 0.0;
-    // m_air_pressure_2 com.eprosima.idl.parser.typecode.PrimitiveTypeCode@516be40f
+    // m_air_pressure_2 com.eprosima.idl.parser.typecode.PrimitiveTypeCode@15d9bc04
     m_air_pressure_2 = 0.0;
-    // m_front_axle_running_brake_pressure_input com.eprosima.idl.parser.typecode.PrimitiveTypeCode@3c0a50da
+    // m_front_axle_running_brake_pressure_input com.eprosima.idl.parser.typecode.PrimitiveTypeCode@473b46c3
     m_front_axle_running_brake_pressure_input = 0.0;
-    // m_brake_pressure_input_in_middle_axle com.eprosima.idl.parser.typecode.PrimitiveTypeCode@646be2c3
+    // m_brake_pressure_input_in_middle_axle com.eprosima.idl.parser.typecode.PrimitiveTypeCode@516be40f
     m_brake_pressure_input_in_middle_axle = 0.0;
-    // m_rear_axle_running_brake_pressure_input com.eprosima.idl.parser.typecode.PrimitiveTypeCode@797badd3
+    // m_rear_axle_running_brake_pressure_input com.eprosima.idl.parser.typecode.PrimitiveTypeCode@3c0a50da
     m_rear_axle_running_brake_pressure_input = 0.0;
-    // m_weighing_cell_1 com.eprosima.idl.parser.typecode.PrimitiveTypeCode@77be656f
+    // m_weighing_cell_1 com.eprosima.idl.parser.typecode.PrimitiveTypeCode@646be2c3
     m_weighing_cell_1 = 0;
-    // m_weighing_cell_2 com.eprosima.idl.parser.typecode.PrimitiveTypeCode@19dc67c2
+    // m_weighing_cell_2 com.eprosima.idl.parser.typecode.PrimitiveTypeCode@797badd3
     m_weighing_cell_2 = 0;
-    // m_num_297 com.eprosima.idl.parser.typecode.PrimitiveTypeCode@221af3c0
+    // m_num_297 com.eprosima.idl.parser.typecode.PrimitiveTypeCode@77be656f
     m_num_297 = 0;
-    // m_front_left_wheel_speed com.eprosima.idl.parser.typecode.PrimitiveTypeCode@62bd765
+    // m_front_left_wheel_speed com.eprosima.idl.parser.typecode.PrimitiveTypeCode@19dc67c2
     m_front_left_wheel_speed = 0.0;
-    // m_front_right_wheel_speed com.eprosima.idl.parser.typecode.PrimitiveTypeCode@23a5fd2
+    // m_front_right_wheel_speed com.eprosima.idl.parser.typecode.PrimitiveTypeCode@221af3c0
     m_front_right_wheel_speed = 0.0;
-    // m_rear_left_wheel_speed com.eprosima.idl.parser.typecode.PrimitiveTypeCode@78a2da20
+    // m_rear_left_wheel_speed com.eprosima.idl.parser.typecode.PrimitiveTypeCode@62bd765
     m_rear_left_wheel_speed = 0.0;
-    // m_rear_right_wheel_speed com.eprosima.idl.parser.typecode.PrimitiveTypeCode@dd3b207
+    // m_rear_right_wheel_speed com.eprosima.idl.parser.typecode.PrimitiveTypeCode@23a5fd2
     m_rear_right_wheel_speed = 0.0;
-    // m_tachograph_output_shaft_speed com.eprosima.idl.parser.typecode.PrimitiveTypeCode@551bdc27
+    // m_tachograph_output_shaft_speed com.eprosima.idl.parser.typecode.PrimitiveTypeCode@78a2da20
     m_tachograph_output_shaft_speed = 0.0;
-    // m_tachograph_vehicle_speed com.eprosima.idl.parser.typecode.PrimitiveTypeCode@58fdd99
+    // m_tachograph_vehicle_speed com.eprosima.idl.parser.typecode.PrimitiveTypeCode@dd3b207
     m_tachograph_vehicle_speed = 0.0;
-    // m_total_vehicle_distance com.eprosima.idl.parser.typecode.PrimitiveTypeCode@6b1274d2
+    // m_total_vehicle_distance com.eprosima.idl.parser.typecode.PrimitiveTypeCode@551bdc27
     m_total_vehicle_distance = 0.0;
-    // m_engine_totalFuel_used com.eprosima.idl.parser.typecode.PrimitiveTypeCode@7bc1a03d
+    // m_engine_totalFuel_used com.eprosima.idl.parser.typecode.PrimitiveTypeCode@58fdd99
     m_engine_totalFuel_used = 0.0;
-    // m_trip_fuel_consumption com.eprosima.idl.parser.typecode.PrimitiveTypeCode@70b0b186
+    // m_trip_fuel_consumption com.eprosima.idl.parser.typecode.PrimitiveTypeCode@6b1274d2
     m_trip_fuel_consumption = 0.0;
-    // m_steering_left_angle_info_mv com.eprosima.idl.parser.typecode.PrimitiveTypeCode@ba8d91c
+    // m_steering_left_angle_info_mv com.eprosima.idl.parser.typecode.PrimitiveTypeCode@7bc1a03d
     m_steering_left_angle_info_mv = 0.0;
-    // m_steering_right_angle_info_mv com.eprosima.idl.parser.typecode.PrimitiveTypeCode@7364985f
+    // m_steering_right_angle_info_mv com.eprosima.idl.parser.typecode.PrimitiveTypeCode@70b0b186
     m_steering_right_angle_info_mv = 0.0;
-    // m_vcu_state com.eprosima.idl.parser.typecode.PrimitiveTypeCode@5d20e46
+    // m_vcu_state com.eprosima.idl.parser.typecode.PrimitiveTypeCode@ba8d91c
     m_vcu_state = 0;
-    // m_udpindex com.eprosima.idl.parser.typecode.PrimitiveTypeCode@709ba3fb
+    // m_udpindex com.eprosima.idl.parser.typecode.PrimitiveTypeCode@7364985f
     m_udpindex = 0;
-    // m_dm1_ecm_diag_trouble com.eprosima.fastdds.idl.parser.typecode.StructTypeCode@3d36e4cd
+    // m_dm1_ecm_diag_trouble com.eprosima.fastdds.idl.parser.typecode.StructTypeCode@5d20e46
 
-    // m_ecm_tpcm com.eprosima.fastdds.idl.parser.typecode.StructTypeCode@6a472554
+    // m_ecm_tpcm com.eprosima.fastdds.idl.parser.typecode.StructTypeCode@709ba3fb
 
-    // m_ecm_tpdt com.eprosima.fastdds.idl.parser.typecode.StructTypeCode@525b461a
+    // m_ecm_tpdt com.eprosima.fastdds.idl.parser.typecode.StructTypeCode@6a472554
 
-    // m_dm1_tcu_diag_trouble com.eprosima.fastdds.idl.parser.typecode.StructTypeCode@3d36e4cd
+    // m_dm1_tcu_diag_trouble com.eprosima.fastdds.idl.parser.typecode.StructTypeCode@5d20e46
 
-    // m_tcu_tpcm com.eprosima.fastdds.idl.parser.typecode.StructTypeCode@6a472554
+    // m_tcu_tpcm com.eprosima.fastdds.idl.parser.typecode.StructTypeCode@709ba3fb
 
-    // m_tcu_tpdt com.eprosima.fastdds.idl.parser.typecode.StructTypeCode@525b461a
+    // m_tcu_tpdt com.eprosima.fastdds.idl.parser.typecode.StructTypeCode@6a472554
 
-    // m_sca_diag_trouble com.eprosima.fastdds.idl.parser.typecode.StructTypeCode@3d36e4cd
+    // m_sca_diag_trouble com.eprosima.fastdds.idl.parser.typecode.StructTypeCode@5d20e46
 
-    // m_sca_diag_trouble1 com.eprosima.fastdds.idl.parser.typecode.StructTypeCode@3d36e4cd
+    // m_sca_diag_trouble1 com.eprosima.fastdds.idl.parser.typecode.StructTypeCode@5d20e46
 
-    // m_sca_diag_trouble2 com.eprosima.fastdds.idl.parser.typecode.StructTypeCode@3d36e4cd
+    // m_sca_diag_trouble2 com.eprosima.fastdds.idl.parser.typecode.StructTypeCode@5d20e46
 
-    // m_mca_diag_trouble com.eprosima.fastdds.idl.parser.typecode.StructTypeCode@3d36e4cd
+    // m_mca_diag_trouble com.eprosima.fastdds.idl.parser.typecode.StructTypeCode@5d20e46
 
-    // m_mca_diag_trouble1 com.eprosima.fastdds.idl.parser.typecode.StructTypeCode@3d36e4cd
+    // m_mca_diag_trouble1 com.eprosima.fastdds.idl.parser.typecode.StructTypeCode@5d20e46
 
-    // m_mca_diag_trouble2 com.eprosima.fastdds.idl.parser.typecode.StructTypeCode@3d36e4cd
+    // m_mca_diag_trouble2 com.eprosima.fastdds.idl.parser.typecode.StructTypeCode@5d20e46
 
-    // m_on_voltage com.eprosima.idl.parser.typecode.PrimitiveTypeCode@58c1c010
+    // m_on_voltage com.eprosima.idl.parser.typecode.PrimitiveTypeCode@7ff2a664
     m_on_voltage = 0.0;
-    // m_parking com.eprosima.idl.parser.typecode.PrimitiveTypeCode@b7f23d9
+    // m_parking com.eprosima.idl.parser.typecode.PrimitiveTypeCode@525b461a
     m_parking = false;
-    // m_low_air_pressure_alarm com.eprosima.idl.parser.typecode.PrimitiveTypeCode@61d47554
+    // m_low_air_pressure_alarm com.eprosima.idl.parser.typecode.PrimitiveTypeCode@58c1c010
     m_low_air_pressure_alarm = 0;
-    // m_Autopilot_enable_bit com.eprosima.idl.parser.typecode.PrimitiveTypeCode@69b794e2
+    // m_Autopilot_enable_bit com.eprosima.idl.parser.typecode.PrimitiveTypeCode@b7f23d9
     m_Autopilot_enable_bit = false;
-    // m_Power_control_enable_bit com.eprosima.idl.parser.typecode.PrimitiveTypeCode@3f200884
+    // m_Power_control_enable_bit com.eprosima.idl.parser.typecode.PrimitiveTypeCode@61d47554
     m_Power_control_enable_bit = false;
-    // m_Shift_request_status com.eprosima.idl.parser.typecode.PrimitiveTypeCode@4d339552
+    // m_Shift_request_status com.eprosima.idl.parser.typecode.PrimitiveTypeCode@69b794e2
     m_Shift_request_status = false;
-    // m_accelerator_request_status com.eprosima.idl.parser.typecode.PrimitiveTypeCode@f0f2775
+    // m_accelerator_request_status com.eprosima.idl.parser.typecode.PrimitiveTypeCode@3f200884
     m_accelerator_request_status = false;
-    // m_Parking_request com.eprosima.idl.parser.typecode.PrimitiveTypeCode@5a4aa2f2
+    // m_Parking_request com.eprosima.idl.parser.typecode.PrimitiveTypeCode@4d339552
     m_Parking_request = false;
-    // m_Brake_request_status com.eprosima.idl.parser.typecode.PrimitiveTypeCode@6591f517
+    // m_Brake_request_status com.eprosima.idl.parser.typecode.PrimitiveTypeCode@f0f2775
     m_Brake_request_status = false;
-    // m_No15_power_supply_control com.eprosima.idl.parser.typecode.PrimitiveTypeCode@345965f2
+    // m_No15_power_supply_control com.eprosima.idl.parser.typecode.PrimitiveTypeCode@5a4aa2f2
     m_No15_power_supply_control = false;
-    // m_Brake_light_control com.eprosima.idl.parser.typecode.PrimitiveTypeCode@429bd883
+    // m_Brake_light_control com.eprosima.idl.parser.typecode.PrimitiveTypeCode@6591f517
     m_Brake_light_control = false;
-    // m_Gear_request com.eprosima.idl.parser.typecode.PrimitiveTypeCode@4d49af10
+    // m_Gear_request com.eprosima.idl.parser.typecode.PrimitiveTypeCode@345965f2
     m_Gear_request = 0;
-    // m_ACC_power_control com.eprosima.idl.parser.typecode.PrimitiveTypeCode@279ad2e3
+    // m_ACC_power_control com.eprosima.idl.parser.typecode.PrimitiveTypeCode@429bd883
     m_ACC_power_control = false;
-    // m_Container_control com.eprosima.idl.parser.typecode.PrimitiveTypeCode@58134517
+    // m_Container_control com.eprosima.idl.parser.typecode.PrimitiveTypeCode@4d49af10
     m_Container_control = 0;
-    // m_Left_turn_signal com.eprosima.idl.parser.typecode.PrimitiveTypeCode@4450d156
+    // m_Left_turn_signal com.eprosima.idl.parser.typecode.PrimitiveTypeCode@279ad2e3
     m_Left_turn_signal = false;
-    // m_Right_turn_signal com.eprosima.idl.parser.typecode.PrimitiveTypeCode@4461c7e3
+    // m_Right_turn_signal com.eprosima.idl.parser.typecode.PrimitiveTypeCode@58134517
     m_Right_turn_signal = false;
-    // m_accelerator_request com.eprosima.idl.parser.typecode.PrimitiveTypeCode@351d0846
+    // m_accelerator_request com.eprosima.idl.parser.typecode.PrimitiveTypeCode@4450d156
     m_accelerator_request = 0;
-    // m_Brake_request com.eprosima.idl.parser.typecode.PrimitiveTypeCode@77e4c80f
+    // m_Brake_request com.eprosima.idl.parser.typecode.PrimitiveTypeCode@4461c7e3
     m_Brake_request = 0;
-    // m_backup_light com.eprosima.idl.parser.typecode.PrimitiveTypeCode@35fc6dc4
+    // m_backup_light com.eprosima.idl.parser.typecode.PrimitiveTypeCode@351d0846
     m_backup_light = false;
-    // m_Fog_lamp_control com.eprosima.idl.parser.typecode.PrimitiveTypeCode@7fe8ea47
+    // m_Fog_lamp_control com.eprosima.idl.parser.typecode.PrimitiveTypeCode@77e4c80f
     m_Fog_lamp_control = false;
-    // m_Small_lights com.eprosima.idl.parser.typecode.PrimitiveTypeCode@226a82c4
+    // m_Small_lights com.eprosima.idl.parser.typecode.PrimitiveTypeCode@35fc6dc4
     m_Small_lights = false;
-    // m_lower_beam_lamb com.eprosima.idl.parser.typecode.PrimitiveTypeCode@731f8236
+    // m_lower_beam_lamb com.eprosima.idl.parser.typecode.PrimitiveTypeCode@7fe8ea47
     m_lower_beam_lamb = false;
-    // m_higher_beam_lamb com.eprosima.idl.parser.typecode.PrimitiveTypeCode@255b53dc
+    // m_higher_beam_lamb com.eprosima.idl.parser.typecode.PrimitiveTypeCode@226a82c4
     m_higher_beam_lamb = false;
-    // m_Wipers_spray_water com.eprosima.idl.parser.typecode.PrimitiveTypeCode@1dd92fe2
+    // m_Wipers_spray_water com.eprosima.idl.parser.typecode.PrimitiveTypeCode@731f8236
     m_Wipers_spray_water = false;
-    // m_Wiper_intermission com.eprosima.idl.parser.typecode.PrimitiveTypeCode@6b53e23f
+    // m_Wiper_intermission com.eprosima.idl.parser.typecode.PrimitiveTypeCode@255b53dc
     m_Wiper_intermission = false;
-    // m_Wiper_low_speed com.eprosima.idl.parser.typecode.PrimitiveTypeCode@64d2d351
+    // m_Wiper_low_speed com.eprosima.idl.parser.typecode.PrimitiveTypeCode@1dd92fe2
     m_Wiper_low_speed = false;
-    // m_Wiper_high_speed com.eprosima.idl.parser.typecode.PrimitiveTypeCode@1b68b9a4
+    // m_Wiper_high_speed com.eprosima.idl.parser.typecode.PrimitiveTypeCode@6b53e23f
     m_Wiper_high_speed = false;
-    // m_Axle_lock_control com.eprosima.idl.parser.typecode.PrimitiveTypeCode@4f9a3314
+    // m_Axle_lock_control com.eprosima.idl.parser.typecode.PrimitiveTypeCode@64d2d351
     m_Axle_lock_control = false;
-    // m_Power_takeoff_start com.eprosima.idl.parser.typecode.PrimitiveTypeCode@3b2c72c2
+    // m_Power_takeoff_start com.eprosima.idl.parser.typecode.PrimitiveTypeCode@1b68b9a4
     m_Power_takeoff_start = false;
-    // m_Flash_lamp com.eprosima.idl.parser.typecode.PrimitiveTypeCode@491666ad
+    // m_Flash_lamp com.eprosima.idl.parser.typecode.PrimitiveTypeCode@4f9a3314
     m_Flash_lamp = false;
-    // m_Headlights com.eprosima.idl.parser.typecode.PrimitiveTypeCode@176d53b2
+    // m_Headlights com.eprosima.idl.parser.typecode.PrimitiveTypeCode@3b2c72c2
     m_Headlights = false;
-    // m_Rear_light com.eprosima.idl.parser.typecode.PrimitiveTypeCode@971d0d8
+    // m_Rear_light com.eprosima.idl.parser.typecode.PrimitiveTypeCode@491666ad
     m_Rear_light = false;
-    // m_Horn_on com.eprosima.idl.parser.typecode.PrimitiveTypeCode@51931956
+    // m_Horn_on com.eprosima.idl.parser.typecode.PrimitiveTypeCode@176d53b2
     m_Horn_on = false;
-    // m_S_gear_control com.eprosima.idl.parser.typecode.PrimitiveTypeCode@2b4a2ec7
+    // m_S_gear_control com.eprosima.idl.parser.typecode.PrimitiveTypeCode@971d0d8
     m_S_gear_control = false;
-    // m_Emergency_Stop_Switch_Status60 com.eprosima.idl.parser.typecode.PrimitiveTypeCode@564718df
+    // m_Emergency_Stop_Switch_Status60 com.eprosima.idl.parser.typecode.PrimitiveTypeCode@51931956
     m_Emergency_Stop_Switch_Status60 = false;
-    // m_Hazard_Warning_Lamp_Control54 com.eprosima.idl.parser.typecode.PrimitiveTypeCode@51b7e5df
+    // m_Hazard_Warning_Lamp_Control54 com.eprosima.idl.parser.typecode.PrimitiveTypeCode@2b4a2ec7
     m_Hazard_Warning_Lamp_Control54 = false;
-    // m_Remote_or_Unman com.eprosima.idl.parser.typecode.PrimitiveTypeCode@18a70f16
+    // m_Remote_or_Unman com.eprosima.idl.parser.typecode.PrimitiveTypeCode@564718df
     m_Remote_or_Unman = 0;
-    // m_Steer_1_Curvature_control com.eprosima.idl.parser.typecode.PrimitiveTypeCode@62e136d3
+    // m_Steer_1_Curvature_control com.eprosima.idl.parser.typecode.PrimitiveTypeCode@51b7e5df
     m_Steer_1_Curvature_control = 0;
-    // m_Steer_2_Curvature_control com.eprosima.idl.parser.typecode.PrimitiveTypeCode@c8e4bb0
+    // m_Steer_2_Curvature_control com.eprosima.idl.parser.typecode.PrimitiveTypeCode@18a70f16
     m_Steer_2_Curvature_control = 0;
 
 }
@@ -7887,8 +7883,6 @@ WirectlFeedbackInfo::~WirectlFeedbackInfo()
 
 
 
-
-
 }
 
 WirectlFeedbackInfo::WirectlFeedbackInfo(
@@ -8007,9 +8001,7 @@ WirectlFeedbackInfo::WirectlFeedbackInfo(
     m_chassis_rolling = x.m_chassis_rolling;
     m_Bucket_pitch = x.m_Bucket_pitch;
     m_friction_torque = x.m_friction_torque;
-    m_L_brake_temperature = x.m_L_brake_temperature;
-    m_R_brake_temperature = x.m_R_brake_temperature;
-    m_Maximum_remaining_electric_braking = x.m_Maximum_remaining_electric_braking;
+    m_brake_temperature = x.m_brake_temperature;
     m_EBS_red_alarmlight = x.m_EBS_red_alarmlight;
     m_EBS_yellow_alarmlight = x.m_EBS_yellow_alarmlight;
     m_Brake_Hold_state = x.m_Brake_Hold_state;
@@ -8228,9 +8220,7 @@ WirectlFeedbackInfo::WirectlFeedbackInfo(
     m_chassis_rolling = x.m_chassis_rolling;
     m_Bucket_pitch = x.m_Bucket_pitch;
     m_friction_torque = x.m_friction_torque;
-    m_L_brake_temperature = x.m_L_brake_temperature;
-    m_R_brake_temperature = x.m_R_brake_temperature;
-    m_Maximum_remaining_electric_braking = x.m_Maximum_remaining_electric_braking;
+    m_brake_temperature = x.m_brake_temperature;
     m_EBS_red_alarmlight = x.m_EBS_red_alarmlight;
     m_EBS_yellow_alarmlight = x.m_EBS_yellow_alarmlight;
     m_Brake_Hold_state = x.m_Brake_Hold_state;
@@ -8450,9 +8440,7 @@ WirectlFeedbackInfo& WirectlFeedbackInfo::operator =(
     m_chassis_rolling = x.m_chassis_rolling;
     m_Bucket_pitch = x.m_Bucket_pitch;
     m_friction_torque = x.m_friction_torque;
-    m_L_brake_temperature = x.m_L_brake_temperature;
-    m_R_brake_temperature = x.m_R_brake_temperature;
-    m_Maximum_remaining_electric_braking = x.m_Maximum_remaining_electric_braking;
+    m_brake_temperature = x.m_brake_temperature;
     m_EBS_red_alarmlight = x.m_EBS_red_alarmlight;
     m_EBS_yellow_alarmlight = x.m_EBS_yellow_alarmlight;
     m_Brake_Hold_state = x.m_Brake_Hold_state;
@@ -8674,9 +8662,7 @@ WirectlFeedbackInfo& WirectlFeedbackInfo::operator =(
     m_chassis_rolling = x.m_chassis_rolling;
     m_Bucket_pitch = x.m_Bucket_pitch;
     m_friction_torque = x.m_friction_torque;
-    m_L_brake_temperature = x.m_L_brake_temperature;
-    m_R_brake_temperature = x.m_R_brake_temperature;
-    m_Maximum_remaining_electric_braking = x.m_Maximum_remaining_electric_braking;
+    m_brake_temperature = x.m_brake_temperature;
     m_EBS_red_alarmlight = x.m_EBS_red_alarmlight;
     m_EBS_yellow_alarmlight = x.m_EBS_yellow_alarmlight;
     m_Brake_Hold_state = x.m_Brake_Hold_state;
@@ -8785,7 +8771,7 @@ bool WirectlFeedbackInfo::operator ==(
         const WirectlFeedbackInfo& x) const
 {
 
-    return (m_engine_torque_mode == x.m_engine_torque_mode && m_main_DriveMotor_Tem_raw == x.m_main_DriveMotor_Tem_raw && m_main_driveMotor_speed_raw == x.m_main_driveMotor_speed_raw && m_main_DriveMotor_Current_raw == x.m_main_DriveMotor_Current_raw && m_mainDriveMotorControllerTemp_raw == x.m_mainDriveMotorControllerTemp_raw && m_Powertrain_outputTorque == x.m_Powertrain_outputTorque && m_actual_engine_fractional_torque == x.m_actual_engine_fractional_torque && m_driver_demand_engine_percent_torque == x.m_driver_demand_engine_percent_torque && m_actual_engine_torque == x.m_actual_engine_torque && m_engine_speed == x.m_engine_speed && m_src_address_ctrl_dev_for_engine == x.m_src_address_ctrl_dev_for_engine && m_accel_pedal_position == x.m_accel_pedal_position && m_accelerator_requestStatus == x.m_accelerator_requestStatus && m_engine_demand_percent_torque == x.m_engine_demand_percent_torque && m_vehicle_loss_ctrl == x.m_vehicle_loss_ctrl && m_brake_pedal_SYMC == x.m_brake_pedal_SYMC && m_actual_retarder_percent_torque == x.m_actual_retarder_percent_torque && m_foot_valve_info == x.m_foot_valve_info && m_parking_brake_signal_status == x.m_parking_brake_signal_status && m_exhaust_brake_status == x.m_exhaust_brake_status && m_hydraulic_startup_status == x.m_hydraulic_startup_status && m_steering_angle_request == x.m_steering_angle_request && m_steering_left_angle_info == x.m_steering_left_angle_info && m_steering_right_angle_info == x.m_steering_right_angle_info && m_trans_current_gear == x.m_trans_current_gear && m_Accumulated_charged_electric_quanlity == x.m_Accumulated_charged_electric_quanlity && m_Accumulated_discharged_electric_quanlity == x.m_Accumulated_discharged_electric_quanlity && m_Single_charged_electric_quanlity == x.m_Single_charged_electric_quanlity && m_Battery_power_raw == x.m_Battery_power_raw && m_engine_total_hours == x.m_engine_total_hours && m_battery_voltage == x.m_battery_voltage && m_Acc_Power_On_Status == x.m_Acc_Power_On_Status && m_Charge_Gun_Status == x.m_Charge_Gun_Status && m_Force_State == x.m_Force_State && m_Vehicle_Remote_Start_Error == x.m_Vehicle_Remote_Start_Error && m_transmission_requested_range == x.m_transmission_requested_range && m_shifting_gears == x.m_shifting_gears && m_Locking_gearboxTorqueConverter == x.m_Locking_gearboxTorqueConverter && m_lift_condition == x.m_lift_condition && m_lift_longo_position_status == x.m_lift_longo_position_status && m_drop_longo_position_status == x.m_drop_longo_position_status && m_left_turn_start_status == x.m_left_turn_start_status && m_right_turn_start_status == x.m_right_turn_start_status && m_hazard_start_status == x.m_hazard_start_status && m_flash_start_status == x.m_flash_start_status && m_fog_lamp_start_status == x.m_fog_lamp_start_status && m_outline_lamp_start_status == x.m_outline_lamp_start_status && m_low_light_start_status == x.m_low_light_start_status && m_high_beam_start_status == x.m_high_beam_start_status && m_head_light_status == x.m_head_light_status && m_rear_light_start_status == x.m_rear_light_start_status && m_wiper_start_status == x.m_wiper_start_status && m_wiper_longermit_start_status == x.m_wiper_longermit_start_status && m_wiper_slow_start_status == x.m_wiper_slow_start_status && m_wiper_high_start_status == x.m_wiper_high_start_status && m_horn_start_status == x.m_horn_start_status && m_axle_differential == x.m_axle_differential && m_go_to_unmanned_status == x.m_go_to_unmanned_status && m_slow_light_start_status == x.m_slow_light_start_status && m_brake_light_start_status == x.m_brake_light_start_status && m_revers_light_start_status == x.m_revers_light_start_status && m_charge_indicator == x.m_charge_indicator && m_vehicle_status == x.m_vehicle_status && m_Front_L_tire_pressure == x.m_Front_L_tire_pressure && m_Front_R_tire_pressure == x.m_Front_R_tire_pressure && m_MID_LL_tire_pressure == x.m_MID_LL_tire_pressure && m_MID_LR_tire_pressure == x.m_MID_LR_tire_pressure && m_MID_RL_tire_pressure == x.m_MID_RL_tire_pressure && m_MID_RR_tire_pressure == x.m_MID_RR_tire_pressure && m_BACK_LL_tire_pressure == x.m_BACK_LL_tire_pressure && m_BACK_LR_tire_pressure == x.m_BACK_LR_tire_pressure && m_BACK_RL_tire_pressure == x.m_BACK_RL_tire_pressure && m_BACK_RR_tire_pressure == x.m_BACK_RR_tire_pressure && m_Brake_Pressure_FA_Left == x.m_Brake_Pressure_FA_Left && m_Brake_Pressure_FA_Right == x.m_Brake_Pressure_FA_Right && m_Brake_Pressure_RA1_Left == x.m_Brake_Pressure_RA1_Left && m_Brake_Pressure_RA1_Right == x.m_Brake_Pressure_RA1_Right && m_Front_L_tire_temperature == x.m_Front_L_tire_temperature && m_Front_R_tire_temperature == x.m_Front_R_tire_temperature && m_MID_LL_tire_temperature == x.m_MID_LL_tire_temperature && m_MID_LR_tire_temperature == x.m_MID_LR_tire_temperature && m_MID_RL_tire_temperature == x.m_MID_RL_tire_temperature && m_MID_RR_tire_temperature == x.m_MID_RR_tire_temperature && m_BACK_LL_tire_temperature == x.m_BACK_LL_tire_temperature && m_BACK_LR_tire_temperature == x.m_BACK_LR_tire_temperature && m_BACK_RL_tire_temperature == x.m_BACK_RL_tire_temperature && m_BACK_RR_tire_temperature == x.m_BACK_RR_tire_temperature && m_Front_L_tire_code == x.m_Front_L_tire_code && m_Front_R_tire_code == x.m_Front_R_tire_code && m_MID_LL_tire_code == x.m_MID_LL_tire_code && m_MID_LR_tire_code == x.m_MID_LR_tire_code && m_MID_RL_tire_code == x.m_MID_RL_tire_code && m_MID_RR_tire_code == x.m_MID_RR_tire_code && m_BACK_LL_tire_code == x.m_BACK_LL_tire_code && m_BACK_LR_tire_code == x.m_BACK_LR_tire_code && m_BACK_RL_tire_code == x.m_BACK_RL_tire_code && m_BACK_RR_tire_code == x.m_BACK_RR_tire_code && m_air_power_status == x.m_air_power_status && m_air_auto_status == x.m_air_auto_status && m_air_ac_status == x.m_air_ac_status && m_air_defrost_status == x.m_air_defrost_status && m_air_cyclemode_status == x.m_air_cyclemode_status && m_air_outletmode_status == x.m_air_outletmode_status && m_air_level_status == x.m_air_level_status && m_air_temperature_statusR == x.m_air_temperature_statusR && m_cab_temperature_status == x.m_cab_temperature_status && m_TM_Torque == x.m_TM_Torque && m_IM_Torque == x.m_IM_Torque && m_IM_Speed == x.m_IM_Speed && m_Parking_generation_status == x.m_Parking_generation_status && m_chassis_rolling == x.m_chassis_rolling && m_Bucket_pitch == x.m_Bucket_pitch && m_friction_torque == x.m_friction_torque && m_L_brake_temperature == x.m_L_brake_temperature && m_R_brake_temperature == x.m_R_brake_temperature && m_Maximum_remaining_electric_braking == x.m_Maximum_remaining_electric_braking && m_EBS_red_alarmlight == x.m_EBS_red_alarmlight && m_EBS_yellow_alarmlight == x.m_EBS_yellow_alarmlight && m_Brake_Hold_state == x.m_Brake_Hold_state && m_VCU_Version == x.m_VCU_Version && m_ramp_sensor == x.m_ramp_sensor && m_rxauxiliary_DriveMotor_Tem_raw == x.m_rxauxiliary_DriveMotor_Tem_raw && m_rxauxiliary_driveMotor_speed_raw == x.m_rxauxiliary_driveMotor_speed_raw && m_rxauxiliary_DriveMotor_Current_raw == x.m_rxauxiliary_DriveMotor_Current_raw && m_rxauxiliarDriveMotorControllerTemp_raw == x.m_rxauxiliarDriveMotorControllerTemp_raw && m_endurance_mileage == x.m_endurance_mileage && m_power_consumption == x.m_power_consumption && m_SOC == x.m_SOC && m_charging_state == x.m_charging_state && m_Battery_State == x.m_Battery_State && m_Battery_Current == x.m_Battery_Current && m_Battery_Temperature_raw == x.m_Battery_Temperature_raw && m_Battery_Fault_Status == x.m_Battery_Fault_Status && m_energy_recover == x.m_energy_recover && m_engine_coolant_temperature == x.m_engine_coolant_temperature && m_fuel_temperature == x.m_fuel_temperature && m_engine_oil_temperature == x.m_engine_oil_temperature && m_engine_oil_level == x.m_engine_oil_level && m_engine_oil_pressure == x.m_engine_oil_pressure && m_engine_fuel_rate == x.m_engine_fuel_rate && m_engine_instant_fuel_economy == x.m_engine_instant_fuel_economy && m_engine_average_fuel_economy == x.m_engine_average_fuel_economy && m_fuel_level == x.m_fuel_level && m_Engine_wait_to_lamp == x.m_Engine_wait_to_lamp && m_air_pressure_1 == x.m_air_pressure_1 && m_air_pressure_2 == x.m_air_pressure_2 && m_front_axle_running_brake_pressure_input == x.m_front_axle_running_brake_pressure_input && m_brake_pressure_input_in_middle_axle == x.m_brake_pressure_input_in_middle_axle && m_rear_axle_running_brake_pressure_input == x.m_rear_axle_running_brake_pressure_input && m_weighing_cell_1 == x.m_weighing_cell_1 && m_weighing_cell_2 == x.m_weighing_cell_2 && m_num_297 == x.m_num_297 && m_front_left_wheel_speed == x.m_front_left_wheel_speed && m_front_right_wheel_speed == x.m_front_right_wheel_speed && m_rear_left_wheel_speed == x.m_rear_left_wheel_speed && m_rear_right_wheel_speed == x.m_rear_right_wheel_speed && m_tachograph_output_shaft_speed == x.m_tachograph_output_shaft_speed && m_tachograph_vehicle_speed == x.m_tachograph_vehicle_speed && m_total_vehicle_distance == x.m_total_vehicle_distance && m_engine_totalFuel_used == x.m_engine_totalFuel_used && m_trip_fuel_consumption == x.m_trip_fuel_consumption && m_steering_left_angle_info_mv == x.m_steering_left_angle_info_mv && m_steering_right_angle_info_mv == x.m_steering_right_angle_info_mv && m_vcu_state == x.m_vcu_state && m_udpindex == x.m_udpindex && m_dm1_ecm_diag_trouble == x.m_dm1_ecm_diag_trouble && m_ecm_tpcm == x.m_ecm_tpcm && m_ecm_tpdt == x.m_ecm_tpdt && m_dm1_tcu_diag_trouble == x.m_dm1_tcu_diag_trouble && m_tcu_tpcm == x.m_tcu_tpcm && m_tcu_tpdt == x.m_tcu_tpdt && m_sca_diag_trouble == x.m_sca_diag_trouble && m_sca_diag_trouble1 == x.m_sca_diag_trouble1 && m_sca_diag_trouble2 == x.m_sca_diag_trouble2 && m_mca_diag_trouble == x.m_mca_diag_trouble && m_mca_diag_trouble1 == x.m_mca_diag_trouble1 && m_mca_diag_trouble2 == x.m_mca_diag_trouble2 && m_on_voltage == x.m_on_voltage && m_parking == x.m_parking && m_low_air_pressure_alarm == x.m_low_air_pressure_alarm && m_Autopilot_enable_bit == x.m_Autopilot_enable_bit && m_Power_control_enable_bit == x.m_Power_control_enable_bit && m_Shift_request_status == x.m_Shift_request_status && m_accelerator_request_status == x.m_accelerator_request_status && m_Parking_request == x.m_Parking_request && m_Brake_request_status == x.m_Brake_request_status && m_No15_power_supply_control == x.m_No15_power_supply_control && m_Brake_light_control == x.m_Brake_light_control && m_Gear_request == x.m_Gear_request && m_ACC_power_control == x.m_ACC_power_control && m_Container_control == x.m_Container_control && m_Left_turn_signal == x.m_Left_turn_signal && m_Right_turn_signal == x.m_Right_turn_signal && m_accelerator_request == x.m_accelerator_request && m_Brake_request == x.m_Brake_request && m_backup_light == x.m_backup_light && m_Fog_lamp_control == x.m_Fog_lamp_control && m_Small_lights == x.m_Small_lights && m_lower_beam_lamb == x.m_lower_beam_lamb && m_higher_beam_lamb == x.m_higher_beam_lamb && m_Wipers_spray_water == x.m_Wipers_spray_water && m_Wiper_intermission == x.m_Wiper_intermission && m_Wiper_low_speed == x.m_Wiper_low_speed && m_Wiper_high_speed == x.m_Wiper_high_speed && m_Axle_lock_control == x.m_Axle_lock_control && m_Power_takeoff_start == x.m_Power_takeoff_start && m_Flash_lamp == x.m_Flash_lamp && m_Headlights == x.m_Headlights && m_Rear_light == x.m_Rear_light && m_Horn_on == x.m_Horn_on && m_S_gear_control == x.m_S_gear_control && m_Emergency_Stop_Switch_Status60 == x.m_Emergency_Stop_Switch_Status60 && m_Hazard_Warning_Lamp_Control54 == x.m_Hazard_Warning_Lamp_Control54 && m_Remote_or_Unman == x.m_Remote_or_Unman && m_Steer_1_Curvature_control == x.m_Steer_1_Curvature_control && m_Steer_2_Curvature_control == x.m_Steer_2_Curvature_control);
+    return (m_engine_torque_mode == x.m_engine_torque_mode && m_main_DriveMotor_Tem_raw == x.m_main_DriveMotor_Tem_raw && m_main_driveMotor_speed_raw == x.m_main_driveMotor_speed_raw && m_main_DriveMotor_Current_raw == x.m_main_DriveMotor_Current_raw && m_mainDriveMotorControllerTemp_raw == x.m_mainDriveMotorControllerTemp_raw && m_Powertrain_outputTorque == x.m_Powertrain_outputTorque && m_actual_engine_fractional_torque == x.m_actual_engine_fractional_torque && m_driver_demand_engine_percent_torque == x.m_driver_demand_engine_percent_torque && m_actual_engine_torque == x.m_actual_engine_torque && m_engine_speed == x.m_engine_speed && m_src_address_ctrl_dev_for_engine == x.m_src_address_ctrl_dev_for_engine && m_accel_pedal_position == x.m_accel_pedal_position && m_accelerator_requestStatus == x.m_accelerator_requestStatus && m_engine_demand_percent_torque == x.m_engine_demand_percent_torque && m_vehicle_loss_ctrl == x.m_vehicle_loss_ctrl && m_brake_pedal_SYMC == x.m_brake_pedal_SYMC && m_actual_retarder_percent_torque == x.m_actual_retarder_percent_torque && m_foot_valve_info == x.m_foot_valve_info && m_parking_brake_signal_status == x.m_parking_brake_signal_status && m_exhaust_brake_status == x.m_exhaust_brake_status && m_hydraulic_startup_status == x.m_hydraulic_startup_status && m_steering_angle_request == x.m_steering_angle_request && m_steering_left_angle_info == x.m_steering_left_angle_info && m_steering_right_angle_info == x.m_steering_right_angle_info && m_trans_current_gear == x.m_trans_current_gear && m_Accumulated_charged_electric_quanlity == x.m_Accumulated_charged_electric_quanlity && m_Accumulated_discharged_electric_quanlity == x.m_Accumulated_discharged_electric_quanlity && m_Single_charged_electric_quanlity == x.m_Single_charged_electric_quanlity && m_Battery_power_raw == x.m_Battery_power_raw && m_engine_total_hours == x.m_engine_total_hours && m_battery_voltage == x.m_battery_voltage && m_Acc_Power_On_Status == x.m_Acc_Power_On_Status && m_Charge_Gun_Status == x.m_Charge_Gun_Status && m_Force_State == x.m_Force_State && m_Vehicle_Remote_Start_Error == x.m_Vehicle_Remote_Start_Error && m_transmission_requested_range == x.m_transmission_requested_range && m_shifting_gears == x.m_shifting_gears && m_Locking_gearboxTorqueConverter == x.m_Locking_gearboxTorqueConverter && m_lift_condition == x.m_lift_condition && m_lift_longo_position_status == x.m_lift_longo_position_status && m_drop_longo_position_status == x.m_drop_longo_position_status && m_left_turn_start_status == x.m_left_turn_start_status && m_right_turn_start_status == x.m_right_turn_start_status && m_hazard_start_status == x.m_hazard_start_status && m_flash_start_status == x.m_flash_start_status && m_fog_lamp_start_status == x.m_fog_lamp_start_status && m_outline_lamp_start_status == x.m_outline_lamp_start_status && m_low_light_start_status == x.m_low_light_start_status && m_high_beam_start_status == x.m_high_beam_start_status && m_head_light_status == x.m_head_light_status && m_rear_light_start_status == x.m_rear_light_start_status && m_wiper_start_status == x.m_wiper_start_status && m_wiper_longermit_start_status == x.m_wiper_longermit_start_status && m_wiper_slow_start_status == x.m_wiper_slow_start_status && m_wiper_high_start_status == x.m_wiper_high_start_status && m_horn_start_status == x.m_horn_start_status && m_axle_differential == x.m_axle_differential && m_go_to_unmanned_status == x.m_go_to_unmanned_status && m_slow_light_start_status == x.m_slow_light_start_status && m_brake_light_start_status == x.m_brake_light_start_status && m_revers_light_start_status == x.m_revers_light_start_status && m_charge_indicator == x.m_charge_indicator && m_vehicle_status == x.m_vehicle_status && m_Front_L_tire_pressure == x.m_Front_L_tire_pressure && m_Front_R_tire_pressure == x.m_Front_R_tire_pressure && m_MID_LL_tire_pressure == x.m_MID_LL_tire_pressure && m_MID_LR_tire_pressure == x.m_MID_LR_tire_pressure && m_MID_RL_tire_pressure == x.m_MID_RL_tire_pressure && m_MID_RR_tire_pressure == x.m_MID_RR_tire_pressure && m_BACK_LL_tire_pressure == x.m_BACK_LL_tire_pressure && m_BACK_LR_tire_pressure == x.m_BACK_LR_tire_pressure && m_BACK_RL_tire_pressure == x.m_BACK_RL_tire_pressure && m_BACK_RR_tire_pressure == x.m_BACK_RR_tire_pressure && m_Brake_Pressure_FA_Left == x.m_Brake_Pressure_FA_Left && m_Brake_Pressure_FA_Right == x.m_Brake_Pressure_FA_Right && m_Brake_Pressure_RA1_Left == x.m_Brake_Pressure_RA1_Left && m_Brake_Pressure_RA1_Right == x.m_Brake_Pressure_RA1_Right && m_Front_L_tire_temperature == x.m_Front_L_tire_temperature && m_Front_R_tire_temperature == x.m_Front_R_tire_temperature && m_MID_LL_tire_temperature == x.m_MID_LL_tire_temperature && m_MID_LR_tire_temperature == x.m_MID_LR_tire_temperature && m_MID_RL_tire_temperature == x.m_MID_RL_tire_temperature && m_MID_RR_tire_temperature == x.m_MID_RR_tire_temperature && m_BACK_LL_tire_temperature == x.m_BACK_LL_tire_temperature && m_BACK_LR_tire_temperature == x.m_BACK_LR_tire_temperature && m_BACK_RL_tire_temperature == x.m_BACK_RL_tire_temperature && m_BACK_RR_tire_temperature == x.m_BACK_RR_tire_temperature && m_Front_L_tire_code == x.m_Front_L_tire_code && m_Front_R_tire_code == x.m_Front_R_tire_code && m_MID_LL_tire_code == x.m_MID_LL_tire_code && m_MID_LR_tire_code == x.m_MID_LR_tire_code && m_MID_RL_tire_code == x.m_MID_RL_tire_code && m_MID_RR_tire_code == x.m_MID_RR_tire_code && m_BACK_LL_tire_code == x.m_BACK_LL_tire_code && m_BACK_LR_tire_code == x.m_BACK_LR_tire_code && m_BACK_RL_tire_code == x.m_BACK_RL_tire_code && m_BACK_RR_tire_code == x.m_BACK_RR_tire_code && m_air_power_status == x.m_air_power_status && m_air_auto_status == x.m_air_auto_status && m_air_ac_status == x.m_air_ac_status && m_air_defrost_status == x.m_air_defrost_status && m_air_cyclemode_status == x.m_air_cyclemode_status && m_air_outletmode_status == x.m_air_outletmode_status && m_air_level_status == x.m_air_level_status && m_air_temperature_statusR == x.m_air_temperature_statusR && m_cab_temperature_status == x.m_cab_temperature_status && m_TM_Torque == x.m_TM_Torque && m_IM_Torque == x.m_IM_Torque && m_IM_Speed == x.m_IM_Speed && m_Parking_generation_status == x.m_Parking_generation_status && m_chassis_rolling == x.m_chassis_rolling && m_Bucket_pitch == x.m_Bucket_pitch && m_friction_torque == x.m_friction_torque && m_brake_temperature == x.m_brake_temperature && m_EBS_red_alarmlight == x.m_EBS_red_alarmlight && m_EBS_yellow_alarmlight == x.m_EBS_yellow_alarmlight && m_Brake_Hold_state == x.m_Brake_Hold_state && m_VCU_Version == x.m_VCU_Version && m_ramp_sensor == x.m_ramp_sensor && m_rxauxiliary_DriveMotor_Tem_raw == x.m_rxauxiliary_DriveMotor_Tem_raw && m_rxauxiliary_driveMotor_speed_raw == x.m_rxauxiliary_driveMotor_speed_raw && m_rxauxiliary_DriveMotor_Current_raw == x.m_rxauxiliary_DriveMotor_Current_raw && m_rxauxiliarDriveMotorControllerTemp_raw == x.m_rxauxiliarDriveMotorControllerTemp_raw && m_endurance_mileage == x.m_endurance_mileage && m_power_consumption == x.m_power_consumption && m_SOC == x.m_SOC && m_charging_state == x.m_charging_state && m_Battery_State == x.m_Battery_State && m_Battery_Current == x.m_Battery_Current && m_Battery_Temperature_raw == x.m_Battery_Temperature_raw && m_Battery_Fault_Status == x.m_Battery_Fault_Status && m_energy_recover == x.m_energy_recover && m_engine_coolant_temperature == x.m_engine_coolant_temperature && m_fuel_temperature == x.m_fuel_temperature && m_engine_oil_temperature == x.m_engine_oil_temperature && m_engine_oil_level == x.m_engine_oil_level && m_engine_oil_pressure == x.m_engine_oil_pressure && m_engine_fuel_rate == x.m_engine_fuel_rate && m_engine_instant_fuel_economy == x.m_engine_instant_fuel_economy && m_engine_average_fuel_economy == x.m_engine_average_fuel_economy && m_fuel_level == x.m_fuel_level && m_Engine_wait_to_lamp == x.m_Engine_wait_to_lamp && m_air_pressure_1 == x.m_air_pressure_1 && m_air_pressure_2 == x.m_air_pressure_2 && m_front_axle_running_brake_pressure_input == x.m_front_axle_running_brake_pressure_input && m_brake_pressure_input_in_middle_axle == x.m_brake_pressure_input_in_middle_axle && m_rear_axle_running_brake_pressure_input == x.m_rear_axle_running_brake_pressure_input && m_weighing_cell_1 == x.m_weighing_cell_1 && m_weighing_cell_2 == x.m_weighing_cell_2 && m_num_297 == x.m_num_297 && m_front_left_wheel_speed == x.m_front_left_wheel_speed && m_front_right_wheel_speed == x.m_front_right_wheel_speed && m_rear_left_wheel_speed == x.m_rear_left_wheel_speed && m_rear_right_wheel_speed == x.m_rear_right_wheel_speed && m_tachograph_output_shaft_speed == x.m_tachograph_output_shaft_speed && m_tachograph_vehicle_speed == x.m_tachograph_vehicle_speed && m_total_vehicle_distance == x.m_total_vehicle_distance && m_engine_totalFuel_used == x.m_engine_totalFuel_used && m_trip_fuel_consumption == x.m_trip_fuel_consumption && m_steering_left_angle_info_mv == x.m_steering_left_angle_info_mv && m_steering_right_angle_info_mv == x.m_steering_right_angle_info_mv && m_vcu_state == x.m_vcu_state && m_udpindex == x.m_udpindex && m_dm1_ecm_diag_trouble == x.m_dm1_ecm_diag_trouble && m_ecm_tpcm == x.m_ecm_tpcm && m_ecm_tpdt == x.m_ecm_tpdt && m_dm1_tcu_diag_trouble == x.m_dm1_tcu_diag_trouble && m_tcu_tpcm == x.m_tcu_tpcm && m_tcu_tpdt == x.m_tcu_tpdt && m_sca_diag_trouble == x.m_sca_diag_trouble && m_sca_diag_trouble1 == x.m_sca_diag_trouble1 && m_sca_diag_trouble2 == x.m_sca_diag_trouble2 && m_mca_diag_trouble == x.m_mca_diag_trouble && m_mca_diag_trouble1 == x.m_mca_diag_trouble1 && m_mca_diag_trouble2 == x.m_mca_diag_trouble2 && m_on_voltage == x.m_on_voltage && m_parking == x.m_parking && m_low_air_pressure_alarm == x.m_low_air_pressure_alarm && m_Autopilot_enable_bit == x.m_Autopilot_enable_bit && m_Power_control_enable_bit == x.m_Power_control_enable_bit && m_Shift_request_status == x.m_Shift_request_status && m_accelerator_request_status == x.m_accelerator_request_status && m_Parking_request == x.m_Parking_request && m_Brake_request_status == x.m_Brake_request_status && m_No15_power_supply_control == x.m_No15_power_supply_control && m_Brake_light_control == x.m_Brake_light_control && m_Gear_request == x.m_Gear_request && m_ACC_power_control == x.m_ACC_power_control && m_Container_control == x.m_Container_control && m_Left_turn_signal == x.m_Left_turn_signal && m_Right_turn_signal == x.m_Right_turn_signal && m_accelerator_request == x.m_accelerator_request && m_Brake_request == x.m_Brake_request && m_backup_light == x.m_backup_light && m_Fog_lamp_control == x.m_Fog_lamp_control && m_Small_lights == x.m_Small_lights && m_lower_beam_lamb == x.m_lower_beam_lamb && m_higher_beam_lamb == x.m_higher_beam_lamb && m_Wipers_spray_water == x.m_Wipers_spray_water && m_Wiper_intermission == x.m_Wiper_intermission && m_Wiper_low_speed == x.m_Wiper_low_speed && m_Wiper_high_speed == x.m_Wiper_high_speed && m_Axle_lock_control == x.m_Axle_lock_control && m_Power_takeoff_start == x.m_Power_takeoff_start && m_Flash_lamp == x.m_Flash_lamp && m_Headlights == x.m_Headlights && m_Rear_light == x.m_Rear_light && m_Horn_on == x.m_Horn_on && m_S_gear_control == x.m_S_gear_control && m_Emergency_Stop_Switch_Status60 == x.m_Emergency_Stop_Switch_Status60 && m_Hazard_Warning_Lamp_Control54 == x.m_Hazard_Warning_Lamp_Control54 && m_Remote_or_Unman == x.m_Remote_or_Unman && m_Steer_1_Curvature_control == x.m_Steer_1_Curvature_control && m_Steer_2_Curvature_control == x.m_Steer_2_Curvature_control);
 }
 
 bool WirectlFeedbackInfo::operator !=(
@@ -9139,13 +9125,7 @@ size_t WirectlFeedbackInfo::getMaxCdrSerializedSize(
     current_alignment += 2 + eprosima::fastcdr::Cdr::alignment(current_alignment, 2);
 
 
-    current_alignment += 2 + eprosima::fastcdr::Cdr::alignment(current_alignment, 2);
-
-
-    current_alignment += 2 + eprosima::fastcdr::Cdr::alignment(current_alignment, 2);
-
-
-    current_alignment += 2 + eprosima::fastcdr::Cdr::alignment(current_alignment, 2);
+    current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4);
 
 
     current_alignment += 2 + eprosima::fastcdr::Cdr::alignment(current_alignment, 2);
@@ -9774,13 +9754,7 @@ size_t WirectlFeedbackInfo::getCdrSerializedSize(
     current_alignment += 2 + eprosima::fastcdr::Cdr::alignment(current_alignment, 2);
 
 
-    current_alignment += 2 + eprosima::fastcdr::Cdr::alignment(current_alignment, 2);
-
-
-    current_alignment += 2 + eprosima::fastcdr::Cdr::alignment(current_alignment, 2);
-
-
-    current_alignment += 2 + eprosima::fastcdr::Cdr::alignment(current_alignment, 2);
+    current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4);
 
 
     current_alignment += 2 + eprosima::fastcdr::Cdr::alignment(current_alignment, 2);
@@ -10179,9 +10153,7 @@ void WirectlFeedbackInfo::serialize(
     scdr << m_chassis_rolling;
     scdr << m_Bucket_pitch;
     scdr << m_friction_torque;
-    scdr << m_L_brake_temperature;
-    scdr << m_R_brake_temperature;
-    scdr << m_Maximum_remaining_electric_braking;
+    scdr << m_brake_temperature;
     scdr << m_EBS_red_alarmlight;
     scdr << m_EBS_yellow_alarmlight;
     scdr << m_Brake_Hold_state;
@@ -10402,9 +10374,7 @@ void WirectlFeedbackInfo::deserialize(
     dcdr >> m_chassis_rolling;
     dcdr >> m_Bucket_pitch;
     dcdr >> m_friction_torque;
-    dcdr >> m_L_brake_temperature;
-    dcdr >> m_R_brake_temperature;
-    dcdr >> m_Maximum_remaining_electric_braking;
+    dcdr >> m_brake_temperature;
     dcdr >> m_EBS_red_alarmlight;
     dcdr >> m_EBS_yellow_alarmlight;
     dcdr >> m_Brake_Hold_state;
@@ -13672,87 +13642,31 @@ int16_t& WirectlFeedbackInfo::friction_torque()
 }
 
 /*!
- * @brief This function sets a value in member L_brake_temperature
- * @param _L_brake_temperature New value for member L_brake_temperature
+ * @brief This function sets a value in member brake_temperature
+ * @param _brake_temperature New value for member brake_temperature
  */
-void WirectlFeedbackInfo::L_brake_temperature(
-        int16_t _L_brake_temperature)
+void WirectlFeedbackInfo::brake_temperature(
+        float _brake_temperature)
 {
-    m_L_brake_temperature = _L_brake_temperature;
+    m_brake_temperature = _brake_temperature;
 }
 
 /*!
- * @brief This function returns the value of member L_brake_temperature
- * @return Value of member L_brake_temperature
+ * @brief This function returns the value of member brake_temperature
+ * @return Value of member brake_temperature
  */
-int16_t WirectlFeedbackInfo::L_brake_temperature() const
+float WirectlFeedbackInfo::brake_temperature() const
 {
-    return m_L_brake_temperature;
+    return m_brake_temperature;
 }
 
 /*!
- * @brief This function returns a reference to member L_brake_temperature
- * @return Reference to member L_brake_temperature
+ * @brief This function returns a reference to member brake_temperature
+ * @return Reference to member brake_temperature
  */
-int16_t& WirectlFeedbackInfo::L_brake_temperature()
+float& WirectlFeedbackInfo::brake_temperature()
 {
-    return m_L_brake_temperature;
-}
-
-/*!
- * @brief This function sets a value in member R_brake_temperature
- * @param _R_brake_temperature New value for member R_brake_temperature
- */
-void WirectlFeedbackInfo::R_brake_temperature(
-        int16_t _R_brake_temperature)
-{
-    m_R_brake_temperature = _R_brake_temperature;
-}
-
-/*!
- * @brief This function returns the value of member R_brake_temperature
- * @return Value of member R_brake_temperature
- */
-int16_t WirectlFeedbackInfo::R_brake_temperature() const
-{
-    return m_R_brake_temperature;
-}
-
-/*!
- * @brief This function returns a reference to member R_brake_temperature
- * @return Reference to member R_brake_temperature
- */
-int16_t& WirectlFeedbackInfo::R_brake_temperature()
-{
-    return m_R_brake_temperature;
-}
-
-/*!
- * @brief This function sets a value in member Maximum_remaining_electric_braking
- * @param _Maximum_remaining_electric_braking New value for member Maximum_remaining_electric_braking
- */
-void WirectlFeedbackInfo::Maximum_remaining_electric_braking(
-        int16_t _Maximum_remaining_electric_braking)
-{
-    m_Maximum_remaining_electric_braking = _Maximum_remaining_electric_braking;
-}
-
-/*!
- * @brief This function returns the value of member Maximum_remaining_electric_braking
- * @return Value of member Maximum_remaining_electric_braking
- */
-int16_t WirectlFeedbackInfo::Maximum_remaining_electric_braking() const
-{
-    return m_Maximum_remaining_electric_braking;
-}
-
-/*!
- * @brief This function returns a reference to member Maximum_remaining_electric_braking
- * @return Reference to member Maximum_remaining_electric_braking
- */
-int16_t& WirectlFeedbackInfo::Maximum_remaining_electric_braking()
-{
-    return m_Maximum_remaining_electric_braking;
+    return m_brake_temperature;
 }
 
 /*!
@@ -16894,8 +16808,6 @@ size_t WirectlFeedbackInfo::getKeyMaxCdrSerializedSize(
 
 
 
-
-
     return current_align;
 }
 
@@ -16908,5 +16820,5 @@ void WirectlFeedbackInfo::serializeKey(
         eprosima::fastcdr::Cdr& scdr) const
 {
     (void) scdr;
-                                                                                                                                                                                                                            
+                                                                                                                                                                                                                          
 }
