@@ -35,7 +35,7 @@ void write_Gps2log(int signum)
 int main()
 {
 	zkbs::init("syzk-remotectl");
-	MINE_LOG(SANY_LOG_INFO, "syzk-remotectl V2.3.3 heartbug+130 start!!\n");
+	MINE_LOG(SANY_LOG_INFO, "syzk-remotectl V2.3.4 130airSup start!!\n");
 	
 	zkbs::setVersion(VER("3.3"));
 	MINE_LOG(SANY_LOG_INFO, "SET VERSION SUCCESS!!\n");

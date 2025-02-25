@@ -252,24 +252,6 @@ void Protocol_Cockpit::funcTask(){
 	SANY_U32 Tick = 0;
 	SANY_U8 Tick_Remote_Notice = -1;
 	int flag = 0;
-	// timer_t timer;
-    // struct sigevent sev;
-    // sev.sigev_notify = SIGEV_SIGNAL;
-    // sev.sigev_signo = SIGALRM;
-    // sev.sigev_value.sival_ptr = &timer;
-    // signal(SIGALRM, write_Gps2log);
-
-    // if(timer_create(CLOCK_REALTIME, &sev, &timer) == -1)
-    //     MINE_LOG(SANY_LOG_ERROR, "Timer_Create Fail!!!!\n");
-    // struct itimerspec its;
-    // its.it_value.tv_sec = 5;
-    // its.it_value.tv_nsec = 0;
-    // its.it_interval.tv_sec = 5;
-    // its.it_interval.tv_nsec = 0;
-    // if(timer_settime(timer, 0, &its, NULL) == -1){
-	// 	MINE_LOG(SANY_LOG_ERROR, "Timer_Settime Fail!!!!\n");
-	// }
-	// MINE_LOG(SANY_LOG_INFO, "CREATE TIMER!!\n");
 	MINE_LOG(SANY_LOG_INFO, "funcTask thread START!\n");
 	while (true)
 	{
@@ -310,9 +292,13 @@ void Protocol_Cockpit::funcTask(){
 					ProtoCockpit_getCtrlDate(&imple_result_info);
 					imple_result_info.Remote_enable(5);
 					imple_result_info.unmanned_enable(1);
+					/* 20250220 liuss 将该物理按键改为130H补气开关：1.130无法加油补气；2. 领导指定排气制动；-----start*/
+					imple_result_info.Parking_airSup_state(false);
+					/* 20250220 liuss 将该物理按键改为130H补气开关：1.130无法加油补气；2. 领导指定排气制动；-----end*/
 					pPubImple->publish(imple_result_info);
 					Remote_Enable5++;
-					MINE_LOG(SANY_LOG_INFO, "exit from remote-control, Remote_enable: %d, current Gear: %d, BrakeOpening: %f, Parking State: %d\n",imple_result_info.Remote_enable(), imple_result_info.trans_req_gear(), imple_result_info.traffic_brake_req(), imple_result_info.parking_req());
+					MINE_LOG(SANY_LOG_INFO, "exit from remote-control, Remote_enable: %d, current Gear: %d, BrakeOpening: %f, Parking State: %d, Parking airSup State: %d\n",
+						imple_result_info.Remote_enable(), imple_result_info.trans_req_gear(), imple_result_info.traffic_brake_req(), imple_result_info.parking_req(), imple_result_info.Parking_airSup_state());
 				}	
 			}
 		}else{
@@ -1365,9 +1351,9 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_HeartCheck(const SANY_U32 Losttimes)
 
 	if(g_u8LoginFlag == 1)
 	{
-		if(2  == g_u8ResponseCtrlState)
+		if(2 == g_u8ResponseCtrlState)
 		{
-			if (500 <= Losttimes)
+			if (500  <= Losttimes)
 			{
 				if(vehicle_type == "SKT-I")
 				{
@@ -2481,11 +2467,17 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_getCtrlDate(ImpleResultInfo *pCtrlInfo)
 		// 开前照灯
 		pCtrlInfo->head_light_ctrl(true);
 	}
+	/* 20250220 liuss 将该物理按键改为130H补气开关：1.130无法加油补气；2. 领导指定排气制动；-----start*/
 	if (struWireCtrlIn.iKeyOperation1 & 0x20)
 	{
 		// 发动机排气制动开
-		pCtrlInfo->exhaust_brake_req(true);
+		// pCtrlInfo->exhaust_brake_req(true);
+		pCtrlInfo->Parking_airSup_state(true);
+	}else{
+		pCtrlInfo->Parking_airSup_state(false);
 	}
+	MINE_LOG(SANY_LOG_INFO, "receive Parking_airSup_state (%d)\n", pCtrlInfo->Parking_airSup_state());
+	/* 20250220 liuss 将该物理按键改为130H补气开关：1.130无法加油补气；2. 领导指定排气制动；-----end*/
 	if (struWireCtrlIn.iKeyOperation1 & 0x40)
 	{
 		// 轮差开
@@ -2552,6 +2544,7 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_getCtrlDate(ImpleResultInfo *pCtrlInfo)
 	}
 	else if(vehicle_type == "SKT-E")
 	{
+		// 电车举升需取力
 		if((struWireCtrlIn.iKeyOperation2 & 0x80) && (struWireCtrlIn.iKeyOperation2 & 0x04))
 		{
 			// 开举升下降
