@@ -85,18 +85,29 @@ void InitTask::ReadConfig(){
 		SANY_U32 config_v_type = config["vehicle"]["vehicle_type"].as<int>();
 	//	brake_delay = config["vehicle"]["vehicle_delay"].as<int>();
 	//	read_brakeing = config["vehicle"]["vehicle_brake"].as<int>();
-		if(config_v_type == 0)
-		{
-			MINE_LOG(SANY_LOG_ERROR, "Read Config-runSetup.yaml vehicle_type is 0 !!!\n");
-		}
-		else if((config_v_type % 2) != 0)
+		
+		// 1 为油车
+		if(config_v_type == 1)
 		{
 			m_Cockpit->vehicle_type = "SKT-I";
 		}
-		else
+		// 2 为电车
+		else if(config_v_type == 2)
 		{
 			m_Cockpit->vehicle_type = "SKT-E";
 		}
+		/* 20250306 liuss31 新增车型 3 为 130H混型-------- start*/ 
+		else if(config_v_type == 3)
+		{
+			m_Cockpit->vehicle_type = "SKT-H";
+		}
+		else{
+			// 默认油车
+			MINE_LOG(SANY_LOG_ERROR, "Read Config-runSetup.yaml vehicle_type is %d, SET 1 (SKT-I) !!!\n", config_v_type);
+			config_v_type = 1;
+			m_Cockpit->vehicle_type = "SKT-I";
+		}
+		/* 20250306 liuss31 新增车型 130H混型-------- end*/ 
 		MINE_LOG(SANY_LOG_INFO, "Vehicle VIN is %s\n", m_Cockpit->vehicle_vin.c_str());
 		MINE_LOG(SANY_LOG_INFO, "Vehicle ICCID is %s\n", m_Cockpit->vehicle_iccid.c_str());
 		MINE_LOG(SANY_LOG_INFO, "Vehicle type is %s\n", m_Cockpit->vehicle_type.c_str());

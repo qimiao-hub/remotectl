@@ -1246,26 +1246,26 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_SendCmdRealtimeRep()
 
 	u8Ret_Data = ProtoCockpit_getFeedbackData();
 	/*车速*/
-	u16TmpDate = (int)struWireCtrlOut.iVehicle_speed * 10;					
+	u16TmpDate = (int)(struWireCtrlOut.iVehicle_speed * 10);					
 	SYS2NET(pDataST->ucCarSpeed, u16TmpDate);
 	/*航向角*/
-	u16TmpDate = (int)struWireCtrlOut.iHeadingAngle * 10;
+	u16TmpDate = (int)(struWireCtrlOut.iHeadingAngle * 10);
 	SYS2NET(pDataST->ucHeadingAngle, u16TmpDate);
 	/*车轮转角*/
-	u16TmpDate = (int)(struWireCtrlOut.iWheelAngleL + 40) * 10;
+	u16TmpDate = (int)((struWireCtrlOut.iWheelAngleL + 40) * 10);
 	SYS2NET(pDataST->ucWheelAngleL, u16TmpDate);
 	/*油门*/
 	pDataST->ucThrottleOpening[0] = (SANY_U8)struWireCtrlOut.iThrottleOpening;
 	/*制动*/
 	pDataST->ucBrakeOpening[0] = (SANY_U8)struWireCtrlOut.iBrakeOpening;
-	/*发动机转速*/
-	u16TmpDate = (int)struWireCtrlOut.iEngineSpeed / 0.125;
+	/*发动机转速, 20250306 22软件版本 区分油车、电车、混型*/
+	u16TmpDate = (int)struWireCtrlOut.iEngineSpeed;
 	SYS2NET(pDataST->ucEngineSpeed, u16TmpDate);
 	/*累计里程*/
-	u32TmpDate = (int)struWireCtrlOut.iAccumulatedMileage * 10;
+	u32TmpDate = (int)(struWireCtrlOut.iAccumulatedMileage * 10);
 	*(SANY_U32 *)&(pDataST->ucAccumulatedMileage) = SYS2NET4((SANY_U8 *)&u32TmpDate);
 	/*小计里程*/
-	u16TmpDate = (int)struWireCtrlOut.iSubtotalMileage * 10;
+	u16TmpDate = (int)(struWireCtrlOut.iSubtotalMileage * 10);
 	SYS2NET(pDataST->ucSubtotalMileage, u16TmpDate);
 	/*俯仰角*/
 	u16TmpDate = (int)(struWireCtrlOut.iPitchAngle + 90);
@@ -1275,8 +1275,10 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_SendCmdRealtimeRep()
 	/*剩余油量*/
 	pDataST->ucRemainingOil[0] = (SANY_U8)struWireCtrlOut.iRemainingOil;
 	/*水温*/
-	pDataST->ucWaterTemp[0] = (SANY_U8)struWireCtrlOut.iWaterTemp;
-	/*气压1\2 2.3.2 调整数值范围*/
+	/* 20250306 调整水温数值，实际范围为-50 ～150 ，传递正数 0～200，舱端同步做调整 电车无水温----- start*/
+	pDataST->ucWaterTemp[0] = (SANY_U8)(struWireCtrlOut.iWaterTemp + 50);
+	/* 20250306 调整水温数值，实际范围为-50 ～150 ，传递正数 0～200，舱端同步做调整 ----- end*/
+	/*气压1\2 2.3.2  软件版本号为21 调整数值范围*/
 	pDataST->ucBrakeAirPre1[0] = (SANY_U8)(struWireCtrlOut.iBrakeAirPre1 * 100);
 	pDataST->ucBrakeAirPre2[0] = (SANY_U8)(struWireCtrlOut.iBrakeAirPre2 * 100);
 	/*组合开关左右*/
@@ -1296,11 +1298,11 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_SendCmdRealtimeRep()
 	pDataST->ucSafeInfo2[0] = (SANY_U8)struWireCtrlOut.iSafeInfo2;
 
 	MINE_LOG(SANY_LOG_INFO, "--- ProtoCockpit_SendCmdRealtimeRep --- start\n");
-	MINE_LOG(SANY_LOG_INFO, "iVehicle_speed %d\n", (int)struWireCtrlOut.iVehicle_speed * 10);
+	MINE_LOG(SANY_LOG_INFO, "iVehicle_speed %d\n", (int)(struWireCtrlOut.iVehicle_speed * 10));
 	MINE_LOG(SANY_LOG_INFO, "iBrakeOpening %d\n", (int)struWireCtrlOut.iBrakeOpening);
-	MINE_LOG(SANY_LOG_INFO, "iWheelAngleL %d\n", (int)(struWireCtrlOut.iWheelAngleL + 40) * 10);
+	MINE_LOG(SANY_LOG_INFO, "iWheelAngleL %d\n", (int)((struWireCtrlOut.iWheelAngleL + 40) * 10));
 	MINE_LOG(SANY_LOG_INFO, "iThrottleOpening %d\n", (int)struWireCtrlOut.iThrottleOpening);
-	MINE_LOG(SANY_LOG_INFO, "iEngineSpeed %d\n", (int)(struWireCtrlOut.iEngineSpeed / 0.125));				//
+	MINE_LOG(SANY_LOG_INFO, "iEngineSpeed %d\n", (int)struWireCtrlOut.iEngineSpeed);				//
 	MINE_LOG(SANY_LOG_INFO, "iHeadingAngle %d\n", (int)struWireCtrlOut.iHeadingAngle * 10);
 	MINE_LOG(SANY_LOG_INFO, "iAccumulatedMileage %d\n", (int)struWireCtrlOut.iAccumulatedMileage * 10);
 	MINE_LOG(SANY_LOG_INFO, "iSubtotalMileage %d\n", (int)struWireCtrlOut.iSubtotalMileage * 10);
@@ -1358,17 +1360,14 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_HeartCheck(const SANY_U32 Losttimes)
 				if(vehicle_type == "SKT-I")
 				{
 					struWireCtrlIn.iGearOpening = 0x7D;
-					struWireCtrlIn.iBrakeOpening = 100;
-					struWireCtrlIn.iThrottleOpening = 0;
-					struWireCtrlIn.iWheelAngle = 0x0190;
 				}
-				else if(vehicle_type== "SKT-E")
+				else if(vehicle_type== "SKT-E" || vehicle_type == "SKT-H")
 				{
 					struWireCtrlIn.iGearOpening = 0;
-					struWireCtrlIn.iBrakeOpening = 100;
-					struWireCtrlIn.iThrottleOpening = 0;
-					struWireCtrlIn.iWheelAngle = 0x0190;
 				}
+				struWireCtrlIn.iBrakeOpening = 100;
+				struWireCtrlIn.iThrottleOpening = 0;
+				struWireCtrlIn.iWheelAngle = 0x0190;
 				struWireCtrlIn.iKeyOperation2 = 0x08;	
 				m_pFailureSDK->report(FailureModule_Nebula_RemoteCtrl, 3203, 5, 1);			
 				// 重置网络状态
@@ -1816,15 +1815,19 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_getFeedbackData()
 		struWireCtrlOut.iBrakeOpening = WireInfo.brake_pedal_SYMC(); // 制动
 	}
 	struWireCtrlOut.iVehicle_speed = WireInfo.tachograph_vehicle_speed();	 // 车速
+	// MINE_LOG(SANY_LOG_INFO, "297 iVehicle_speed (%2f)\n", WireInfo.tachograph_vehicle_speed());
 	struWireCtrlOut.iWheelAngleL = WireInfo.steering_left_angle_info();		 // 车轮转角
 	struWireCtrlOut.iAccumulatedMileage = WireInfo.total_vehicle_distance(); // 总计里程
 	struWireCtrlOut.iPitchAngle = struGpsInfo.gps_pitch();					//俯仰角
 	struWireCtrlOut.iLiftUpStatus = WireInfo.lift_longo_position_status();			//举升到位状态
 	struWireCtrlOut.iLiftDownStatus = WireInfo.drop_longo_position_status();				//下降到位状态
 	struWireCtrlOut.iGearOpening =  WireInfo.trans_current_gear();				//档位
+	// MINE_LOG(SANY_LOG_INFO, "iGearOpening trans_current_gear (%d)\n", WireInfo.trans_current_gear());
 
 	struWireCtrlOut.iBrakeAirPre1 = WireInfo.air_pressure_1();							//气压1
 	struWireCtrlOut.iBrakeAirPre2 = WireInfo.air_pressure_2();							//气压2
+
+	struWireCtrlOut.iHeadingAngle = struGpsInfo.gps_heading();					 // 航向角
 
 	// MINE_LOG(SANY_LOG_INFO, " AIR_PRESSURE_1 is %f", WireInfo.air_pressure_1());
 
@@ -1908,7 +1911,7 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_getFeedbackData()
 	{
 		struWireCtrlOut.iCombinedGearR &= 0xEF;
 	}
-	// 1118 刹车策略
+	// 1118 刹车策略 刹车启动状态上报
 	if(g_BrakeLimitCount == 1)
 	{
 		struWireCtrlOut.iCombinedGearR |= 0x01 << 5;
@@ -2032,8 +2035,12 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_getFeedbackData()
 	if (vehicle_type == "SKT-I")
 	 {
 		struWireCtrlOut.iThrottleOpening = WireInfo.accel_pedal_position(); // 油门
-		struWireCtrlOut.iEngineSpeed = WireInfo.engine_speed();	 // 发动机转速 SKT-I
-		struWireCtrlOut.iHeadingAngle = struGpsInfo.gps_heading();					 // 航向角
+
+		/* 20250306 调整发动机转速，实际范围为0~5000 ，传递 0~40000，舱端同步做调整 ----- start*/
+		struWireCtrlOut.iEngineSpeed = WireInfo.engine_speed() * 8;	 // 发动机转速 SKT-I
+		/* 20250306 调整发动机转速，实际范围为0~5000 ，传递 0~40000，舱端同步做调整 ----- end*/
+
+		// struWireCtrlOut.iHeadingAngle = struGpsInfo.gps_heading();					 // 航向角
 		struWireCtrlOut.iRemainingOil = WireInfo.fuel_level();					//剩余油量
 		struWireCtrlOut.iWaterTemp = WireInfo.engine_coolant_temperature();				//水温
 		if (finitTalDistance == 0)
@@ -2046,11 +2053,14 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_getFeedbackData()
 	else if(vehicle_type == "SKT-E")
 	 {
 		struWireCtrlOut.iThrottleOpening = WireInfo.actual_engine_torque(); // 油门
-		struWireCtrlOut.iEngineSpeed = WireInfo.main_driveMotor_speed_raw();			// 发动机转速
-		struWireCtrlOut.iHeadingAngle = struGpsInfo.gps_yaw();							// 航向角
+
+		/* 20250306 调整发动机转速，实际范围为-6000 ～6000 ，传递正数 0～12000，舱端同步做调整 ----- start*/
+		struWireCtrlOut.iEngineSpeed = WireInfo.main_driveMotor_speed_raw() + 6000;			// 发动机转速
+		/* 20250306 调整发动机转速，实际范围为-6000 ～6000 ，传递正数 0～12000，舱端同步做调整 ----- end*/
+
+		// struWireCtrlOut.iHeadingAngle = struGpsInfo.gps_yaw();							// 航向角
 		struWireCtrlOut.iRemainingOil = WireInfo.SOC();					//剩余电量
-	//	struWireCtrlOut.iWaterTemp = WireInfo.engine_coolant_temperature();				//水温
-		struWireCtrlOut.iWaterTemp = 0;
+		struWireCtrlOut.iWaterTemp = 0;									//水温 电车无水温
 		if (finitTalDistance == 0)
 		{
 			finitTalDistance = WireInfo.total_vehicle_distance();
@@ -2058,6 +2068,25 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_getFeedbackData()
 		/*小计里程 = 总里程-初始里程*/
 		struWireCtrlOut.iSubtotalMileage = (WireInfo.total_vehicle_distance() - finitTalDistance) / 1000;
 	 }
+	 /* 20250306 增加130混型数据解析 ----- start*/
+	 else if(vehicle_type == "SKT-H"){
+		struWireCtrlOut.iThrottleOpening = WireInfo.accel_pedal_position(); // 油门
+
+		/* 20250306 调整发动机转速，实际范围为0~5000 ，传递 0~40000，舱端同步做调整 与油车一致 ----- start*/
+		struWireCtrlOut.iEngineSpeed = WireInfo.engine_speed() * 8;	 // 发动机转速 SKT-H
+		/* 20250306 调整发动机转速，实际范围为0~5000 ，传递 0~40000，舱端同步做调整 ----- end*/
+
+	 	
+		struWireCtrlOut.iRemainingOil = WireInfo.fuel_level();			// 油箱油量
+		struWireCtrlOut.iWaterTemp = WireInfo.engine_coolant_temperature();				//水温
+		if (finitTalDistance == 0)
+		{
+			finitTalDistance = WireInfo.total_vehicle_distance();
+		}
+		/*小计里程 = 总里程-初始里程*/
+		struWireCtrlOut.iSubtotalMileage = (WireInfo.total_vehicle_distance() - finitTalDistance) / 1000;
+	}
+	 /* 20250306 增加130混型数据解析 ----- end*/
 	// 安全措施-故障信息
 	ProtoCockpit_PackSafeFeedbackInfo();
 
@@ -2229,7 +2258,7 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_Rolling()
 
 SANY_U8 Protocol_Cockpit::ProtoCockpit_initCtrlData()
 {
-	if(vehicle_type == "SKT-E")
+	if(vehicle_type == "SKT-E" || vehicle_type == "SKT-H")
 	{
 		struWireCtrlIn.iGearOpening = 0;
 	}
@@ -2323,7 +2352,7 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_getCtrlDate(ImpleResultInfo *pCtrlInfo)
 			pCtrlInfo->trans_req_gear(0x7D); // 0x7D;
 		}
 	}
-	else if(vehicle_type == "SKT-E")
+	else if(vehicle_type == "SKT-E" || vehicle_type == "SKT-H")
 	{
 		if (1 == struWireCtrlIn.iGearOpening) // R
 		{
@@ -2472,9 +2501,17 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_getCtrlDate(ImpleResultInfo *pCtrlInfo)
 	{
 		// 发动机排气制动开
 		// pCtrlInfo->exhaust_brake_req(true);
-		pCtrlInfo->Parking_airSup_state(true);
+		if(vehicle_type == "SKT-H"){
+			pCtrlInfo->Parking_airSup_state(true);
+		}else{
+			pCtrlInfo->exhaust_brake_req(true);
+		}
 	}else{
-		pCtrlInfo->Parking_airSup_state(false);
+		if(vehicle_type == "SKT-H"){
+			pCtrlInfo->Parking_airSup_state(false);
+		}else{
+			pCtrlInfo->exhaust_brake_req(false);
+		}
 	}
 	MINE_LOG(SANY_LOG_INFO, "receive Parking_airSup_state (%d)\n", pCtrlInfo->Parking_airSup_state());
 	/* 20250220 liuss 将该物理按键改为130H补气开关：1.130无法加油补气；2. 领导指定排气制动；-----end*/
@@ -2542,7 +2579,7 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_getCtrlDate(ImpleResultInfo *pCtrlInfo)
 			pCtrlInfo->container_ctrl(0);
 		}
 	}
-	else if(vehicle_type == "SKT-E")
+	else if(vehicle_type == "SKT-E" || vehicle_type == "SKT-H")
 	{
 		// 电车举升需取力
 		if((struWireCtrlIn.iKeyOperation2 & 0x80) && (struWireCtrlIn.iKeyOperation2 & 0x04))
@@ -2593,13 +2630,12 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_getCtrlDate(ImpleResultInfo *pCtrlInfo)
 		if("SKT-I" == vehicle_type)
 		{
 			pCtrlInfo->trans_req_gear(0x7D);		//N
-			pCtrlInfo->traffic_brake_req(100);		//制动
 		}
-		else if ("SKT-E" == vehicle_type)
+		else if ("SKT-E" == vehicle_type || vehicle_type == "SKT-H")
 		{
 			pCtrlInfo->trans_req_gear(0);		//N
-			pCtrlInfo->traffic_brake_req(100);		//制动
 		}
+		pCtrlInfo->traffic_brake_req(100);		//制动
 		pCtrlInfo->parking_req(true);		//驻车
 		pCtrlInfo->engine_req_torque(0);	//油门
 		pCtrlInfo->brake_req_status(true);		//刹车请求状态
