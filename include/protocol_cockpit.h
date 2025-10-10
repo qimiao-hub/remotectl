@@ -18,21 +18,25 @@
 #include <sys/time.h>
 #include "FailureReporter.h"
 #include "daemon_sdk.h"
-#include "read_ini.h"
+#include "./common/read_ini.h"
 #include "./common/yaml.h"
 
-#include "../include/ddsType/ChassisCtrl.h"
-#include "../include/ddsType/ChassisCtrlPubSubTypes.h"
-#include "../include/ddsType/gps_imu_msg.h"
-#include "../include/ddsType/gps_imu_msgPubSubTypes.h"
+
+#include "./ddsType/Cockpit_address.h"
+#include "./ddsType/Cockpit_addressPubSubTypes.h"
+
+// dvpn-pnc-common规控common库
+#include "../dvpn-pnc-common/ddsType/include/gps_imu_msg.h"
+#include "../dvpn-pnc-common/ddsType/include/gps_imu_msgPubSubTypes.h"
+#include "../dvpn-pnc-common/ddsType/include/ChassisCtrl.h"
+#include "../dvpn-pnc-common/ddsType/include/ChassisCtrlPubSubTypes.h"
 // #include "../include/ddsType/FailureReporterInterface.h"
 // #include "../include/ddsType/FailureReporterInterfacePubSubTypes.h"
-#include "../include/ddsType/imple_msg.h"
-#include "../include/ddsType/imple_msgPubSubTypes.h"
-#include "../include/ddsType/safe_ctrl_msg.h"
-#include "../include/ddsType/safe_ctrl_msgPubSubTypes.h"
-#include "../include/ddsType/Cockpit_address.h"
-#include "../include/ddsType/Cockpit_addressPubSubTypes.h"
+#include "../dvpn-pnc-common/ddsType/include/imple_msg.h"
+#include "../dvpn-pnc-common/ddsType/include/imple_msgPubSubTypes.h"
+#include "../dvpn-pnc-common/ddsType/include/safe_ctrl_msg.h"
+#include "../dvpn-pnc-common/ddsType/include/safe_ctrl_msgPubSubTypes.h"
+
 #include <zkbs/ddsBase/ddsPubBase.h>
 #include <zkbs/ddsBase/ddsSubBase.h>
 #include "zkbs/zkbs.hpp"

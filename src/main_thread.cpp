@@ -13,9 +13,9 @@
 #include <sys/time.h>
 #include <iostream>
 #include <FailureReporter.h>
-#include "common/sany_type.h"
-#include "protocol/protocol_cockpit.h"
-#include "InitTask.h"
+#include "../include/common/sany_type.h"
+#include "../include/protocol_cockpit.h"
+#include "../include/InitTask.h"
 
 FailureReporter *m_pFailureSDK = new FailureReporter();
 // InitTask initTask = new InitTask();

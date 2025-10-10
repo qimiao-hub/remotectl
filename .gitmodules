@@ -1,0 +1,4 @@
+[submodule "dvpn-pnc-common"]
+	path = dvpn-pnc-common
+	url = https://devops-gitlab.sany.com.cn/sany-syzk-pnc/dvpn-pnc-common
+	branch = 130HD_planctrl_common_2.6

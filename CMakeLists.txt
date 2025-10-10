@@ -16,19 +16,19 @@ add_definitions("-Wall" "-rdynamic")
 
 # message("===${CMAKE_SOURCE_DIR}")
 
+include_directories(${CMAKE_SOURCE_DIR}/dvpn-pnc-common/ddsType/include)
+include_directories(${CMAKE_SOURCE_DIR}/dvpn-pnc-common/idl)
 include_directories(${CMAKE_SOURCE_DIR}/include)
 include_directories(${CMAKE_SOURCE_DIR}/src)
 
 file(GLOB SRC_LIST
-	"include/yaml.h"
+	"dvpn-pnc-common/ddsType/include/*.h"
+	"dvpn-pnc-common/ddsType/src/*.cxx"
 	"include/ddsType/*.h"
 	"include/ddsType/*.cxx"
-	"include/*.hpp"
-    	"src/common/*.cpp"
-        "src/common/*.hpp"
-        "src/protocol/*.cpp"
-        "src/protocol/*.hpp"
-         "src/*.cpp"
+	"include/common/*.h"
+	"include/*.h"
+    "src/*.cpp"
     )
 
 add_executable(${PROJECT_NAME} ${SRC_LIST})

@@ -21,8 +21,8 @@
 #include <sys/time.h>
 
 #include "sany_utils.h"
-#include "./protoDef.h"
-#include "./protocol_cockpit.h"
+#include "../include/protoDef.h"
+#include "../include/protocol_cockpit.h"
 
 
 		
@@ -1301,11 +1301,11 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_SendCmdRealtimeRep()
 	MINE_LOG(SANY_LOG_INFO, "iVehicle_speed %d\n", (int)(struWireCtrlOut.iVehicle_speed * 10));
 	MINE_LOG(SANY_LOG_INFO, "iBrakeOpening %d\n", (int)struWireCtrlOut.iBrakeOpening);
 	MINE_LOG(SANY_LOG_INFO, "iWheelAngleL %d\n", (int)((struWireCtrlOut.iWheelAngleL + 40) * 10));
-	MINE_LOG(SANY_LOG_INFO, "iThrottleOpening %d\n", (int)struWireCtrlOut.iThrottleOpening);
-	MINE_LOG(SANY_LOG_INFO, "iEngineSpeed %d\n", (int)struWireCtrlOut.iEngineSpeed);				//
-	MINE_LOG(SANY_LOG_INFO, "iHeadingAngle %d\n", (int)struWireCtrlOut.iHeadingAngle * 10);
-	MINE_LOG(SANY_LOG_INFO, "iAccumulatedMileage %d\n", (int)struWireCtrlOut.iAccumulatedMileage * 10);
-	MINE_LOG(SANY_LOG_INFO, "iSubtotalMileage %d\n", (int)struWireCtrlOut.iSubtotalMileage * 10);
+	MINE_LOG(SANY_LOG_INFO, "iThrottleOpening %d\n", (int)(struWireCtrlOut.iThrottleOpening));
+	MINE_LOG(SANY_LOG_INFO, "iEngineSpeed %d\n", (int)(struWireCtrlOut.iEngineSpeed));				//
+	MINE_LOG(SANY_LOG_INFO, "iHeadingAngle %d\n", (int)(struWireCtrlOut.iHeadingAngle * 10));
+	MINE_LOG(SANY_LOG_INFO, "iAccumulatedMileage %u\n", (SANY_U32)(struWireCtrlOut.iAccumulatedMileage * 10));
+	MINE_LOG(SANY_LOG_INFO, "iSubtotalMileage %d\n", (int)(struWireCtrlOut.iSubtotalMileage * 10));
 	MINE_LOG(SANY_LOG_INFO, "iPitchAngle %d\n", (int)(struWireCtrlOut.iPitchAngle + 90));
 	MINE_LOG(SANY_LOG_INFO, "iGearOpening %d\n", (int)(struWireCtrlOut.iGearOpening));					//
 	MINE_LOG(SANY_LOG_INFO, "iRemainingOil %d\n", (int)(struWireCtrlOut.iRemainingOil));				//
@@ -2317,7 +2317,8 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_getCtrlDate(ImpleResultInfo *pCtrlInfo)
 	// 		pCtrlInfo->unmanned_enable(0);
 	// }
 			
-	if(g_u8LoginFlag == 0)
+	// 20250115 增加条件 响应状态不是遥控时，下发的数据为初始化数据
+	if(g_u8LoginFlag == 0 || g_u8ResponseCtrlState != Vehicle_Ctrl_Remote)
 	{
 		ProtoCockpit_initCtrlData();	
 		MINE_LOG(SANY_LOG_ERROR, "Login flag is :  %d, init control data!!\n", g_u8LoginFlag);

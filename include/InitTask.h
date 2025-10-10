@@ -5,10 +5,10 @@
 #ifndef INITTASK_H
 #define INITTASK_H
 #include "functional"
-#include "./protocol/read_ini.h"
-#include "./protocol/protoDef.h"
+#include "./common/read_ini.h"
+#include "./protoDef.h"
 #include "./common/yaml.h"
-#include "./protocol/protocol_cockpit.h"
+#include "./protocol_cockpit.h"
 
 // #include <zkbs/ddsBase/ddsPubBase.h>
 // #include <zkbs/ddsBase/ddsSubBase.h>

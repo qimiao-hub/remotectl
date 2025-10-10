@@ -1,4 +1,4 @@
-﻿#include "./terminal_client.h"
+﻿#include "../include/terminal_client.h"
 
 
 terminal_client::terminal_client()
