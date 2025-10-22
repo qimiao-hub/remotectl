@@ -85,7 +85,6 @@ void InitTask::ReadConfig(){
 		SANY_U32 config_v_type = config["vehicle"]["vehicle_type"].as<int>();
 	//	brake_delay = config["vehicle"]["vehicle_delay"].as<int>();
 	//	read_brakeing = config["vehicle"]["vehicle_brake"].as<int>();
-		
 		// 1 为油车
 		if(config_v_type == 1)
 		{

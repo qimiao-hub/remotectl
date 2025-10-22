@@ -157,6 +157,8 @@ public:
 	/*溜车判断-计算车速航向*/
 	float ProtoCockpit_SpeedHeading(const float gps_vn, const float gps_ve, const float heading);
 	SANY_U8 ProtoCockpit_Rolling();
+	/* 20250925 坡起策略*/
+	float ProtoCockpit_SlopeStart();
 	/*心跳、控车数据监测*/
 	SANY_U8 ProtoCockpit_HeartCheck(const SANY_U32 Losttimes);
 	/*断连/心跳丢失停车*/
@@ -202,10 +204,15 @@ private:
 	SANY_U32 g_BrakeLimitCount = 0;
 
 	/*缓刹*/
-	SANY_U32 brake_delay = 40;
+	// SANY_U32 brake_delay = 40;
 	SANY_U32 read_brakeing = 50;
 	SANY_U32 brake_count = 0;
 	float BrakeValue;
+	SANY_U32 BRAKE_DELAY_THRESHOLD = 40;	// 刹车延迟时间阈值
+	float mass_coefficient_thr = 1.2f; // 重载系数
+	float DANGER_PITCH_THRESHOLD = 2.0f;	// 触发坡起的俯仰角度数
+	SANY_U32 RECOVERY_TIME_THRESHOLD = 20;	// 1秒，坡起波动取消的时间阈值
+	SANY_U32 recovery_count = -1;
 
 	/*线程id*/
 	pthread_t t_upload_data_id;
