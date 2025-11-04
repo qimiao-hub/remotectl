@@ -1,0 +1,9 @@
+#ifndef __MULTI_PARKING_IDL__
+#define __MULTI_PARKING_IDL__
+
+struct MultiParkingState
+{
+    boolean isMultiPaiking;
+};
+
+#endif

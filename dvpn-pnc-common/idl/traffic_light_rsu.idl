@@ -1,0 +1,28 @@
+#ifndef __TRAFFIC_LIGHT_RSU_IDL__
+#define __TRAFFIC_LIGHT_RSU_IDL__
+
+struct directionInfo
+{
+    int32 dir; //方向 0:东 1:南 2:西 3:北
+    char inRoad[33]; //该方向驶入路段ID
+    char outRoad[33]; //该方向驶出路段ID
+    sequence<int32> lamp; //该方向灯色信息 0:绿灯 1:红灯 2:黄灯
+    sequence<int32> leftTime; //该方向灯色剩余时间 单位：秒
+};
+
+struct juncInfo
+{
+    int32 junctionID; //路口ID
+    int32 seq; //流水号
+    double lng; //路口经纬度信息
+    double lat; //路口经纬度信息
+    sequence<directionInfo> dirInfo; //路口各方向信息
+};
+
+/*
+此处由于时间紧迫，暂做一下简化，RSU只发无人方向的灯色和剩余时间信息，
+规控可以先使用dirInfo[0].lamp和dirInfo[0].leftTime信息，
+后续会按照上述结构体发布全部信息，车端需自行判断所在方向和所在方向的红绿灯信息
+*/
+
+#endif

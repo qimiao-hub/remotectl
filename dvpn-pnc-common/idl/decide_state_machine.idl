@@ -1,0 +1,42 @@
+#ifndef __DECIDE_STATE_MACHINE_IDL__
+#define __DECIDE_STATE_MACHINE_IDL__
+
+enum Task_Main_State
+{
+    TASK_MAIN_MAN,     //有人驾驶状态
+    TASK_MAIN_REMOTE,  //遥控驾驶状态 
+
+    TASK_MAIN_INIT,    //无人：初始化状态
+
+    TASK_MAIN_EMPTY,   //无人：空载
+    TASK_MAIN_LOAD,    //无人：装料(从装料入场到装料完成)
+    TASK_MAIN_FULL,    //无人：满载
+    TASK_MAIN_DUMP,    //无人：卸料(从卸料入场到卸料完成)
+    TASK_MAIN_GO_PARK, //无人：前往停车场(去往停车场入场口)
+    TASK_MAIN_PARK,     //无人：停车场停车(去往停车位，从停车入场到停车位)
+    TASK_MAIN_OIL,      //无人：加油(去往加油场和到达加油位)
+    TASK_MAIN_REPIRE,      //无人：维修(去往维修场和到达维修位)
+    TASK_MAIN_WATER      //无人：洒水(去往洒水场和到达洒水位)
+};
+
+enum Task_Sub_State
+{
+    TASK_SUB_INIT,              //有人、遥控和无人初始化状态时，子状态为TASK_SUB_INIT
+    TASK_SUB_DRIVING,           //前向：正常行驶
+    TASK_SUB_REVERSE_DRIVING,   //前向：去往换向点
+    TASK_SUB_REVERSE_BACK,      //后向：离开换向点
+    TASK_SUB_BACK,              //后向：正常行驶
+    TASK_SUB_DUMPING,           //正在卸料
+    TASK_SUB_LOADING            //正在装料
+};
+
+struct TaskBehaviorState{
+    uint32 number;       //序号，一直累加，重启之后重新从0开始
+    uint32 mainState;    //主状态(Task_Main_State)
+    uint32 subState;     //子状态(Task_Sub_State)
+    int32 redGreenRoad;  //当前是否为红绿灯路段 0：不是 1：是
+    int32 roadType;      //道路类型：1：起坡道(仅卸料倒车时进行处理) 0：其它类型
+    float distance;      //距离
+};
+
+#endif

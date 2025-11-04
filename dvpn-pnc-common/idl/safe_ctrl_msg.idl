@@ -1,0 +1,19 @@
+#ifndef __SAFE_CTRL_MSG_IDL__
+#define __SAFE_CTRL_MSG_IDL__
+/*safe模块上传指令*/
+struct SafeFeedbackInfo
+{
+    boolean rolling_need_stop; //溜车
+    boolean parking_rolling;  //驻车溜车
+    boolean braking_failure;  //刹车异常
+    boolean slip_rep; //打滑
+    boolean distance_stop_flag;//位置突变停车
+    boolean position_nochange_flag;//位置不变停车
+    boolean parking_failure;//驻车异常
+    boolean braking_deceleration_weakened;//制动力衰减
+    boolean braking_heat_fade;//热衰退故障
+    boolean AEB_stop;//AEB停车
+    boolean transmission_state;//退出安全防护状态反馈
+};   
+#endif
+

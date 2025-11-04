@@ -1,0 +1,308 @@
+#ifndef __PLAT_MSG_IDL__
+#define __PLAT_MSG_IDL__
+
+/*作业状态*/
+enum JobStatus_Enum
+{
+    JobStatus_Manual,              //人工0
+    JobStatus_UnManInvaild,        //空值1
+    JobStatus_RemoteCtrl,          //遥控状态   2
+    JobStatus_WaitStart,           //等待发车,下发空载路径  3
+    JobStatus_GoLoadYard,          //去往装料场  4
+    JobStatus_WaitEnterload,       //等待入装料点场  5
+    JobStatus_GoLoadWaitPoint,     //去往装料等待点 6
+    JobStatus_ArriveLoadWaitPoint, //到达装料等待点 7
+    JobStatus_ArriveDumpWaitPoint, //到达卸料等待点 8
+    JobStatus_GoLoadPoint,         //去往装料点  9
+    JobStatus_WaitConfirm,         //等待装料确认  10
+    JobStatus_WaitLoad,            //等待装料，下发重载路径  11
+    JobStatus_Loading,             //正在装料  12
+    JobStatus_GoMainLoad,          //去往主路径  13
+    JobStatus_GoUnloadYard,        //去往卸料场  14
+    JobStatus_WaitEnterUnload,     //等待入卸料点场  15
+    JobStatus_GoDumpWaitPoint,     //去往卸料等待点 16
+    JobStatus_GoDumpPoint,         //去往卸料点  17
+    JobStatus_Dumping,             //正在卸料，下发空载路径  18
+    JobStatus_Finish,              //任务完成(瞬时状态)19
+    JobStatus_LoadFinish,          //20
+    JobStatus_GoChargeStation,      //去往充电桩21
+    JobStatus_ArriveChargeStation,  //到达充电桩22
+    JobStatus_GoParkStation,        //23
+    JobStatus_ArriveParkStation,    //24
+    JobStatus_GoParkPoint,          //25
+    JobStatus_ParkFinish,           //26
+    JobStatus_GoRepairStation,        //去往维修厂(27)
+    JobStatus_ArriveRepairStation,    //到达维修厂(28)
+    JobStatus_ArriveWateringPoint,    //到达洒水点(29)
+    JobStatus_GoTempParkStation,      //去往临停30
+    JobStatus_ArriveTempParkStation,  //到达临停31
+    JobStatus_GoOilStation,        //去往加油厂(32)
+    JobStatus_ArriveOilStation,    //到达加油厂(33)
+    JobStatus_GoOilPoint,        //去往加油点(34)
+    JobStatus_Oiling            //正在加油(35)       
+};
+
+/*驾驶状态*/
+enum DrivStatus_Enum
+{
+    DrivStatus_Invaild,			    //空值  0
+    DrivStatus_RemoteCtrl,		  //遥控驾驶  1
+    DrivStatus_NormalRoadRun,		//正常道路行走  2
+    DrivStatus_NormalParkRun,		//正常泊车行走  3
+    DrivStatus_Unloading,		    //卸料中  4
+    DrivStatus_NormalStop,		  //正常停车  5
+    DrivStatus_ObstacleStop,		//遇障停车  6
+    DrivStatus_MalfunctionStop,	//故障停车  7
+    DrivStatus_V2VStop,          //V2V停车   8
+    DrivStatus_SlowStop          //停止线停车   9
+};
+
+/* 车辆驾驶(行为)状态*/
+enum VehicleStatus_Enum
+{
+	VehicleStatus_Invaild,	            // 空值 = 0x00
+    VehicleStatus_Driving,			   // 正常行驶
+    VehicleStatus_Arrived,			   // 到达(停车完成)
+    VehicleStatus_Finished			   // 任务完成(装料完成、卸料完成)
+};
+
+struct PointDuration
+{
+    long duration;  //到达目标点剩余时间 毫秒
+    float distance; //到达目标点剩余距离 单位m 精度0.01m
+    uint64 timeCtrlMin; //时间控制允许最小值 无效时传0xffffffff
+    uint64 timeCtrlMax; //时间控制允许最大值 无效时传0xffffffff
+    string roadID;  //请求路段id
+};
+
+struct CloudFeedStatus
+{
+    JobStatus_Enum JobSta;
+    DrivStatus_Enum DrivSta;
+    VehicleStatus_Enum splitDrivSta;                        //拆分驾驶状态
+    long duration;                              //毫秒：到达目标点的时长，当车暂停时，传递－1
+    string roadID;                              //路径ID
+    float brakeDst;                            //最短刹车距离   
+    uint32 stopReason;                           //停车原因(状态)   
+    sequence<PointDuration> PointDurationList;  //多点到达时间
+    string stopReasonDetail;                    //停车具体原因
+};
+
+/*作业控制*/
+enum JobControl_Enum
+{
+    JobCtrl_NULL,              //空指令0
+    JobCtrl_Confirmed,         //安全员确认1
+    JobCtrl_LoadComplete,      //装料完成2
+    JobCtrl_PathUpdate,        //路径更新3
+    JobCtrl_AllowEnterLoad,    //允许入装料场4
+    JobCtrl_AllowEnterDump,    //允许入卸料场5
+    JobCtrl_SpacCtrl,          //间距控制6
+    JobCtrl_SpeedCtrl,         //车速控制7
+    JobCtrl_NetFaultStop,      //网络故障停车8
+    JobCtrl_GotoLoadPoint,     //直接进入装载点，自行规划路径9   add
+    JobCtrl_GotoLoadWaitPoint, //进入装载等待点，前段给路径，后段自行规划10   add
+    JobCtrl_GotoDumpPoint,     //直接进入卸载点，自行规划路径11   add
+    JobCtrl_GotoDumpWaitPoint, //进入卸载等待点，前段给路径，后段自行规划12   add
+    JobCtrl_ReParking,         //二次泊车指令13
+    JobCtrl_RemoteCtr,         //遥控驾驶指令14
+    JobCtrl_StopInstantly,     //立即停车15，取消任务
+    JobCtrl_StopISidelined,    //靠边停车16，取消任务
+    JobCtrl_RecoverGo,         //恢复行驶17
+    JobCtrl_BoundaryPathUpdate, //同时更新路径和边界18
+    JobCtrl_GotoParkPoint,      //去往停车场点19
+    JobCtrl_Meet,               //开始会车20 
+    JobCtrl_MeetFinish,         //会车结束21
+    JobCtrl_GoDestionbyMap,     //依给定高精地图路段和点位行驶22
+    JobCtrl_OffLineStop,        //离线停车 23
+    JobCtrl_OffLineRecov,       //离线恢复 24
+    JobCtrl_StopNoCanCel,       //25,停车不取消任务
+    JobCtrl_RecoverTask,         //26,恢复任务，恢复25指令导致的停车
+    JobCtrl_SlowStop             //27,缓行停车
+};
+
+enum  ParkPoint_Enum
+{
+    ParkPoint_start,             //发车点
+    ParkPoint_Load,              //装载点
+    ParkPoint_Dump,              //卸载点
+    ParkPoint_Wait,              //等待点
+    ParkPoint_Park
+};
+
+/*泊车点位置信息*/
+struct ParkPoint
+{
+    ParkPoint_Enum ParkType;
+    double lontitude;		       //经度
+    double latitude;		       //纬度
+    float heading;                      //航向角
+    float altitude;			//高程     add
+};
+
+/*添加基于高精地图的调度相关指令和参数信息  begin*/
+/*目的地点位类型*/
+enum Destination_Enum
+{
+    Dst_Load_Zone,            //去往装料区域 0
+    Dst_Dump_Zone,            //去往卸料区域 1
+    Dst_Wait_Point,           //去往等待点 2
+    Dst_Oiling_Zone,          //去加油区域 3
+    Dst_Charging_Zone,        //去充电区域 4
+    Dst_Repire_Zone,          //去维修区域 5
+    Dst_Parking_Zone,         //去停车区域 6
+    Dst_Load_Point,           //去装料区域内的装料点 7
+    Dst_Dump_Point,           //去卸料区域内的卸料点(排土点或破碎站) 8
+    Dst_Parking_Point,         //去停车区域内的停车位 9
+    Dst_Tempparking_Zone,     //去临时停车区域 10
+    Dst_Water_Zone,            //去加水区域 11
+    Dst_Oiling_Point,            //去往加油点 12
+    Dst_Oil_Wait_Point,           //去往加油等待点 13
+    Dst_Dump_Point_Left,          //留料排土
+    Dst_Max
+};
+
+
+struct PointInfo
+{
+    Destination_Enum  DstType;     //目标地类型
+  	double lontitude;		       //经度
+    double latitude;		       //纬度
+    float heading;			       //航向角
+    float altitude;			       //高程 
+};
+
+//预估达到目标点
+struct InnerPoint
+{
+    string roadID;      //路径ID
+    double lontitude;   //经度
+    double latitude;    //纬度
+    float heading;      //航向角
+    long long req_time;   //请求到达时间
+};
+
+struct RoadInMap
+{
+   //Destination_Enum  DstType;             //目标地类型
+   short  TaskType;                         //0x01覆盖，0x02追加
+   uint64  SeqID;                           //任务ID
+   short  PointNum;                         //点位数量
+   short  RoadIDNum;                        //道路编号数量
+   sequence<PointInfo> PointList;           //点位列表
+   sequence<string> RoadIDList;             //道路编号列表
+   sequence<InnerPoint> InnerPointList;     //多点预估到达时间
+   sequence<string> unSortRoadIds;          //卸料未排序的道路ID列表
+   string bindingRoadId;                    //绑定道路ID
+   string MapVersion;                       //地图版本号
+};
+
+/*添加基于高精地图的调度相关指令和参数信息  end*/
+
+struct SlowStopInfo
+{
+    string junctionID;      //路口ID
+    double lontitude;       //经度
+    double latitude;        //纬度
+};
+
+union JobCtrlAttach switch(long)
+{
+  case 1:
+    ParkPoint park;
+  case 2:
+    long space;
+  case 3:
+    long speed;
+  case 4:
+    RoadInMap road;
+  case 5:
+    SlowStopInfo stopInfo;
+};
+
+struct JobExecResult
+{
+  JobControl_Enum JobCtrlCmd;
+  long Seq_Num;
+  long Result;
+};
+
+struct JobControl
+{
+  JobControl_Enum JobCtrlCmd;
+  long Seq_Num;
+  JobCtrlAttach CtrlAttach;
+};
+
+/*交通管制区预瞄路径上传与下发*/
+struct GPSPointMsg
+{
+    double iLongitude;   //经度
+    double iLatitude;    //纬度
+    float  altitude;     //高度
+    float  iHead;        //方位角
+    string roadID;       //路段ID
+  
+};
+//上行消息
+struct PreviewPathMsg
+{
+    string vin;                     //车辆vin编码
+    unsigned long long timestamp;   //时间 ms
+    long driveState;                //主状态
+    long driveStateChild;           //子状态
+    GPSPointMsg location;					  //自车位置
+	float velocity;      					  //自车速度 
+    long stoptype;                  //停车类型
+    sequence<GPSPointMsg, 60> prePath;      //预瞄路径
+};
+
+//下行消息
+struct DownPreviewPathMsg
+{
+    unsigned long long timestamp;   //时间 ms
+    long driveState;                //主状态
+    long driveStateChild;           //子状态
+    GPSPointMsg location;					  //自车位置
+	float velocity;      					  //自车速度 
+    string vin;                     //车辆vin编码
+    long stoptype;                  //停车类型
+    sequence<GPSPointMsg, 60> prePath;      //预瞄路径
+};
+struct AreaVehicleMsg
+{
+    unsigned long long timestamp;
+    sequence<DownPreviewPathMsg, 20> otherVehicle;
+};
+
+struct JobCtrlResPonse
+{
+    uint64 SeqID;                               //反馈指令id
+    sequence<string> RoadIDList;                //道路列表
+};
+
+struct JobCtrlRespAck
+{
+    uint64 SeqID;                               //反馈指令id
+};
+
+//卸料位是否可卸
+struct UpdateUnloadingStatus
+{
+    uint64 enable;                               //int 是否可卸载：0--不可卸载，1--可卸载
+    uint64 isNormalFP;                           //反坡是否正常：0--异常，1--正常
+    double angleFP;                              //反坡角度，单位％，保留两位小数
+};
+
+//二道挡墙卸料动态更新
+struct UpdateUnloadingPoint
+{
+    double unloadPtLng;                       //double 经度，保留7位小数位
+    double unloadPtLat;                       //double 纬度，保留7位小数位
+    double unloadPtAlt;                       //double 高程，保留2位小数位
+    double unloadPtHeading;                   //double 航向角，保留3位小数位（沿空载路方向）
+};
+
+
+
+#endif

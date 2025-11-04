@@ -1,0 +1,22 @@
+#ifndef __LOG_TASK_MSG_IDL__
+#define __LOG_TASK_MSG_IDL__
+#include "gps_msg.idl"
+#include "decide_state_machine.idl"
+
+struct v2vTrafficCtlInfo
+{
+    long obstVehiNum;//处理的对方车号
+
+    GPSInfo vehicleCoordinate;
+    uint32 v2vStateMach;//对方的状态机
+    GPSInfo collisionPoint; //碰撞点坐标
+};
+
+struct logTaskInfo
+{
+    boolean trafficLightStop;//红绿灯停车
+    uint32 v2vTrafficCtlType;//v2v的处理方式
+    v2vTrafficCtlInfo v2vTraffCtlInfo;
+};
+
+#endif

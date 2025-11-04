@@ -1,0 +1,14 @@
+#ifndef __FLUCTUATION_MSG_IDL__
+#define __FLUCTUATION_MSG_IDL__
+
+struct roadFluctuationInfo
+{
+double lat;
+double lng;
+double altitude;
+@ default(-1) double fluctuation;
+};
+
+
+
+#endif

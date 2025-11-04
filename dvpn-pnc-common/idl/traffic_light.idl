@@ -1,0 +1,24 @@
+#ifndef __TRAFFIC_LIGHT_IDL__
+#define __TRAFFIC_LIGHT_IDL__
+
+struct MapRoadInfo
+{
+    char road_id[33];
+    long long timestamp;//ms
+};
+
+enum VehicleCtrlCmd_Enum
+{
+    CTRL_CMD_NONE,
+    CTRL_CMD_STOP,
+    CTRL_CMD_RUN,
+    CTRL_CMD_DECELERATE //减速
+};
+
+struct VehicleCtrlCmd
+{
+    VehicleCtrlCmd_Enum cmd;
+    long long timestamp;//ms
+};
+
+#endif

@@ -1,0 +1,48 @@
+#ifndef __LOG_LOCAL_MSG_IDL__
+#define __LOG_LOCAL_MSG_IDL__
+
+struct logLocalInfo
+{
+    boolean avoidObstMode;//绕障模式
+    boolean boundary_flag;//边界碰撞
+    boolean perpFrontMode;//前向开关
+    boolean perpbackMode;//后向开关
+
+    long obst_id;
+    long obst_type;
+    //发生的碰撞的障碍物的包围盒
+    //横坐标，纵坐标，长、宽、高、角度、高度、类型
+    double obst_box_x;
+    double obst_box_y;
+    double obst_box_hed;
+    double obst_box_len;
+    double obst_box_wid;
+    double obst_box_hig;
+
+    //发生碰撞的障碍物的散点
+    //轮廓点x，y，中心点的x，y
+    double scat_fig_x;
+    double scat_fig_y;
+    double scat_cen_x;
+    double scat_cen_y;
+    
+    //自车发生碰撞的预瞄盒子情况
+    //x坐标，y坐标，角度，长，宽
+    double ego_x;
+    double ego_y;
+    double ego_left_up_x;
+    double ego_left_up_y;
+    double ego_left_down_x;
+    double ego_left_down_y;
+    double ego_right_up_x;
+    double ego_right_up_y;
+    double ego_right_down_x;
+    double ego_right_down_y;
+    double ego_head;
+    double ego_width;
+    double ego_height;
+};
+
+
+
+#endif

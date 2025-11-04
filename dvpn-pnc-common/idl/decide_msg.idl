@@ -1,0 +1,96 @@
+#ifndef __DECIDE_MSG_IDL__
+#define __DECIDE_MSG_IDL__
+
+#include "gps_msg.idl"
+#include "gps_imu_msg.idl"
+#include "plat_msg.idl"
+#include "task_state_msg.idl"
+#include "cross_msg.idl"
+#include "yield_msg.idl"
+
+const int32 SEQ_MAX_SER_SIZE1 = 80000;
+//基于RSU让行调度idl
+//车辆当前位置
+struct VehiclePos
+{
+    double lng;//当前经度
+    double lat;//当前纬度
+    double height;
+    float  head;//当前航向
+    float left_width;
+    float right_width;
+    float velocity;
+};
+
+enum Plan_type
+{
+    NO_PLAN, //不规划
+    START_TO_MAIN_ROAD,
+    STOP_TO_PARK, //规划当前位置到装卸点的路径
+    STOP_TO_PARK2,
+    WAIT_TO_PARK,
+    TO_AVOID,  //5
+    TO_PARK,
+    MAIN_TO_WAIT,
+    TRACK,
+    MEET_TO_SIDE,
+    MEET_TO_MID, //10
+    LOAD_HDMAP, //高清地图：直接去装料点
+    LOAD_WAIT_POINT_HDMAP, //高清地图：去等待点
+    LOAD_WAIT_POINT_TO_LOAD_HDMAP, //高清地图：等待点去装料点
+    DUMP_HDMAP //高清地图：卸料区规划
+};
+
+enum DriveStatus
+{
+    KEEP_SIDE,
+    KEEP_MID,
+    MID_SIDE,
+    SIDE_MID
+
+};
+
+struct xyPathInfo
+{
+    float x; // x坐标，单位：m
+    float y; // y坐标，单位：m
+};
+
+struct ObstTTCInfo
+{
+    float x; // 车体坐标系下的障碍物x坐标，单位：m
+    float y; // 车体坐标系下的障碍物y坐标，单位：m
+    float v0; // 车辆相对于障碍物的速度，单位：m/s
+    float ttc; // 车辆至障碍物的ttc，单位：s
+};
+
+struct ObstInfoOut
+{
+    char vin[18];
+    long vehicle_num;
+    float desired_speed;
+    float x;
+    float y;
+    float head;
+    float length;
+    float width;
+    float height;
+    float near_x;
+    float near_y;
+    boolean isAvoided;
+    boolean perception_flag;
+    boolean v2v_bos_flag;
+    boolean boundary_collison_flag;
+    GPSInfo v2v_avoid_obst_pos; //v2v绕障障碍点的点姿
+};
+
+struct ObstAvoidInfo
+{
+    sequence<GPSInfo,SEQ_MAX_SER_SIZE1> pGpsPathList;
+    sequence<ObstTTCInfo,SEQ_MAX_SER_SIZE1> obst_ttc; // 障碍物TTC信息
+    sequence<xyPathInfo,SEQ_MAX_SER_SIZE1> xy_path_veh; // 车体坐标系下的路径点信息
+};
+
+
+
+#endif

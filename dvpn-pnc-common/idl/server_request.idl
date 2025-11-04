@@ -1,0 +1,84 @@
+#ifndef __SERVER_REQUEST_IDL__
+#define __SERVER_REQUEST_IDL__
+
+struct ServerRequest
+{
+    uint32 number;       //序号，一直累加，重启之后重新从0开始
+    uint32 type;         //类型：用于区分不同的服务，例如HdMap为1
+    char json[10240];
+};
+
+/*
+    type表示类型；
+
+    enum Destination_Enum : uint32_t
+    {
+        Dst_Load_Zone,
+        Dst_Dump_Zone,
+        Dst_Wait_Point,
+        Dst_Oiling_Zone,
+        Dst_Charging_Zone,
+        Dst_Repire_Zone,
+        Dst_Parking_Zone,
+        Dst_Load_Point,
+        Dst_Dump_Point,
+        Dst_Parking_Point,
+        Dst_Tempparking_Zone,
+        Dst_Water_Zone
+    };
+
+    1.type==1 //hdmap 
+    {
+        "version" : "20150301",
+        "taskType" : 1, //参考Destination_Enum
+        "IDS" : ["333", "456","555", "222", "888"],
+        "targetPoint" : {
+            "lat" : 444.88,
+            "lon" : 88.9,
+            "heading" : 98.8
+        },
+        "currentPoint" : {
+            "lat" : 444.88,
+            "lon" : 88.9,
+            "heading" : 98.8
+        }
+    }
+
+    2.type==2　//查询交叉点
+    {
+        "IDS" : ["333", "456","555", "222", "888"] //路径信息
+    }
+
+    3.type==3　//路径序列化
+    {
+        "IDS" : ["333", "456","555", "222", "888"] //路径信息
+    }
+
+    4.type==4　//任务取消
+    {
+        "CMD" : 0 //任务取消
+    }
+
+    5.type==5　//查询交叉路点位信息
+    {
+        "IDS" : ["333", "456","555", "222", "888"] //路径信息
+    }
+
+    6.type==6　//卸料区内查询路径信息
+    {
+        "version" : "20150301",
+        "seqID" : 565892142,
+        "taskType" : 0, //0:进入装料区　1:出装料区
+        "sort" : ["333", "456","555", "222", "888"],
+        "unsort" : ["333", "456","555", "222", "888"],
+        "bindLink" : "5667",
+        "point" : {
+            "lat" : 444.88,
+            "lon" : 88.9,
+            "heading" : 98.8
+        }
+    }
+
+*/
+
+#endif

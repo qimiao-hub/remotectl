@@ -1,0 +1,14 @@
+#ifndef __MAP_COVERT_POINT_IDL__
+#define __MAP_COVERT_POINT_IDL__
+#include "gps_msg.idl"
+
+struct MapCovertPoint{
+    string ids;
+    sequence<GPSInfo, 50000> points;
+};
+
+
+struct MapCovertPoint1{
+    sequence<GPSInfo> points;
+};
+#endif

@@ -1,0 +1,27 @@
+#ifndef __MAP_CROSS_POINT_IDL__
+#define __MAP_CROSS_POINT_IDL__
+
+#include "gps_msg.idl"
+
+struct CrossRoadPoint{
+    double lon;//经度
+    double lat; //纬度
+    
+    uint32 indexRaod1;   //交叉点：当前路的索引
+    uint32 indexRoad2;   //交叉点：相交路的索引
+
+    string roadID1; //相交的路
+    string roadID2;
+};
+
+struct MapCrossPoint
+{
+    sequence<CrossRoadPoint> cross_points;  //交叉点列表
+};
+
+struct CrossRoadPoints
+{
+    sequence<sequence<GPSInfo> > crossRoad_points;  //交叉路点位列表
+};
+
+#endif

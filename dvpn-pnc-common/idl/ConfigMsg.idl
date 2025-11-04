@@ -1,0 +1,13 @@
+//用于下发给模块配置更新信息
+struct ConfigReq
+{
+	string config_msg;
+};
+
+//模块确认收到下发的开关更新信息
+struct ConfigRes
+{
+	int32 module_id;//决策:17，控制:18，局部规划:20，全局规划:21
+	int32 recv_flag;//收到填1
+};
+
