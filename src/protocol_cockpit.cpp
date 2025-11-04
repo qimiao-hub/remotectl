@@ -2321,7 +2321,7 @@ float Protocol_Cockpit::ProtoCockpit_SlopeStart(){
 			MINE_LOG(SANY_LOG_INFO, "brakeing delay %d times, gps_pitch is : %f, brake_count: %d,  traffic_brake_req: %f\n", BRAKE_DELAY_THRESHOLD, current_pitch, brake_count, return_brake);
 			return return_brake;
 		}
-		else if((struWireCtrlIn.iThrottleOpening > 10) && (struWireCtrlOut.iVehicle_speed < 1) && (WireInfo.trans_current_gear() != 0) && (WireInfo.trans_current_gear() != -1) && (brake_count < BRAKE_DELAY_THRESHOLD))
+		else if((struWireCtrlIn.iThrottleOpening > 30) && (struWireCtrlOut.iVehicle_speed < 1) && (WireInfo.trans_current_gear() != 0) && (WireInfo.trans_current_gear() != -1) && (brake_count < BRAKE_DELAY_THRESHOLD))
 		{
 			return_brake = (float)read_brakeing;
 		//	pCtrlInfo->traffic_brake_req((float)read_brakeing);
@@ -2330,38 +2330,41 @@ float Protocol_Cockpit::ProtoCockpit_SlopeStart(){
 			MINE_LOG(SANY_LOG_INFO, "brakeing delay %d times, gps_pitch is : %f, current speed: %f, brake_count: %d, traffic_brake_req: %f, current gear: %d\n", BRAKE_DELAY_THRESHOLD, current_pitch, struWireCtrlOut.iVehicle_speed, brake_count, return_brake, WireInfo.trans_current_gear());
 			return return_brake;
 		}
-		// else if((struWireCtrlIn.iThrottleOpening <= 10) && (BrakeValue == 0) || (struWireCtrlOut.iVehicle_speed >= 1.0f)){
-		// 	brake_count = 0;
-		// 	BrakeValue = (float)struWireCtrlIn.iBrakeOpening;
-		// 	return_brake = (float)struWireCtrlIn.iBrakeOpening;
-		// }
-		else if((struWireCtrlIn.iThrottleOpening <= 10) && (BrakeValue == 0))
-		{
-			recovery_count++;
+		else if((struWireCtrlIn.iThrottleOpening <= 30) && (BrakeValue == 0) || (struWireCtrlOut.iVehicle_speed >= 1.0f)){
+			brake_count = 0;
+			recovery_count = 0;
 			BrakeValue = (float)struWireCtrlIn.iBrakeOpening;
-			if(recovery_count >= RECOVERY_TIME_THRESHOLD){
-				brake_count = 0;
-				return_brake = (float)struWireCtrlIn.iBrakeOpening;
-				MINE_LOG(SANY_LOG_INFO, "no brakeing delay ,clear brake_count, iThrottleOpening: %d, BrakeValue: %f, iPitch: %f\n", struWireCtrlIn.iThrottleOpening, BrakeValue, current_pitch);
-			}else{
-				return_brake = brake_count == 0 ? (float)struWireCtrlIn.iBrakeOpening : (float)read_brakeing;
-				MINE_LOG(SANY_LOG_INFO, "re brakeing delay, recovery_count: %d, iThrottleOpening: %d, BrakeValue: %f, iPitch: %f\n", recovery_count, struWireCtrlIn.iThrottleOpening, BrakeValue, current_pitch);
-			}
-			return return_brake;
-			// MINE_LOG(SANY_LOG_INFO, "no brakeing delay, recovery_count: %d, iThrottleOpening: %d, BrakeValue: %dn", recovery_count, struWireCtrlIn.iThrottleOpening, BrakeValue);
-		}else if(struWireCtrlOut.iVehicle_speed >= 1.0f){
-			recovery_count ++;
-			BrakeValue = (float)struWireCtrlIn.iBrakeOpening;
-			if(recovery_count >= RECOVERY_TIME_THRESHOLD){
-				brake_count = 0;
-				return_brake = (float)struWireCtrlIn.iBrakeOpening;
-				MINE_LOG(SANY_LOG_INFO, "no brakeing delay ,clear brake_count, iVehicle_speed: %f, iPitch: %f\n", struWireCtrlOut.iVehicle_speed, current_pitch);
-			}else{
-				return_brake = brake_count == 0 ? (float)struWireCtrlIn.iBrakeOpening : (float)read_brakeing;
-				MINE_LOG(SANY_LOG_INFO, "re brakeing delay, recovery_count: %d, iVehicle_speed: %f, iPitch: %f\n", recovery_count, struWireCtrlOut.iVehicle_speed, current_pitch);
-			}
+			return_brake = (float)struWireCtrlIn.iBrakeOpening;
+			MINE_LOG(SANY_LOG_INFO, "no brakeing delay ,clear brake_count, iThrottleOpening: %d, BrakeValue: %f, iVehicle_speed: %f, iPitch: %f\n", struWireCtrlIn.iThrottleOpening, BrakeValue, struWireCtrlOut.iVehicle_speed, current_pitch);
 			return return_brake;
 		}
+		// else if((struWireCtrlIn.iThrottleOpening <= 10) && (BrakeValue == 0))
+		// {
+		// 	recovery_count++;
+		// 	BrakeValue = (float)struWireCtrlIn.iBrakeOpening;
+		// 	if(recovery_count >= RECOVERY_TIME_THRESHOLD){
+		// 		brake_count = 0;
+		// 		return_brake = (float)struWireCtrlIn.iBrakeOpening;
+		// 		MINE_LOG(SANY_LOG_INFO, "no brakeing delay ,clear brake_count, iThrottleOpening: %d, BrakeValue: %f, iPitch: %f\n", struWireCtrlIn.iThrottleOpening, BrakeValue, current_pitch);
+		// 	}else{
+		// 		return_brake = brake_count == 0 ? (float)struWireCtrlIn.iBrakeOpening : (float)read_brakeing;
+		// 		MINE_LOG(SANY_LOG_INFO, "re brakeing delay, recovery_count: %d, iThrottleOpening: %d, BrakeValue: %f, iPitch: %f\n", recovery_count, struWireCtrlIn.iThrottleOpening, BrakeValue, current_pitch);
+		// 	}
+		// 	return return_brake;
+		// 	// MINE_LOG(SANY_LOG_INFO, "no brakeing delay, recovery_count: %d, iThrottleOpening: %d, BrakeValue: %dn", recovery_count, struWireCtrlIn.iThrottleOpening, BrakeValue);
+		// }else if(struWireCtrlOut.iVehicle_speed >= 1.0f){
+		// 	recovery_count ++;
+		// 	BrakeValue = (float)struWireCtrlIn.iBrakeOpening;
+		// 	if(recovery_count >= RECOVERY_TIME_THRESHOLD){
+		// 		brake_count = 0;
+		// 		return_brake = (float)struWireCtrlIn.iBrakeOpening;
+		// 		MINE_LOG(SANY_LOG_INFO, "no brakeing delay ,clear brake_count, iVehicle_speed: %f, iPitch: %f\n", struWireCtrlOut.iVehicle_speed, current_pitch);
+		// 	}else{
+		// 		return_brake = brake_count == 0 ? (float)struWireCtrlIn.iBrakeOpening : (float)read_brakeing;
+		// 		MINE_LOG(SANY_LOG_INFO, "re brakeing delay, recovery_count: %d, iVehicle_speed: %f, iPitch: %f\n", recovery_count, struWireCtrlOut.iVehicle_speed, current_pitch);
+		// 	}
+		// 	return return_brake;
+		// }
 		else 
 		{
 			brake_count = 0;
