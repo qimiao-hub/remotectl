@@ -2367,7 +2367,7 @@ float Protocol_Cockpit::ProtoCockpit_SlopeStart(){
 		// }
 		else 
 		{
-			brake_count = 0;
+			// brake_count = 0;
 			recovery_count = 0;
 			return_brake = (float)struWireCtrlIn.iBrakeOpening;
 			BrakeValue = (float)struWireCtrlIn.iBrakeOpening;
