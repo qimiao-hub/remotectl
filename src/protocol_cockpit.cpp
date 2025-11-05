@@ -2368,7 +2368,7 @@ float Protocol_Cockpit::ProtoCockpit_SlopeStart(){
 		else 
 		{
 			// brake_count = 0;
-			recovery_count = 0;
+			// recovery_count = 0;
 			return_brake = (float)struWireCtrlIn.iBrakeOpening;
 			BrakeValue = (float)struWireCtrlIn.iBrakeOpening;
 			MINE_LOG(SANY_LOG_INFO, "no brakeing delay !\n");
