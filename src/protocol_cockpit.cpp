@@ -2284,47 +2284,6 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_initCtrlData()
 	return true;
 }
 
-float Protocol_Cockpit::ProtoCockpit_SlopeStart()
-{
-	float current_pitch = fabs(struGpsInfo.gps_pitch());
-    float return_brake = struWireCtrlIn.iBrakeOpening;
-
-	// 坡度不足，维持1s后恢复
-	if(current_pitch < DANGER_PITCH_THRESHOLD){
-		recovery_count ++;
-		if(recovery_count >= RECOVERY_TIME_THRESHOLD){
-			brake_count = 0;
-			// pCtrlInfo->traffic_brake_req((float)struWireCtrlIn.iBrakeOpening);
-			return_brake = (float)struWireCtrlIn.iBrakeOpening;
-			MINE_LOG(SANY_LOG_INFO, "no brakeing delay ,clear brake_count, iPitch: %f\n", current_pitch);
-		}else{
-			return_brake = brake_count == 0 ? (float)struWireCtrlIn.iBrakeOpening : (float)read_brakeing;
-			MINE_LOG(SANY_LOG_INFO, "re brakeing delay, recovery_count: %d, iPitch: %f\n", recovery_count, current_pitch);
-		}
-	}else{
-		// 更新刹车延迟阈值
-		BRAKE_DELAY_THRESHOLD =  static_cast<unsigned int>((mass_coefficient_thr *(std::max(0.5f, std::min(1.5f, current_pitch * 0.3f )) * 1000.0f ))/ 50.0f);
-		
-		// 触发刹车延迟的条件
-		// 条件1：刹车未踩、有刹车请求、在延迟阈值内、油门很小
-		bool brake_condition1 = (struWireCtrlIn.iBrakeOpening == 0) && 
-						(BrakeValue > 0.1f) && 
-						(struWireCtrlIn.iThrottleOpening < 1) && 
-						(brake_count < BRAKE_DELAY_THRESHOLD);
-		
-		// 条件2：有油门但车速为0、档位有效、在延迟阈值内
-		bool brake_condition2 = (struWireCtrlIn.iThrottleOpening > 10) && 
-						(struWireCtrlOut.iVehicle_speed < 1.0f) && 
-						(WireInfo.trans_current_gear() != 0) && 
-						(WireInfo.trans_current_gear() != -1) && 
-						(brake_count < BRAKE_DELAY_THRESHOLD);
-		if(brake_condition1 || brake_condition2){
-
-		}
-	}
-	return return_brake;
-}
-
 /*坡起策略*/
 float Protocol_Cockpit::ProtoCockpit_SlopeStart(){
 	float current_pitch = fabs(struGpsInfo.gps_pitch());
