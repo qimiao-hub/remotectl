@@ -2360,8 +2360,9 @@ float Protocol_Cockpit::ProtoCockpit_SlopeStart(){
 				MINE_LOG(SANY_LOG_INFO, "re brakeing delay, recovery_count: %d, iPitch: %f\n", recovery_count, current_pitch);
 			}
 		}
+		return return_brake;
 	}
-	return return_brake;
+	//return return_brake;
 }
 
 /* 舱端控制数据转为底盘数据*/
