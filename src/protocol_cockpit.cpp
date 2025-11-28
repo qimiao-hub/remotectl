@@ -2292,8 +2292,13 @@ float Protocol_Cockpit::ProtoCockpit_SlopeStart(){
 	float return_brake = 0;
 	
 	if(current_pitch >= DANGER_PITCH_THRESHOLD)
-	{
+	{	
+		if (struWireCtrlOut.iVehicle_speed <= 0.1f)
+	    {
 		BRAKE_DELAY_THRESHOLD =  static_cast<unsigned int>((mass_coefficient_thr *(std::max(0.5f, std::min(1.5f, current_pitch * 0.3f )) * 1000.0f ))/ 50.0f);
+		
+	    }
+	
 		// BRAKE_DELAY_THRESHOLD = std::max(BRAKE_DELAY_THRESHOLD, brake_delay_threshold_here);
 		// MINE_LOG(SANY_LOG_INFO, "config brakeing delay: %d, current_pitch: %f\n", BRAKE_DELAY_THRESHOLD, current_pitch);
 		if((struWireCtrlIn.iBrakeOpening == 0) && (BrakeValue > 0.1f) && (brake_count < BRAKE_DELAY_THRESHOLD) && (struWireCtrlIn.iThrottleOpening < 1))
