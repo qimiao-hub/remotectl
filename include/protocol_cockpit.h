@@ -211,7 +211,7 @@ private:
 	SANY_U32 BRAKE_DELAY_THRESHOLD = 40;	// 刹车延迟时间阈值
 	float mass_coefficient_thr = 1.2f; // 重载系数
 	float DANGER_PITCH_THRESHOLD = 2.0f;	// 触发坡起的俯仰角度数
-	SANY_U32 RECOVERY_TIME_THRESHOLD = 20;	// 1秒，坡起波动取消的时间阈值
+	SANY_U32 RECOVERY_TIME_THRESHOLD = 200;	// 1秒，坡起波动取消的时间阈值
 	SANY_U32 recovery_count = -1;
 
 	/*线程id*/
