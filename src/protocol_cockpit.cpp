@@ -2291,9 +2291,9 @@ float Protocol_Cockpit::ProtoCockpit_SlopeStart(){
 	float current_brake = (float)struWireCtrlIn.iBrakeOpening;
 	float return_brake = 0;
 	
-	if(current_pitch >= DANGER_PITCH_THRESHOLD)
+	if(current_pitch >= DANGER_PITCH_THRESHOLD && recovery_count > 0)
 	{	
-		if (struWireCtrlOut.iVehicle_speed <= 0.1f)
+		if (struWireCtrlOut.iVehicle_speed <= 0.5)
 	    {
 		BRAKE_DELAY_THRESHOLD =  static_cast<unsigned int>((mass_coefficient_thr *(std::max(0.5f, std::min(1.5f, current_pitch * 0.3f )) * 1000.0f ))/ 50.0f);
 		
@@ -2351,19 +2351,23 @@ float Protocol_Cockpit::ProtoCockpit_SlopeStart(){
 	else
 	{
 		recovery_count ++;
-		if(recovery_count >= RECOVERY_TIME_THRESHOLD){
+		if(recovery_count >= RECOVERY_TIME_THRESHOLD && struWireCtrlOut.iVehicle_speed > 1){
 			brake_count = 0;
 			return_brake = current_brake;
-			recovery_count = 0;
+			//recovery_count = 0;
 			MINE_LOG(SANY_LOG_INFO, "no brakeing delay ,clear brake_count, iPitch: %f\n", current_pitch);
 		}else{
-			if(brake_count == 0 || brake_count >= BRAKE_DELAY_THRESHOLD){
+			if(recovery_count >= RECOVERY_TIME_THRESHOLD && struWireCtrlOut.iVehicle_speed == 0){
 				return_brake = current_brake;
-				MINE_LOG(SANY_LOG_INFO, "no brakeing delay ,clear brake_count, iPitch: %f\n", current_pitch);
+				recovery_count = 0;
+				MINE_LOG(SANY_LOG_INFO, "speed 0 ,clear recovery_count, iPitch: %f\n", current_pitch);
 			}else{
-				return_brake = (float)read_brakeing;
-				MINE_LOG(SANY_LOG_INFO, "re brakeing delay, recovery_count: %d, iPitch: %f\n", recovery_count, current_pitch);
+				return_brake = current_brake;
+				MINE_LOG(SANY_LOG_INFO, "no brakeing delay , recovery_count: %d, iPitch: %f\n", recovery_count, current_pitch);
 			}
+
+			
+
 		}
 		return return_brake;
 	}
