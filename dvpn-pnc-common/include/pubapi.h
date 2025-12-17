@@ -123,7 +123,7 @@ public:
     void transGpsIntoInertiaPerception(GPSInfo &my_gps, GPSInfo &target_point,double *inertia_x, double *inertia_y);
     void transGpsIntoGlobalInertia(GPSInfo &my_gps, GPSInfo &target_point,double *inertia_x, double *inertia_y);
     inline float cal_value(GPSInfo p1, GPSInfo p2);
-    int findKeyPoint(vector<GPSInfo> road_list,double iLongitude,double iLatitude,double iHead,int key_last,KEY_SEARCH_METHOD search_method);
+    int findKeyPoint(const vector<GPSInfo> &road_list,double iLongitude,double iLatitude,double iHead,int key_last,KEY_SEARCH_METHOD search_method);
 
     float calDisByKeyPoint(int target_key,int point_key,vector<GPSInfo>* qGpsPathList);
     float getXDistanceBetweenPoses(VehiclePos currentpos, VehiclePos comparedpos);

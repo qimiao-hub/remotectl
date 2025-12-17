@@ -2224,7 +2224,7 @@ void Expect_Arrive_Point::serializeKey(
 
 Expect_Arrive_PointTime::Expect_Arrive_PointTime()
 {
-    // m_expect_arrive_points com.eprosima.idl.parser.typecode.SequenceTypeCode@5ea434c8
+    // m_expect_arrive_points com.eprosima.idl.parser.typecode.SequenceTypeCode@4ae3c1cd
 
 
 }
@@ -2385,9 +2385,9 @@ void Expect_Arrive_PointTime::serializeKey(
 
 RSU_Crossing::RSU_Crossing()
 {
-    // m_rsu_id com.eprosima.idl.parser.typecode.StringTypeCode@ca263c2
+    // m_rsu_id com.eprosima.idl.parser.typecode.StringTypeCode@45f45fa1
     m_rsu_id ="";
-    // m_crossing_ids com.eprosima.idl.parser.typecode.SequenceTypeCode@589b3632
+    // m_crossing_ids com.eprosima.idl.parser.typecode.SequenceTypeCode@4c6e276e
 
 
 }
@@ -2604,7 +2604,7 @@ void RSU_Crossing::serializeKey(
 
 RsuAndV2x_Conf::RsuAndV2x_Conf()
 {
-    // m_rsu_crossed com.eprosima.idl.parser.typecode.SequenceTypeCode@341b80b2
+    // m_rsu_crossed com.eprosima.idl.parser.typecode.SequenceTypeCode@2145433b
 
 
 }
@@ -2769,11 +2769,11 @@ Net_V2X_Cmd_Msg::Net_V2X_Cmd_Msg()
     m__d = 1;
     // m_stop_point com.eprosima.fastdds.idl.parser.typecode.StructTypeCode@51931956
 
-    // m_req_points com.eprosima.idl.parser.typecode.SequenceTypeCode@123f1134
+    // m_req_points com.eprosima.idl.parser.typecode.SequenceTypeCode@5b0abc94
 
-    // m_rsu_cross_conf com.eprosima.fastdds.idl.parser.typecode.StructTypeCode@7d68ef40
+    // m_rsu_cross_conf com.eprosima.fastdds.idl.parser.typecode.StructTypeCode@75c072cb
 
-    // m_rsu_uses com.eprosima.idl.parser.typecode.PrimitiveTypeCode@5b0abc94
+    // m_rsu_uses com.eprosima.idl.parser.typecode.PrimitiveTypeCode@1f1c7bf6
     m_rsu_uses = 0;
     // m_stop_reason com.eprosima.idl.parser.typecode.EnumTypeCode@58a90037
     m_stop_reason = ::CmdStopReason_Manual;
@@ -3428,13 +3428,13 @@ void Net_V2X_Cmd_Msg::deserialize(
 
 NetToV2x::NetToV2x()
 {
-    // m_cmd com.eprosima.idl.parser.typecode.EnumTypeCode@12d3a4e9
+    // m_cmd com.eprosima.idl.parser.typecode.EnumTypeCode@25a65b77
     m_cmd = ::schedule_cmd_v2x_null;
-    // m_cmd_priority com.eprosima.idl.parser.typecode.PrimitiveTypeCode@240237d2
+    // m_cmd_priority com.eprosima.idl.parser.typecode.PrimitiveTypeCode@2ed0fbae
     m_cmd_priority = 0;
-    // m_message com.eprosima.idl.parser.typecode.UnionTypeCode@25a65b77
+    // m_message com.eprosima.idl.parser.typecode.UnionTypeCode@212bf671
 
-    // m_seq_num com.eprosima.idl.parser.typecode.PrimitiveTypeCode@2ed0fbae
+    // m_seq_num com.eprosima.idl.parser.typecode.PrimitiveTypeCode@14a2f921
     m_seq_num = 0;
 
 }
@@ -3720,11 +3720,11 @@ void NetToV2x::serializeKey(
 
 NetToV2x_Ack::NetToV2x_Ack()
 {
-    // m_cmd com.eprosima.idl.parser.typecode.EnumTypeCode@12d3a4e9
+    // m_cmd com.eprosima.idl.parser.typecode.EnumTypeCode@25a65b77
     m_cmd = ::schedule_cmd_v2x_null;
-    // m_seq_num com.eprosima.idl.parser.typecode.PrimitiveTypeCode@3c87521
+    // m_seq_num com.eprosima.idl.parser.typecode.PrimitiveTypeCode@548a102f
     m_seq_num = 0;
-    // m_result com.eprosima.idl.parser.typecode.PrimitiveTypeCode@2aece37d
+    // m_result com.eprosima.idl.parser.typecode.PrimitiveTypeCode@5762806e
     m_result = 0;
 
 }

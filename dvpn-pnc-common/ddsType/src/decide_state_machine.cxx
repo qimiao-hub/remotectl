@@ -38,17 +38,17 @@ using namespace eprosima::fastcdr::exception;
 
 TaskBehaviorState::TaskBehaviorState()
 {
-    // m_number com.eprosima.idl.parser.typecode.PrimitiveTypeCode@67d48005
+    // m_number com.eprosima.idl.parser.typecode.PrimitiveTypeCode@12468a38
     m_number = 0;
-    // m_mainState com.eprosima.idl.parser.typecode.PrimitiveTypeCode@9f116cc
+    // m_mainState com.eprosima.idl.parser.typecode.PrimitiveTypeCode@1aa7ecca
     m_mainState = 0;
-    // m_subState com.eprosima.idl.parser.typecode.PrimitiveTypeCode@12468a38
+    // m_subState com.eprosima.idl.parser.typecode.PrimitiveTypeCode@59309333
     m_subState = 0;
-    // m_redGreenRoad com.eprosima.idl.parser.typecode.PrimitiveTypeCode@1aa7ecca
+    // m_redGreenRoad com.eprosima.idl.parser.typecode.PrimitiveTypeCode@5876a9af
     m_redGreenRoad = 0;
-    // m_roadType com.eprosima.idl.parser.typecode.PrimitiveTypeCode@59309333
+    // m_roadType com.eprosima.idl.parser.typecode.PrimitiveTypeCode@7ec7ffd3
     m_roadType = 0;
-    // m_distance com.eprosima.idl.parser.typecode.PrimitiveTypeCode@5876a9af
+    // m_distance com.eprosima.idl.parser.typecode.PrimitiveTypeCode@5b239d7d
     m_distance = 0.0;
 
 }

@@ -2926,17 +2926,17 @@ void DDS_RadarInfos::serializeKey(
 
 DDS_LidarPoint::DDS_LidarPoint()
 {
-    // m_point_x com.eprosima.idl.parser.typecode.PrimitiveTypeCode@55a1c291
+    // m_point_x com.eprosima.idl.parser.typecode.PrimitiveTypeCode@2890c451
     m_point_x = 0;
-    // m_point_y com.eprosima.idl.parser.typecode.PrimitiveTypeCode@2145433b
+    // m_point_y com.eprosima.idl.parser.typecode.PrimitiveTypeCode@40e6dfe1
     m_point_y = 0;
-    // m_point_z com.eprosima.idl.parser.typecode.PrimitiveTypeCode@2890c451
+    // m_point_z com.eprosima.idl.parser.typecode.PrimitiveTypeCode@1b083826
     m_point_z = 0;
-    // m_intensity com.eprosima.idl.parser.typecode.PrimitiveTypeCode@40e6dfe1
+    // m_intensity com.eprosima.idl.parser.typecode.PrimitiveTypeCode@105fece7
     m_intensity = 0;
-    // m_time_stamp com.eprosima.idl.parser.typecode.PrimitiveTypeCode@1b083826
+    // m_time_stamp com.eprosima.idl.parser.typecode.PrimitiveTypeCode@3ec300f1
     m_time_stamp = 0;
-    // m_ring com.eprosima.idl.parser.typecode.PrimitiveTypeCode@105fece7
+    // m_ring com.eprosima.idl.parser.typecode.PrimitiveTypeCode@482cd91f
     m_ring = 0;
 
 }
@@ -3296,9 +3296,9 @@ void DDS_LidarPoint::serializeKey(
 
 DDS_LidarCloud::DDS_LidarCloud()
 {
-    // m_stamp com.eprosima.idl.parser.typecode.PrimitiveTypeCode@5b0abc94
+    // m_stamp com.eprosima.idl.parser.typecode.PrimitiveTypeCode@1f1c7bf6
     m_stamp = 0;
-    // m_points com.eprosima.idl.parser.typecode.SequenceTypeCode@75c072cb
+    // m_points com.eprosima.idl.parser.typecode.SequenceTypeCode@25b485ba
 
 
 }
@@ -3507,9 +3507,9 @@ void DDS_LidarCloud::serializeKey(
 
 DDS_Image::DDS_Image()
 {
-    // m_stamp com.eprosima.idl.parser.typecode.PrimitiveTypeCode@1f1c7bf6
+    // m_stamp com.eprosima.idl.parser.typecode.PrimitiveTypeCode@2b546384
     m_stamp = 0;
-    // m_mat com.eprosima.idl.parser.typecode.ArrayTypeCode@25b485ba
+    // m_mat com.eprosima.idl.parser.typecode.ArrayTypeCode@5d740a0f
     memset(&m_mat, 0, (4147200) * 1);
 
 }

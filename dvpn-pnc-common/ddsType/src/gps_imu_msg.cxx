@@ -36,27 +36,27 @@ using namespace eprosima::fastcdr::exception;
 
 tmdesc::tmdesc()
 {
-    // m_tm_sec com.eprosima.idl.parser.typecode.PrimitiveTypeCode@1139b2f3
+    // m_tm_sec com.eprosima.idl.parser.typecode.PrimitiveTypeCode@5e82df6a
     m_tm_sec = 0;
-    // m_tm_min com.eprosima.idl.parser.typecode.PrimitiveTypeCode@7a69b07
+    // m_tm_min com.eprosima.idl.parser.typecode.PrimitiveTypeCode@3f197a46
     m_tm_min = 0;
-    // m_tm_hour com.eprosima.idl.parser.typecode.PrimitiveTypeCode@5e82df6a
+    // m_tm_hour com.eprosima.idl.parser.typecode.PrimitiveTypeCode@636be97c
     m_tm_hour = 0;
-    // m_tm_mday com.eprosima.idl.parser.typecode.PrimitiveTypeCode@3f197a46
+    // m_tm_mday com.eprosima.idl.parser.typecode.PrimitiveTypeCode@50a638b5
     m_tm_mday = 0;
-    // m_tm_mon com.eprosima.idl.parser.typecode.PrimitiveTypeCode@636be97c
+    // m_tm_mon com.eprosima.idl.parser.typecode.PrimitiveTypeCode@1817d444
     m_tm_mon = 0;
-    // m_tm_year com.eprosima.idl.parser.typecode.PrimitiveTypeCode@50a638b5
+    // m_tm_year com.eprosima.idl.parser.typecode.PrimitiveTypeCode@6ca8564a
     m_tm_year = 0;
-    // m_tm_wday com.eprosima.idl.parser.typecode.PrimitiveTypeCode@1817d444
+    // m_tm_wday com.eprosima.idl.parser.typecode.PrimitiveTypeCode@50b472aa
     m_tm_wday = 0;
-    // m_tm_yday com.eprosima.idl.parser.typecode.PrimitiveTypeCode@6ca8564a
+    // m_tm_yday com.eprosima.idl.parser.typecode.PrimitiveTypeCode@31368b99
     m_tm_yday = 0;
-    // m_tm_isdst com.eprosima.idl.parser.typecode.PrimitiveTypeCode@50b472aa
+    // m_tm_isdst com.eprosima.idl.parser.typecode.PrimitiveTypeCode@1725dc0f
     m_tm_isdst = 0;
-    // m_tm_gmtoff com.eprosima.idl.parser.typecode.PrimitiveTypeCode@31368b99
+    // m_tm_gmtoff com.eprosima.idl.parser.typecode.PrimitiveTypeCode@3911c2a7
     m_tm_gmtoff = 0;
-    // m_tm_zone com.eprosima.idl.parser.typecode.ArrayTypeCode@1725dc0f
+    // m_tm_zone com.eprosima.idl.parser.typecode.ArrayTypeCode@4ac3c60d
     memset(&m_tm_zone, 0, (20) * 1);
 
 }
@@ -639,67 +639,67 @@ void tmdesc::serializeKey(
 
 GpsImuInfo::GpsImuInfo()
 {
-    // m_gps_week com.eprosima.idl.parser.typecode.PrimitiveTypeCode@4facf68f
+    // m_gps_week com.eprosima.idl.parser.typecode.PrimitiveTypeCode@41e36e46
     m_gps_week = 0;
-    // m_gps_time com.eprosima.idl.parser.typecode.PrimitiveTypeCode@76508ed1
+    // m_gps_time com.eprosima.idl.parser.typecode.PrimitiveTypeCode@15c43bd9
     m_gps_time = 0.0;
-    // m_time_record com.eprosima.fastdds.idl.parser.typecode.StructTypeCode@41e36e46
+    // m_time_record com.eprosima.fastdds.idl.parser.typecode.StructTypeCode@3d74bf60
 
-    // m_time_year com.eprosima.idl.parser.typecode.PrimitiveTypeCode@15c43bd9
+    // m_time_year com.eprosima.idl.parser.typecode.PrimitiveTypeCode@4f209819
     m_time_year = 0.0;
-    // m_time_month com.eprosima.idl.parser.typecode.PrimitiveTypeCode@3d74bf60
+    // m_time_month com.eprosima.idl.parser.typecode.PrimitiveTypeCode@15eb5ee5
     m_time_month = 0;
-    // m_time_day com.eprosima.idl.parser.typecode.PrimitiveTypeCode@4f209819
+    // m_time_day com.eprosima.idl.parser.typecode.PrimitiveTypeCode@2145b572
     m_time_day = 0;
-    // m_time_hour com.eprosima.idl.parser.typecode.PrimitiveTypeCode@15eb5ee5
+    // m_time_hour com.eprosima.idl.parser.typecode.PrimitiveTypeCode@39529185
     m_time_hour = 0;
-    // m_time_minute com.eprosima.idl.parser.typecode.PrimitiveTypeCode@2145b572
+    // m_time_minute com.eprosima.idl.parser.typecode.PrimitiveTypeCode@72f926e6
     m_time_minute = 0;
-    // m_time_second com.eprosima.idl.parser.typecode.PrimitiveTypeCode@39529185
+    // m_time_second com.eprosima.idl.parser.typecode.PrimitiveTypeCode@3daa422a
     m_time_second = 0;
-    // m_gps_msec com.eprosima.idl.parser.typecode.PrimitiveTypeCode@72f926e6
+    // m_gps_msec com.eprosima.idl.parser.typecode.PrimitiveTypeCode@31c88ec8
     m_gps_msec = 0;
-    // m_gps_rtk_status com.eprosima.idl.parser.typecode.PrimitiveTypeCode@3daa422a
+    // m_gps_rtk_status com.eprosima.idl.parser.typecode.PrimitiveTypeCode@1cbbffcd
     m_gps_rtk_status = 0;
-    // m_gps_lat com.eprosima.idl.parser.typecode.PrimitiveTypeCode@31c88ec8
+    // m_gps_lat com.eprosima.idl.parser.typecode.PrimitiveTypeCode@27ce24aa
     m_gps_lat = 0.0;
-    // m_gps_lng com.eprosima.idl.parser.typecode.PrimitiveTypeCode@1cbbffcd
+    // m_gps_lng com.eprosima.idl.parser.typecode.PrimitiveTypeCode@481a996b
     m_gps_lng = 0.0;
-    // m_gps_heading com.eprosima.idl.parser.typecode.PrimitiveTypeCode@27ce24aa
+    // m_gps_heading com.eprosima.idl.parser.typecode.PrimitiveTypeCode@3d51f06e
     m_gps_heading = 0.0;
-    // m_gps_ve com.eprosima.idl.parser.typecode.PrimitiveTypeCode@481a996b
+    // m_gps_ve com.eprosima.idl.parser.typecode.PrimitiveTypeCode@7ed7259e
     m_gps_ve = 0.0;
-    // m_gps_vn com.eprosima.idl.parser.typecode.PrimitiveTypeCode@3d51f06e
+    // m_gps_vn com.eprosima.idl.parser.typecode.PrimitiveTypeCode@28eaa59a
     m_gps_vn = 0.0;
-    // m_gps_vd com.eprosima.idl.parser.typecode.PrimitiveTypeCode@7ed7259e
+    // m_gps_vd com.eprosima.idl.parser.typecode.PrimitiveTypeCode@3427b02d
     m_gps_vd = 0.0;
-    // m_gps_speed com.eprosima.idl.parser.typecode.PrimitiveTypeCode@28eaa59a
+    // m_gps_speed com.eprosima.idl.parser.typecode.PrimitiveTypeCode@647e447
     m_gps_speed = 0.0;
-    // m_gps_days_to_speed com.eprosima.idl.parser.typecode.PrimitiveTypeCode@3427b02d
+    // m_gps_days_to_speed com.eprosima.idl.parser.typecode.PrimitiveTypeCode@41fbdac4
     m_gps_days_to_speed = 0.0;
-    // m_gps_height com.eprosima.idl.parser.typecode.PrimitiveTypeCode@647e447
+    // m_gps_height com.eprosima.idl.parser.typecode.PrimitiveTypeCode@3c407114
     m_gps_height = 0.0;
-    // m_imu_acc_y com.eprosima.idl.parser.typecode.PrimitiveTypeCode@41fbdac4
+    // m_imu_acc_y com.eprosima.idl.parser.typecode.PrimitiveTypeCode@35ef1869
     m_imu_acc_y = 0.0;
-    // m_imu_acc_x com.eprosima.idl.parser.typecode.PrimitiveTypeCode@3c407114
+    // m_imu_acc_x com.eprosima.idl.parser.typecode.PrimitiveTypeCode@c33b74f
     m_imu_acc_x = 0.0;
-    // m_imu_yaw_z com.eprosima.idl.parser.typecode.PrimitiveTypeCode@35ef1869
+    // m_imu_yaw_z com.eprosima.idl.parser.typecode.PrimitiveTypeCode@130161f7
     m_imu_yaw_z = 0.0;
-    // m_imu_v_y com.eprosima.idl.parser.typecode.PrimitiveTypeCode@c33b74f
+    // m_imu_v_y com.eprosima.idl.parser.typecode.PrimitiveTypeCode@2c767a52
     m_imu_v_y = 0.0;
-    // m_imu_v_x com.eprosima.idl.parser.typecode.PrimitiveTypeCode@130161f7
+    // m_imu_v_x com.eprosima.idl.parser.typecode.PrimitiveTypeCode@619713e5
     m_imu_v_x = 0.0;
-    // m_imu_v_z com.eprosima.idl.parser.typecode.PrimitiveTypeCode@2c767a52
+    // m_imu_v_z com.eprosima.idl.parser.typecode.PrimitiveTypeCode@708f5957
     m_imu_v_z = 0.0;
-    // m_gps_satellite_front com.eprosima.idl.parser.typecode.PrimitiveTypeCode@619713e5
+    // m_gps_satellite_front com.eprosima.idl.parser.typecode.PrimitiveTypeCode@68999068
     m_gps_satellite_front = 0;
-    // m_gps_satellite_rear com.eprosima.idl.parser.typecode.PrimitiveTypeCode@708f5957
+    // m_gps_satellite_rear com.eprosima.idl.parser.typecode.PrimitiveTypeCode@7722c3c3
     m_gps_satellite_rear = 0;
-    // m_gps_yaw com.eprosima.idl.parser.typecode.PrimitiveTypeCode@68999068
+    // m_gps_yaw com.eprosima.idl.parser.typecode.PrimitiveTypeCode@2ef3eef9
     m_gps_yaw = 0.0;
-    // m_gps_roll com.eprosima.idl.parser.typecode.PrimitiveTypeCode@7722c3c3
+    // m_gps_roll com.eprosima.idl.parser.typecode.PrimitiveTypeCode@243c4f91
     m_gps_roll = 0.0;
-    // m_gps_pitch com.eprosima.idl.parser.typecode.PrimitiveTypeCode@2ef3eef9
+    // m_gps_pitch com.eprosima.idl.parser.typecode.PrimitiveTypeCode@291ae
     m_gps_pitch = 0.0;
 
 }

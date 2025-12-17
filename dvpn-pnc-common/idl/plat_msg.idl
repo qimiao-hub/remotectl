@@ -195,6 +195,8 @@ struct RoadInMap
    sequence<string> unSortRoadIds;          //卸料未排序的道路ID列表
    string bindingRoadId;                    //绑定道路ID
    string MapVersion;                       //地图版本号
+   string DstAreaId;                        //目标区域ID号 --边界自动更新功能
+   string AreaVersion;                      //区域版本信息 --边界自动更新功能
 };
 
 /*添加基于高精地图的调度相关指令和参数信息  end*/

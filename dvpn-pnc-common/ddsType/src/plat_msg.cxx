@@ -1938,6 +1938,10 @@ RoadInMap::RoadInMap()
     m_bindingRoadId ="";
     // m_MapVersion com.eprosima.idl.parser.typecode.StringTypeCode@41ee392b
     m_MapVersion ="";
+    // m_DstAreaId com.eprosima.idl.parser.typecode.StringTypeCode@1e67a849
+    m_DstAreaId ="";
+    // m_AreaVersion com.eprosima.idl.parser.typecode.StringTypeCode@57d5872c
+    m_AreaVersion ="";
 
 }
 
@@ -1953,6 +1957,8 @@ RoadInMap::~RoadInMap()
 
 
 
+
+
 }
 
 RoadInMap::RoadInMap(
@@ -1968,6 +1974,8 @@ RoadInMap::RoadInMap(
     m_unSortRoadIds = x.m_unSortRoadIds;
     m_bindingRoadId = x.m_bindingRoadId;
     m_MapVersion = x.m_MapVersion;
+    m_DstAreaId = x.m_DstAreaId;
+    m_AreaVersion = x.m_AreaVersion;
 }
 
 RoadInMap::RoadInMap(
@@ -1983,6 +1991,8 @@ RoadInMap::RoadInMap(
     m_unSortRoadIds = std::move(x.m_unSortRoadIds);
     m_bindingRoadId = std::move(x.m_bindingRoadId);
     m_MapVersion = std::move(x.m_MapVersion);
+    m_DstAreaId = std::move(x.m_DstAreaId);
+    m_AreaVersion = std::move(x.m_AreaVersion);
 }
 
 RoadInMap& RoadInMap::operator =(
@@ -1999,6 +2009,8 @@ RoadInMap& RoadInMap::operator =(
     m_unSortRoadIds = x.m_unSortRoadIds;
     m_bindingRoadId = x.m_bindingRoadId;
     m_MapVersion = x.m_MapVersion;
+    m_DstAreaId = x.m_DstAreaId;
+    m_AreaVersion = x.m_AreaVersion;
 
     return *this;
 }
@@ -2017,6 +2029,8 @@ RoadInMap& RoadInMap::operator =(
     m_unSortRoadIds = std::move(x.m_unSortRoadIds);
     m_bindingRoadId = std::move(x.m_bindingRoadId);
     m_MapVersion = std::move(x.m_MapVersion);
+    m_DstAreaId = std::move(x.m_DstAreaId);
+    m_AreaVersion = std::move(x.m_AreaVersion);
 
     return *this;
 }
@@ -2025,7 +2039,7 @@ bool RoadInMap::operator ==(
         const RoadInMap& x) const
 {
 
-    return (m_TaskType == x.m_TaskType && m_SeqID == x.m_SeqID && m_PointNum == x.m_PointNum && m_RoadIDNum == x.m_RoadIDNum && m_PointList == x.m_PointList && m_RoadIDList == x.m_RoadIDList && m_InnerPointList == x.m_InnerPointList && m_unSortRoadIds == x.m_unSortRoadIds && m_bindingRoadId == x.m_bindingRoadId && m_MapVersion == x.m_MapVersion);
+    return (m_TaskType == x.m_TaskType && m_SeqID == x.m_SeqID && m_PointNum == x.m_PointNum && m_RoadIDNum == x.m_RoadIDNum && m_PointList == x.m_PointList && m_RoadIDList == x.m_RoadIDList && m_InnerPointList == x.m_InnerPointList && m_unSortRoadIds == x.m_unSortRoadIds && m_bindingRoadId == x.m_bindingRoadId && m_MapVersion == x.m_MapVersion && m_DstAreaId == x.m_DstAreaId && m_AreaVersion == x.m_AreaVersion);
 }
 
 bool RoadInMap::operator !=(
@@ -2080,6 +2094,10 @@ size_t RoadInMap::getMaxCdrSerializedSize(
     {
         current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4) + 255 + 1;
     }
+    current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4) + 255 + 1;
+
+    current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4) + 255 + 1;
+
     current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4) + 255 + 1;
 
     current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4) + 255 + 1;
@@ -2142,6 +2160,10 @@ size_t RoadInMap::getCdrSerializedSize(
 
     current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4) + data.MapVersion().size() + 1;
 
+    current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4) + data.DstAreaId().size() + 1;
+
+    current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4) + data.AreaVersion().size() + 1;
+
 
     return current_alignment - initial_alignment;
 }
@@ -2160,6 +2182,8 @@ void RoadInMap::serialize(
     scdr << m_unSortRoadIds;
     scdr << m_bindingRoadId.c_str();
     scdr << m_MapVersion.c_str();
+    scdr << m_DstAreaId.c_str();
+    scdr << m_AreaVersion.c_str();
 
 }
 
@@ -2177,6 +2201,8 @@ void RoadInMap::deserialize(
     dcdr >> m_unSortRoadIds;
     dcdr >> m_bindingRoadId;
     dcdr >> m_MapVersion;
+    dcdr >> m_DstAreaId;
+    dcdr >> m_AreaVersion;
 }
 
 /*!
@@ -2513,11 +2539,87 @@ std::string& RoadInMap::MapVersion()
 {
     return m_MapVersion;
 }
+/*!
+ * @brief This function copies the value in member DstAreaId
+ * @param _DstAreaId New value to be copied in member DstAreaId
+ */
+void RoadInMap::DstAreaId(
+        const std::string& _DstAreaId)
+{
+    m_DstAreaId = _DstAreaId;
+}
+
+/*!
+ * @brief This function moves the value in member DstAreaId
+ * @param _DstAreaId New value to be moved in member DstAreaId
+ */
+void RoadInMap::DstAreaId(
+        std::string&& _DstAreaId)
+{
+    m_DstAreaId = std::move(_DstAreaId);
+}
+
+/*!
+ * @brief This function returns a constant reference to member DstAreaId
+ * @return Constant reference to member DstAreaId
+ */
+const std::string& RoadInMap::DstAreaId() const
+{
+    return m_DstAreaId;
+}
+
+/*!
+ * @brief This function returns a reference to member DstAreaId
+ * @return Reference to member DstAreaId
+ */
+std::string& RoadInMap::DstAreaId()
+{
+    return m_DstAreaId;
+}
+/*!
+ * @brief This function copies the value in member AreaVersion
+ * @param _AreaVersion New value to be copied in member AreaVersion
+ */
+void RoadInMap::AreaVersion(
+        const std::string& _AreaVersion)
+{
+    m_AreaVersion = _AreaVersion;
+}
+
+/*!
+ * @brief This function moves the value in member AreaVersion
+ * @param _AreaVersion New value to be moved in member AreaVersion
+ */
+void RoadInMap::AreaVersion(
+        std::string&& _AreaVersion)
+{
+    m_AreaVersion = std::move(_AreaVersion);
+}
+
+/*!
+ * @brief This function returns a constant reference to member AreaVersion
+ * @return Constant reference to member AreaVersion
+ */
+const std::string& RoadInMap::AreaVersion() const
+{
+    return m_AreaVersion;
+}
+
+/*!
+ * @brief This function returns a reference to member AreaVersion
+ * @return Reference to member AreaVersion
+ */
+std::string& RoadInMap::AreaVersion()
+{
+    return m_AreaVersion;
+}
 
 size_t RoadInMap::getKeyMaxCdrSerializedSize(
         size_t current_alignment)
 {
     size_t current_align = current_alignment;
+
+
 
 
 
@@ -2543,16 +2645,16 @@ void RoadInMap::serializeKey(
         eprosima::fastcdr::Cdr& scdr) const
 {
     (void) scdr;
-              
+                
 }
 
 SlowStopInfo::SlowStopInfo()
 {
-    // m_junctionID com.eprosima.idl.parser.typecode.StringTypeCode@525f1e4e
+    // m_junctionID com.eprosima.idl.parser.typecode.StringTypeCode@5ea434c8
     m_junctionID ="";
-    // m_lontitude com.eprosima.idl.parser.typecode.PrimitiveTypeCode@75f9eccc
+    // m_lontitude com.eprosima.idl.parser.typecode.PrimitiveTypeCode@3bbc39f8
     m_lontitude = 0.0;
-    // m_latitude com.eprosima.idl.parser.typecode.PrimitiveTypeCode@52aa2946
+    // m_latitude com.eprosima.idl.parser.typecode.PrimitiveTypeCode@4ae3c1cd
     m_latitude = 0.0;
 
 }
@@ -2794,15 +2896,15 @@ void SlowStopInfo::serializeKey(
 JobCtrlAttach::JobCtrlAttach()
 {
     m__d = 1;
-    // m_park com.eprosima.fastdds.idl.parser.typecode.StructTypeCode@25b485ba
+    // m_park com.eprosima.fastdds.idl.parser.typecode.StructTypeCode@55ca8de8
 
-    // m_space com.eprosima.idl.parser.typecode.PrimitiveTypeCode@2b546384
+    // m_space com.eprosima.idl.parser.typecode.PrimitiveTypeCode@2c34f934
     m_space = 0;
-    // m_speed com.eprosima.idl.parser.typecode.PrimitiveTypeCode@5d740a0f
+    // m_speed com.eprosima.idl.parser.typecode.PrimitiveTypeCode@12d3a4e9
     m_speed = 0;
-    // m_road com.eprosima.fastdds.idl.parser.typecode.StructTypeCode@214b199c
+    // m_road com.eprosima.fastdds.idl.parser.typecode.StructTypeCode@240237d2
 
-    // m_stopInfo com.eprosima.fastdds.idl.parser.typecode.StructTypeCode@20d3d15a
+    // m_stopInfo com.eprosima.fastdds.idl.parser.typecode.StructTypeCode@25a65b77
 
 }
 
@@ -3442,11 +3544,11 @@ void JobCtrlAttach::deserialize(
 
 JobExecResult::JobExecResult()
 {
-    // m_JobCtrlCmd com.eprosima.idl.parser.typecode.EnumTypeCode@5af97850
+    // m_JobCtrlCmd com.eprosima.idl.parser.typecode.EnumTypeCode@50a7bc6e
     m_JobCtrlCmd = ::JobCtrl_NULL;
-    // m_Seq_Num com.eprosima.idl.parser.typecode.PrimitiveTypeCode@5ef60048
+    // m_Seq_Num com.eprosima.idl.parser.typecode.PrimitiveTypeCode@161b062a
     m_Seq_Num = 0;
-    // m_Result com.eprosima.idl.parser.typecode.PrimitiveTypeCode@1d548a08
+    // m_Result com.eprosima.idl.parser.typecode.PrimitiveTypeCode@17c1bced
     m_Result = 0;
 
 }
@@ -3685,11 +3787,11 @@ void JobExecResult::serializeKey(
 
 JobControl::JobControl()
 {
-    // m_JobCtrlCmd com.eprosima.idl.parser.typecode.EnumTypeCode@5af97850
+    // m_JobCtrlCmd com.eprosima.idl.parser.typecode.EnumTypeCode@50a7bc6e
     m_JobCtrlCmd = ::JobCtrl_NULL;
-    // m_Seq_Num com.eprosima.idl.parser.typecode.PrimitiveTypeCode@16aa0a0a
+    // m_Seq_Num com.eprosima.idl.parser.typecode.PrimitiveTypeCode@2d9d4f9d
     m_Seq_Num = 0;
-    // m_CtrlAttach com.eprosima.idl.parser.typecode.UnionTypeCode@780cb77
+    // m_CtrlAttach com.eprosima.idl.parser.typecode.UnionTypeCode@4034c28c
 
 
 }
@@ -3933,15 +4035,15 @@ void JobControl::serializeKey(
 
 GPSPointMsg::GPSPointMsg()
 {
-    // m_iLongitude com.eprosima.idl.parser.typecode.PrimitiveTypeCode@691a7f8f
+    // m_iLongitude com.eprosima.idl.parser.typecode.PrimitiveTypeCode@e50a6f6
     m_iLongitude = 0.0;
-    // m_iLatitude com.eprosima.idl.parser.typecode.PrimitiveTypeCode@50a7bc6e
+    // m_iLatitude com.eprosima.idl.parser.typecode.PrimitiveTypeCode@14ec4505
     m_iLatitude = 0.0;
-    // m_altitude com.eprosima.idl.parser.typecode.PrimitiveTypeCode@161b062a
+    // m_altitude com.eprosima.idl.parser.typecode.PrimitiveTypeCode@53ca01a2
     m_altitude = 0.0;
-    // m_iHead com.eprosima.idl.parser.typecode.PrimitiveTypeCode@17c1bced
+    // m_iHead com.eprosima.idl.parser.typecode.PrimitiveTypeCode@358c99f5
     m_iHead = 0.0;
-    // m_roadID com.eprosima.idl.parser.typecode.StringTypeCode@2d9d4f9d
+    // m_roadID com.eprosima.idl.parser.typecode.StringTypeCode@3ee0fea4
     m_roadID ="";
 
 }
@@ -4266,21 +4368,21 @@ void GPSPointMsg::serializeKey(
 
 PreviewPathMsg::PreviewPathMsg()
 {
-    // m_vin com.eprosima.idl.parser.typecode.StringTypeCode@4b168fa9
+    // m_vin com.eprosima.idl.parser.typecode.StringTypeCode@23282c25
     m_vin ="";
-    // m_timestamp com.eprosima.idl.parser.typecode.PrimitiveTypeCode@1a84f40f
+    // m_timestamp com.eprosima.idl.parser.typecode.PrimitiveTypeCode@7920ba90
     m_timestamp = 0;
-    // m_driveState com.eprosima.idl.parser.typecode.PrimitiveTypeCode@23282c25
+    // m_driveState com.eprosima.idl.parser.typecode.PrimitiveTypeCode@6b419da
     m_driveState = 0;
-    // m_driveStateChild com.eprosima.idl.parser.typecode.PrimitiveTypeCode@7920ba90
+    // m_driveStateChild com.eprosima.idl.parser.typecode.PrimitiveTypeCode@3b2da18f
     m_driveStateChild = 0;
-    // m_location com.eprosima.fastdds.idl.parser.typecode.StructTypeCode@6b419da
+    // m_location com.eprosima.fastdds.idl.parser.typecode.StructTypeCode@5906ebcb
 
-    // m_velocity com.eprosima.idl.parser.typecode.PrimitiveTypeCode@3b2da18f
+    // m_velocity com.eprosima.idl.parser.typecode.PrimitiveTypeCode@258e2e41
     m_velocity = 0.0;
-    // m_stoptype com.eprosima.idl.parser.typecode.PrimitiveTypeCode@5906ebcb
+    // m_stoptype com.eprosima.idl.parser.typecode.PrimitiveTypeCode@3d299e3
     m_stoptype = 0;
-    // m_prePath com.eprosima.idl.parser.typecode.SequenceTypeCode@258e2e41
+    // m_prePath com.eprosima.idl.parser.typecode.SequenceTypeCode@55a561cf
 
 
 }
@@ -4753,21 +4855,21 @@ void PreviewPathMsg::serializeKey(
 
 DownPreviewPathMsg::DownPreviewPathMsg()
 {
-    // m_timestamp com.eprosima.idl.parser.typecode.PrimitiveTypeCode@3d299e3
+    // m_timestamp com.eprosima.idl.parser.typecode.PrimitiveTypeCode@3b938003
     m_timestamp = 0;
-    // m_driveState com.eprosima.idl.parser.typecode.PrimitiveTypeCode@55a561cf
+    // m_driveState com.eprosima.idl.parser.typecode.PrimitiveTypeCode@6f3b5d16
     m_driveState = 0;
-    // m_driveStateChild com.eprosima.idl.parser.typecode.PrimitiveTypeCode@3b938003
+    // m_driveStateChild com.eprosima.idl.parser.typecode.PrimitiveTypeCode@78b1cc93
     m_driveStateChild = 0;
-    // m_location com.eprosima.fastdds.idl.parser.typecode.StructTypeCode@6b419da
+    // m_location com.eprosima.fastdds.idl.parser.typecode.StructTypeCode@5906ebcb
 
-    // m_velocity com.eprosima.idl.parser.typecode.PrimitiveTypeCode@6f3b5d16
+    // m_velocity com.eprosima.idl.parser.typecode.PrimitiveTypeCode@6646153
     m_velocity = 0.0;
-    // m_vin com.eprosima.idl.parser.typecode.StringTypeCode@78b1cc93
+    // m_vin com.eprosima.idl.parser.typecode.StringTypeCode@21507a04
     m_vin ="";
-    // m_stoptype com.eprosima.idl.parser.typecode.PrimitiveTypeCode@6646153
+    // m_stoptype com.eprosima.idl.parser.typecode.PrimitiveTypeCode@143640d5
     m_stoptype = 0;
-    // m_prePath com.eprosima.idl.parser.typecode.SequenceTypeCode@21507a04
+    // m_prePath com.eprosima.idl.parser.typecode.SequenceTypeCode@6295d394
 
 
 }
@@ -5240,9 +5342,9 @@ void DownPreviewPathMsg::serializeKey(
 
 AreaVehicleMsg::AreaVehicleMsg()
 {
-    // m_timestamp com.eprosima.idl.parser.typecode.PrimitiveTypeCode@143640d5
+    // m_timestamp com.eprosima.idl.parser.typecode.PrimitiveTypeCode@436a4e4b
     m_timestamp = 0;
-    // m_otherVehicle com.eprosima.idl.parser.typecode.SequenceTypeCode@6295d394
+    // m_otherVehicle com.eprosima.idl.parser.typecode.SequenceTypeCode@f2f2cc1
 
 
 }
@@ -5451,9 +5553,9 @@ void AreaVehicleMsg::serializeKey(
 
 JobCtrlResPonse::JobCtrlResPonse()
 {
-    // m_SeqID com.eprosima.idl.parser.typecode.PrimitiveTypeCode@475e586c
+    // m_SeqID com.eprosima.idl.parser.typecode.PrimitiveTypeCode@3a079870
     m_SeqID = 0;
-    // m_RoadIDList com.eprosima.idl.parser.typecode.SequenceTypeCode@657c8ad9
+    // m_RoadIDList com.eprosima.idl.parser.typecode.SequenceTypeCode@3b2cf7ab
 
 
 }
@@ -5663,7 +5765,7 @@ void JobCtrlResPonse::serializeKey(
 
 JobCtrlRespAck::JobCtrlRespAck()
 {
-    // m_SeqID com.eprosima.idl.parser.typecode.PrimitiveTypeCode@3a079870
+    // m_SeqID com.eprosima.idl.parser.typecode.PrimitiveTypeCode@2aa5fe93
     m_SeqID = 0;
 
 }
@@ -5809,11 +5911,11 @@ void JobCtrlRespAck::serializeKey(
 
 UpdateUnloadingStatus::UpdateUnloadingStatus()
 {
-    // m_enable com.eprosima.idl.parser.typecode.PrimitiveTypeCode@6156496
+    // m_enable com.eprosima.idl.parser.typecode.PrimitiveTypeCode@b62fe6d
     m_enable = 0;
-    // m_isNormalFP com.eprosima.idl.parser.typecode.PrimitiveTypeCode@3c153a1
+    // m_isNormalFP com.eprosima.idl.parser.typecode.PrimitiveTypeCode@13acb0d1
     m_isNormalFP = 0;
-    // m_angleFP com.eprosima.idl.parser.typecode.PrimitiveTypeCode@b62fe6d
+    // m_angleFP com.eprosima.idl.parser.typecode.PrimitiveTypeCode@3e3047e6
     m_angleFP = 0.0;
 
 }
@@ -6047,13 +6149,13 @@ void UpdateUnloadingStatus::serializeKey(
 
 UpdateUnloadingPoint::UpdateUnloadingPoint()
 {
-    // m_unloadPtLng com.eprosima.idl.parser.typecode.PrimitiveTypeCode@5db45159
+    // m_unloadPtLng com.eprosima.idl.parser.typecode.PrimitiveTypeCode@7c417213
     m_unloadPtLng = 0.0;
-    // m_unloadPtLat com.eprosima.idl.parser.typecode.PrimitiveTypeCode@6107227e
+    // m_unloadPtLat com.eprosima.idl.parser.typecode.PrimitiveTypeCode@15761df8
     m_unloadPtLat = 0.0;
-    // m_unloadPtAlt com.eprosima.idl.parser.typecode.PrimitiveTypeCode@7c417213
+    // m_unloadPtAlt com.eprosima.idl.parser.typecode.PrimitiveTypeCode@6ab7a896
     m_unloadPtAlt = 0.0;
-    // m_unloadPtHeading com.eprosima.idl.parser.typecode.PrimitiveTypeCode@15761df8
+    // m_unloadPtHeading com.eprosima.idl.parser.typecode.PrimitiveTypeCode@327b636c
     m_unloadPtHeading = 0.0;
 
 }

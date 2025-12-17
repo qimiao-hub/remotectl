@@ -435,7 +435,7 @@ inline float PubApi::cal_value(GPSInfo p1, GPSInfo p2)
     return dis;
 }
 
-int PubApi::findKeyPoint(vector<GPSInfo> road_list, double iLongitude, double iLatitude, double iHead, int key_last, KEY_SEARCH_METHOD search_method)
+int PubApi::findKeyPoint(const vector<GPSInfo> &road_list, double iLongitude, double iLatitude, double iHead, int key_last, KEY_SEARCH_METHOD search_method)
 {
 
     // 首次查询离最近的点下标

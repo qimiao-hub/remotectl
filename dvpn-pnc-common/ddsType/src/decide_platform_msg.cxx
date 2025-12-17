@@ -36,9 +36,9 @@ using namespace eprosima::fastcdr::exception;
 
 DecidePlatformInfo::DecidePlatformInfo()
 {
-    // m_job_staus_out com.eprosima.idl.parser.typecode.EnumTypeCode@70b0b186
+    // m_job_staus_out com.eprosima.idl.parser.typecode.EnumTypeCode@ba8d91c
     m_job_staus_out = ::JobStatus_Manual;
-    // m_drive_status_out com.eprosima.idl.parser.typecode.EnumTypeCode@5d20e46
+    // m_drive_status_out com.eprosima.idl.parser.typecode.EnumTypeCode@709ba3fb
     m_drive_status_out = ::DrivStatus_Invaild;
 
 }

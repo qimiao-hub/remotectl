@@ -37,13 +37,13 @@ using namespace eprosima::fastcdr::exception;
 
 TaskParkPoint::TaskParkPoint()
 {
-    // m_lontitude com.eprosima.idl.parser.typecode.PrimitiveTypeCode@7cbd213e
+    // m_lontitude com.eprosima.idl.parser.typecode.PrimitiveTypeCode@192d3247
     m_lontitude = 0.0;
-    // m_latitude com.eprosima.idl.parser.typecode.PrimitiveTypeCode@192d3247
+    // m_latitude com.eprosima.idl.parser.typecode.PrimitiveTypeCode@3ecd23d9
     m_latitude = 0.0;
-    // m_heading com.eprosima.idl.parser.typecode.PrimitiveTypeCode@3ecd23d9
+    // m_heading com.eprosima.idl.parser.typecode.PrimitiveTypeCode@569cfc36
     m_heading = 0.0;
-    // m_altitude com.eprosima.idl.parser.typecode.PrimitiveTypeCode@569cfc36
+    // m_altitude com.eprosima.idl.parser.typecode.PrimitiveTypeCode@43bd930a
     m_altitude = 0.0;
 
 }
@@ -319,9 +319,9 @@ void TaskParkPoint::serializeKey(
 
 TaskBehaviorControl::TaskBehaviorControl()
 {
-    // m_driveControl com.eprosima.idl.parser.typecode.EnumTypeCode@33b37288
+    // m_driveControl com.eprosima.idl.parser.typecode.EnumTypeCode@77a57272
     m_driveControl = ::TASK_CONTROL_FRONT;
-    // m_point com.eprosima.fastdds.idl.parser.typecode.StructTypeCode@77a57272
+    // m_point com.eprosima.fastdds.idl.parser.typecode.StructTypeCode@7181ae3f
 
 
 }

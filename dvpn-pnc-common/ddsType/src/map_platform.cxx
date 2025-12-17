@@ -187,19 +187,171 @@ void MapInfo::serializeKey(
      
 }
 
+BoundaryInfo::BoundaryInfo()
+{
+    // m_boundary_version com.eprosima.idl.parser.typecode.StringTypeCode@6950e31
+    m_boundary_version ="";
+
+}
+
+BoundaryInfo::~BoundaryInfo()
+{
+}
+
+BoundaryInfo::BoundaryInfo(
+        const BoundaryInfo& x)
+{
+    m_boundary_version = x.m_boundary_version;
+}
+
+BoundaryInfo::BoundaryInfo(
+        BoundaryInfo&& x)
+{
+    m_boundary_version = std::move(x.m_boundary_version);
+}
+
+BoundaryInfo& BoundaryInfo::operator =(
+        const BoundaryInfo& x)
+{
+
+    m_boundary_version = x.m_boundary_version;
+
+    return *this;
+}
+
+BoundaryInfo& BoundaryInfo::operator =(
+        BoundaryInfo&& x)
+{
+
+    m_boundary_version = std::move(x.m_boundary_version);
+
+    return *this;
+}
+
+bool BoundaryInfo::operator ==(
+        const BoundaryInfo& x) const
+{
+
+    return (m_boundary_version == x.m_boundary_version);
+}
+
+bool BoundaryInfo::operator !=(
+        const BoundaryInfo& x) const
+{
+    return !(*this == x);
+}
+
+size_t BoundaryInfo::getMaxCdrSerializedSize(
+        size_t current_alignment)
+{
+    size_t initial_alignment = current_alignment;
+
+
+    current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4) + 255 + 1;
+
+    return current_alignment - initial_alignment;
+}
+
+size_t BoundaryInfo::getCdrSerializedSize(
+        const BoundaryInfo& data,
+        size_t current_alignment)
+{
+    (void)data;
+    size_t initial_alignment = current_alignment;
+
+
+    current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4) + data.boundary_version().size() + 1;
+
+    return current_alignment - initial_alignment;
+}
+
+void BoundaryInfo::serialize(
+        eprosima::fastcdr::Cdr& scdr) const
+{
+
+    scdr << m_boundary_version.c_str();
+
+}
+
+void BoundaryInfo::deserialize(
+        eprosima::fastcdr::Cdr& dcdr)
+{
+
+    dcdr >> m_boundary_version;}
+
+/*!
+ * @brief This function copies the value in member boundary_version
+ * @param _boundary_version New value to be copied in member boundary_version
+ */
+void BoundaryInfo::boundary_version(
+        const std::string& _boundary_version)
+{
+    m_boundary_version = _boundary_version;
+}
+
+/*!
+ * @brief This function moves the value in member boundary_version
+ * @param _boundary_version New value to be moved in member boundary_version
+ */
+void BoundaryInfo::boundary_version(
+        std::string&& _boundary_version)
+{
+    m_boundary_version = std::move(_boundary_version);
+}
+
+/*!
+ * @brief This function returns a constant reference to member boundary_version
+ * @return Constant reference to member boundary_version
+ */
+const std::string& BoundaryInfo::boundary_version() const
+{
+    return m_boundary_version;
+}
+
+/*!
+ * @brief This function returns a reference to member boundary_version
+ * @return Reference to member boundary_version
+ */
+std::string& BoundaryInfo::boundary_version()
+{
+    return m_boundary_version;
+}
+
+size_t BoundaryInfo::getKeyMaxCdrSerializedSize(
+        size_t current_alignment)
+{
+    size_t current_align = current_alignment;
+
+
+
+    return current_align;
+}
+
+bool BoundaryInfo::isKeyDefined()
+{
+    return false;
+}
+
+void BoundaryInfo::serializeKey(
+        eprosima::fastcdr::Cdr& scdr) const
+{
+    (void) scdr;
+     
+}
+
 RoadOffsetInfo::RoadOffsetInfo()
 {
-    // m_roadid com.eprosima.idl.parser.typecode.StringTypeCode@7403c468
+    // m_roadid com.eprosima.idl.parser.typecode.StringTypeCode@2a70a3d8
     m_roadid ="";
-    // m_offset com.eprosima.idl.parser.typecode.PrimitiveTypeCode@43738a82
+    // m_offset com.eprosima.idl.parser.typecode.PrimitiveTypeCode@17d0685f
     m_offset = 0.0;
-    // m_startLng com.eprosima.idl.parser.typecode.PrimitiveTypeCode@c81cdd1
+    // m_startLng com.eprosima.idl.parser.typecode.PrimitiveTypeCode@3891771e
     m_startLng = 0.0;
-    // m_startLat com.eprosima.idl.parser.typecode.PrimitiveTypeCode@1fc2b765
+    // m_startLat com.eprosima.idl.parser.typecode.PrimitiveTypeCode@78ac1102
     m_startLat = 0.0;
-    // m_endLng com.eprosima.idl.parser.typecode.PrimitiveTypeCode@75881071
+    // m_endLng com.eprosima.idl.parser.typecode.PrimitiveTypeCode@2de8284b
     m_endLng = 0.0;
-    // m_endLat com.eprosima.idl.parser.typecode.PrimitiveTypeCode@2a70a3d8
+    // m_endLat com.eprosima.idl.parser.typecode.PrimitiveTypeCode@396e2f39
     m_endLat = 0.0;
 
 }
@@ -566,11 +718,11 @@ void RoadOffsetInfo::serializeKey(
 
 EvenPresssInfo::EvenPresssInfo()
 {
-    // m_roadInfos com.eprosima.idl.parser.typecode.SequenceTypeCode@15d9bc04
+    // m_roadInfos com.eprosima.idl.parser.typecode.SequenceTypeCode@78a2da20
 
-    // m_modifyTime com.eprosima.idl.parser.typecode.PrimitiveTypeCode@3c0a50da
+    // m_modifyTime com.eprosima.idl.parser.typecode.PrimitiveTypeCode@dd3b207
     m_modifyTime = 0;
-    // m_type com.eprosima.idl.parser.typecode.PrimitiveTypeCode@646be2c3
+    // m_type com.eprosima.idl.parser.typecode.PrimitiveTypeCode@551bdc27
     m_type = 0;
 
 }
@@ -821,17 +973,17 @@ void EvenPresssInfo::serializeKey(
 
 RoadSpeedInfo::RoadSpeedInfo()
 {
-    // m_roadid com.eprosima.idl.parser.typecode.StringTypeCode@709ba3fb
+    // m_roadid com.eprosima.idl.parser.typecode.StringTypeCode@3d36e4cd
     m_roadid ="";
-    // m_speedinfo com.eprosima.idl.parser.typecode.PrimitiveTypeCode@3d36e4cd
+    // m_speedinfo com.eprosima.idl.parser.typecode.PrimitiveTypeCode@6a472554
     m_speedinfo = 0.0;
-    // m_startLng com.eprosima.idl.parser.typecode.PrimitiveTypeCode@6a472554
+    // m_startLng com.eprosima.idl.parser.typecode.PrimitiveTypeCode@58c1c010
     m_startLng = 0.0;
-    // m_startLat com.eprosima.idl.parser.typecode.PrimitiveTypeCode@58c1c010
+    // m_startLat com.eprosima.idl.parser.typecode.PrimitiveTypeCode@b7f23d9
     m_startLat = 0.0;
-    // m_endLng com.eprosima.idl.parser.typecode.PrimitiveTypeCode@b7f23d9
+    // m_endLng com.eprosima.idl.parser.typecode.PrimitiveTypeCode@61d47554
     m_endLng = 0.0;
-    // m_endLat com.eprosima.idl.parser.typecode.PrimitiveTypeCode@61d47554
+    // m_endLat com.eprosima.idl.parser.typecode.PrimitiveTypeCode@69b794e2
     m_endLat = 0.0;
 
 }
@@ -1198,11 +1350,11 @@ void RoadSpeedInfo::serializeKey(
 
 LimitSpeedInfo::LimitSpeedInfo()
 {
-    // m_speedInfos com.eprosima.idl.parser.typecode.SequenceTypeCode@4d339552
+    // m_speedInfos com.eprosima.idl.parser.typecode.SequenceTypeCode@429bd883
 
-    // m_modifyTime com.eprosima.idl.parser.typecode.PrimitiveTypeCode@f0f2775
+    // m_modifyTime com.eprosima.idl.parser.typecode.PrimitiveTypeCode@4d49af10
     m_modifyTime = 0;
-    // m_limittype com.eprosima.idl.parser.typecode.PrimitiveTypeCode@345965f2
+    // m_limittype com.eprosima.idl.parser.typecode.PrimitiveTypeCode@279ad2e3
     m_limittype = 0;
 
 }
@@ -1454,9 +1606,11 @@ void LimitSpeedInfo::serializeKey(
 MapCtlParam::MapCtlParam()
 {
     m__d = 1;
-    // m_map_update com.eprosima.fastdds.idl.parser.typecode.StructTypeCode@448ff1a8
+    // m_map_update com.eprosima.fastdds.idl.parser.typecode.StructTypeCode@44a664f2
 
-    // m_speed com.eprosima.fastdds.idl.parser.typecode.StructTypeCode@1a38c59b
+    // m_speed com.eprosima.fastdds.idl.parser.typecode.StructTypeCode@7f9fcf7f
+
+    // m_boundary_update com.eprosima.fastdds.idl.parser.typecode.StructTypeCode@2357d90a
 
 }
 
@@ -1477,6 +1631,9 @@ MapCtlParam::MapCtlParam(
         case 2:
         m_speed = x.m_speed;
         break;
+        case 3:
+        m_boundary_update = x.m_boundary_update;
+        break;
         default:
         break;
     }
@@ -1495,6 +1652,9 @@ MapCtlParam::MapCtlParam(
         case 2:
         m_speed = std::move(x.m_speed);
         break;
+        case 3:
+        m_boundary_update = std::move(x.m_boundary_update);
+        break;
         default:
         break;
     }
@@ -1512,6 +1672,9 @@ MapCtlParam& MapCtlParam::operator =(
         break;
         case 2:
         m_speed = x.m_speed;
+        break;
+        case 3:
+        m_boundary_update = x.m_boundary_update;
         break;
         default:
         break;
@@ -1532,6 +1695,9 @@ MapCtlParam& MapCtlParam::operator =(
         break;
         case 2:
         m_speed = std::move(x.m_speed);
+        break;
+        case 3:
+        m_boundary_update = std::move(x.m_boundary_update);
         break;
         default:
         break;
@@ -1555,6 +1721,9 @@ bool MapCtlParam::operator ==(
             break;
         case 2:
             return (m_speed == x.m_speed);
+            break;
+        case 3:
+            return (m_boundary_update == x.m_boundary_update);
             break;
         default:
         break;
@@ -1589,6 +1758,16 @@ void MapCtlParam::_d(
         switch(__d)
         {
             case 2:
+            b = true;
+            break;
+            default:
+            break;
+        }
+        break;
+        case 3:
+        switch(__d)
+        {
+            case 3:
             b = true;
             break;
             default:
@@ -1721,6 +1900,59 @@ LimitSpeedInfo& MapCtlParam::speed()
 
     return m_speed;
 }
+void MapCtlParam::boundary_update(
+        const BoundaryInfo& _boundary_update)
+{
+    m_boundary_update = _boundary_update;
+    m__d = 3;
+}
+
+void MapCtlParam::boundary_update(
+        BoundaryInfo&& _boundary_update)
+{
+    m_boundary_update = std::move(_boundary_update);
+    m__d = 3;
+}
+
+const BoundaryInfo& MapCtlParam::boundary_update() const
+{
+    bool b = false;
+
+    switch(m__d)
+    {
+        case 3:
+        b = true;
+        break;
+        default:
+        break;
+    }
+    if(!b)
+    {
+        throw BadParamException("This member is not been selected");
+    }
+
+    return m_boundary_update;
+}
+
+BoundaryInfo& MapCtlParam::boundary_update()
+{
+    bool b = false;
+
+    switch(m__d)
+    {
+        case 3:
+        b = true;
+        break;
+        default:
+        break;
+    }
+    if(!b)
+    {
+        throw BadParamException("This member is not been selected");
+    }
+
+    return m_boundary_update;
+}
 
 size_t MapCtlParam::getMaxCdrSerializedSize(
         size_t current_alignment)
@@ -1748,6 +1980,14 @@ size_t MapCtlParam::getMaxCdrSerializedSize(
             union_max_size_serialized = reset_alignment;
 
         
+        reset_alignment = current_alignment;
+
+        reset_alignment += BoundaryInfo::getMaxCdrSerializedSize(reset_alignment);
+
+        if(union_max_size_serialized < reset_alignment)
+            union_max_size_serialized = reset_alignment;
+
+        
 
     return union_max_size_serialized - initial_alignment;
 }
@@ -1769,6 +2009,9 @@ size_t MapCtlParam::getCdrSerializedSize(
         break;
         case 2:
         current_alignment += LimitSpeedInfo::getCdrSerializedSize(data.speed(), current_alignment);
+        break;
+        case 3:
+        current_alignment += BoundaryInfo::getCdrSerializedSize(data.boundary_update(), current_alignment);
         break;
         default:
         break;
@@ -1792,6 +2035,10 @@ void MapCtlParam::serialize(
         scdr << m_speed;
 
         break;
+        case 3:
+        scdr << m_boundary_update;
+
+        break;
         default:
         break;
     }
@@ -1810,6 +2057,9 @@ void MapCtlParam::deserialize(
         case 2:
         dcdr >> m_speed;
         break;
+        case 3:
+        dcdr >> m_boundary_update;
+        break;
         default:
         break;
     }
@@ -1818,15 +2068,15 @@ void MapCtlParam::deserialize(
 
 Map_cmd::Map_cmd()
 {
-    // m_MapCtrlCmd com.eprosima.idl.parser.typecode.EnumTypeCode@55040f2f
+    // m_MapCtrlCmd com.eprosima.idl.parser.typecode.EnumTypeCode@52aa2946
     m_MapCtrlCmd = ::cmd_mull;
-    // m_seq_num com.eprosima.idl.parser.typecode.PrimitiveTypeCode@64c87930
+    // m_seq_num com.eprosima.idl.parser.typecode.PrimitiveTypeCode@4de5031f
     m_seq_num = 0;
-    // m_net_cmd_seq com.eprosima.idl.parser.typecode.PrimitiveTypeCode@400cff1a
+    // m_net_cmd_seq com.eprosima.idl.parser.typecode.PrimitiveTypeCode@67e2d983
     m_net_cmd_seq = 0;
-    // m_ctrlparam com.eprosima.idl.parser.typecode.UnionTypeCode@75f9eccc
+    // m_ctrlparam com.eprosima.idl.parser.typecode.UnionTypeCode@3bbc39f8
 
-    // m_result com.eprosima.idl.parser.typecode.PrimitiveTypeCode@52aa2946
+    // m_result com.eprosima.idl.parser.typecode.PrimitiveTypeCode@4ae3c1cd
     m_result = 0;
 
 }
@@ -2154,15 +2404,15 @@ void Map_cmd::serializeKey(
 
 Map_cmd_Result::Map_cmd_Result()
 {
-    // m_MapCtrlCmd com.eprosima.idl.parser.typecode.EnumTypeCode@55040f2f
+    // m_MapCtrlCmd com.eprosima.idl.parser.typecode.EnumTypeCode@52aa2946
     m_MapCtrlCmd = ::cmd_mull;
-    // m_seq_num com.eprosima.idl.parser.typecode.PrimitiveTypeCode@3bbc39f8
+    // m_seq_num com.eprosima.idl.parser.typecode.PrimitiveTypeCode@35083305
     m_seq_num = 0;
-    // m_net_cmd_seq com.eprosima.idl.parser.typecode.PrimitiveTypeCode@4ae3c1cd
+    // m_net_cmd_seq com.eprosima.idl.parser.typecode.PrimitiveTypeCode@8e0379d
     m_net_cmd_seq = 0;
-    // m_type com.eprosima.idl.parser.typecode.PrimitiveTypeCode@29f69090
+    // m_type com.eprosima.idl.parser.typecode.PrimitiveTypeCode@341b80b2
     m_type = 0;
-    // m_result com.eprosima.idl.parser.typecode.PrimitiveTypeCode@568bf312
+    // m_result com.eprosima.idl.parser.typecode.PrimitiveTypeCode@55a1c291
     m_result = 0;
 
 }
@@ -2485,11 +2735,11 @@ void Map_cmd_Result::serializeKey(
 
 Map_cmd_Result_Ack::Map_cmd_Result_Ack()
 {
-    // m_MapCtrlCmd com.eprosima.idl.parser.typecode.EnumTypeCode@55040f2f
+    // m_MapCtrlCmd com.eprosima.idl.parser.typecode.EnumTypeCode@52aa2946
     m_MapCtrlCmd = ::cmd_mull;
-    // m_seq_num com.eprosima.idl.parser.typecode.PrimitiveTypeCode@341b80b2
+    // m_seq_num com.eprosima.idl.parser.typecode.PrimitiveTypeCode@105fece7
     m_seq_num = 0;
-    // m_net_cmd_seq com.eprosima.idl.parser.typecode.PrimitiveTypeCode@55a1c291
+    // m_net_cmd_seq com.eprosima.idl.parser.typecode.PrimitiveTypeCode@3ec300f1
     m_net_cmd_seq = 0;
 
 }

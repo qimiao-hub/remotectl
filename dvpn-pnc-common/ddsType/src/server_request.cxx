@@ -36,11 +36,11 @@ using namespace eprosima::fastcdr::exception;
 
 ServerRequest::ServerRequest()
 {
-    // m_number com.eprosima.idl.parser.typecode.PrimitiveTypeCode@51c8530f
+    // m_number com.eprosima.idl.parser.typecode.PrimitiveTypeCode@7403c468
     m_number = 0;
-    // m_type com.eprosima.idl.parser.typecode.PrimitiveTypeCode@7403c468
+    // m_type com.eprosima.idl.parser.typecode.PrimitiveTypeCode@43738a82
     m_type = 0;
-    // m_json com.eprosima.idl.parser.typecode.ArrayTypeCode@43738a82
+    // m_json com.eprosima.idl.parser.typecode.ArrayTypeCode@c81cdd1
     memset(&m_json, 0, (10240) * 1);
 
 }

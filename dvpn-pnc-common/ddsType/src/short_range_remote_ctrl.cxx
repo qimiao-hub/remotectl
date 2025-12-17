@@ -37,9 +37,9 @@ using namespace eprosima::fastcdr::exception;
 
 ShortRangeRemoteCtrl::ShortRangeRemoteCtrl()
 {
-    // m_CtrlCmd com.eprosima.idl.parser.typecode.EnumTypeCode@3d8314f0
+    // m_CtrlCmd com.eprosima.idl.parser.typecode.EnumTypeCode@2bea5ab4
     m_CtrlCmd = ::REMOTE_0;
-    // m_vilid_count com.eprosima.idl.parser.typecode.PrimitiveTypeCode@2a40cd94
+    // m_vilid_count com.eprosima.idl.parser.typecode.PrimitiveTypeCode@530612ba
     m_vilid_count = 0;
 
 }

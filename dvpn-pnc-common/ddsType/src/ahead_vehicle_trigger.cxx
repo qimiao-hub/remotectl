@@ -36,11 +36,11 @@ using namespace eprosima::fastcdr::exception;
 
 AheadVehicleInfo::AheadVehicleInfo()
 {
-    // m_carId com.eprosima.idl.parser.typecode.PrimitiveTypeCode@13eb8acf
+    // m_carId com.eprosima.idl.parser.typecode.PrimitiveTypeCode@543c6f6d
     m_carId = 0;
-    // m_device_type com.eprosima.idl.parser.typecode.PrimitiveTypeCode@51c8530f
+    // m_device_type com.eprosima.idl.parser.typecode.PrimitiveTypeCode@13eb8acf
     m_device_type = 0;
-    // m_ramp com.eprosima.idl.parser.typecode.PrimitiveTypeCode@7403c468
+    // m_ramp com.eprosima.idl.parser.typecode.PrimitiveTypeCode@51c8530f
     m_ramp = 0;
 
 }
@@ -274,11 +274,11 @@ void AheadVehicleInfo::serializeKey(
 
 AheadVehicleTrigger::AheadVehicleTrigger()
 {
-    // m_timestamp com.eprosima.idl.parser.typecode.PrimitiveTypeCode@6b0c2d26
+    // m_timestamp com.eprosima.idl.parser.typecode.PrimitiveTypeCode@1c72da34
     m_timestamp = 0;
-    // m_forwardVehicles com.eprosima.idl.parser.typecode.SequenceTypeCode@3d3fcdb0
+    // m_forwardVehicles com.eprosima.idl.parser.typecode.SequenceTypeCode@6b0c2d26
 
-    // m_meetVehicles com.eprosima.idl.parser.typecode.SequenceTypeCode@641147d0
+    // m_meetVehicles com.eprosima.idl.parser.typecode.SequenceTypeCode@3d3fcdb0
 
 
 }

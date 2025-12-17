@@ -6,13 +6,20 @@ enum MapCtlTypeEnum
 {
     cmd_mull,
     cmd_update_map,   /*地图更新*/
-    cmd_set_speed    /*速度限制*/
+    cmd_set_speed,    /*速度限制*/
+    cmd_update_boundary  /*区域边界更新*/
 };
 
 /*地图更新，参数*/
 struct MapInfo
 {
     string map_version;
+};
+
+/*边界更新，参数*/
+struct BoundaryInfo
+{
+    string boundary_version;
 };
 
 struct RoadOffsetInfo{
@@ -59,6 +66,8 @@ union MapCtlParam switch(long)
     MapInfo  map_update;
   case 2:
     LimitSpeedInfo   speed;
+  case 3:
+    BoundaryInfo  boundary_update;
 };
 
 
@@ -78,7 +87,7 @@ struct Map_cmd_Result
     MapCtlTypeEnum MapCtrlCmd;   /*命令类型*/
     long seq_num;                /*命令序列号*/
     unsigned long long net_cmd_seq;       /*云端指令流水号*/
-    uint32 type;                 /*1:MAP_CMD指令的接收应答，2：MAP_CMD指令的执行结果*/
+    uint32 type;                 /*1:MAP_CMD指令的接收应答，2：MAP_CMD指令的执行结果, 3:边界更新的结果*/
     uint32 result;               /*指令执行结果 0：正常，非零错误*/
 };
 

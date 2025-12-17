@@ -36,13 +36,13 @@ using namespace eprosima::fastcdr::exception;
 
 roadFluctuationInfo::roadFluctuationInfo()
 {
-    // m_lat com.eprosima.idl.parser.typecode.PrimitiveTypeCode@1fc2b765
+    // m_lat com.eprosima.idl.parser.typecode.PrimitiveTypeCode@75881071
     m_lat = 0.0;
-    // m_lng com.eprosima.idl.parser.typecode.PrimitiveTypeCode@75881071
+    // m_lng com.eprosima.idl.parser.typecode.PrimitiveTypeCode@2a70a3d8
     m_lng = 0.0;
-    // m_altitude com.eprosima.idl.parser.typecode.PrimitiveTypeCode@2a70a3d8
+    // m_altitude com.eprosima.idl.parser.typecode.PrimitiveTypeCode@289d1c02
     m_altitude = 0.0;
-    // m_fluctuation com.eprosima.idl.parser.typecode.PrimitiveTypeCode@289d1c02
+    // m_fluctuation com.eprosima.idl.parser.typecode.PrimitiveTypeCode@22eeefeb
     m_fluctuation = -1;
 
 }

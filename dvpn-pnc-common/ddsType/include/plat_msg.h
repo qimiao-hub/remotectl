@@ -1705,6 +1705,56 @@ public:
      * @return Reference to member MapVersion
      */
     eProsima_user_DllExport std::string& MapVersion();
+    /*!
+     * @brief This function copies the value in member DstAreaId
+     * @param _DstAreaId New value to be copied in member DstAreaId
+     */
+    eProsima_user_DllExport void DstAreaId(
+            const std::string& _DstAreaId);
+
+    /*!
+     * @brief This function moves the value in member DstAreaId
+     * @param _DstAreaId New value to be moved in member DstAreaId
+     */
+    eProsima_user_DllExport void DstAreaId(
+            std::string&& _DstAreaId);
+
+    /*!
+     * @brief This function returns a constant reference to member DstAreaId
+     * @return Constant reference to member DstAreaId
+     */
+    eProsima_user_DllExport const std::string& DstAreaId() const;
+
+    /*!
+     * @brief This function returns a reference to member DstAreaId
+     * @return Reference to member DstAreaId
+     */
+    eProsima_user_DllExport std::string& DstAreaId();
+    /*!
+     * @brief This function copies the value in member AreaVersion
+     * @param _AreaVersion New value to be copied in member AreaVersion
+     */
+    eProsima_user_DllExport void AreaVersion(
+            const std::string& _AreaVersion);
+
+    /*!
+     * @brief This function moves the value in member AreaVersion
+     * @param _AreaVersion New value to be moved in member AreaVersion
+     */
+    eProsima_user_DllExport void AreaVersion(
+            std::string&& _AreaVersion);
+
+    /*!
+     * @brief This function returns a constant reference to member AreaVersion
+     * @return Constant reference to member AreaVersion
+     */
+    eProsima_user_DllExport const std::string& AreaVersion() const;
+
+    /*!
+     * @brief This function returns a reference to member AreaVersion
+     * @return Reference to member AreaVersion
+     */
+    eProsima_user_DllExport std::string& AreaVersion();
 
     /*!
      * @brief This function returns the maximum serialized size of an object
@@ -1775,6 +1825,8 @@ private:
     std::vector<std::string> m_unSortRoadIds;
     std::string m_bindingRoadId;
     std::string m_MapVersion;
+    std::string m_DstAreaId;
+    std::string m_AreaVersion;
 };
 /*!
  * @brief This class represents the structure SlowStopInfo defined by the user in the IDL file.

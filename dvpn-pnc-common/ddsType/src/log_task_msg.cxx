@@ -36,13 +36,13 @@ using namespace eprosima::fastcdr::exception;
 
 v2vTrafficCtlInfo::v2vTrafficCtlInfo()
 {
-    // m_obstVehiNum com.eprosima.idl.parser.typecode.PrimitiveTypeCode@6cc7b4de
+    // m_obstVehiNum com.eprosima.idl.parser.typecode.PrimitiveTypeCode@76a4d6c
     m_obstVehiNum = 0;
-    // m_vehicleCoordinate com.eprosima.fastdds.idl.parser.typecode.StructTypeCode@32cf48b7
+    // m_vehicleCoordinate com.eprosima.fastdds.idl.parser.typecode.StructTypeCode@517cd4b
 
-    // m_v2vStateMach com.eprosima.idl.parser.typecode.PrimitiveTypeCode@679b62af
+    // m_v2vStateMach com.eprosima.idl.parser.typecode.PrimitiveTypeCode@6cc7b4de
     m_v2vStateMach = 0;
-    // m_collisionPoint com.eprosima.fastdds.idl.parser.typecode.StructTypeCode@32cf48b7
+    // m_collisionPoint com.eprosima.fastdds.idl.parser.typecode.StructTypeCode@517cd4b
 
 
 }
@@ -328,11 +328,11 @@ void v2vTrafficCtlInfo::serializeKey(
 
 logTaskInfo::logTaskInfo()
 {
-    // m_trafficLightStop com.eprosima.idl.parser.typecode.PrimitiveTypeCode@282003e1
+    // m_trafficLightStop com.eprosima.idl.parser.typecode.PrimitiveTypeCode@701fc37a
     m_trafficLightStop = false;
-    // m_v2vTrafficCtlType com.eprosima.idl.parser.typecode.PrimitiveTypeCode@7fad8c79
+    // m_v2vTrafficCtlType com.eprosima.idl.parser.typecode.PrimitiveTypeCode@4148db48
     m_v2vTrafficCtlType = 0;
-    // m_v2vTraffCtlInfo com.eprosima.fastdds.idl.parser.typecode.StructTypeCode@71a794e5
+    // m_v2vTraffCtlInfo com.eprosima.fastdds.idl.parser.typecode.StructTypeCode@282003e1
 
 
 }

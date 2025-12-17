@@ -71,7 +71,8 @@ enum MapCtlTypeEnum : uint32_t
 {
     cmd_mull,
     cmd_update_map,
-    cmd_set_speed
+    cmd_set_speed,
+    cmd_update_boundary
 };
 /*!
  * @brief This class represents the structure MapInfo defined by the user in the IDL file.
@@ -219,6 +220,153 @@ public:
 private:
 
     std::string m_map_version;
+};
+/*!
+ * @brief This class represents the structure BoundaryInfo defined by the user in the IDL file.
+ * @ingroup MAP_PLATFORM
+ */
+class BoundaryInfo
+{
+public:
+
+    /*!
+     * @brief Default constructor.
+     */
+    eProsima_user_DllExport BoundaryInfo();
+
+    /*!
+     * @brief Default destructor.
+     */
+    eProsima_user_DllExport ~BoundaryInfo();
+
+    /*!
+     * @brief Copy constructor.
+     * @param x Reference to the object BoundaryInfo that will be copied.
+     */
+    eProsima_user_DllExport BoundaryInfo(
+            const BoundaryInfo& x);
+
+    /*!
+     * @brief Move constructor.
+     * @param x Reference to the object BoundaryInfo that will be copied.
+     */
+    eProsima_user_DllExport BoundaryInfo(
+            BoundaryInfo&& x);
+
+    /*!
+     * @brief Copy assignment.
+     * @param x Reference to the object BoundaryInfo that will be copied.
+     */
+    eProsima_user_DllExport BoundaryInfo& operator =(
+            const BoundaryInfo& x);
+
+    /*!
+     * @brief Move assignment.
+     * @param x Reference to the object BoundaryInfo that will be copied.
+     */
+    eProsima_user_DllExport BoundaryInfo& operator =(
+            BoundaryInfo&& x);
+
+    /*!
+     * @brief Comparison operator.
+     * @param x BoundaryInfo object to compare.
+     */
+    eProsima_user_DllExport bool operator ==(
+            const BoundaryInfo& x) const;
+
+    /*!
+     * @brief Comparison operator.
+     * @param x BoundaryInfo object to compare.
+     */
+    eProsima_user_DllExport bool operator !=(
+            const BoundaryInfo& x) const;
+
+    /*!
+     * @brief This function copies the value in member boundary_version
+     * @param _boundary_version New value to be copied in member boundary_version
+     */
+    eProsima_user_DllExport void boundary_version(
+            const std::string& _boundary_version);
+
+    /*!
+     * @brief This function moves the value in member boundary_version
+     * @param _boundary_version New value to be moved in member boundary_version
+     */
+    eProsima_user_DllExport void boundary_version(
+            std::string&& _boundary_version);
+
+    /*!
+     * @brief This function returns a constant reference to member boundary_version
+     * @return Constant reference to member boundary_version
+     */
+    eProsima_user_DllExport const std::string& boundary_version() const;
+
+    /*!
+     * @brief This function returns a reference to member boundary_version
+     * @return Reference to member boundary_version
+     */
+    eProsima_user_DllExport std::string& boundary_version();
+
+    /*!
+     * @brief This function returns the maximum serialized size of an object
+     * depending on the buffer alignment.
+     * @param current_alignment Buffer alignment.
+     * @return Maximum serialized size.
+     */
+    eProsima_user_DllExport static size_t getMaxCdrSerializedSize(
+            size_t current_alignment = 0);
+
+    /*!
+     * @brief This function returns the serialized size of a data depending on the buffer alignment.
+     * @param data Data which is calculated its serialized size.
+     * @param current_alignment Buffer alignment.
+     * @return Serialized size.
+     */
+    eProsima_user_DllExport static size_t getCdrSerializedSize(
+            const BoundaryInfo& data,
+            size_t current_alignment = 0);
+
+
+    /*!
+     * @brief This function serializes an object using CDR serialization.
+     * @param cdr CDR serialization object.
+     */
+    eProsima_user_DllExport void serialize(
+            eprosima::fastcdr::Cdr& cdr) const;
+
+    /*!
+     * @brief This function deserializes an object using CDR serialization.
+     * @param cdr CDR serialization object.
+     */
+    eProsima_user_DllExport void deserialize(
+            eprosima::fastcdr::Cdr& cdr);
+
+
+
+    /*!
+     * @brief This function returns the maximum serialized size of the Key of an object
+     * depending on the buffer alignment.
+     * @param current_alignment Buffer alignment.
+     * @return Maximum serialized size.
+     */
+    eProsima_user_DllExport static size_t getKeyMaxCdrSerializedSize(
+            size_t current_alignment = 0);
+
+    /*!
+     * @brief This function tells you if the Key has been defined for this type
+     */
+    eProsima_user_DllExport static bool isKeyDefined();
+
+    /*!
+     * @brief This function serializes the key members of an object using CDR serialization.
+     * @param cdr CDR serialization object.
+     */
+    eProsima_user_DllExport void serializeKey(
+            eprosima::fastcdr::Cdr& cdr) const;
+
+private:
+
+    std::string m_boundary_version;
 };
 /*!
  * @brief This class represents the structure RoadOffsetInfo defined by the user in the IDL file.
@@ -1222,6 +1370,33 @@ public:
      * @exception eprosima::fastcdr::BadParamException This exception is thrown if the requested union member is not the current selection.
      */
     eProsima_user_DllExport LimitSpeedInfo& speed();
+    /*!
+     * @brief This function copies the value in member boundary_update
+     * @param _boundary_update New value to be copied in member boundary_update
+     */
+    eProsima_user_DllExport void boundary_update(
+            const BoundaryInfo& _boundary_update);
+
+    /*!
+     * @brief This function moves the value in member boundary_update
+     * @param _boundary_update New value to be moved in member boundary_update
+     */
+    eProsima_user_DllExport void boundary_update(
+            BoundaryInfo&& _boundary_update);
+
+    /*!
+     * @brief This function returns a constant reference to member boundary_update
+     * @return Constant reference to member boundary_update
+     * @exception eprosima::fastcdr::BadParamException This exception is thrown if the requested union member is not the current selection.
+     */
+    eProsima_user_DllExport const BoundaryInfo& boundary_update() const;
+
+    /*!
+     * @brief This function returns a reference to member boundary_update
+     * @return Reference to member boundary_update
+     * @exception eprosima::fastcdr::BadParamException This exception is thrown if the requested union member is not the current selection.
+     */
+    eProsima_user_DllExport BoundaryInfo& boundary_update();
 
     /*!
      * @brief This function returns the maximum serialized size of an object
@@ -1266,6 +1441,7 @@ private:
 
     MapInfo m_map_update;
     LimitSpeedInfo m_speed;
+    BoundaryInfo m_boundary_update;
 };
 /*!
  * @brief This class represents the structure Map_cmd defined by the user in the IDL file.

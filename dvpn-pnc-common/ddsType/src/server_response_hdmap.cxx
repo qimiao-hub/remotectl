@@ -36,9 +36,9 @@ using namespace eprosima::fastcdr::exception;
 
 ServerResponseHdmap::ServerResponseHdmap()
 {
-    // m_type com.eprosima.idl.parser.typecode.PrimitiveTypeCode@543c6f6d
+    // m_type com.eprosima.idl.parser.typecode.PrimitiveTypeCode@13eb8acf
     m_type = 0;
-    // m_json com.eprosima.idl.parser.typecode.ArrayTypeCode@7403c468
+    // m_json com.eprosima.idl.parser.typecode.ArrayTypeCode@43738a82
     memset(&m_json, 0, (2048) * 1);
 
 }

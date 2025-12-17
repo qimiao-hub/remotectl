@@ -37,25 +37,25 @@ using namespace eprosima::fastcdr::exception;
 
 V2XGPSInfo::V2XGPSInfo()
 {
-    // m_iLongitude com.eprosima.idl.parser.typecode.PrimitiveTypeCode@306279ee
+    // m_iLongitude com.eprosima.idl.parser.typecode.PrimitiveTypeCode@545997b1
     m_iLongitude = 0.0;
-    // m_iLatitude com.eprosima.idl.parser.typecode.PrimitiveTypeCode@545997b1
+    // m_iLatitude com.eprosima.idl.parser.typecode.PrimitiveTypeCode@4cf4d528
     m_iLatitude = 0.0;
-    // m_altitude com.eprosima.idl.parser.typecode.PrimitiveTypeCode@4cf4d528
+    // m_altitude com.eprosima.idl.parser.typecode.PrimitiveTypeCode@77846d2c
     m_altitude = 0.0;
-    // m_iHead com.eprosima.idl.parser.typecode.PrimitiveTypeCode@77846d2c
+    // m_iHead com.eprosima.idl.parser.typecode.PrimitiveTypeCode@548ad73b
     m_iHead = 0.0;
-    // m_velocity com.eprosima.idl.parser.typecode.PrimitiveTypeCode@548ad73b
+    // m_velocity com.eprosima.idl.parser.typecode.PrimitiveTypeCode@4c762604
     m_velocity = 0.0;
-    // m_iCurvature com.eprosima.idl.parser.typecode.PrimitiveTypeCode@4c762604
+    // m_iCurvature com.eprosima.idl.parser.typecode.PrimitiveTypeCode@2641e737
     m_iCurvature = 0.0;
-    // m_slope_type com.eprosima.idl.parser.typecode.PrimitiveTypeCode@24a35978
+    // m_slope_type com.eprosima.idl.parser.typecode.PrimitiveTypeCode@16f7c8c1
     m_slope_type = 0;
-    // m_slope com.eprosima.idl.parser.typecode.PrimitiveTypeCode@16f7c8c1
+    // m_slope com.eprosima.idl.parser.typecode.PrimitiveTypeCode@2f0a87b3
     m_slope = 0.0;
-    // m_node_type com.eprosima.idl.parser.typecode.PrimitiveTypeCode@2f0a87b3
+    // m_node_type com.eprosima.idl.parser.typecode.PrimitiveTypeCode@319b92f3
     m_node_type = 0;
-    // m_arrive_timestamp com.eprosima.idl.parser.typecode.PrimitiveTypeCode@319b92f3
+    // m_arrive_timestamp com.eprosima.idl.parser.typecode.PrimitiveTypeCode@fcd6521
     m_arrive_timestamp = 0;
 
 }
@@ -583,21 +583,21 @@ void V2XGPSInfo::serializeKey(
 
 VehicleTaskInfo::VehicleTaskInfo()
 {
-    // m_main_state com.eprosima.idl.parser.typecode.EnumTypeCode@7bb58ca3
+    // m_main_state com.eprosima.idl.parser.typecode.EnumTypeCode@c540f5a
     m_main_state = ::MAN_DRIVING;
-    // m_main_state_last com.eprosima.idl.parser.typecode.EnumTypeCode@7bb58ca3
+    // m_main_state_last com.eprosima.idl.parser.typecode.EnumTypeCode@c540f5a
     m_main_state_last = ::MAN_DRIVING;
-    // m_drive_state com.eprosima.idl.parser.typecode.EnumTypeCode@c540f5a
+    // m_drive_state com.eprosima.idl.parser.typecode.EnumTypeCode@770c2e6b
     m_drive_state = ::INIT;
-    // m_drive_state_last com.eprosima.idl.parser.typecode.EnumTypeCode@c540f5a
+    // m_drive_state_last com.eprosima.idl.parser.typecode.EnumTypeCode@770c2e6b
     m_drive_state_last = ::INIT;
-    // m_drive_state_child com.eprosima.idl.parser.typecode.EnumTypeCode@770c2e6b
+    // m_drive_state_child com.eprosima.idl.parser.typecode.EnumTypeCode@1a052a00
     m_drive_state_child = ::INIT_STATUS;
-    // m_drive_state_child_last com.eprosima.idl.parser.typecode.EnumTypeCode@770c2e6b
+    // m_drive_state_child_last com.eprosima.idl.parser.typecode.EnumTypeCode@1a052a00
     m_drive_state_child_last = ::INIT_STATUS;
-    // m_stop com.eprosima.idl.parser.typecode.PrimitiveTypeCode@448ff1a8
+    // m_stop com.eprosima.idl.parser.typecode.PrimitiveTypeCode@1a38c59b
     m_stop = 0;
-    // m_pre_path com.eprosima.idl.parser.typecode.SequenceTypeCode@1a38c59b
+    // m_pre_path com.eprosima.idl.parser.typecode.SequenceTypeCode@7f77e91b
 
 
 }

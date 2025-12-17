@@ -36,17 +36,17 @@ using namespace eprosima::fastcdr::exception;
 
 FaultRepair_req::FaultRepair_req()
 {
-    // m_client_id com.eprosima.idl.parser.typecode.StringTypeCode@78ac1102
+    // m_client_id com.eprosima.idl.parser.typecode.StringTypeCode@2de8284b
     m_client_id ="";
-    // m_req_id com.eprosima.idl.parser.typecode.PrimitiveTypeCode@2de8284b
+    // m_req_id com.eprosima.idl.parser.typecode.PrimitiveTypeCode@396e2f39
     m_req_id = 0;
-    // m_seq_id com.eprosima.idl.parser.typecode.StringTypeCode@396e2f39
+    // m_seq_id com.eprosima.idl.parser.typecode.StringTypeCode@a74868d
     m_seq_id ="";
-    // m_module_type com.eprosima.idl.parser.typecode.PrimitiveTypeCode@a74868d
+    // m_module_type com.eprosima.idl.parser.typecode.PrimitiveTypeCode@12c8a2c0
     m_module_type = 0;
-    // m_repair_time com.eprosima.idl.parser.typecode.PrimitiveTypeCode@12c8a2c0
+    // m_repair_time com.eprosima.idl.parser.typecode.PrimitiveTypeCode@7e0e6aa2
     m_repair_time = 0;
-    // m_fault_id com.eprosima.idl.parser.typecode.PrimitiveTypeCode@7e0e6aa2
+    // m_fault_id com.eprosima.idl.parser.typecode.PrimitiveTypeCode@365185bd
     m_fault_id = 0;
 
 }
@@ -420,13 +420,13 @@ void FaultRepair_req::serializeKey(
 
 FaultRepair_res::FaultRepair_res()
 {
-    // m_client_id com.eprosima.idl.parser.typecode.StringTypeCode@706a04ae
+    // m_client_id com.eprosima.idl.parser.typecode.StringTypeCode@6eceb130
     m_client_id ="";
-    // m_req_id com.eprosima.idl.parser.typecode.PrimitiveTypeCode@6eceb130
+    // m_req_id com.eprosima.idl.parser.typecode.PrimitiveTypeCode@10a035a0
     m_req_id = 0;
-    // m_seq_id com.eprosima.idl.parser.typecode.StringTypeCode@10a035a0
+    // m_seq_id com.eprosima.idl.parser.typecode.StringTypeCode@67b467e9
     m_seq_id ="";
-    // m_recv_flag com.eprosima.idl.parser.typecode.PrimitiveTypeCode@67b467e9
+    // m_recv_flag com.eprosima.idl.parser.typecode.PrimitiveTypeCode@47db50c5
     m_recv_flag = 0;
 
 }

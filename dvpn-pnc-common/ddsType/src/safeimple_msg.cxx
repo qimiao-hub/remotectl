@@ -36,103 +36,103 @@ using namespace eprosima::fastcdr::exception;
 
 SafeImpleResultInfo::SafeImpleResultInfo()
 {
-    // m_engine_override_ctrl_mode com.eprosima.idl.parser.typecode.PrimitiveTypeCode@12c8a2c0
+    // m_engine_override_ctrl_mode com.eprosima.idl.parser.typecode.PrimitiveTypeCode@7e0e6aa2
     m_engine_override_ctrl_mode = 0;
-    // m_engine_req_speed_ctrl_condition com.eprosima.idl.parser.typecode.PrimitiveTypeCode@7e0e6aa2
+    // m_engine_req_speed_ctrl_condition com.eprosima.idl.parser.typecode.PrimitiveTypeCode@365185bd
     m_engine_req_speed_ctrl_condition = 0;
-    // m_override_ctrl_mode_priority com.eprosima.idl.parser.typecode.PrimitiveTypeCode@365185bd
+    // m_override_ctrl_mode_priority com.eprosima.idl.parser.typecode.PrimitiveTypeCode@18bf3d14
     m_override_ctrl_mode_priority = 0;
-    // m_engine_req_speed com.eprosima.idl.parser.typecode.PrimitiveTypeCode@18bf3d14
+    // m_engine_req_speed com.eprosima.idl.parser.typecode.PrimitiveTypeCode@4fb64261
     m_engine_req_speed = 0.0;
-    // m_engine_req_torque com.eprosima.idl.parser.typecode.PrimitiveTypeCode@4fb64261
+    // m_engine_req_torque com.eprosima.idl.parser.typecode.PrimitiveTypeCode@42607a4f
     m_engine_req_torque = 0.0;
-    // m_trans_req_gear com.eprosima.idl.parser.typecode.PrimitiveTypeCode@42607a4f
+    // m_trans_req_gear com.eprosima.idl.parser.typecode.PrimitiveTypeCode@782663d3
     m_trans_req_gear = 0;
-    // m_trans_gearbox_highest_gear_setting com.eprosima.idl.parser.typecode.PrimitiveTypeCode@782663d3
+    // m_trans_gearbox_highest_gear_setting com.eprosima.idl.parser.typecode.PrimitiveTypeCode@1990a65e
     m_trans_gearbox_highest_gear_setting = 0;
-    // m_driver_demand_retarder_CCU com.eprosima.idl.parser.typecode.PrimitiveTypeCode@1990a65e
+    // m_driver_demand_retarder_CCU com.eprosima.idl.parser.typecode.PrimitiveTypeCode@64485a47
     m_driver_demand_retarder_CCU = 0.0;
-    // m_unmanned_enable com.eprosima.idl.parser.typecode.PrimitiveTypeCode@64485a47
+    // m_unmanned_enable com.eprosima.idl.parser.typecode.PrimitiveTypeCode@25bbf683
     m_unmanned_enable = false;
-    // m_on_start_enable com.eprosima.idl.parser.typecode.PrimitiveTypeCode@25bbf683
+    // m_on_start_enable com.eprosima.idl.parser.typecode.PrimitiveTypeCode@6ec8211c
     m_on_start_enable = false;
-    // m_vehicle_startup_ctrl com.eprosima.idl.parser.typecode.PrimitiveTypeCode@6ec8211c
+    // m_vehicle_startup_ctrl com.eprosima.idl.parser.typecode.PrimitiveTypeCode@7276c8cd
     m_vehicle_startup_ctrl = false;
-    // m_flash_ctrl com.eprosima.idl.parser.typecode.PrimitiveTypeCode@7276c8cd
+    // m_flash_ctrl com.eprosima.idl.parser.typecode.PrimitiveTypeCode@544a2ea6
     m_flash_ctrl = false;
-    // m_container_ctrl com.eprosima.idl.parser.typecode.PrimitiveTypeCode@544a2ea6
+    // m_container_ctrl com.eprosima.idl.parser.typecode.PrimitiveTypeCode@2e3fc542
     m_container_ctrl = 0;
-    // m_Remote_enable com.eprosima.idl.parser.typecode.PrimitiveTypeCode@2e3fc542
+    // m_Remote_enable com.eprosima.idl.parser.typecode.PrimitiveTypeCode@150c158
     m_Remote_enable = 0;
-    // m_left_turn_signal_ctrl com.eprosima.idl.parser.typecode.PrimitiveTypeCode@150c158
+    // m_left_turn_signal_ctrl com.eprosima.idl.parser.typecode.PrimitiveTypeCode@4524411f
     m_left_turn_signal_ctrl = false;
-    // m_right_turn_signal_ctrl com.eprosima.idl.parser.typecode.PrimitiveTypeCode@10dba097
+    // m_right_turn_signal_ctrl com.eprosima.idl.parser.typecode.PrimitiveTypeCode@1786f9d5
     m_right_turn_signal_ctrl = false;
-    // m_fog_lamp_ctrl com.eprosima.idl.parser.typecode.PrimitiveTypeCode@706a04ae
+    // m_fog_lamp_ctrl com.eprosima.idl.parser.typecode.PrimitiveTypeCode@6eceb130
     m_fog_lamp_ctrl = false;
-    // m_outline_lamp_ctrl com.eprosima.idl.parser.typecode.PrimitiveTypeCode@6eceb130
+    // m_outline_lamp_ctrl com.eprosima.idl.parser.typecode.PrimitiveTypeCode@10a035a0
     m_outline_lamp_ctrl = false;
-    // m_low_light_ctrl com.eprosima.idl.parser.typecode.PrimitiveTypeCode@10a035a0
+    // m_low_light_ctrl com.eprosima.idl.parser.typecode.PrimitiveTypeCode@67b467e9
     m_low_light_ctrl = false;
-    // m_high_beam_ctrl com.eprosima.idl.parser.typecode.PrimitiveTypeCode@67b467e9
+    // m_high_beam_ctrl com.eprosima.idl.parser.typecode.PrimitiveTypeCode@47db50c5
     m_high_beam_ctrl = false;
-    // m_wiper_ctrl com.eprosima.idl.parser.typecode.PrimitiveTypeCode@47db50c5
+    // m_wiper_ctrl com.eprosima.idl.parser.typecode.PrimitiveTypeCode@5c072e3f
     m_wiper_ctrl = false;
-    // m_wiper_longermittent_ctrl com.eprosima.idl.parser.typecode.PrimitiveTypeCode@5c072e3f
+    // m_wiper_longermittent_ctrl com.eprosima.idl.parser.typecode.PrimitiveTypeCode@4d1b0d2a
     m_wiper_longermittent_ctrl = false;
-    // m_wiper_low_speed_ctrl com.eprosima.idl.parser.typecode.PrimitiveTypeCode@4d1b0d2a
+    // m_wiper_low_speed_ctrl com.eprosima.idl.parser.typecode.PrimitiveTypeCode@954b04f
     m_wiper_low_speed_ctrl = false;
-    // m_wiper_high_speed_ctrl com.eprosima.idl.parser.typecode.PrimitiveTypeCode@954b04f
+    // m_wiper_high_speed_ctrl com.eprosima.idl.parser.typecode.PrimitiveTypeCode@149494d8
     m_wiper_high_speed_ctrl = false;
-    // m_hazard_warn_lamp_ctrl com.eprosima.idl.parser.typecode.PrimitiveTypeCode@149494d8
+    // m_hazard_warn_lamp_ctrl com.eprosima.idl.parser.typecode.PrimitiveTypeCode@710726a3
     m_hazard_warn_lamp_ctrl = false;
-    // m_rear_light_ctrl com.eprosima.idl.parser.typecode.PrimitiveTypeCode@710726a3
+    // m_rear_light_ctrl com.eprosima.idl.parser.typecode.PrimitiveTypeCode@646007f4
     m_rear_light_ctrl = false;
-    // m_horn_start com.eprosima.idl.parser.typecode.PrimitiveTypeCode@646007f4
+    // m_horn_start com.eprosima.idl.parser.typecode.PrimitiveTypeCode@481a15ff
     m_horn_start = false;
-    // m_parking_req com.eprosima.idl.parser.typecode.PrimitiveTypeCode@481a15ff
+    // m_parking_req com.eprosima.idl.parser.typecode.PrimitiveTypeCode@78186a70
     m_parking_req = false;
-    // m_brake_req_status com.eprosima.idl.parser.typecode.PrimitiveTypeCode@78186a70
+    // m_brake_req_status com.eprosima.idl.parser.typecode.PrimitiveTypeCode@306279ee
     m_brake_req_status = false;
-    // m_hydraulic_retarder_ctrl com.eprosima.idl.parser.typecode.PrimitiveTypeCode@306279ee
+    // m_hydraulic_retarder_ctrl com.eprosima.idl.parser.typecode.PrimitiveTypeCode@545997b1
     m_hydraulic_retarder_ctrl = false;
-    // m_axial_ctrl com.eprosima.idl.parser.typecode.PrimitiveTypeCode@545997b1
+    // m_axial_ctrl com.eprosima.idl.parser.typecode.PrimitiveTypeCode@4cf4d528
     m_axial_ctrl = false;
-    // m_traffic_brake_req com.eprosima.idl.parser.typecode.PrimitiveTypeCode@4cf4d528
+    // m_traffic_brake_req com.eprosima.idl.parser.typecode.PrimitiveTypeCode@77846d2c
     m_traffic_brake_req = 0.0;
-    // m_exhaust_brake_req com.eprosima.idl.parser.typecode.PrimitiveTypeCode@77846d2c
+    // m_exhaust_brake_req com.eprosima.idl.parser.typecode.PrimitiveTypeCode@548ad73b
     m_exhaust_brake_req = false;
-    // m_brake_light_ctrl com.eprosima.idl.parser.typecode.PrimitiveTypeCode@548ad73b
+    // m_brake_light_ctrl com.eprosima.idl.parser.typecode.PrimitiveTypeCode@4c762604
     m_brake_light_ctrl = false;
-    // m_slow_light_ctrl com.eprosima.idl.parser.typecode.PrimitiveTypeCode@4c762604
+    // m_slow_light_ctrl com.eprosima.idl.parser.typecode.PrimitiveTypeCode@2641e737
     m_slow_light_ctrl = false;
-    // m_head_light_ctrl com.eprosima.idl.parser.typecode.PrimitiveTypeCode@2641e737
+    // m_head_light_ctrl com.eprosima.idl.parser.typecode.PrimitiveTypeCode@727803de
     m_head_light_ctrl = false;
-    // m_steering_angle_req com.eprosima.idl.parser.typecode.PrimitiveTypeCode@727803de
+    // m_steering_angle_req com.eprosima.idl.parser.typecode.PrimitiveTypeCode@704921a5
     m_steering_angle_req = 0.0;
-    // m_active_spd com.eprosima.idl.parser.typecode.PrimitiveTypeCode@704921a5
+    // m_active_spd com.eprosima.idl.parser.typecode.PrimitiveTypeCode@df27fae
     m_active_spd = 0.0;
-    // m_yaw_rate com.eprosima.idl.parser.typecode.PrimitiveTypeCode@df27fae
+    // m_yaw_rate com.eprosima.idl.parser.typecode.PrimitiveTypeCode@24a35978
     m_yaw_rate = 0.0;
-    // m_drive_direction com.eprosima.idl.parser.typecode.PrimitiveTypeCode@24a35978
+    // m_drive_direction com.eprosima.idl.parser.typecode.PrimitiveTypeCode@16f7c8c1
     m_drive_direction = 0;
-    // m_desire_speed com.eprosima.idl.parser.typecode.PrimitiveTypeCode@16f7c8c1
+    // m_desire_speed com.eprosima.idl.parser.typecode.PrimitiveTypeCode@2f0a87b3
     m_desire_speed = 0.0;
-    // m_write_speaker_control_ctr com.eprosima.idl.parser.typecode.PrimitiveTypeCode@2f0a87b3
+    // m_write_speaker_control_ctr com.eprosima.idl.parser.typecode.PrimitiveTypeCode@319b92f3
     m_write_speaker_control_ctr = false;
-    // m_set_max_gear com.eprosima.idl.parser.typecode.PrimitiveTypeCode@319b92f3
+    // m_set_max_gear com.eprosima.idl.parser.typecode.PrimitiveTypeCode@fcd6521
     m_set_max_gear = 0;
-    // m_vilid_count com.eprosima.idl.parser.typecode.PrimitiveTypeCode@fcd6521
+    // m_vilid_count com.eprosima.idl.parser.typecode.PrimitiveTypeCode@27d415d9
     m_vilid_count = 0;
-    // m_dump_complete com.eprosima.idl.parser.typecode.PrimitiveTypeCode@27d415d9
+    // m_dump_complete com.eprosima.idl.parser.typecode.PrimitiveTypeCode@5c18298f
     m_dump_complete = false;
-    // m_rolling_flag com.eprosima.idl.parser.typecode.PrimitiveTypeCode@5c18298f
+    // m_rolling_flag com.eprosima.idl.parser.typecode.PrimitiveTypeCode@31f924f5
     m_rolling_flag = false;
-    // m_Electric_braking com.eprosima.idl.parser.typecode.PrimitiveTypeCode@31f924f5
+    // m_Electric_braking com.eprosima.idl.parser.typecode.PrimitiveTypeCode@5579bb86
     m_Electric_braking = 0.0;
-    // m_Parking_airSup_state com.eprosima.idl.parser.typecode.PrimitiveTypeCode@5579bb86
+    // m_Parking_airSup_state com.eprosima.idl.parser.typecode.PrimitiveTypeCode@5204062d
     m_Parking_airSup_state = false;
-    // m_Engine_cylinder_braking com.eprosima.idl.parser.typecode.PrimitiveTypeCode@5204062d
+    // m_Engine_cylinder_braking com.eprosima.idl.parser.typecode.PrimitiveTypeCode@4fcd19b3
     m_Engine_cylinder_braking = false;
 
 }
