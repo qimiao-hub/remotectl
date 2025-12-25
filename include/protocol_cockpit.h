@@ -144,6 +144,7 @@ public:
 	void Task_start();
 	void Task_stop();
 	void Task_Reset();
+	SANY_U8 ProtoCockpit_DownshiftDecision();
 	// void ProtoCockpit_setServerName(const char *pServerName);
 
 	/*遥控控制信息输出*/
