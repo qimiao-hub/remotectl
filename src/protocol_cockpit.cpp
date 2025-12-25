@@ -2377,13 +2377,17 @@ float Protocol_Cockpit::ProtoCockpit_SlopeStart(){
 //降档
 SANY_U8 Protocol_Cockpit::ProtoCockpit_DownshiftDecision(){
     MINE_LOG(SANY_LOG_INFO, "ProtoCockpit_DownshiftDecision\n");
+
 	if( WireInfo.trans_current_gear()== 2 && struWireCtrlOut.iVehicle_speed ==0 && struWireCtrlOut.iThrottleOpening == 0)
+
 	{
 
 		MINE_LOG(SANY_LOG_INFO, "current gear is D, downshift decision %d,%f\n",WireInfo.trans_current_gear(),struWireCtrlOut.iVehicle_speed);
 		return 1;
 	}
+
 	else if (WireInfo.trans_current_gear()==1 && struWireCtrlOut.iVehicle_speed <=3 )
+
 	{
 		MINE_LOG(SANY_LOG_INFO, "current gear is M1, downshift decision %d,%f\n",WireInfo.trans_current_gear(),struWireCtrlOut.iVehicle_speed);
 		return 1;
