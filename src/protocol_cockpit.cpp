@@ -796,7 +796,7 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_RecvCmdEmergencyStop(Protocol_Cockpit_Buf
 	if (0x01 == pEmergencyStopCmdDataSt->ucStopFlag[0])
 	{
 		g_u8EmergencyStopFlg = 1; /*请求急停*/
-	}
+	} 
 	if (0x00 == pEmergencyStopCmdDataSt->ucStopFlag[0])
 	{
 		g_u8EmergencyStopFlg = 0; /*解除急停*/
@@ -1826,7 +1826,7 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_getFeedbackData()
 	struWireCtrlOut.iLiftUpStatus = WireInfo.lift_longo_position_status();			//举升到位状态
 	struWireCtrlOut.iLiftDownStatus = WireInfo.drop_longo_position_status();				//下降到位状态
 	struWireCtrlOut.iGearOpening =  WireInfo.trans_current_gear();				//档位
-	// MINE_LOG(SANY_LOG_INFO, "iGearOpening trans_current_gear (%d)\n", WireInfo.trans_current_gear());
+	MINE_LOG(SANY_LOG_INFO, "iGearOpening trans_current_gear (%d)\n", WireInfo.trans_current_gear());
 
 	struWireCtrlOut.iBrakeAirPre1 = WireInfo.air_pressure_1();							//气压1
 	struWireCtrlOut.iBrakeAirPre2 = WireInfo.air_pressure_2();							//气压2
@@ -2374,7 +2374,27 @@ float Protocol_Cockpit::ProtoCockpit_SlopeStart(){
 	}
 	//return return_brake;
 }
+//降档
+SANY_U8 Protocol_Cockpit::ProtoCockpit_DownshiftDecision(){
+    MINE_LOG(SANY_LOG_INFO, "ProtoCockpit_DownshiftDecision\n");
+	if( WireInfo.trans_current_gear()== 2 && struWireCtrlOut.iVehicle_speed ==0 && struWireCtrlOut.iThrottleOpening == 0)
+	{
 
+		MINE_LOG(SANY_LOG_INFO, "current gear is D, downshift decision %d,%f\n",WireInfo.trans_current_gear(),struWireCtrlOut.iVehicle_speed);
+		return 1;
+	}
+	else if (WireInfo.trans_current_gear()==1 && struWireCtrlOut.iVehicle_speed <=3 )
+	{
+		MINE_LOG(SANY_LOG_INFO, "current gear is M1, downshift decision %d,%f\n",WireInfo.trans_current_gear(),struWireCtrlOut.iVehicle_speed);
+		return 1;
+	}
+	else
+	{
+		MINE_LOG(SANY_LOG_INFO, " no downshift decision %d,%f\n",WireInfo.trans_current_gear(),struWireCtrlOut.iVehicle_speed);
+		return 0;
+	}
+	
+}
 /* 舱端控制数据转为底盘数据*/
 SANY_U8 Protocol_Cockpit::ProtoCockpit_getCtrlDate(ImpleResultInfo *pCtrlInfo)
 {
@@ -2461,6 +2481,7 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_getCtrlDate(ImpleResultInfo *pCtrlInfo)
 		else // N
 		{
 			pCtrlInfo->trans_req_gear(0); // 0x7D;
+			
 		}
 	}
 	printf("ctrl gear: %d\n", pCtrlInfo->trans_req_gear());
@@ -2519,8 +2540,15 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_getCtrlDate(ImpleResultInfo *pCtrlInfo)
 	/*组合开关右*/
 	if (struWireCtrlIn.iCombinedGearR & 0x01)
 	{
-		// 开雨刮喷水
-		pCtrlInfo->wiper_ctrl(true);
+		// 开雨刮喷水  修改为130降M档 251220
+		//pCtrlInfo->wiper_ctrl(true);
+		if (ProtoCockpit_DownshiftDecision())
+		{
+			pCtrlInfo->set_max_gear(1);
+		}
+		
+		
+
 	}
 	if (struWireCtrlIn.iCombinedGearR & 0x02)
 	{
