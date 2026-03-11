@@ -2374,6 +2374,7 @@ float Protocol_Cockpit::ProtoCockpit_SlopeStart(){
 	}
 	//return return_brake;
 }
+
 //降档
 SANY_U8 Protocol_Cockpit::ProtoCockpit_DownshiftDecision(){
     MINE_LOG(SANY_LOG_INFO, "ProtoCockpit_DownshiftDecision\n");
@@ -2399,6 +2400,7 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_DownshiftDecision(){
 	}
 	
 }
+
 /* 舱端控制数据转为底盘数据*/
 SANY_U8 Protocol_Cockpit::ProtoCockpit_getCtrlDate(ImpleResultInfo *pCtrlInfo)
 {
@@ -2544,20 +2546,48 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_getCtrlDate(ImpleResultInfo *pCtrlInfo)
 	/*组合开关右*/
 	if (struWireCtrlIn.iCombinedGearR & 0x01)
 	{
-		// 开雨刮喷水  修改为130降M档 251220
-		//pCtrlInfo->wiper_ctrl(true);
-		if (ProtoCockpit_DownshiftDecision())
-		{
-			pCtrlInfo->set_max_gear(1);
-		}
-		
-		
+		//  20260309 改为排气制动/补气  原雨刮喷水 
+		// pCtrlInfo->wiper_ctrl(true);
 
+		/* 20250220 liuss 将该物理按键改为130H补气开关：1.130无法加油补气；2. 领导指定排气制动；*/
+		if(vehicle_type == "SKT-H"){ // 130补气开关
+			pCtrlInfo->Parking_airSup_state(true);
+		}
+		else if(vehicle_type == "SKT-E"){ // 20260309 105e 蓬布关
+			g_tarControl_close = 1;
+		}
+		else{// 排气制动
+			pCtrlInfo->exhaust_brake_req(true);
+		}
+	}else{
+		if(vehicle_type == "SKT-H"){
+			pCtrlInfo->Parking_airSup_state(false);
+		}
+		else if(vehicle_type == "SKT-E"){
+			g_tarControl_close = 0;
+		}
+		else{
+			pCtrlInfo->exhaust_brake_req(false);
+		}
 	}
+	//130
+	MINE_LOG(SANY_LOG_INFO, "receive Parking_airSup_state (%d)\n", pCtrlInfo->Parking_airSup_state());
+
 	if (struWireCtrlIn.iCombinedGearR & 0x02)
-	{
-		// 开雨刮低速
-		pCtrlInfo->wiper_low_speed_ctrl(true);
+	{   // 开雨刮低速 
+		/*20260309 liuss 105e车型雨刮改为“蓬布开” -----start*/
+		if(vehicle_type == "SKT-E"){
+			g_tarControl_open = 1;
+		}else{
+			pCtrlInfo->wiper_low_speed_ctrl(true);
+		}
+		/*20260309 liuss 105e车型雨刮改为“蓬布开” -----start*/
+	}else{
+		if(vehicle_type == "SKT-E"){
+			g_tarControl_open = 0;
+		}else{
+			pCtrlInfo->wiper_low_speed_ctrl(false);
+		}
 	}
 	if (struWireCtrlIn.iCombinedGearR & 0x04)
 	{
@@ -2591,31 +2621,29 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_getCtrlDate(ImpleResultInfo *pCtrlInfo)
 		// 开前照灯
 		pCtrlInfo->head_light_ctrl(true);
 	}
-	/* 20250220 liuss 将该物理按键改为130H补气开关：1.130无法加油补气；2. 领导指定排气制动；-----start*/
+	
+	
 	if (struWireCtrlIn.iKeyOperation1 & 0x20)
 	{
-		// 发动机排气制动开
+		// 发动机排气制动开  20260309 改为雨刮喷水
+		// 修改为130降M档 251220
 		// pCtrlInfo->exhaust_brake_req(true);
-		if(vehicle_type == "SKT-H"){
-			pCtrlInfo->Parking_airSup_state(true);
-		}else{
-			pCtrlInfo->exhaust_brake_req(true);
-		}
-	}else{
-		if(vehicle_type == "SKT-H"){
-			pCtrlInfo->Parking_airSup_state(false);
-		}else{
-			pCtrlInfo->exhaust_brake_req(false);
+		if (ProtoCockpit_DownshiftDecision())
+		{
+			pCtrlInfo->set_max_gear(1);
 		}
 	}
-	//130
-	MINE_LOG(SANY_LOG_INFO, "receive Parking_airSup_state (%d)\n", pCtrlInfo->Parking_airSup_state());
-	/* 20250220 liuss 将该物理按键改为130H补气开关：1.130无法加油补气；2. 领导指定排气制动；-----end*/
+	/*20260309 liuss 105e车型蓬布控制 -----start*/
+	pCtrlInfo->tarpaulin_control(ProtoCockpit_TarpaulinControl());
+	MINE_LOG(SANY_LOG_INFO, "receive tarpaulin control (%d), tarOpen (%d), tarClose (%d) \n", pCtrlInfo->tarpaulin_control(), g_tarControl_open, g_tarControl_close);
+	/*20260309 liuss 105e车型蓬布控制 -----end*/
+
 	if (struWireCtrlIn.iKeyOperation1 & 0x40)
 	{
-		// 轮差开
+		// 轮差开 
 		pCtrlInfo->axial_ctrl(true);
 	}
+	
 	if (struWireCtrlIn.iKeyOperation1 & 0x80)
 	{
 		// 举升开
@@ -2742,6 +2770,23 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_getCtrlDate(ImpleResultInfo *pCtrlInfo)
 	MINE_LOG(SANY_LOG_INFO, "send control, gear: %d, parking_req: %d, brake_req: %f, throttle_req: %f\n", pCtrlInfo->trans_req_gear(), pCtrlInfo->parking_req(), pCtrlInfo->traffic_brake_req(), pCtrlInfo->engine_req_torque());
 	
 	return RET_OK;
+}
+
+/*105e蓬布控制*/
+SANY_U8 Protocol_Cockpit::ProtoCockpit_TarpaulinControl(){
+	// 无效
+	if(g_tarControl_open == 1 && g_tarControl_close == 1){
+		return 0;
+	// 蓬布开
+	}else if(g_tarControl_open == 1 && g_tarControl_close == 0){
+		return 1;
+	// 蓬布关
+	}else if(g_tarControl_open == 0 && g_tarControl_close == 1){
+		return 2;
+	// 动作暂停
+	}else if(g_tarControl_open == 0 && g_tarControl_close == 0){
+		return 3;
+	}
 }
 
 SANY_U8 Protocol_Cockpit::ProtoCockpit_CheckBrakeLimit(){

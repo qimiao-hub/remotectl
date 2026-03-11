@@ -144,7 +144,8 @@ public:
 	void Task_start();
 	void Task_stop();
 	void Task_Reset();
-	SANY_U8 ProtoCockpit_DownshiftDecision();
+
+	
 	// void ProtoCockpit_setServerName(const char *pServerName);
 
 	/*遥控控制信息输出*/
@@ -170,6 +171,10 @@ public:
 	SANY_U8 ProtoCockpit_SendAckCom(SANY_U8 ucCmd, SANY_U8 ucAckflg);
 	/*遥控刹车启动前初始化 刹车 档位 油门 主车*/
 	SANY_U8 ProtoCockpit_CheckBrakeLimit();
+	/*降档脱困*/
+	SANY_U8 ProtoCockpit_DownshiftDecision();
+	/*105e蓬布控制*/
+	SANY_U8 ProtoCockpit_TarpaulinControl();
 
 public:
 /*配置文件*/
@@ -182,6 +187,10 @@ public:
 	/*登录状态 0未登录 1已登录，未登录状态下，不处理命令协议*/ /*延时程序写死成1*/
 	SANY_U8 g_u8LoginFlag = 0;
 	
+private:
+	SANY_U8 g_tarControl_open = 0;
+	SANY_U8 g_tarControl_close = 0;
+
 private:
 	/*heartbeat with 297*/
 	SANY_U16 g_297count = 0;
