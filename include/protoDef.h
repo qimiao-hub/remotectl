@@ -20,7 +20,7 @@
 #define WP_VIN_SIZE 17
 
 #define SYS2NET(ray,val)            (ray)[0] = ((val) / 256); (ray)[1] = ((val) & 0xFF)
-#define SYS2NET4(ray)               ((((SANY_U32)(ray)[0]) * 256 * 256 * 256) + (((SANY_U32)(ray)[1]) * 256*256) + (((SANY_U32)(ray)[2]) * 256) + (ray)[3])
+#define SYS2NET4(ray, val)          (ray)[0] = ((val) /(256*256*256)); (ray)[1] = ((val) / (256*256)); (ray)[2] = ((val) /256);  (ray)[3] = ((val) & 0xFF); 
 #define ARRAY2SHORT(ray)            ((((SANY_U16)(ray)[1]) * 256) + (ray)[0])
 #define ARRAY2INT(ray)              ((((SANY_U32)(ray)[3]) * 256 * 256 *256) + (((SANY_U32)(ray)[2]) * 256 *256) + (((SANY_U32)(ray)[1]) * 256) + (ray)[0])
 
@@ -101,8 +101,10 @@ enum{
     EV_CP_REQ_CTRL,							//控车请求
     EV_CP_REALTIME_CTRL,					//实时控制
 	// EV_CP_STATUS_REALTIME_REP,				//实时上报（状态变更）
+    
     EV_CP_HEART_BEAT,                       //心跳
 	EV_CP_SEND_EMERGENCY_STOP = 0x06,     	//紧急停车
+    EV_CP_OTHER_VEHICLE_INFO = 0x07,        // 20250304新增周围车辆信息字段
     EV_CP_VEHICLE_SIGNOUT = 0x08,          	//登出驾驶舱端（主动、被动）
     
     EV_CLAPP_MAX                           
@@ -116,7 +118,7 @@ typedef struct  {
     SANY_U8	ucVIN[WP_VIN_SIZE];             //Vehicle VIN;
     SANY_U8	ucEncryption[1];				//0x01 NO ; 0x02 RSA ; 0x03 AES128; 0xFF invalid ;
     SANY_U8	ucDataByteSize[2];              //Data unit size; 
-    SANY_U8  ucData[0];
+    SANY_U8 ucData[0];
 }CP_Header_st;
 
 /***********************车-舱协议*********登入命令*********消息结构体************************/
@@ -128,6 +130,13 @@ typedef struct {
     SANY_U8	ucSoftVer[4];			//软件版本
     SANY_U8 ucWorkStatus[1];        //车辆工作状态
     SANY_U8 ucCurrentGear[1];       //当前档位
+    //20241211 车道辅助线新增
+    SANY_U8 ucVehicleLength[2];     //车长
+    SANY_U8 ucVehicleWidth[2];      //车宽
+    // 20250114 车道辅助线方案二新增
+    SANY_U8 ucCameraHeight[2];      // 相机高度
+    SANY_U8 ucCameraBlindDist[2];   // 车前盲区距离
+    SANY_U8 ucCameraPitchDegree[2];    // 相机俯仰角
 } CP_Register_Cmd_st;
 
 
@@ -219,7 +228,9 @@ typedef struct {
     SANY_U8	ucTime[8];					//指令时间
     SANY_U8	ucCarSpeed[2];				//车速
     SANY_U8	ucHeadingAngle[2];			//航向角
-    SANY_U8	ucWheelAngleL[2];			//左轮转角
+    SANY_U8	ucWheelAngleL[2];			//左轮转角（左）
+    // V2.3.4
+    // SANY_U8 ucWheelAngleR[2];           //车轮转角（右）20241210 辅助车道线新增 右轮转角 20250218不增加
     SANY_U8	ucThrottleOpening[1];		//油门开度
     SANY_U8	ucBrakeOpening[1];			//制动开度
     SANY_U8	ucEngineSpeed[2];			//发动机转速
@@ -245,6 +256,23 @@ typedef struct {
 } CP_Realtime_Rep_Cmd_st;
 
 
+/***********************车-舱协议*********车辆周围信息 20250304*********消息结构体************************/
+typedef struct{
+    SANY_U8	ucTime[8];				//指令时间
+    SANY_U8 u8Lontitude[4];	// 经度
+	SANY_U8 u8Latitude[4];	// 纬度
+    SANY_U8 u8Next[0];
+}CP_Other_Vehicle_Info_Cmd_st;
+
+typedef struct{
+    SANY_U8 u16ObstacleCount[2];
+    SANY_U8 u8ObstacleData[0];
+}CP_Other_Obstacle_Info_st;
+
+typedef struct{
+    SANY_U8 u16V2vCount[2];
+    SANY_U8 u8V2vData[0];
+}CP_Other_V2v_Indo_st;
 
 /******************************协议通用枚举*********************************/
 enum{
@@ -447,6 +475,22 @@ typedef enum
 	VEHI_EMERG_STOP = 0x01,                      // vehicle emergency stop
 	VEHI_RECOV                                   //vehicle recovery
 } Vehicle_Emerg_Stop_Enum;
+
+/***************************20250115新增 车端响应驾驶模式枚举*****************/
+typedef enum
+{
+    Vehicle_Ctrl_Manual = 1,
+    Vehicle_Ctrl_Remote = 2,
+    Vehicle_Ctrl_Auto = 3
+}Vehicle_Ctrl_State_Enum;
+
+/***************************20250115新增 舱端下发驾驶模式枚举*****************/
+typedef enum
+{
+    Cockpit_Ctrl_Remote = 1,
+    Cockpit_Ctrl_Auto = 2,
+    Cockpit_Ctrl_Manual = 3
+}Cockpit_Ctrl_State_Enum;
 
 /***************************协议8.15.4 任务更新*****************************/
 enum{

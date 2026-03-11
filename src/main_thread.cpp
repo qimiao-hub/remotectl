@@ -15,10 +15,12 @@
 #include <FailureReporter.h>
 #include "../include/common/sany_type.h"
 #include "../include/protocol_cockpit.h"
+#include "../include/remote_config.h"
 #include "../include/InitTask.h"
 
 FailureReporter *m_pFailureSDK = new FailureReporter();
 // InitTask initTask = new InitTask();
+Remote_Config *m_Config = new Remote_Config();
 
 /*接收IP+PORT标志位，0 未收到 1 收到*/
 SANY_U8 g_u8IpFlag = 0;
@@ -35,9 +37,9 @@ void write_Gps2log(int signum)
 int main()
 {
 	zkbs::init("syzk-remotectl");
-	MINE_LOG(SANY_LOG_INFO, "syzk-remotectl V2.3.7 105etarControl start!!\n");
+	MINE_LOG(SANY_LOG_INFO, "syzk-remotectl V2.4.1 sdk-105eTarControl start!!\n");
 	
-	zkbs::setVersion(VER("3.7"));
+	zkbs::setVersion(VER("4.1"));
 	MINE_LOG(SANY_LOG_INFO, "SET VERSION SUCCESS!!\n");
 	mine_log::set_log_level(SANY_LOG_INFO);
 	mine_log::set_log_output(SANY_LOG_OUT_FILE);
@@ -75,6 +77,7 @@ int main()
 	}
 	MINE_LOG(SANY_LOG_INFO, "CREATE TIMER!!\n");
 
+	m_Config->Init();
 
 	InitTask *initTASK = new InitTask();
 	initTASK->InitStart();
@@ -82,7 +85,7 @@ int main()
 	while(1){
 		sleep(1);
 	}
-	MINE_LOG(SANY_LOG_INFO, "syzk-remotectl V2.3.7 exit!!!\n");
+	MINE_LOG(SANY_LOG_INFO, "syzk-remotectl V2.4.1 exit!!!\n");
 	exit(0);
 	// return 0;
 }

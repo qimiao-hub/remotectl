@@ -46,7 +46,12 @@ target_link_libraries(${PROJECT_NAME}
 	-ldl
 )
 
-#file(COPY ${CMAKE_SOURCE_DIR}/src/protocol/remote.ini DESTINATION ${CMAKE_BINARY_DIR}/config)
-
+file(COPY ${CMAKE_SOURCE_DIR}/src/remote_config.ini DESTINATION ${CMAKE_BINARY_DIR}/config)
+# file(COPY ${CMAKE_SOURCE_DIR}/alsa-lib/lib/libasound.so DESTINATION ${CMAKE_BINARY_DIR}/lib)
+# file(COPY ${CMAKE_SOURCE_DIR}/alsa-lib/lib/libasound.so.2 DESTINATION ${CMAKE_BINARY_DIR}/lib)
+# file(COPY ${CMAKE_SOURCE_DIR}/alsa-lib/lib/libasound.so.2.0.0 DESTINATION ${CMAKE_BINARY_DIR}/lib)
+# file(COPY ${CMAKE_SOURCE_DIR}/alsa-lib/lib/libatopology.so DESTINATION ${CMAKE_BINARY_DIR}/lib)
+# file(COPY ${CMAKE_SOURCE_DIR}/alsa-lib/lib/libatopology.so.2 DESTINATION ${CMAKE_BINARY_DIR}/lib)
+# file(COPY ${CMAKE_SOURCE_DIR}/alsa-lib/lib/libatopology.so.2.0.0 DESTINATION ${CMAKE_BINARY_DIR}/lib)
 # #增加设备型号宏
 # # add_definitions(-DCONFIG_ELEC_CAR)

@@ -12,11 +12,16 @@ InitTask::~InitTask(){
 }
 
 void InitTask::InitStart(){
+
     m_Cockpit = new Protocol_Cockpit();
 	m_Cockpit->InitProtocol();
 	sleep(2);
 
-    ReadConfig();
+	// m_AudioTrans = new Audio_Transfer(m_Cockpit);
+	// m_AudioTrans->Init();
+	
+	
+
 
 	/*驾驶舱IP+PORT订阅和确认发布*/
 	pDataTypeCockpit = new CmdtoRemoteCtrlPubSubType();

@@ -16,6 +16,7 @@
 #include <string.h>
 #include "terminal_client.h"
 #include <sys/time.h>
+#include <sys/timeb.h>
 #include "FailureReporter.h"
 #include "daemon_sdk.h"
 #include "./common/read_ini.h"
@@ -36,6 +37,18 @@
 #include "../dvpn-pnc-common/ddsType/include/imple_msgPubSubTypes.h"
 #include "../dvpn-pnc-common/ddsType/include/safe_ctrl_msg.h"
 #include "../dvpn-pnc-common/ddsType/include/safe_ctrl_msgPubSubTypes.h"
+
+
+
+
+#include "../dvpn-pnc-common/ddsType/include/obst_msg.h"
+#include "../dvpn-pnc-common/ddsType/include/obst_msgPubSubTypes.h"
+#include "../dvpn-pnc-common/ddsType/include/v2x_msg.h"
+#include "../dvpn-pnc-common/ddsType/include/v2x_msgPubSubTypes.h"
+//#include "ddsType/obst130_msg.h"
+//#include "ddsType/obst130_msgPubSubTypes.h"
+
+#include "remote_config.h"
 
 #include <zkbs/ddsBase/ddsPubBase.h>
 #include <zkbs/ddsBase/ddsSubBase.h>
@@ -69,6 +82,7 @@
 #endif
 
 extern FailureReporter *m_pFailureSDK;
+extern Remote_Config *m_Config;
 extern SANY_U8 g_u8IpFlag;
 extern SANY_U8 g_u8TaskStartFlag;
 extern SANY_U8 g_u8NetReady;
@@ -97,7 +111,8 @@ typedef struct
 {
 	float iVehicle_speed;	   // 车速，单位：km/h
 	float iHeadingAngle;	   // 航向角
-	float iWheelAngleL;		   // 左轮转角
+	float iWheelAngleL;		   // 左轮转角(左)
+	// float iWheelAngleR;			// 车轮转角（右）20241210 辅助车道线新增 右轮转角  20250218 不增加
 	int iThrottleOpening;	   // 油门开度
 	int iBrakeOpening;		   // 制动开度
 	float iEngineSpeed;		   // 发动机转速
@@ -106,7 +121,7 @@ typedef struct
 	float iPitchAngle;			//俯仰角
 	int iLiftUpStatus;			//举升到位状态
 	int iLiftDownStatus;		//下降到位状态
-	int iGearOpening;	  // 档位操作
+	int iGearOpening;	  		// 档位操作
 	int iRemainingOil;			//剩余油量/电量
 	int iWaterTemp;				//水温
 	float iBrakeAirPre1;			//气压1
@@ -119,6 +134,25 @@ typedef struct
 	int iSafeInfo1;				// 安全模块-故障1
 	int iSafeInfo2;				// 安全模块-故障2
 } RemoteDrivingWirectlOutInfo;
+
+// 20250107 新增单个障碍物信息
+	typedef struct{
+		SANY_U8 iObstacleType[1];		// 障碍物类型，0x00:散点、挡墙，0x01:包围盒、矿卡，0x02:包围盒、石头，0x03:包围盒，人；
+		SANY_U8 iObstacleWidth[2];		// 障碍物宽度，cm
+		SANY_U8 iObstacleHeight[2];		// 障碍物长度，cm
+		SANY_U8 iObstacleDistLong[2];	// 目标障碍物与本车的纵向相对距离，单位cm
+		SANY_U8 iObstacleDisLat[2];		// 目标障碍物与本车的横向相对距离，单位cm，左侧为负
+		SANY_U8 u8Next[0];
+	} SensorFuseResult;
+
+	// 20250107 新增单个V2V车辆信息
+	typedef struct{
+		SANY_U8 iType[1];		// 车辆类型，0 矿车、1 挖机、2 RSU、3 装载机、4 洒水车、5 指挥车、6 平地机
+		SANY_U8 iLontitude[4];	// 经度
+		SANY_U8 iLatitude[4];	// 纬度
+		SANY_U8 iHeadingAngle[2];	   // 航向角，精度0.1°  0.0°~360.0°，正北为0°，正东为90°   
+		SANY_U8 u8Next[0];
+	}V2vResult;
 
 /*********************************************************************
  * CLASS
@@ -144,13 +178,14 @@ public:
 	void Task_start();
 	void Task_stop();
 	void Task_Reset();
-
-	
 	// void ProtoCockpit_setServerName(const char *pServerName);
 
 	/*遥控控制信息输出*/
+	/* 舱端控制数据转为底盘数据*/
 	SANY_U8 ProtoCockpit_getCtrlDate(ImpleResultInfo *pCtrlInfo);
 	/*遥控接管使能位和最大车速*/
+    // 读取配置文件
+   
 //	SANY_U8 ProtoCockpit_getMaxSpeed(Remote2Control *pRemoteCtrl);
 
 	/*读取配置文件*/
@@ -161,6 +196,9 @@ public:
 	SANY_U8 ProtoCockpit_Rolling();
 	/* 20250925 坡起策略*/
 	float ProtoCockpit_SlopeStart();
+	
+
+
 	/*心跳、控车数据监测*/
 	SANY_U8 ProtoCockpit_HeartCheck(const SANY_U32 Losttimes);
 	/*断连/心跳丢失停车*/
@@ -171,7 +209,7 @@ public:
 	SANY_U8 ProtoCockpit_SendAckCom(SANY_U8 ucCmd, SANY_U8 ucAckflg);
 	/*遥控刹车启动前初始化 刹车 档位 油门 主车*/
 	SANY_U8 ProtoCockpit_CheckBrakeLimit();
-	/*降档脱困*/
+	/*降档判断*/
 	SANY_U8 ProtoCockpit_DownshiftDecision();
 	/*105e蓬布控制*/
 	SANY_U8 ProtoCockpit_TarpaulinControl();
@@ -186,11 +224,13 @@ public:
 
 	/*登录状态 0未登录 1已登录，未登录状态下，不处理命令协议*/ /*延时程序写死成1*/
 	SANY_U8 g_u8LoginFlag = 0;
+
+	/*响应驾驶模式状态 0 默认，1 人工，2 遥控， 3 无人*/
+	SANY_U8 g_u8ResponseCtrlState = 0;
 	
 private:
 	SANY_U8 g_tarControl_open = 0;
 	SANY_U8 g_tarControl_close = 0;
-
 private:
 	/*heartbeat with 297*/
 	SANY_U16 g_297count = 0;
@@ -207,8 +247,7 @@ private:
 	/*请求驾驶模式状态， 0 默认，1 遥控，2 无人，3 人工*/
 	SANY_U8 g_u8CtrlState = 0;
 	
-	/*响应驾驶模式状态 */
-	SANY_U8 g_u8ResponseCtrlState = 0;
+
 
 	/* 刹车60启动标志位*/
 	SANY_U32 g_BrakeLimitCount = 0;
@@ -303,6 +342,7 @@ private:
 	SANY_U8 ProtoCockpit_PackAckHeartBeat(SANY_U8 *pDataBuf, SANY_U32 *pOutDataLen, SANY_U16 ucSequenceNum);
 	SANY_U8 ProtoCockpit_PackAckLoginOut(SANY_U8 *pDataBuf, SANY_U32 *pOutDataLen);
 	SANY_U8 ProtoCockpit_PackAckRepCtrl(SANY_U8 *pDataBuf, SANY_U32 *pOutDataLen, SANY_U8 ucSequenceNum);
+
 	/*打包安全模块上报的故障信息*/
 	SANY_U8 ProtoCockpit_PackSafeFeedbackInfo();
 	/*297反馈信息整合到 struWireCtrlOut*/
@@ -320,7 +360,27 @@ private:
 	/*安全模块反馈*/
 	TopicDataType *pDataTypeSafe = NULL;
 	ddsSubscriber<SafeFeedbackInfo> *pSubSafe = NULL;
+
+	/*障碍物信息*/
+	// DDS_SensorFuseResults m_fuseFrontObstaclesInfo;
+	TopicDataType *pDataFuseFrontObstacle = NULL;
+	ddsSubscriber<DDS_SensorFuseResults> *pFuseFrontObstacleSub = NULL;
+
+	TopicDataType *pDataFuseBackObstacle = NULL;
+	TopicDataType *pDataFuseBackScatter = NULL;
 	
+	ddsSubscriber<DDS_SensorFuseResults> *pFuseBackObstacleSub = NULL;
+
+	/*V2V信息*/
+	TopicDataType *pDataV2vInfo = NULL;
+	ddsSubscriber<CloudRoundVehicleList> *pV2vInfoSub = NULL;
+
+	SANY_U8 ProtoCockpit_SendOtherVehicleInfo();
+	SANY_U8 *ProtoCockpit_getOneObstacleData(SANY_U8 *pDataBuf, std::vector<DDS_SensorFuseResult> ObstacleVector, SANY_U16 cnt);
+	SANY_U8 *ProtoCockpit_getOneObstacleDataTest(SANY_U8 *pDataBuf, std::vector<DDS_SensorFuseResult> ObstacleVector, SANY_U16 cnt);
+	SANY_U8 *ProtoCockpit_getFuseSensorData(SANY_U8 *pDataBuf);
+	SANY_U8 *ProtoCockpit_getV2vData(SANY_U8 *pDataBuf);
+
 	/*发布遥控驾驶控制数据*/
 	ImpleResultInfo imple_result_info;
 	TopicDataType *pDataTypeImple = NULL;

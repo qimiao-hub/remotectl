@@ -1,0 +1,53 @@
+#ifndef _REMOTE_CONFIG_H_
+#define _REMOTE_CONFIG_H_
+#include <string.h>
+#include "./common/read_ini.h"
+#include "protoDef.h"
+#include "./common/yaml.h"
+#include "zkbs/zkbs.hpp"
+/*********************************************************************
+ * CLASS
+ */
+#ifndef RET_OK
+#define RET_OK 1
+#define RET_ERROR 0
+#endif
+
+class Remote_Config
+{
+public:
+    Remote_Config();
+    ~Remote_Config();
+
+    void Init();
+    // 读取配置文件
+    void ReadVehicleConfig();
+	void ReadRemoteConfig();
+
+public:
+    /*配置文件*/
+	std::string vehicle_iccid;
+	std::string vehicle_vin;
+	std::string vehicle_type;
+	std::string vehicle_HardVer = "0101";
+	std::string vehicle_SoftVer = "0230";//02软件类型 20软件版本号 20不调整，21调整气压速度显示小数点后一位，增加刹车提醒；22 调整130 车型、水温显示;30新增障碍物、车道线等
+
+	/*20241210 车道线辅助功能：增加车长、车宽、车高，此处默认值为105i车型, mm*/
+	SANY_U32 vehicle_length = 9260;
+	SANY_U32 vehicle_width = 3980;
+	SANY_U32 vehicle_height = 4350;
+	/*20250112 车道线辅助功能2：增加相机高度mm、车前盲区距离、相机俯仰角（度）*/
+	SANY_U32 camera_height = 2600;
+	SANY_U32 camera_blindDist = 2500;
+	SANY_U32 camera_pitchDegree = 20;
+
+	/*20250326 新增音频*/
+	SANY_U32 audio_isOpen = 0;
+    SANY_U32 audio_isSave = 0;
+
+private:
+
+
+};
+
+#endif

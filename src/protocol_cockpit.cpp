@@ -31,11 +31,14 @@ static WirectlFeedbackInfo WireInfo;
 static GpsImuInfo struGpsInfo;
 /*safe模块-故障信息*/
 static SafeFeedbackInfo struSafeFeedbackInfo;
-
+static DDS_SensorFuseResults m_fuseFrontObstaclesInfo;
+static DDS_SensorFuseResults m_fuseBackObstaclesInfo;
+static CloudRoundVehicleList m_V2vInfo;
 
 void wireFeedbackCallback(WirectlFeedbackInfo *info)
 {
-	if(1 == g_u8TaskStartFlag){
+	if(1 == g_u8TaskStartFlag)
+	{
 		// memcpy(&pCockpit->OldWireInfo, &pCockpit->WireInfo, sizeof(WirectlFeedbackInfo));
 		memcpy(&WireInfo, info, sizeof(WirectlFeedbackInfo));
 	}
@@ -44,7 +47,8 @@ void wireFeedbackCallback(WirectlFeedbackInfo *info)
 
 void gpsFeedbackCallback(GpsImuInfo *info)
 {
-	if(1 == g_u8TaskStartFlag){
+	if(1 == g_u8TaskStartFlag)
+	{
 		memcpy(&struGpsInfo, info, sizeof(GpsImuInfo));
 	}
 	return;
@@ -52,13 +56,36 @@ void gpsFeedbackCallback(GpsImuInfo *info)
 
 void safeFeedbackCallback(SafeFeedbackInfo *info)
 {
-	if(1 == g_u8TaskStartFlag){
+	if(1 == g_u8TaskStartFlag)
+	{
 		memcpy(&struSafeFeedbackInfo, info, sizeof(SafeFeedbackInfo));
 	}
 	return;
 }
 
+void fuseFrontObstacleCallback(DDS_SensorFuseResults *info){
+	if(1 == g_u8TaskStartFlag)
+	{
+		memcpy(&m_fuseFrontObstaclesInfo, info, sizeof(DDS_SensorFuseResults));
+		MINE_LOG(SANY_LOG_INFO, "Receive fuseFrontObstacles\n");
+	}
+}
 
+void fuseBackObstacleCallback(DDS_SensorFuseResults *info){
+	if(1 == g_u8TaskStartFlag)
+	{
+		memcpy(&m_fuseBackObstaclesInfo, info, sizeof(DDS_SensorFuseResults));
+		MINE_LOG(SANY_LOG_INFO, "Receive fuseBackObstacles\n");
+	}
+}
+
+void v2vInfoCallback(CloudRoundVehicleList *info){
+	if(1 == g_u8TaskStartFlag)
+	{
+		memcpy(&m_V2vInfo, info, sizeof(CloudRoundVehicleList));
+		MINE_LOG(SANY_LOG_INFO, "Receive CloudRoundVehicleList\n");
+	}
+}
 
 /********************************************************************
  * 函数名称:      Protocol_Cockpit构造函数
@@ -77,6 +104,7 @@ Protocol_Cockpit::~Protocol_Cockpit(){
 	/*等待线程退出*/
 	pthread_join(t_upload_data_id, NULL);
 	pthread_join(t_download_data_id, NULL);
+	pthread_join(t_task_id, NULL);
 	
 	/*释放动态申请的内存空间*/
 	free(arrSendBuffer);
@@ -98,6 +126,7 @@ void Protocol_Cockpit::InitProtocol(){
 	g_u8EmergencyStopFlg = 0;
 	g_u8RollNeedStopFlg = 0;
 	g_BrakeLimitCount = 0;
+	
 
 	/*底盘数据相关订阅*/
 	pDataTypeWire = new WirectlFeedbackInfoPubSubType();
@@ -112,6 +141,21 @@ void Protocol_Cockpit::InitProtocol(){
 	pSubSafe = new ddsSubscriber<SafeFeedbackInfo>(pDataTypeSafe, &safeFeedbackCallback);
 	MINE_LOG(SANY_LOG_INFO, "CREATE SAFE SUBSCRIBER!!\n");
 
+	/*20250217 障碍物信息订阅*/
+	pDataFuseFrontObstacle = new DDS_SensorFuseResultsPubSubType();
+	pFuseFrontObstacleSub = new ddsSubscriber<DDS_SensorFuseResults>("fusion_front_scatter_box_", 
+		pDataFuseFrontObstacle, &fuseFrontObstacleCallback);
+	MINE_LOG(SANY_LOG_INFO, "CREATE FrontObstacle SUBSCRIBER!! publisher (%d)\n", pFuseFrontObstacleSub->getPublisherCount());
+
+	pDataFuseBackObstacle = new DDS_SensorFuseResultsPubSubType();
+	pFuseBackObstacleSub = new ddsSubscriber<DDS_SensorFuseResults>("fusion_back_scatter_box_", 
+		pDataFuseBackObstacle, &fuseBackObstacleCallback);
+	MINE_LOG(SANY_LOG_INFO, "CREATE BackObstacle SUBSCRIBER!! publisher (%d)\n", pFuseBackObstacleSub->getPublisherCount());
+
+	pDataV2vInfo = new CloudRoundVehicleListPubSubType();
+	pV2vInfoSub = new ddsSubscriber<CloudRoundVehicleList>(pDataV2vInfo, &v2vInfoCallback);
+	MINE_LOG(SANY_LOG_INFO, "CREATE V2v SUBSCRIBER!! publisher (%d)\n", pV2vInfoSub->getPublisherCount());
+
 	/*遥控驾驶控制数据*/
 	pDataTypeImple = new ImpleResultInfoPubSubType();
 	pPubImple = new ddsPublisher<ImpleResultInfo>(pDataTypeImple);
@@ -124,6 +168,9 @@ void Protocol_Cockpit::InitProtocol(){
 	bzero(&struGpsInfo, sizeof(struGpsInfo));
 	bzero(&imple_result_info, sizeof(imple_result_info));
 	bzero(&struSafeFeedbackInfo, sizeof(struSafeFeedbackInfo));
+	bzero(&m_fuseFrontObstaclesInfo, sizeof(m_fuseFrontObstaclesInfo));
+	bzero(&m_fuseBackObstaclesInfo, sizeof(m_fuseBackObstaclesInfo));
+	bzero(&m_V2vInfo, sizeof(m_V2vInfo));
 
 	// 初始化数据缓冲区
 	ProtoCockpit_SendBufferInit();
@@ -164,6 +211,9 @@ void Protocol_Cockpit::Task_Reset(){
 	bzero(&struGpsInfo, sizeof(struGpsInfo));
 	bzero(&imple_result_info, sizeof(imple_result_info));
 	bzero(&struSafeFeedbackInfo, sizeof(struSafeFeedbackInfo));
+	bzero(&m_fuseBackObstaclesInfo, sizeof(m_fuseBackObstaclesInfo));
+	bzero(&m_fuseFrontObstaclesInfo, sizeof(m_fuseFrontObstaclesInfo));
+	bzero(&m_V2vInfo, sizeof(m_V2vInfo));
 	MINE_LOG(SANY_LOG_INFO, "Clear structDatas\n");
 
 	// pthread_mutex_lock(&RecvBufferMutex);
@@ -210,6 +260,8 @@ void Protocol_Cockpit::Task_start()
 	m_pFailureSDK->report(FailureModule_Nebula_RemoteCtrl, 3204, 1, 0);
 	m_pFailureSDK->report(FailureModule_Nebula_RemoteCtrl, 3204, 3, 0);
 	g_u8LoginFlag = 0;
+	
+	m_Config->ReadRemoteConfig();
 	g_u8TaskStartFlag = 1;
 	// sleep(2);
 	MINE_LOG(SANY_LOG_INFO, "ONE REMOTE TASK START\n");
@@ -219,9 +271,9 @@ void Protocol_Cockpit::Task_start()
 void Protocol_Cockpit::Task_stop()
 {
 	MINE_LOG(SANY_LOG_INFO, "ONE REMOTE TASK END\n");
-	if(g_u8CtrlState == 1)
+	if(g_u8CtrlState == Cockpit_Ctrl_Remote)
 	{
-		g_u8CtrlState = 2;
+		g_u8CtrlState = Cockpit_Ctrl_Auto;
 		MINE_LOG(SANY_LOG_INFO, "STOP, 1s back to unman\n");
 		sleep(2);
 	}
@@ -261,7 +313,7 @@ void Protocol_Cockpit::funcTask(){
 				flag = 1;
 				MINE_LOG(SANY_LOG_INFO, "funcTask thread restart!\n");
 			}
-			if (1 == g_u8CtrlState)
+			if (Cockpit_Ctrl_Remote == g_u8CtrlState)
 			{
 				/*获取通信模块遥控控制数据*/
 				ProtoCockpit_getCtrlDate(&imple_result_info);
@@ -284,7 +336,7 @@ void Protocol_Cockpit::funcTask(){
 				pPubImple->publish(imple_result_info);
 				Remote_Enable5 = 0;
 			}
-			else if((2 == g_u8CtrlState) ||  (3 == g_u8CtrlState))
+			else if((Cockpit_Ctrl_Auto == g_u8CtrlState) ||  (Cockpit_Ctrl_Manual == g_u8CtrlState))
 			{
 				if(10 > Remote_Enable5)
 				{
@@ -314,8 +366,10 @@ void Protocol_Cockpit::funcTask(){
 			Tick_Remote_Notice = -1;
 		}
 		Tick++;
+		
 		if((Tick % 100) == 0)
 		{
+			
 			MINE_LOG(SANY_LOG_INFO, "funcTask is running, g_u8IpFlag is %d, g_u8TaskStartFlag is %d\n", g_u8IpFlag, g_u8TaskStartFlag);
 			// Tick = 0;
 		}
@@ -358,7 +412,7 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_PackHeader(SANY_U8 u8Cmd, SANY_U8 u8AckFl
 	pst_DataBuf->ucCommand[0] = u8Cmd;
 	pst_DataBuf->ucAckflg[0] = u8AckFlg;
 	/*-------------------------------------------------后续添加VIN------------------------------------------------------------------------*/
-	memcpy((SANY_S8 *)pst_DataBuf->ucVIN, vehicle_vin.c_str(), WP_VIN_SIZE); // #define VIN "SKT90202011300002"
+	memcpy((SANY_S8 *)pst_DataBuf->ucVIN, m_Config->vehicle_vin.c_str(), WP_VIN_SIZE); // #define VIN "SKT90202011300002"
 	pst_DataBuf->ucEncryption[0] = EV_WP_NO_ENCRYPT;
 
 	return RET_OK;
@@ -402,9 +456,13 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_CalcXOR(SANY_U8 *pu8DataBuf, SANY_S32 s32
  ***************************************************************************/
 SANY_U8 Protocol_Cockpit::ProtoCockpit_GetLocalTime(SANY_U8 *pucTime)
 {
+
 	time_t timep = time(0);
 	auto p = localtime(&timep);
-	SANY_U8 u8loctime[6] = {0};
+	timeb t;
+	ftime(&t);
+
+	SANY_U8 u8loctime[8] = {0};
 
 	u8loctime[0] = (SANY_U8)(p->tm_year + 1900 - 2000);
 	u8loctime[1] = (SANY_U8)(p->tm_mon + 1);
@@ -412,6 +470,9 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_GetLocalTime(SANY_U8 *pucTime)
 	u8loctime[3] = (SANY_U8)(p->tm_hour);
 	u8loctime[4] = (SANY_U8)(p->tm_min);
 	u8loctime[5] = (SANY_U8)(p->tm_sec);
+	u8loctime[6] = (SANY_U8)((t.millitm/1000) / 256);
+	u8loctime[7] = (SANY_U8)((t.millitm/1000) % 256);
+	// MINE_LOG(SANY_LOG_INFO, "TIME %d   %d\n", u8loctime[6], u8loctime[7]);
 
 	if (20 > u8loctime[0])
 	{
@@ -423,11 +484,13 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_GetLocalTime(SANY_U8 *pucTime)
 		u8loctime[3] = 16;
 		u8loctime[4] = 34;
 		u8loctime[5] = 45;
-		memcpy(pucTime, u8loctime, 6);
+		u8loctime[6] = 1;
+		u8loctime[7] = 9;
+		memcpy(pucTime, u8loctime, 8);
 		return RET_ERROR;
 	}
 
-	memcpy(pucTime, u8loctime, 6);
+	memcpy(pucTime, u8loctime, 8);
 
 	return RET_OK;
 }
@@ -457,7 +520,7 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_GetSequenceNum(SANY_U8 *pu8SeqNum)
  ***************************************************************************/
 SANY_U8 Protocol_Cockpit::ProtoCockpit_GetICCID(SANY_U8 *pu8Iccid)
 {
-	memcpy(pu8Iccid, vehicle_iccid.c_str(), 20);
+	memcpy(pu8Iccid, m_Config->vehicle_iccid.c_str(), 20);
 	// MINE_LOG(SANY_LOG_INFO, "Device ICCID is %s\n", pu8Iccid);
 
 	return RET_OK;
@@ -677,17 +740,17 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_RecvCmdRepCtrl(Protocol_Cockpit_Buffer_st
 	if (0x01 == pReqCtrlCmdDataST->ucCtrlSwitch[0])
 	{
 		MINE_LOG(SANY_LOG_INFO, "-----EV_CP_REQ_CTRL Open-----\n");
-		g_u8CtrlState = 1;
+		g_u8CtrlState = Cockpit_Ctrl_Remote;
 	}
 	else if(0x02 == pReqCtrlCmdDataST->ucCtrlSwitch[0])
 	{
 		MINE_LOG(SANY_LOG_INFO, "-----EV_CP_REQ_CTRL Close, Auto_takeover-----\n");
-		g_u8CtrlState = 2;
+		g_u8CtrlState = Cockpit_Ctrl_Auto;
 	}
 	else if(0x03 == pReqCtrlCmdDataST->ucCtrlSwitch[0])
 	{
 		MINE_LOG(SANY_LOG_INFO, "-----EV_CP_REQ_CTRL Close, Manual_takeover-----\n");
-		g_u8CtrlState = 3;
+		g_u8CtrlState = Cockpit_Ctrl_Manual;
 	}
 
 	//printf("3-Manual, 1-Remote, 2-Auto, Currnet Control Status: %d\n", pReqCtrlCmdDataST->ucCtrlSwitch[0]);
@@ -732,7 +795,7 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_RecvCmdRealtimeCtrl(Protocol_Cockpit_Buff
 	CP_Header_st *headST = (CP_Header_st *)pDateBuffer->szDataBuf;
 	CP_Realtime_Ctrl_Cmd_st *pRealtimeCtrlCmdDataST = (CP_Realtime_Ctrl_Cmd_st *)headST->ucData;
 
-	if (g_u8CtrlState != 1)
+	if (g_u8CtrlState != Cockpit_Ctrl_Remote)
 	{
 		MINE_LOG(SANY_LOG_ERROR, "----EV_CP_REQ_CTRL ERR----\n");
 		return RET_ERROR;
@@ -796,7 +859,7 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_RecvCmdEmergencyStop(Protocol_Cockpit_Buf
 	if (0x01 == pEmergencyStopCmdDataSt->ucStopFlag[0])
 	{
 		g_u8EmergencyStopFlg = 1; /*请求急停*/
-	} 
+	}
 	if (0x00 == pEmergencyStopCmdDataSt->ucStopFlag[0])
 	{
 		g_u8EmergencyStopFlg = 0; /*解除急停*/
@@ -1183,8 +1246,8 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_SendCmdLogin()
 		return RET_ERROR;
 	}
 
-	memcpy(dataST->ucHardVer, vehicle_HardVer.c_str(), 4);
-	memcpy(dataST->ucSoftVer, vehicle_SoftVer.c_str(), 4);
+	memcpy(dataST->ucHardVer, m_Config->vehicle_HardVer.c_str(), 4);
+	memcpy(dataST->ucSoftVer, m_Config->vehicle_SoftVer.c_str(), 4);
 	//车辆驾驶状态 
 	if((WireInfo.vcu_state() == 5) && (WireInfo.Remote_or_Unman() == 8))
 	{
@@ -1203,6 +1266,17 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_SendCmdLogin()
 	printf("login work status, vcu_state: %d,  Remote_or_Unman: %d\n", WireInfo.vcu_state(), WireInfo.Remote_or_Unman());
 	dataST->ucCurrentGear[0] = WireInfo.trans_current_gear();
 	// printf("login gear: %d\n", dataST->ucCurrentGear[0]);
+
+	/*20241211 车道线辅助新增，车长车宽数据*/
+	SYS2NET(dataST->ucVehicleLength, m_Config->vehicle_length);
+	SYS2NET(dataST->ucVehicleWidth, m_Config->vehicle_width);
+	// MINE_LOG(SANY_LOG_INFO, "vehicle_length: %d, width: %d\n", vehicle_height, vehicle_width);
+
+	/*20250115 车道线辅助方案二新增，相机高度、车前盲区距离、相机俯仰角*/
+	SYS2NET(dataST->ucCameraHeight, m_Config->camera_height);
+	SYS2NET(dataST->ucCameraBlindDist, m_Config->camera_blindDist);
+	SYS2NET(dataST->ucCameraPitchDegree, m_Config->camera_pitchDegree);
+
 	/* 计算消息长度 */
 	SYS2NET(headST->ucDataByteSize, (sizeof(CP_Register_Cmd_st)));
 
@@ -1255,9 +1329,12 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_SendCmdRealtimeRep()
 	/*航向角*/
 	u16TmpDate = (int)(struWireCtrlOut.iHeadingAngle * 10);
 	SYS2NET(pDataST->ucHeadingAngle, u16TmpDate);
-	/*车轮转角*/
+	/*车轮转角（左） */
 	u16TmpDate = (int)((struWireCtrlOut.iWheelAngleL + 40) * 10);
 	SYS2NET(pDataST->ucWheelAngleL, u16TmpDate);
+	/*车轮转角（右）20241210 辅助车道线新增 右轮转角 20250218不增加*/
+	// u16TmpDate = (int)(struWireCtrlOut.iWheelAngleR + 40) * 10;
+	// SYS2NET(pDataST->ucWheelAngleR, u16TmpDate);
 	/*油门*/
 	pDataST->ucThrottleOpening[0] = (SANY_U8)struWireCtrlOut.iThrottleOpening;
 	/*制动*/
@@ -1266,8 +1343,9 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_SendCmdRealtimeRep()
 	u16TmpDate = (int)struWireCtrlOut.iEngineSpeed;
 	SYS2NET(pDataST->ucEngineSpeed, u16TmpDate);
 	/*累计里程*/
-	u32TmpDate = (int)(struWireCtrlOut.iAccumulatedMileage * 10);
-	*(SANY_U32 *)&(pDataST->ucAccumulatedMileage) = SYS2NET4((SANY_U8 *)&u32TmpDate);
+	u32TmpDate = (SANY_U32)(struWireCtrlOut.iAccumulatedMileage * 10);
+	// *(SANY_U32 *)&(pDataST->ucAccumulatedMileage) = SYS2NET4((SANY_U8 *)&u32TmpDate);
+	SYS2NET4(pDataST->ucAccumulatedMileage, u32TmpDate);
 	/*小计里程*/
 	u16TmpDate = (int)(struWireCtrlOut.iSubtotalMileage * 10);
 	SYS2NET(pDataST->ucSubtotalMileage, u16TmpDate);
@@ -1305,6 +1383,7 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_SendCmdRealtimeRep()
 	MINE_LOG(SANY_LOG_INFO, "iVehicle_speed %d\n", (int)(struWireCtrlOut.iVehicle_speed * 10));
 	MINE_LOG(SANY_LOG_INFO, "iBrakeOpening %d\n", (int)struWireCtrlOut.iBrakeOpening);
 	MINE_LOG(SANY_LOG_INFO, "iWheelAngleL %d\n", (int)((struWireCtrlOut.iWheelAngleL + 40) * 10));
+	// MINE_LOG(SANY_LOG_INFO, "iWheelAngleR %d\n", (int)((struWireCtrlOut.iWheelAngleR + 40) * 10));
 	MINE_LOG(SANY_LOG_INFO, "iThrottleOpening %d\n", (int)(struWireCtrlOut.iThrottleOpening));
 	MINE_LOG(SANY_LOG_INFO, "iEngineSpeed %d\n", (int)(struWireCtrlOut.iEngineSpeed));				//
 	MINE_LOG(SANY_LOG_INFO, "iHeadingAngle %d\n", (int)(struWireCtrlOut.iHeadingAngle * 10));
@@ -1357,15 +1436,15 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_HeartCheck(const SANY_U32 Losttimes)
 
 	if(g_u8LoginFlag == 1)
 	{
-		if(2 == g_u8ResponseCtrlState)
+		if(Vehicle_Ctrl_Remote == g_u8ResponseCtrlState)
 		{
 			if (500  <= Losttimes)
 			{
-				if(vehicle_type == "SKT-I")
+				if(m_Config->vehicle_type == "SKT-I")
 				{
 					struWireCtrlIn.iGearOpening = 0x7D;
 				}
-				else if(vehicle_type== "SKT-E" || vehicle_type == "SKT-H")
+				else if(m_Config->vehicle_type== "SKT-E" || m_Config->vehicle_type == "SKT-H")
 				{
 					struWireCtrlIn.iGearOpening = 0;
 				}
@@ -1639,9 +1718,11 @@ void Protocol_Cockpit::funcAppUploadData()
 	SANY_U8 LoginTimes = 0;
 //	SANY_U8 LoginoutTimes = 0;
 	SANY_U8 flag = 0;
+	SANY_U32 u32OtherVehicleInfoTick = -1;
 	MINE_LOG(SANY_LOG_INFO, "funcAppUploadData thread start!!\n");
 	while (true)
 	{
+		
 		if(1 == g_u8TaskStartFlag)
 		{
 			if(0 == flag){
@@ -1651,6 +1732,7 @@ void Protocol_Cockpit::funcAppUploadData()
 			/* 判断登入状态 */
 			if (0 == g_u8LoginFlag) // 未登录
 			{
+				u32OtherVehicleInfoTick = -1;
 				/*判断是否需要登录驾舱，需要分频登录*/
 				/*1s发一次*/
 				if (0 == (u32Tick % SEND_LOGIN_TICK))
@@ -1675,6 +1757,7 @@ void Protocol_Cockpit::funcAppUploadData()
 				}
 			}
 			else if(2 == g_u8LoginFlag){ // 登陆失败
+				u32OtherVehicleInfoTick = -1;
 				LoginTimes = 0;
 				MINE_LOG(SANY_LOG_ERROR, "Login Reponse ERROR, exit!!\n");
 				Task_stop();
@@ -1687,6 +1770,14 @@ void Protocol_Cockpit::funcAppUploadData()
 					if(0 == (u32Tick % SEND_RTDATA_UPLOAD_TICK))
 					{
 						u8Ret = ProtoCockpit_SendCmdRealtimeRep();
+						if(u32OtherVehicleInfoTick == -1){
+							u32OtherVehicleInfoTick = 0;
+						}
+						if(u32OtherVehicleInfoTick != -1 && u32OtherVehicleInfoTick % 5 == 0){
+							u8Ret = ProtoCockpit_SendOtherVehicleInfo();
+							MINE_LOG(SANY_LOG_ERROR, "ProtoCockpit_SendOtherVehicleInfo ret %d!!\n", u8Ret);
+						}
+						u32OtherVehicleInfoTick++;
 						if (RET_OK != u8Ret)
 						{
 							MINE_LOG(SANY_LOG_ERROR, "ProtoCockpit_SendCmdRealtimeRep err!!\n");
@@ -1697,6 +1788,7 @@ void Protocol_Cockpit::funcAppUploadData()
 				}
 				else
 				{
+					u32OtherVehicleInfoTick = 0;
 					MINE_LOG(SANY_LOG_ERROR, "SendBuffer is ful, g_u8SendBufferFull is %d\n",g_u8SendBufferFull);
 				}
 			}
@@ -1704,6 +1796,7 @@ void Protocol_Cockpit::funcAppUploadData()
 			u32Tick++;
 			// }
 		}else{
+			u32OtherVehicleInfoTick = -1;
 			u8Ret = RET_OK;
 			u32Tick = 0;
 			LoginTimes = 0;
@@ -1819,14 +1912,13 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_getFeedbackData()
 		struWireCtrlOut.iBrakeOpening = WireInfo.brake_pedal_SYMC(); // 制动
 	}
 	struWireCtrlOut.iVehicle_speed = WireInfo.tachograph_vehicle_speed();	 // 车速
-	// MINE_LOG(SANY_LOG_INFO, "297 iVehicle_speed (%2f)\n", WireInfo.tachograph_vehicle_speed());
-	struWireCtrlOut.iWheelAngleL = WireInfo.steering_left_angle_info();		 // 车轮转角
+	struWireCtrlOut.iWheelAngleL = WireInfo.steering_left_angle_info();		// 车轮转角
 	struWireCtrlOut.iAccumulatedMileage = WireInfo.total_vehicle_distance(); // 总计里程
 	struWireCtrlOut.iPitchAngle = struGpsInfo.gps_pitch();					//俯仰角
 	struWireCtrlOut.iLiftUpStatus = WireInfo.lift_longo_position_status();			//举升到位状态
 	struWireCtrlOut.iLiftDownStatus = WireInfo.drop_longo_position_status();				//下降到位状态
 	struWireCtrlOut.iGearOpening =  WireInfo.trans_current_gear();				//档位
-	MINE_LOG(SANY_LOG_INFO, "iGearOpening trans_current_gear (%d)\n", WireInfo.trans_current_gear());
+	// MINE_LOG(SANY_LOG_INFO, "iGearOpening trans_current_gear (%d)\n", WireInfo.trans_current_gear());
 
 	struWireCtrlOut.iBrakeAirPre1 = WireInfo.air_pressure_1();							//气压1
 	struWireCtrlOut.iBrakeAirPre2 = WireInfo.air_pressure_2();							//气压2
@@ -2016,27 +2108,27 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_getFeedbackData()
 	//车辆驾驶状态 
 	if((WireInfo.vcu_state() == 5) && (WireInfo.Remote_or_Unman() == 8))
 	{
-		struWireCtrlOut.iWorkStatus = 2;			//remote
-		g_u8ResponseCtrlState = 2;
+		struWireCtrlOut.iWorkStatus = Vehicle_Ctrl_Remote;			//remote
+		g_u8ResponseCtrlState = Vehicle_Ctrl_Remote;
 		if(g_BrakeLimitCount == 0){
 			g_BrakeLimitCount = 2;
 		}
 	}
 	else if((WireInfo.vcu_state() == 5) && (WireInfo.Remote_or_Unman() == 6))
 	{
-		struWireCtrlOut.iWorkStatus = 3;			//unman
-		g_u8ResponseCtrlState = 3;
+		struWireCtrlOut.iWorkStatus = Vehicle_Ctrl_Auto;			//unman
+		g_u8ResponseCtrlState = Vehicle_Ctrl_Auto;
 		g_BrakeLimitCount = 0;
 	}
 	else
 	{
-		struWireCtrlOut.iWorkStatus = 1;			//manual
-		g_u8ResponseCtrlState = 1;
+		struWireCtrlOut.iWorkStatus = Vehicle_Ctrl_Manual;			//manual
+		g_u8ResponseCtrlState = Vehicle_Ctrl_Manual;
 		g_u8CtrlState = 0;
 		g_BrakeLimitCount = 0;
 	}
 
-	if (vehicle_type == "SKT-I")
+	if (m_Config->vehicle_type == "SKT-I")
 	 {
 		struWireCtrlOut.iThrottleOpening = WireInfo.accel_pedal_position(); // 油门
 
@@ -2054,7 +2146,7 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_getFeedbackData()
 		/*小计里程 = 总里程-初始里程*/
 		struWireCtrlOut.iSubtotalMileage = (WireInfo.total_vehicle_distance() - finitTalDistance);
 	 }
-	else if(vehicle_type == "SKT-E")
+	else if(m_Config->vehicle_type == "SKT-E")
 	 {
 		struWireCtrlOut.iThrottleOpening = WireInfo.actual_engine_torque(); // 油门
 
@@ -2064,6 +2156,7 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_getFeedbackData()
 
 		// struWireCtrlOut.iHeadingAngle = struGpsInfo.gps_yaw();							// 航向角
 		struWireCtrlOut.iRemainingOil = WireInfo.SOC();					//剩余电量
+		
 		struWireCtrlOut.iWaterTemp = 0;									//水温 电车无水温
 		if (finitTalDistance == 0)
 		{
@@ -2073,7 +2166,7 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_getFeedbackData()
 		struWireCtrlOut.iSubtotalMileage = (WireInfo.total_vehicle_distance() - finitTalDistance) / 1000;
 	 }
 	 /* 20250306 增加130混型数据解析 ----- start*/
-	 else if(vehicle_type == "SKT-H"){
+	 else if(m_Config->vehicle_type == "SKT-H"){
 		struWireCtrlOut.iThrottleOpening = WireInfo.accel_pedal_position(); // 油门
 
 		/* 20250306 调整发动机转速，实际范围为0~5000 ，传递 0~40000，舱端同步做调整 与油车一致 ----- start*/
@@ -2260,9 +2353,10 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_Rolling()
 	return g_u8RollNeedStopFlg;
 }
 
+/*重置数据*/
 SANY_U8 Protocol_Cockpit::ProtoCockpit_initCtrlData()
 {
-	if(vehicle_type == "SKT-E" || vehicle_type == "SKT-H")
+	if(m_Config->vehicle_type == "SKT-E" || m_Config->vehicle_type == "SKT-H")
 	{
 		struWireCtrlIn.iGearOpening = 0;
 	}
@@ -2374,7 +2468,6 @@ float Protocol_Cockpit::ProtoCockpit_SlopeStart(){
 	}
 	//return return_brake;
 }
-
 //降档
 SANY_U8 Protocol_Cockpit::ProtoCockpit_DownshiftDecision(){
     MINE_LOG(SANY_LOG_INFO, "ProtoCockpit_DownshiftDecision\n");
@@ -2437,9 +2530,9 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_getCtrlDate(ImpleResultInfo *pCtrlInfo)
 	// 		pCtrlInfo->Remote_enable(5);
 	// 		pCtrlInfo->unmanned_enable(0);
 	// }
-			
+	
 	// 20250115 增加条件 响应状态不是遥控时，下发的数据为初始化数据
-	if(g_u8LoginFlag == 0 || g_u8ResponseCtrlState != 2)
+	if(g_u8LoginFlag == 0 || g_u8ResponseCtrlState != Vehicle_Ctrl_Remote)
 	{
 		ProtoCockpit_initCtrlData();	
 		MINE_LOG(SANY_LOG_ERROR, "Login flag is :  %d, init control data!!\n", g_u8LoginFlag);
@@ -2459,7 +2552,7 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_getCtrlDate(ImpleResultInfo *pCtrlInfo)
 	pCtrlInfo->steering_angle_req((float)struWireCtrlIn.iWheelAngle * 0.1 - 40);
 	printf("steering angle  req: %f\n", pCtrlInfo->steering_angle_req());
 	/*-------------------档位，1-R, 3-D, 其他-N-------------------*/
-	if(vehicle_type == "SKT-I")
+	if(m_Config->vehicle_type == "SKT-I")
 	{
 		if (1 == struWireCtrlIn.iGearOpening) // R
 		{
@@ -2474,7 +2567,7 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_getCtrlDate(ImpleResultInfo *pCtrlInfo)
 			pCtrlInfo->trans_req_gear(0x7D); // 0x7D;
 		}
 	}
-	else if(vehicle_type == "SKT-E" || vehicle_type == "SKT-H")
+	else if(m_Config->vehicle_type == "SKT-E" || m_Config->vehicle_type == "SKT-H")
 	{
 		if (1 == struWireCtrlIn.iGearOpening) // R
 		{
@@ -2487,7 +2580,6 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_getCtrlDate(ImpleResultInfo *pCtrlInfo)
 		else // N
 		{
 			pCtrlInfo->trans_req_gear(0); // 0x7D;
-			
 		}
 	}
 	printf("ctrl gear: %d\n", pCtrlInfo->trans_req_gear());
@@ -2543,10 +2635,10 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_getCtrlDate(ImpleResultInfo *pCtrlInfo)
 		pCtrlInfo->outline_lamp_ctrl(true);
 	}
 
-	/*组合开关右*/
+	/*组合开关右*/	
 	if (struWireCtrlIn.iCombinedGearR & 0x01)
 	{
-		//  20260309 改为排气制动/补气  原雨刮喷水 
+			//  20260309 改为排气制动/补气  原雨刮喷水 
 		// pCtrlInfo->wiper_ctrl(true);
 
 		/* 20250220 liuss 将该物理按键改为130H补气开关：1.130无法加油补气；2. 领导指定排气制动；*/
@@ -2568,13 +2660,13 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_getCtrlDate(ImpleResultInfo *pCtrlInfo)
 		}
 		else{
 			pCtrlInfo->exhaust_brake_req(false);
-		}
-	}
+		}	
+	}	
 	//130
 	MINE_LOG(SANY_LOG_INFO, "receive Parking_airSup_state (%d)\n", pCtrlInfo->Parking_airSup_state());
-
 	if (struWireCtrlIn.iCombinedGearR & 0x02)
-	{   // 开雨刮低速 
+	{
+		// 开雨刮低速 
 		/*20260309 liuss 105e车型雨刮改为“蓬布开” -----start*/
 		if(vehicle_type == "SKT-E"){
 			g_tarControl_open = 1;
@@ -2621,8 +2713,6 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_getCtrlDate(ImpleResultInfo *pCtrlInfo)
 		// 开前照灯
 		pCtrlInfo->head_light_ctrl(true);
 	}
-	
-	
 	if (struWireCtrlIn.iKeyOperation1 & 0x20)
 	{
 		// 发动机排气制动开  20260309 改为雨刮喷水
@@ -2636,14 +2726,13 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_getCtrlDate(ImpleResultInfo *pCtrlInfo)
 	/*20260309 liuss 105e车型蓬布控制 -----start*/
 	pCtrlInfo->tarpaulin_control(ProtoCockpit_TarpaulinControl());
 	MINE_LOG(SANY_LOG_INFO, "receive tarpaulin control (%d), tarOpen (%d), tarClose (%d) \n", pCtrlInfo->tarpaulin_control(), g_tarControl_open, g_tarControl_close);
-	/*20260309 liuss 105e车型蓬布控制 -----end*/
+	/*20260309 liuss 105e车型蓬布控制 -----end*/	
 
 	if (struWireCtrlIn.iKeyOperation1 & 0x40)
 	{
-		// 轮差开 
+		// 轮差开
 		pCtrlInfo->axial_ctrl(true);
 	}
-	
 	if (struWireCtrlIn.iKeyOperation1 & 0x80)
 	{
 		// 举升开
@@ -2683,7 +2772,7 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_getCtrlDate(ImpleResultInfo *pCtrlInfo)
 	{
 		// 开发动机自检
 	}
-	if(vehicle_type == "SKT-I")
+	if(m_Config->vehicle_type == "SKT-I")
 	{
 		if((struWireCtrlIn.iKeyOperation2 & 0x80) && !WireInfo.drop_longo_position_status())
 		{
@@ -2703,7 +2792,7 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_getCtrlDate(ImpleResultInfo *pCtrlInfo)
 			pCtrlInfo->container_ctrl(0);
 		}
 	}
-	else if(vehicle_type == "SKT-E" || vehicle_type == "SKT-H")
+	else if(m_Config->vehicle_type == "SKT-E" || m_Config->vehicle_type == "SKT-H")
 	{
 		// 电车举升需取力
 		if((struWireCtrlIn.iKeyOperation2 & 0x80) && (struWireCtrlIn.iKeyOperation2 & 0x04))
@@ -2751,11 +2840,11 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_getCtrlDate(ImpleResultInfo *pCtrlInfo)
 	/*判断是否急停，请求急停则请求驻车*/
 	if (1 == g_u8EmergencyStopFlg || brakeLimitRET == RET_ERROR)
 	{
-		if("SKT-I" == vehicle_type)
+		if("SKT-I" == m_Config->vehicle_type)
 		{
 			pCtrlInfo->trans_req_gear(0x7D);		//N
 		}
-		else if ("SKT-E" == vehicle_type || vehicle_type == "SKT-H")
+		else if ("SKT-E" == m_Config->vehicle_type || m_Config->vehicle_type == "SKT-H")
 		{
 			pCtrlInfo->trans_req_gear(0);		//N
 		}
@@ -2804,6 +2893,293 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_CheckBrakeLimit(){
 	}
 	MINE_LOG(SANY_LOG_INFO, "BrakeStartLimit, g_BrakeLimitCount %d, g_u8ResponseCtrlState %d, iBrakeOPening %d\n", g_BrakeLimitCount, g_u8ResponseCtrlState, struWireCtrlIn.iBrakeOpening);
 	return RET_ERROR;
+}
+//障碍物
+SANY_U8 *Protocol_Cockpit::ProtoCockpit_getOneObstacleDataTest(SANY_U8 *pDataBuf, std::vector<DDS_SensorFuseResult> ObstacleVector, SANY_U16 cnt){
+	SensorFuseResult *pOneFuseResult = (SensorFuseResult *)pDataBuf;
+	SANY_U16 u16TmpData;
+	SANY_U16 u16ObstacleCnt = 4;
+	if(cnt != u16ObstacleCnt){
+		MINE_LOG(SANY_LOG_ERROR, " Obstacle Count error, size %d, cnt %d\n", u16ObstacleCnt, cnt);
+	}
+	MINE_LOG(SANY_LOG_INFO, "--- Pack Obstacle count(%d)--- start\n", u16ObstacleCnt);
+
+	for(SANY_U32 i = 0; i < (SANY_U32)u16ObstacleCnt; i++){
+		
+		MINE_LOG(SANY_LOG_INFO, "Obstacle i (%d), type (%d)\n", i, i%2);
+		if(i % 2 == 0){
+			pOneFuseResult->iObstacleType[0] = (SANY_U8)i;
+			MINE_LOG(SANY_LOG_INFO, "Obstacle Obstacle_type (%d)\n", pOneFuseResult->iObstacleType[0]);
+
+			u16TmpData = (int)((40 + i)*100);
+			SYS2NET(pOneFuseResult->iObstacleWidth, u16TmpData);
+			MINE_LOG(SANY_LOG_INFO, "Obstacle Obstacle_width (%d)\n", (int)u16TmpData);
+
+			u16TmpData = (int)((50 + i) *100);
+			SYS2NET(pOneFuseResult->iObstacleHeight, u16TmpData);
+			MINE_LOG(SANY_LOG_INFO, "Obstacle Obstacle_height (%d)\n", (int)u16TmpData);
+
+			u16TmpData = (int)((20 * i)*100);
+			SYS2NET(pOneFuseResult->iObstacleDistLong, u16TmpData);
+			MINE_LOG(SANY_LOG_INFO, "Obstacle Obstacle_dist_long (%d)\n", (int)u16TmpData);
+
+			u16TmpData = (int)((30 * i)*100);
+			SYS2NET(pOneFuseResult->iObstacleDisLat, u16TmpData);
+			MINE_LOG(SANY_LOG_INFO, "Obstacle Obstacle_dist_lat (%d)\n", (int)u16TmpData);
+		}else if(i % 2 == 1){
+			pOneFuseResult->iObstacleType[0] = 0x00;
+			
+			u16TmpData = (int)((60 * i) * (-1) * 100);
+			SYS2NET(pOneFuseResult->iObstacleDistLong, u16TmpData);
+			MINE_LOG(SANY_LOG_INFO, "Scatter scatter_x (%d)\n", (int)u16TmpData);
+			u16TmpData = (int)((70 * i) * 100);
+
+			SYS2NET(pOneFuseResult->iObstacleDisLat, u16TmpData);
+			u16TmpData = 0;
+			SYS2NET(pOneFuseResult->iObstacleHeight, u16TmpData);
+			SYS2NET(pOneFuseResult->iObstacleWidth, u16TmpData);
+			MINE_LOG(SANY_LOG_INFO, "Scatter scatter_x (%6f) scatter_y (%6f), \n");
+		}else{
+			MINE_LOG(SANY_LOG_ERROR, "Get Obstacle Type ERROR, i %d, type %d\n", i, ObstacleVector[i].type());
+		}
+		
+		pOneFuseResult = (SensorFuseResult *)pOneFuseResult->u8Next;
+		// pOneFuseResult = (SensorFuseResult *)((char *)pOneFuseResult + sizeof(SensorFuseResult));
+	}
+	MINE_LOG(SANY_LOG_INFO, "--- Pack Obstacle --- end\n");
+
+	return (SANY_U8*)pOneFuseResult;
+}
+//1205  适配2.7  idl
+SANY_U8 *Protocol_Cockpit::ProtoCockpit_getOneObstacleData(SANY_U8 *pDataBuf, std::vector<DDS_SensorFuseResult> ObstacleVector, SANY_U16 cnt){
+	SensorFuseResult *pOneFuseResult = (SensorFuseResult *)pDataBuf;
+	SANY_U16 u16TmpData;
+	SANY_U16 u16ObstacleCnt = ObstacleVector.size();
+	if(cnt != u16ObstacleCnt){
+		MINE_LOG(SANY_LOG_ERROR, " Obstacle Count error, size %d, cnt %d\n", u16ObstacleCnt, cnt);
+	}
+	MINE_LOG(SANY_LOG_INFO, "--- Pack Obstacle count(%d)--- start\n", u16ObstacleCnt);
+
+	for(SANY_U32 i = 0; i < (SANY_U32)u16ObstacleCnt; i++){
+		MINE_LOG(SANY_LOG_INFO, "Obstacle i (%d), type (%d)\n", i, ObstacleVector[i].type());
+		if(ObstacleVector[i].type() == 0){
+			pOneFuseResult->iObstacleType[0] = ObstacleVector[i].box().object_type() + 3; // 修改障碍物类型
+			MINE_LOG(SANY_LOG_INFO, "Obstacle Obstacle_type (%d) (%d)\n",pOneFuseResult->iObstacleType[0], (int)ObstacleVector[i].box().object_type());
+
+			u16TmpData = (int)(ObstacleVector[i].box().object_width() * 100);
+			SYS2NET(pOneFuseResult->iObstacleWidth, u16TmpData);
+			MINE_LOG(SANY_LOG_INFO, "Obstacle Obstacle_width (%d) (%8f)\n", (int)u16TmpData, ObstacleVector[i].box().object_width());
+
+			u16TmpData = (int)(ObstacleVector[i].box().object_height() * 100);
+			SYS2NET(pOneFuseResult->iObstacleHeight, u16TmpData);
+			MINE_LOG(SANY_LOG_INFO, "Obstacle Obstacle_height (%d) (%8f)\n", (int)u16TmpData, ObstacleVector[i].box().object_height());
+
+			u16TmpData = (int)(ObstacleVector[i].box().center()[1] * 100);
+			SYS2NET(pOneFuseResult->iObstacleDistLong, u16TmpData);
+			MINE_LOG(SANY_LOG_INFO, "Obstacle Obstacle_dist_long (%d) (%8f)\n", (int)u16TmpData, ObstacleVector[i].box().center()[1]);
+
+			u16TmpData = (int)(ObstacleVector[i].box().center()[0] * 100);
+			SYS2NET(pOneFuseResult->iObstacleDisLat, u16TmpData);
+			MINE_LOG(SANY_LOG_INFO, "Obstacle Obstacle_dist_lat (%d) (%8f)\n", (int)u16TmpData, ObstacleVector[i].box().center()[0]);
+		}else if(ObstacleVector[i].type() == 1){
+			pOneFuseResult->iObstacleType[0] = ObstacleVector[i].type();
+			
+			std::array<float, 3> &center = ObstacleVector[i].scatter().center();
+			u16TmpData = (int)(center[0] * 100);
+			// SYS2NET(pOneFuseResult->iObstacleDistLong, u16TmpData);
+			SYS2NET(pOneFuseResult->iObstacleDisLat, u16TmpData);
+			u16TmpData = (int)(center[1] * 100);
+
+			// SYS2NET(pOneFuseResult->iObstacleDisLat, u16TmpData);
+			SYS2NET(pOneFuseResult->iObstacleDistLong, u16TmpData);
+
+			u16TmpData = 0;
+			SYS2NET(pOneFuseResult->iObstacleHeight, u16TmpData);
+			SYS2NET(pOneFuseResult->iObstacleWidth, u16TmpData);
+			MINE_LOG(SANY_LOG_INFO, "Scatter type (%d)\n", pOneFuseResult->iObstacleType[0]);
+			MINE_LOG(SANY_LOG_INFO, "Scatter scatter_x (%6f) scatter_y (%6f), scatter_z (%6f)\n", center[0], center[1], center[2]);
+	
+		}else{
+			MINE_LOG(SANY_LOG_ERROR, "Get Obstacle Type ERROR, i %d, type %d\n", i, ObstacleVector[i].type());
+		}
+		
+		pOneFuseResult = (SensorFuseResult *)pOneFuseResult->u8Next;
+		// pOneFuseResult = (SensorFuseResult *)((char *)pOneFuseResult + sizeof(SensorFuseResult));
+	}
+	MINE_LOG(SANY_LOG_INFO, "--- Pack Obstacle --- end\n");
+
+	return (SANY_U8*)pOneFuseResult;
+}
+/*
+获取障碍物数据
+*/
+SANY_U8 *Protocol_Cockpit::ProtoCockpit_getFuseSensorData(SANY_U8 *pDataBuf){
+	CP_Other_Obstacle_Info_st *data = (CP_Other_Obstacle_Info_st *)pDataBuf;
+	SANY_U8 *pOneFuseResult = data->u8ObstacleData;
+
+	SANY_U16 u16TmpData;
+	SANY_U32 u32TmpData;
+
+	SANY_U16 u16FrontObstacleCnt = 0;
+	SANY_U16 u16BackObstacleCnt = 0;
+	// 先保存数据，防止解析途中数据被更新----
+	/*前  包围盒*/ 
+	// SANY_U32 u32Sec = (SANY_U32)(m_fuseFrontObstaclesInfo.stamp() / 1000);
+	// SANY_U32 u32Msec = (SANY_U32)(m_fuseFrontObstaclesInfo.stamp() % 1000);
+	bool isGetFront = false;
+
+	// if(pFuseFrontObstacleSub->getPublisherCount() != 0){
+		std::vector<DDS_SensorFuseResult> frontObstacleVector = m_fuseFrontObstaclesInfo.objects();
+		// MINE_LOG(SANY_LOG_INFO, "Obstacle Count 1\n");
+		u16FrontObstacleCnt = (SANY_U16)frontObstacleVector.size();
+		// MINE_LOG(SANY_LOG_INFO, "Obstacle Count 2\n");
+		isGetFront = true;
+	// }
+	// u16FrontObstacleCnt = 2;
+
+	/*后 包围盒*/
+	// if(pFuseBackObstacleSub->getPublisherCount() != 0){
+		std::vector<DDS_SensorFuseResult> backObstacleVector = m_fuseBackObstaclesInfo.objects();
+		// MINE_LOG(SANY_LOG_INFO, "Obstacle Count 3\n");
+		u16BackObstacleCnt = (SANY_U16)backObstacleVector.size();
+		// MINE_LOG(SANY_LOG_INFO, "Obstacle Count 4\n");
+	// }
+	// u16BackObstacleCnt = 2;
+
+	/*障碍物个数*/
+	SANY_U16 u16FuseCount = u16FrontObstacleCnt + u16BackObstacleCnt;
+	SYS2NET(data->u16ObstacleCount, u16FuseCount);
+	MINE_LOG(SANY_LOG_INFO, "Obstacle Count %d\n", u16FuseCount);
+
+	// ProtoCockpit_getOneObstacleDataTest(pOneFuseResult, frontObstacleVector, u16FuseCount);
+
+	
+	MINE_LOG(SANY_LOG_INFO, "--- Pack FrontObstacle --- start, %d\n", pOneFuseResult);
+
+	pOneFuseResult = ProtoCockpit_getOneObstacleData(pOneFuseResult, frontObstacleVector, u16FrontObstacleCnt);
+
+	MINE_LOG(SANY_LOG_INFO, "--- Pack FrontObstacle --- end, %d\n", pOneFuseResult);
+
+	/*后 包围盒*/
+
+	MINE_LOG(SANY_LOG_INFO, "--- Pack BackObstacle --- start, %d\n", pOneFuseResult);
+
+	pOneFuseResult = ProtoCockpit_getOneObstacleData(pOneFuseResult, backObstacleVector, u16BackObstacleCnt);
+	MINE_LOG(SANY_LOG_INFO, "--- Pack BackObstacle --- end, %d\n", pOneFuseResult);
+
+	return (SANY_U8*)pOneFuseResult;
+}
+
+SANY_U8 *Protocol_Cockpit::ProtoCockpit_getV2vData(SANY_U8 *pDataBuf){
+	CP_Other_V2v_Indo_st *data = (CP_Other_V2v_Indo_st *) pDataBuf;
+
+
+	SANY_U32 u32TmpData;
+	SANY_U16 u16TmpData;
+
+	/*v2v数据解析*/
+	std::vector<CloudVehicleInfo> v2vInfoVector = m_V2vInfo.vehicles();
+	SANY_U16 u16V2vCount = (SANY_U16)v2vInfoVector.size();
+	// u16V2vCount = 2;
+
+	/*V2V个数*/
+	SYS2NET(data->u16V2vCount, u16V2vCount);
+	V2vResult *pOneV2vResult = (V2vResult *)data->u8V2vData;
+
+	MINE_LOG(SANY_LOG_INFO, "--- Receive V2VInfo count (%d) --- start\n", u16V2vCount);
+	for(SANY_U32 i = 0; i < (SANY_U32)u16V2vCount; ++i){
+
+		MINE_LOG(SANY_LOG_INFO, "V2vInfo i (%d)\n", i);
+		pOneV2vResult->iType[0] = (v2vInfoVector[i].device_type());
+		// pOneV2vResult->iType[0] = (SANY_U8)i;
+		MINE_LOG(SANY_LOG_INFO, "V2vInfo Type (%d) \n", (int)(v2vInfoVector[i].device_type()));
+
+
+		u32TmpData = (SANY_U32)((v2vInfoVector[i].longitude() + 180)* 10000000.0);
+		// u32TmpData = (int)((12.0004131 + 90) * 10000000 + i);
+		// *(SANY_U32 *)&(pOneV2vResult->iLontitude) = SYS2NET4((SANY_U8 *)&u32TmpData);
+		SYS2NET4(pOneV2vResult->iLontitude, u32TmpData);
+		MINE_LOG(SANY_LOG_INFO, "V2vInfo Lontitude (%u) (%8f)\n", u32TmpData, v2vInfoVector[i].longitude());
+		
+		u32TmpData = (SANY_U32)((v2vInfoVector[i].latitude() + 90) * 10000000.0);
+		// u32TmpData = (int)((30.7938293 + 180 ) * 10000000 + i);
+		// *(SANY_U32 *)&(pOneV2vResult->iLatitude) = SYS2NET4((SANY_U8 *)&u32TmpData);
+		SYS2NET4(pOneV2vResult->iLatitude, u32TmpData);
+		MINE_LOG(SANY_LOG_INFO, "V2vInfo Latitude (%u) (%8f)\n", u32TmpData, v2vInfoVector[i].latitude());
+
+		
+		u16TmpData = (SANY_U16)(v2vInfoVector[i].heading() * 10);
+		// u16TmpData = (int)(14.101 * 1000 + i);
+		SYS2NET(pOneV2vResult->iHeadingAngle, u16TmpData);
+		MINE_LOG(SANY_LOG_INFO, "V2vInfo Heading (%d) (%8f)\n", (int)u16TmpData, v2vInfoVector[i].heading());
+
+		pOneV2vResult = (V2vResult *)(pOneV2vResult->u8Next);
+	}
+	MINE_LOG(SANY_LOG_INFO, "--- Receive V2VInfo --- end\n");
+	return (SANY_U8 *)pOneV2vResult;
+}
+
+/* 打包发送车辆周围信息数据 */
+SANY_U8 Protocol_Cockpit::ProtoCockpit_SendOtherVehicleInfo(){
+	SANY_U8 u8Ret = RET_OK;
+	SANY_U8 u8DataBuf[PROTO_PACK_MAX_LEN] = {0};
+	SANY_U32 u32TmpData = 0;
+	SANY_U32 u32DataLen = 0;
+
+	CP_Header_st *pHeadST = (CP_Header_st *)u8DataBuf;
+	CP_Other_Vehicle_Info_Cmd_st *pDataST= (CP_Other_Vehicle_Info_Cmd_st *)pHeadST->ucData;
+	SANY_U8 *pDataBuf = pDataST->u8Next;
+
+	/* 填充消息内容 时间戳 */
+	u8Ret = ProtoCockpit_GetLocalTime(pDataST->ucTime);
+
+	/* 本车的经纬度*/
+	// 经度
+	u32TmpData = (SANY_U32)((struGpsInfo.gps_lng() + 180)* 10000000.0);
+	// *(SANY_U32 *)&(pDataST->u8Lontitude) = SYS2NET4((SANY_U8 *)&u32TmpData);
+	SYS2NET4(pDataST->u8Lontitude, u32TmpData);
+	// MINE_LOG(SANY_LOG_INFO, "iVehicleLontitude (%8f), (%8f), (%u)\n", (struGpsInfo.gps_lng() + 180), ((struGpsInfo.gps_lng() + 180)* 10000000.0), (SANY_U32)((struGpsInfo.gps_lng() + 180)* 10000000.0));
+	MINE_LOG(SANY_LOG_INFO, "iVehicleLontitude (%u) (%8f)\n", u32TmpData, struGpsInfo.gps_lng());
+
+	// 维度
+	u32TmpData = (SANY_U32)((struGpsInfo.gps_lat() + 90) * 10000000.0);
+	// *(SANY_U32 *)&(pDataST->u8Latitude) = SYS2NET4((SANY_U8 *)&u32TmpData);
+	SYS2NET4(pDataST->u8Latitude, u32TmpData);
+	// MINE_LOG(SANY_LOG_INFO, "iVehicleLatitude (%8f), (%8f)\n", (struGpsInfo.gps_lat() + 90), ((struGpsInfo.gps_lat() + 90) * 10000000.0));
+	MINE_LOG(SANY_LOG_INFO, "iVehicleLatitude (%u) (%8f)\n", u32TmpData, struGpsInfo.gps_lat() );
+
+	MINE_LOG(SANY_LOG_INFO, "FuseSensorData start %d\n", pDataBuf);
+	/*获取障碍物数据*/
+	pDataBuf = ProtoCockpit_getFuseSensorData(pDataBuf);
+	MINE_LOG(SANY_LOG_INFO, "FuseSensorData over %d\n", pDataBuf);
+	/*获取V2V数据*/
+	pDataBuf = ProtoCockpit_getV2vData(pDataBuf);
+	MINE_LOG(SANY_LOG_INFO, "V2vData over %d\n", pDataBuf);
+	
+	/* 计算消息长度 */
+	SYS2NET(pHeadST->ucDataByteSize, (pDataBuf - pHeadST->ucData));
+	SANY_U32 u32Datalen1 = NET2SYS(pHeadST->ucDataByteSize);
+
+	/* 创建消息头 */
+	ProtoCockpit_PackHeader(EV_CP_OTHER_VEHICLE_INFO, EV_WP_CMD, pHeadST);
+
+	/* 计算Check Sum */
+	pHeadST->ucData[u32Datalen1] = ProtoCockpit_CalcXOR((SANY_U8 *)pHeadST, u32Datalen1 + sizeof(CP_Header_st));
+	
+	u32DataLen += sizeof(CP_Header_st) + u32Datalen1+ 1;
+
+	MINE_LOG(SANY_LOG_INFO, "OtherVehicleBuffer (%d)\n", u32DataLen);
+
+	u8Ret = ProtoCockpit_WriteSendBuffer(u8DataBuf, u32DataLen);
+
+	MINE_LOG(SANY_LOG_INFO, "OtherVehicleBuffer writesendBuffer (%d)\n", u8Ret);
+
+	// MINE_LOG(SANY_LOG_INFO, "OtherVehicleBuffer (%x)", u8DataBuf);
+	// for (SANY_U32 i = 0; i < u32DataLen; i++) {
+	// 	MINE_LOG(SANY_LOG_INFO, "%02x ", u8DataBuf[i]);
+	// }
+	// MINE_LOG(SANY_LOG_INFO, " ----over\n");
+	return u8Ret;
 }
 
 /*初始化函数列表数组*/
