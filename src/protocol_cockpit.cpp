@@ -2607,12 +2607,25 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_getCtrlDate(ImpleResultInfo *pCtrlInfo)
 	if (struWireCtrlIn.iCombinedGearL & 0x01)
 	{
 		// 开左转向
-		pCtrlInfo->left_turn_signal_ctrl(true);
+		//pCtrlInfo->left_turn_signal_ctrl(true);
+		//改为篷布打开
+		g_tarControl_open = 1;
+
+
+	}
+	else{
+		g_tarControl_open = 0;
 	}
 	if (struWireCtrlIn.iCombinedGearL & 0x02)
 	{
 		// 开右转向
-		pCtrlInfo->right_turn_signal_ctrl(true);
+		//pCtrlInfo->right_turn_signal_ctrl(true);
+		//改为篷布关闭
+		g_tarControl_close = 1;
+
+	}
+	else{
+		g_tarControl_close = 0;
 	}
 	if (struWireCtrlIn.iCombinedGearL & 0x04)
 	{
@@ -2645,9 +2658,9 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_getCtrlDate(ImpleResultInfo *pCtrlInfo)
 		if(vehicle_type == "SKT-H"){ // 130补气开关
 			pCtrlInfo->Parking_airSup_state(true);
 		}
-		else if(vehicle_type == "SKT-E"){ // 20260309 105e 蓬布关
-			g_tarControl_close = 1;
-		}
+		//else if(vehicle_type == "SKT-E"){ // 20260309 105e 蓬布关
+		//	g_tarControl_close = 1;
+		//}
 		else{// 排气制动
 			pCtrlInfo->exhaust_brake_req(true);
 		}
@@ -2666,8 +2679,9 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_getCtrlDate(ImpleResultInfo *pCtrlInfo)
 	MINE_LOG(SANY_LOG_INFO, "receive Parking_airSup_state (%d)\n", pCtrlInfo->Parking_airSup_state());
 	if (struWireCtrlIn.iCombinedGearR & 0x02)
 	{
+		pCtrlInfo->wiper_low_speed_ctrl(true);
 		// 开雨刮低速 
-		/*20260309 liuss 105e车型雨刮改为“蓬布开” -----start*/
+		/*20260309 liuss 105e车型雨刮改为“蓬布开” -----start
 		if(vehicle_type == "SKT-E"){
 			g_tarControl_open = 1;
 		}else{
@@ -2675,11 +2689,12 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_getCtrlDate(ImpleResultInfo *pCtrlInfo)
 		}
 		/*20260309 liuss 105e车型雨刮改为“蓬布开” -----start*/
 	}else{
-		if(vehicle_type == "SKT-E"){
+		pCtrlInfo->wiper_low_speed_ctrl(false);
+		/*if(vehicle_type == "SKT-E"){
 			g_tarControl_open = 0;
 		}else{
 			pCtrlInfo->wiper_low_speed_ctrl(false);
-		}
+		}*/
 	}
 	if (struWireCtrlIn.iCombinedGearR & 0x04)
 	{
