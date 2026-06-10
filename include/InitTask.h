@@ -8,6 +8,7 @@
 #include "./common/read_ini.h"
 #include "./protoDef.h"
 #include "./common/yaml.h"
+#include "./terminal_client.h"
 #include "./protocol_cockpit.h"
 
 // #include <zkbs/ddsBase/ddsPubBase.h>

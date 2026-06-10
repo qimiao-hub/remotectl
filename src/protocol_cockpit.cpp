@@ -24,7 +24,7 @@
 #include "../include/protoDef.h"
 #include "../include/protocol_cockpit.h"
 
-
+#define BACK_LIDAR_CURB_MESSAGE "back_lidar_curb_message"
 		
 /*底盘反馈信息*/
 static WirectlFeedbackInfo WireInfo;
@@ -35,7 +35,8 @@ static SafeFeedbackInfo struSafeFeedbackInfo;
 
 void wireFeedbackCallback(WirectlFeedbackInfo *info)
 {
-	if(1 == g_u8TaskStartFlag){
+	if(1 == g_u8TaskStartFlag)
+	{
 		// memcpy(&pCockpit->OldWireInfo, &pCockpit->WireInfo, sizeof(WirectlFeedbackInfo));
 		memcpy(&WireInfo, info, sizeof(WirectlFeedbackInfo));
 	}
@@ -44,7 +45,8 @@ void wireFeedbackCallback(WirectlFeedbackInfo *info)
 
 void gpsFeedbackCallback(GpsImuInfo *info)
 {
-	if(1 == g_u8TaskStartFlag){
+	if(1 == g_u8TaskStartFlag)
+	{
 		memcpy(&struGpsInfo, info, sizeof(GpsImuInfo));
 	}
 	return;
@@ -52,7 +54,8 @@ void gpsFeedbackCallback(GpsImuInfo *info)
 
 void safeFeedbackCallback(SafeFeedbackInfo *info)
 {
-	if(1 == g_u8TaskStartFlag){
+	if(1 == g_u8TaskStartFlag)
+	{
 		memcpy(&struSafeFeedbackInfo, info, sizeof(SafeFeedbackInfo));
 	}
 	return;
@@ -60,6 +63,15 @@ void safeFeedbackCallback(SafeFeedbackInfo *info)
 
 
 
+ /*挡墙边界回调*/
+void Protocol_Cockpit::fusionCurbMsgCallback(DDS_FusionCurbMessage &data){
+    if(1 == g_u8TaskStartFlag)
+	{
+		memcpy(&m_fusionCurbMsg, &data, sizeof(DDS_FusionCurbMessage));
+		MINE_LOG(SANY_LOG_INFO, "Receive fusionCurbMessage dis (%f), copy (%f)\n", data.distance(), m_fusionCurbMsg.distance());
+	}
+	return;
+}
 /********************************************************************
  * 函数名称:      Protocol_Cockpit构造函数
  * 描述:        将该协议中相关全局变量进行初始化
@@ -99,6 +111,11 @@ void Protocol_Cockpit::InitProtocol(){
 	g_u8RollNeedStopFlg = 0;
 	g_BrakeLimitCount = 0;
 
+	g_dumpBack_minD1 = std::numeric_limits<float>::max();
+	g_dumpBack_dist_to_end = std::numeric_limits<float>::max();
+	g_dumpBack_curb_force_stop = false;
+	g_dumpBack_pitch_force_stop = false;
+	g_dumpBack_throttle_limit = false;
 	/*底盘数据相关订阅*/
 	pDataTypeWire = new WirectlFeedbackInfoPubSubType();
 	pSubWire = new ddsSubscriber<WirectlFeedbackInfo>(pDataTypeWire, &wireFeedbackCallback);
@@ -112,6 +129,10 @@ void Protocol_Cockpit::InitProtocol(){
 	pSubSafe = new ddsSubscriber<SafeFeedbackInfo>(pDataTypeSafe, &safeFeedbackCallback);
 	MINE_LOG(SANY_LOG_INFO, "CREATE SAFE SUBSCRIBER!!\n");
 
+	/* 20260525 挡墙数据订阅 */ 
+    pDataFusionCurbMsg = new DDS_FusionCurbMessagePubSubType();
+    pSubFusionCurbMsg = new ddsSubscriber<DDS_FusionCurbMessage>(BACK_LIDAR_CURB_MESSAGE, pDataFusionCurbMsg, std::bind(&Protocol_Cockpit::fusionCurbMsgCallback, this, std::placeholders::_1));
+	MINE_LOG(SANY_LOG_INFO, "CREATE curb SUBSCRIBER!! publisher (%d)\n", pSubFusionCurbMsg->getPublisherCount());
 	/*遥控驾驶控制数据*/
 	pDataTypeImple = new ImpleResultInfoPubSubType();
 	pPubImple = new ddsPublisher<ImpleResultInfo>(pDataTypeImple);
@@ -124,6 +145,7 @@ void Protocol_Cockpit::InitProtocol(){
 	bzero(&struGpsInfo, sizeof(struGpsInfo));
 	bzero(&imple_result_info, sizeof(imple_result_info));
 	bzero(&struSafeFeedbackInfo, sizeof(struSafeFeedbackInfo));
+	bzero(&m_fusionCurbMsg, sizeof(m_fusionCurbMsg));
 
 	// 初始化数据缓冲区
 	ProtoCockpit_SendBufferInit();
@@ -145,6 +167,8 @@ void Protocol_Cockpit::InitProtocol(){
 	{
 		MINE_LOG(SANY_LOG_ERROR, "create threadTask thread error!\n");
 	}
+	// 创建边界
+	m_polygonBodary = new Polygon_Boundary();
 }
 
 /*重置变量*/
@@ -156,6 +180,11 @@ void Protocol_Cockpit::Task_Reset(){
 	g_u8EmergencyStopFlg = 0;
 	g_u8RollNeedStopFlg = 0;
 	g_BrakeLimitCount = 0;
+	g_dumpBack_minD1 = std::numeric_limits<float>::max();
+	g_dumpBack_dist_to_end = std::numeric_limits<float>::max();
+	g_dumpBack_curb_force_stop = false;
+	g_dumpBack_pitch_force_stop = false;
+	g_dumpBack_throttle_limit = false;
 	MINE_LOG(SANY_LOG_INFO, "Clear Flags\n");
 
 	bzero(&struWireCtrlIn, sizeof(struWireCtrlIn));
@@ -164,6 +193,7 @@ void Protocol_Cockpit::Task_Reset(){
 	bzero(&struGpsInfo, sizeof(struGpsInfo));
 	bzero(&imple_result_info, sizeof(imple_result_info));
 	bzero(&struSafeFeedbackInfo, sizeof(struSafeFeedbackInfo));
+	bzero(&m_fusionCurbMsg, sizeof(m_fusionCurbMsg));
 	MINE_LOG(SANY_LOG_INFO, "Clear structDatas\n");
 
 	// pthread_mutex_lock(&RecvBufferMutex);
@@ -210,6 +240,7 @@ void Protocol_Cockpit::Task_start()
 	m_pFailureSDK->report(FailureModule_Nebula_RemoteCtrl, 3204, 1, 0);
 	m_pFailureSDK->report(FailureModule_Nebula_RemoteCtrl, 3204, 3, 0);
 	g_u8LoginFlag = 0;
+	m_Config->ReadRemoteConfig();
 	g_u8TaskStartFlag = 1;
 	// sleep(2);
 	MINE_LOG(SANY_LOG_INFO, "ONE REMOTE TASK START\n");
@@ -263,6 +294,9 @@ void Protocol_Cockpit::funcTask(){
 			}
 			if (1 == g_u8CtrlState)
 			{
+				if(m_Config->dumpBack_isOpen){
+					ProtoCockpit_DumpBackSafeCheck();
+				}
 				/*获取通信模块遥控控制数据*/
 				ProtoCockpit_getCtrlDate(&imple_result_info);
 				/*遥控提示现场*/
@@ -292,17 +326,21 @@ void Protocol_Cockpit::funcTask(){
 					ProtoCockpit_getCtrlDate(&imple_result_info);
 					imple_result_info.Remote_enable(5);
 					imple_result_info.unmanned_enable(1);
+					#if FLAG_130
 					/* 20250220 liuss 将该物理按键改为130H补气开关：1.130无法加油补气；2. 领导指定排气制动；-----start*/
 					imple_result_info.Parking_airSup_state(false);
 					/* 20250220 liuss 将该物理按键改为130H补气开关：1.130无法加油补气；2. 领导指定排气制动；-----end*/
+					#endif
 					pPubImple->publish(imple_result_info);
 					Remote_Enable5++;
+					#if FLAG_130
 					// 130
 					MINE_LOG(SANY_LOG_INFO, "exit from remote-control, Remote_enable: %d, current Gear: %d, BrakeOpening: %f, Parking State: %d, Parking airSup State: %d\n",
 						imple_result_info.Remote_enable(), imple_result_info.trans_req_gear(), imple_result_info.traffic_brake_req(), imple_result_info.parking_req(), imple_result_info.Parking_airSup_state());
+					#else
 					// 105
 					MINE_LOG(SANY_LOG_INFO, "exit from remote-control, Remote_enable: %d, current Gear: %d, BrakeOpening: %f, Parking State: %d\n",imple_result_info.Remote_enable(), imple_result_info.trans_req_gear(), imple_result_info.traffic_brake_req(), imple_result_info.parking_req());
-			
+					#endif
 				}	
 			}
 		}else{
@@ -358,7 +396,7 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_PackHeader(SANY_U8 u8Cmd, SANY_U8 u8AckFl
 	pst_DataBuf->ucCommand[0] = u8Cmd;
 	pst_DataBuf->ucAckflg[0] = u8AckFlg;
 	/*-------------------------------------------------后续添加VIN------------------------------------------------------------------------*/
-	memcpy((SANY_S8 *)pst_DataBuf->ucVIN, vehicle_vin.c_str(), WP_VIN_SIZE); // #define VIN "SKT90202011300002"
+	memcpy((SANY_S8 *)pst_DataBuf->ucVIN, m_Config->vehicle_vin.c_str(), WP_VIN_SIZE); // #define VIN "SKT90202011300002"
 	pst_DataBuf->ucEncryption[0] = EV_WP_NO_ENCRYPT;
 
 	return RET_OK;
@@ -457,7 +495,7 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_GetSequenceNum(SANY_U8 *pu8SeqNum)
  ***************************************************************************/
 SANY_U8 Protocol_Cockpit::ProtoCockpit_GetICCID(SANY_U8 *pu8Iccid)
 {
-	memcpy(pu8Iccid, vehicle_iccid.c_str(), 20);
+	memcpy(pu8Iccid, m_Config->vehicle_iccid.c_str(), 20);
 	// MINE_LOG(SANY_LOG_INFO, "Device ICCID is %s\n", pu8Iccid);
 
 	return RET_OK;
@@ -634,6 +672,16 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_RecvAckLoginPacket(Protocol_Cockpit_Buffe
 	m_pFailureSDK->report(FailureModule_Nebula_RemoteCtrl, 3201, 12, 0);
 	m_pFailureSDK->report(FailureModule_Nebula_RemoteCtrl, 3201, 13, 0);
 
+	// 加载排土场边界文件
+	if(m_Config->dumpBack_isOpen){
+		if(m_polygonBodary->loadBoundary()){
+			g_boundary_load = true;
+			MINE_LOG(SANY_LOG_INFO, "load dump boundary success !!!\n");
+		}else{
+			g_boundary_load = false;
+			MINE_LOG(SANY_LOG_ERROR, "load dump boundary failed !!!\n");
+		}
+	}
 	/* 开启实时上报 */
 	// g_u32RTDataFlg = 1;
 	/* 开启状态变化上报 */
@@ -1183,8 +1231,8 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_SendCmdLogin()
 		return RET_ERROR;
 	}
 
-	memcpy(dataST->ucHardVer, vehicle_HardVer.c_str(), 4);
-	memcpy(dataST->ucSoftVer, vehicle_SoftVer.c_str(), 4);
+	memcpy(dataST->ucHardVer, m_Config->vehicle_HardVer.c_str(), 4);
+	memcpy(dataST->ucSoftVer, m_Config->vehicle_SoftVer.c_str(), 4);
 	//车辆驾驶状态 
 	if((WireInfo.vcu_state() == 5) && (WireInfo.Remote_or_Unman() == 8))
 	{
@@ -1344,6 +1392,63 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_SendCmdRealtimeRep()
 	return u8Ret;
 }
 
+SANY_U8 Protocol_Cockpit::ProtoCockpit_SendCmdDumpBackSafeRep(){
+		SANY_U8 u8Ret = RET_OK;
+	SANY_U8 u8Ret_Data = RET_OK;
+	SANY_U8 u8DataBuf[PROTO_PACK_MAX_LEN] = {0};
+	SANY_U32 u32DataLen = 0;
+	SANY_U16 u16TmpDate = 0;
+	SANY_U32 u32TmpDate = 0;
+
+	CP_Header_st *pHeadST = (CP_Header_st *)u8DataBuf;
+	CP_Dump_Back_Rep_st *pDataST = (CP_Dump_Back_Rep_st *)pHeadST->ucData;
+
+	/* 填充消息内容 */
+	u8Ret = ProtoCockpit_GetLocalTime(pDataST->ucTime);
+
+	/*边界距离*/
+	u16TmpDate = (int)(g_dumpBack_minD1 * 100);					
+	SYS2NET(pDataST->ucMinD1, u16TmpDate);
+	/*挡墙距离*/
+	u16TmpDate = (int)(m_fusionCurbMsg.distance() * 100);
+	SYS2NET(pDataST->ucD2, u16TmpDate);
+	/*实时距离 */
+	u16TmpDate = (int)(g_dumpBack_dist_to_end * 100);
+	SYS2NET(pDataST->ucDisToEnd, u16TmpDate);
+	/*挡墙过近停车标志*/
+	pDataST->ucCurbStop[0] = (SANY_U8)g_dumpBack_curb_force_stop;
+	/*抚养较异常停车状态*/
+	pDataST->ucPitchStop[0] = (SANY_U8)g_dumpBack_pitch_force_stop;
+	/*油门补偿*/
+	pDataST->ucThrottleCom[0] = (SANY_U8)g_dumpBack_throttle_compensation;
+	
+
+	MINE_LOG(SANY_LOG_INFO, "--- ProtoCockpit_SendCmdDumpBackSafeRep --- start\n");
+	MINE_LOG(SANY_LOG_INFO, "iMinD1 %d\n", (int)(g_dumpBack_minD1 * 100));
+	MINE_LOG(SANY_LOG_INFO, "iD2 %d\n", (int)m_fusionCurbMsg.distance() * 100);
+	MINE_LOG(SANY_LOG_INFO, "iDisToEnd %d\n", (int)(g_dumpBack_dist_to_end * 100));
+	MINE_LOG(SANY_LOG_INFO, "iCurbStop %d\n", (int)(g_dumpBack_curb_force_stop));
+	MINE_LOG(SANY_LOG_INFO, "iPitchStop %d\n", (int)(g_dumpBack_pitch_force_stop));				//
+	MINE_LOG(SANY_LOG_INFO, "iThrottleCom %d\n", (int)(g_dumpBack_throttle_compensation));
+	MINE_LOG(SANY_LOG_INFO, "--- ProtoCockpit_SendCmdDumpBackSafeRep --- end\n");
+
+	/* 计算消息长度 */
+	SYS2NET(pHeadST->ucDataByteSize, (sizeof(CP_Realtime_Rep_Cmd_st)));
+
+	/* 创建消息头 */
+	ProtoCockpit_PackHeader(EV_CP_DUMP_BACK_SAFE_REP, EV_WP_CMD, pHeadST);
+
+	u32DataLen = sizeof(CP_Realtime_Rep_Cmd_st);
+	/* 计算Check Sum */
+	pHeadST->ucData[u32DataLen] = ProtoCockpit_CalcXOR((SANY_U8 *)pHeadST, u32DataLen + sizeof(CP_Header_st));
+	u32DataLen += sizeof(CP_Header_st) + 1;
+
+	MINE_LOG(SANY_LOG_INFO, "ProtoCockpit_SendCmdDumpBackSafeRep\n");
+
+	u8Ret = ProtoCockpit_WriteSendBuffer(u8DataBuf, u32DataLen);
+
+	return u8Ret;
+}
 /*******************************************************************************
  * 函数名称:      ProtoCockpit_HeartCheck
  * 描述:      未控车时监测心跳，控车时监测控车数据
@@ -1361,11 +1466,11 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_HeartCheck(const SANY_U32 Losttimes)
 		{
 			if (500  <= Losttimes)
 			{
-				if(vehicle_type == "SKT-I")
+				if(m_Config->vehicle_type == "SKT-I")
 				{
 					struWireCtrlIn.iGearOpening = 0x7D;
 				}
-				else if(vehicle_type== "SKT-E" || vehicle_type == "SKT-H")
+				else if(m_Config->vehicle_type== "SKT-E" || m_Config->vehicle_type == "SKT-H")
 				{
 					struWireCtrlIn.iGearOpening = 0;
 				}
@@ -1687,6 +1792,10 @@ void Protocol_Cockpit::funcAppUploadData()
 					if(0 == (u32Tick % SEND_RTDATA_UPLOAD_TICK))
 					{
 						u8Ret = ProtoCockpit_SendCmdRealtimeRep();
+						MINE_LOG(SANY_LOG_ERROR, "ProtoCockpit_SendCmdRealtimeRep ret %d!!\n", u8Ret);
+						u8Ret = ProtoCockpit_SendCmdDumpBackSafeRep();
+						MINE_LOG(SANY_LOG_ERROR, "ProtoCockpit_SendCmdDumpBackSafeRep ret %d!!\n", u8Ret);
+						
 						if (RET_OK != u8Ret)
 						{
 							MINE_LOG(SANY_LOG_ERROR, "ProtoCockpit_SendCmdRealtimeRep err!!\n");
@@ -2036,7 +2145,7 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_getFeedbackData()
 		g_BrakeLimitCount = 0;
 	}
 
-	if (vehicle_type == "SKT-I")
+	if (m_Config->vehicle_type == "SKT-I")
 	 {
 		struWireCtrlOut.iThrottleOpening = WireInfo.accel_pedal_position(); // 油门
 
@@ -2054,7 +2163,7 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_getFeedbackData()
 		/*小计里程 = 总里程-初始里程*/
 		struWireCtrlOut.iSubtotalMileage = (WireInfo.total_vehicle_distance() - finitTalDistance);
 	 }
-	else if(vehicle_type == "SKT-E")
+	else if(m_Config->vehicle_type == "SKT-E")
 	 {
 		struWireCtrlOut.iThrottleOpening = WireInfo.actual_engine_torque(); // 油门
 
@@ -2073,7 +2182,7 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_getFeedbackData()
 		struWireCtrlOut.iSubtotalMileage = (WireInfo.total_vehicle_distance() - finitTalDistance) / 1000;
 	 }
 	 /* 20250306 增加130混型数据解析 ----- start*/
-	 else if(vehicle_type == "SKT-H"){
+	 else if(m_Config->vehicle_type == "SKT-H"){
 		struWireCtrlOut.iThrottleOpening = WireInfo.accel_pedal_position(); // 油门
 
 		/* 20250306 调整发动机转速，实际范围为0~5000 ，传递 0~40000，舱端同步做调整 与油车一致 ----- start*/
@@ -2262,7 +2371,7 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_Rolling()
 
 SANY_U8 Protocol_Cockpit::ProtoCockpit_initCtrlData()
 {
-	if(vehicle_type == "SKT-E" || vehicle_type == "SKT-H")
+	if(m_Config->vehicle_type == "SKT-E" || m_Config->vehicle_type == "SKT-H")
 	{
 		struWireCtrlIn.iGearOpening = 0;
 	}
@@ -2451,13 +2560,23 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_getCtrlDate(ImpleResultInfo *pCtrlInfo)
 	// 2.3.3 增加默认值
 	pCtrlInfo->on_start_enable(false);
 	/*-------------------油门，0-100-------------------*/
-	pCtrlInfo->engine_req_torque((float)struWireCtrlIn.iThrottleOpening);
+	const float raw_throttle = (float)struWireCtrlIn.iThrottleOpening;
+	const float base_limit = m_Config->full_back_throttle_limit;     // 基准值
+	float final_throttle = raw_throttle;
+	if(raw_throttle >  base_limit && g_dumpBack_throttle_limit == true){
+		final_throttle = std::min(raw_throttle, g_dumpBack_throttle_compensation + base_limit);
+		final_throttle = std::max(0.0f, std::min(final_throttle, m_Config->vehile_back_throttle_max));
+	}
+	pCtrlInfo->engine_req_torque(final_throttle);
+	
+	MINE_LOG(SANY_LOG_INFO, "throttle, ori (%f), com (%f), base limit (%f), final (%f), limit flag (%d)\n", raw_throttle, g_dumpBack_throttle_compensation, base_limit, final_throttle, g_dumpBack_throttle_limit ?1 :0);
+
 	printf("engine_req_torque: %f\n", pCtrlInfo->engine_req_torque());
 	/*-------------------车轮转角，-40  -40--------------------*/
 	pCtrlInfo->steering_angle_req((float)struWireCtrlIn.iWheelAngle * 0.1 - 40);
 	printf("steering angle  req: %f\n", pCtrlInfo->steering_angle_req());
 	/*-------------------档位，1-R, 3-D, 其他-N-------------------*/
-	if(vehicle_type == "SKT-I")
+	if(m_Config->vehicle_type == "SKT-I")
 	{
 		if (1 == struWireCtrlIn.iGearOpening) // R
 		{
@@ -2472,7 +2591,7 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_getCtrlDate(ImpleResultInfo *pCtrlInfo)
 			pCtrlInfo->trans_req_gear(0x7D); // 0x7D;
 		}
 	}
-	else if(vehicle_type == "SKT-E" || vehicle_type == "SKT-H")
+	else if(m_Config->vehicle_type == "SKT-E" || m_Config->vehicle_type == "SKT-H")
 	{
 		if (1 == struWireCtrlIn.iGearOpening) // R
 		{
@@ -2597,19 +2716,25 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_getCtrlDate(ImpleResultInfo *pCtrlInfo)
 		// 发动机排气制动开
 		// pCtrlInfo->exhaust_brake_req(true);
 		if(vehicle_type == "SKT-H"){
+			#if FLAG_130
 			pCtrlInfo->Parking_airSup_state(true);
+			#endif
 		}else{
 			pCtrlInfo->exhaust_brake_req(true);
 		}
 	}else{
 		if(vehicle_type == "SKT-H"){
-			pCtrlInfo->Parking_airSup_state(false);
+			#if FLAG_130
+			// pCtrlInfo->Parking_airSup_state(false);
+			#endif
 		}else{
 			pCtrlInfo->exhaust_brake_req(false);
 		}
 	}
+	#if FLAG_130
 	//130
 	MINE_LOG(SANY_LOG_INFO, "receive Parking_airSup_state (%d)\n", pCtrlInfo->Parking_airSup_state());
+	#endif
 	/* 20250220 liuss 将该物理按键改为130H补气开关：1.130无法加油补气；2. 领导指定排气制动；-----end*/
 	if (struWireCtrlIn.iKeyOperation1 & 0x40)
 	{
@@ -2655,7 +2780,7 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_getCtrlDate(ImpleResultInfo *pCtrlInfo)
 	{
 		// 开发动机自检
 	}
-	if(vehicle_type == "SKT-I")
+	if(m_Config->vehicle_type == "SKT-I")
 	{
 		if((struWireCtrlIn.iKeyOperation2 & 0x80) && !WireInfo.drop_longo_position_status())
 		{
@@ -2675,7 +2800,7 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_getCtrlDate(ImpleResultInfo *pCtrlInfo)
 			pCtrlInfo->container_ctrl(0);
 		}
 	}
-	else if(vehicle_type == "SKT-E" || vehicle_type == "SKT-H")
+	else if(m_Config->vehicle_type == "SKT-E" || m_Config->vehicle_type == "SKT-H")
 	{
 		// 电车举升需取力
 		if((struWireCtrlIn.iKeyOperation2 & 0x80) && (struWireCtrlIn.iKeyOperation2 & 0x04))
@@ -2720,14 +2845,19 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_getCtrlDate(ImpleResultInfo *pCtrlInfo)
 	}
 
 	SANY_U8 brakeLimitRET = ProtoCockpit_CheckBrakeLimit();
+	/*排土场倒车安全策略*/
+	if(g_dumpBack_curb_force_stop || g_dumpBack_pitch_force_stop){
+		g_u8EmergencyStopFlg = 1;
+		MINE_LOG(SANY_LOG_INFO, "dumpBack Emergency, g_dumpBack_curb_force_stop (%d), g_dumpBack_pitch_force_stop (%d)\n", g_dumpBack_curb_force_stop, g_dumpBack_pitch_force_stop);
+	}
 	/*判断是否急停，请求急停则请求驻车*/
 	if (1 == g_u8EmergencyStopFlg || brakeLimitRET == RET_ERROR)
 	{
-		if("SKT-I" == vehicle_type)
+		if("SKT-I" == m_Config->vehicle_type)
 		{
 			pCtrlInfo->trans_req_gear(0x7D);		//N
 		}
-		else if ("SKT-E" == vehicle_type || vehicle_type == "SKT-H")
+		else if ("SKT-E" == m_Config->vehicle_type || m_Config->vehicle_type == "SKT-H")
 		{
 			pCtrlInfo->trans_req_gear(0);		//N
 		}
@@ -2759,6 +2889,388 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_CheckBrakeLimit(){
 	}
 	MINE_LOG(SANY_LOG_INFO, "BrakeStartLimit, g_BrakeLimitCount %d, g_u8ResponseCtrlState %d, iBrakeOPening %d\n", g_BrakeLimitCount, g_u8ResponseCtrlState, struWireCtrlIn.iBrakeOpening);
 	return RET_ERROR;
+}
+
+/*排土场倒车策略*/
+SANY_U8 Protocol_Cockpit::ProtoCockpit_DumpBackSafeCheck(){
+	// // 加载排土场边界文件
+	// if(m_polygonBodary->loadBoundary()){
+	// 	MINE_LOG(SANY_LOG_INFO, "load dump boundary success !!!\n");
+	// }else{
+	// 	MINE_LOG(SANY_LOG_ERROR, "load dump boundary failed !!!\n");
+	// 	return SANY_FAILED;
+	// }
+	if(g_boundary_load == false){
+		g_dumpBack_minD1 = std::numeric_limits<float>::max();
+		g_dumpBack_dist_to_end = std::numeric_limits<float>::max();
+		g_dumpBack_curb_force_stop = false;
+		g_dumpBack_pitch_force_stop = false;
+		return SANY_FAILED;
+	}
+
+	// 判断是否在边界内，是否需要做处理
+	/* 本车的经纬度*/
+	double temp_gpsLng = struGpsInfo.gps_lng();
+	double temp_gpsLat = struGpsInfo.gps_lat();
+	MINE_LOG(SANY_LOG_INFO, "iVehicleLontitude (%8f) (%8f), iVehicleLatitude (%8f) (%8f)\n", temp_gpsLng, struGpsInfo.gps_lng(), temp_gpsLat, struGpsInfo.gps_lat());
+	
+	std::string dump_id = m_polygonBodary->isPointInDump(temp_gpsLng, temp_gpsLat);
+	if(dump_id.empty())
+	{
+		g_task_main_dump = false;
+		MINE_LOG(SANY_LOG_INFO, "dumpBack iVehicle don't in dump ! \n");
+	}else{
+		g_task_main_dump = true;
+		MINE_LOG(SANY_LOG_INFO, "dumpBack iVehicle in dump (%s)! \n", dump_id.c_str());
+	}
+
+	// 是否为倒档
+	if(WireInfo.trans_current_gear() == -1 || WireInfo.trans_current_gear() == 13){
+		g_task_subState_back = true;
+		MINE_LOG(SANY_LOG_INFO, "dumpBack iVehicle is R gear ! \n");
+	}else{
+		g_task_subState_back = false;
+		MINE_LOG(SANY_LOG_INFO, "dumpBack iVehicle isn't R gear ! \n");
+	}
+
+	if(!(g_task_main_dump && g_task_subState_back)){
+		g_dumpBack_minD1 = std::numeric_limits<float>::max();
+		g_dumpBack_dist_to_end = std::numeric_limits<float>::max();
+		g_dumpBack_curb_force_stop = false;
+		g_dumpBack_pitch_force_stop = false;
+		return SANY_FAILED;
+	}
+	
+
+	g_dumpBack_curb_force_stop = ProtoCockpit_GeneralBackCurbCheck(temp_gpsLng, temp_gpsLat, dump_id);
+	g_dumpBack_throttle_limit = ProtoCockpit_dumpBackThrottleLimit();
+	g_dumpBack_pitch_force_stop = ProtoCockpit_dumpBackPitchCheck();
+	return SANY_SUCCESS;
+}
+
+// 排土场边界判断
+bool Protocol_Cockpit::ProtoCockpit_GeneralBackCurbCheck(double temp_gpsLng, double temp_gpsLat, std::string dump_id){
+	
+	
+	static int curb_invalid_cnt = 0;
+	bool curbDis_invalid = true; // 后向挡墙失效标志
+	bool curb_force_stop = false;
+	double heading_deg = struGpsInfo.gps_heading();
+	MINE_LOG(SANY_LOG_INFO, "dumpBack heading_ang : %f\n", heading_deg);
+	// 获取距离 到边界的距离 D1
+	double minD1 = m_polygonBodary->minDisToRearDumpBoundary(temp_gpsLng, temp_gpsLat, heading_deg, dump_id);
+	g_dumpBack_minD1 = minD1;
+	// 获取到挡墙的距离D2
+	double d2 = m_fusionCurbMsg.distance();
+	MINE_LOG(SANY_LOG_INFO, "dumpBack minD1 (%f), d2 (%f)\n", minD1, d2);
+
+	/*挡墙失效判断*/
+	if(fabs(d2 - 9999.0f) >= 1.0f){
+		if(std::abs(d2 - minD1) < 2.0f){
+			curb_invalid_cnt ++;
+			if(curb_invalid_cnt >= 3){
+				curbDis_invalid = false; // 有效
+			}
+		}else{
+			curb_invalid_cnt = 0;
+			curbDis_invalid = true;	// 失效
+		}
+	}else{
+		curb_invalid_cnt = 0;
+		curbDis_invalid = true;	// 失效
+	}
+	MINE_LOG(SANY_LOG_INFO, "dumpBack curbDis_invalid (%d), curb_invalid_cnt (%d)\n", curbDis_invalid, curb_invalid_cnt);
+
+	/* 挡墙失效保护*/
+	if(curbDis_invalid){
+		g_dumpBack_dist_to_end = minD1;
+		if(minD1 < m_Config->boundary_stop_without_curb_dis){
+			curb_force_stop = true;
+			MINE_LOG(SANY_LOG_INFO, "dumpBack curbDis is invalid, and minD1 is less to 3m, force stop \n");
+			return curb_force_stop;
+		}
+	}else{
+		g_dumpBack_dist_to_end = d2;
+	}
+		
+	/* 挡墙有效时的判断*/
+	static int curbDis_danger_cnt = 0;
+	if(!curbDis_invalid ){
+		/* 边界距离硬限制*/
+		if(minD1 < m_Config->boundary_stop_with_curb_dis){
+			curb_force_stop = true;
+			MINE_LOG(SANY_LOG_INFO, "dumpBack minD1 is less to 1.2m, force stop \n");
+		}
+		if(d2 < m_Config->curb_stop_dis){
+			curbDis_danger_cnt ++;
+			if(curbDis_danger_cnt >= 5){
+				// 强制停车
+				curb_force_stop = true;
+				MINE_LOG(SANY_LOG_INFO, "dumpBack d2 is close 5 times, force stop \n");
+			}
+		}else{
+			curbDis_danger_cnt = 0;
+		}
+	}else{
+		curbDis_danger_cnt = 0;
+	}
+	return curb_force_stop;
+}
+
+/*排土场倒车限扭，小等于6m*/
+bool Protocol_Cockpit::ProtoCockpit_dumpBackThrottleLimit(){
+	// g_dumpBack_throttle_limit = false;
+	const float speed = WireInfo.tachograph_vehicle_speed();
+	if(!(g_task_main_dump && g_task_subState_back && g_dumpBack_dist_to_end < 6.0f && g_dumpBack_dist_to_end >= -1.0f && speed < 6.0f)){
+		MINE_LOG(SANY_LOG_INFO, "dumpBack throttleLimit nomal\n");
+		g_dumpBack_throttle_compensation = 0.0f;
+		// g_dumpBack_throttle_limit = false;
+		return false;
+	}
+	
+	
+    const float slope_comp = m_Config->slope_throttle_compensation;  // 坡度系数
+    const float angle_comp = m_Config->dev_angle_throttle_compensation; // 转角系数
+    const float max_limit = m_Config->vehile_back_throttle_max;      // 最大限制
+
+	// 俯仰角补偿
+	float back_pitch_compensation = 0;
+    float pitch = struGpsInfo.gps_pitch();   // 车辆实际的俯仰角
+	if (g_task_subState_back) pitch = -pitch;  // 倒车时取反，非倒车保持原值
+    if(pitch > 0)
+    {
+      	back_pitch_compensation = slope_comp * pitch;
+    }
+	MINE_LOG(SANY_LOG_INFO, "dumpBack back_throttle_compensation is (%f), pitch is (%f)\n", back_pitch_compensation, pitch);
+	
+	
+	// 转角补偿
+	float back_heading_angle_compensation = 0;
+	float steer_angle = imple_result_info.steering_angle_req(); // 舱端下发的转角
+	back_heading_angle_compensation = angle_comp * fabs(steer_angle);
+	MINE_LOG(SANY_LOG_INFO, " dumpBack back_heading_angle_compensation is (%f), steer is (%f)\n",  back_heading_angle_compensation, steer_angle);
+
+    g_dumpBack_throttle_compensation = back_pitch_compensation + back_heading_angle_compensation;
+	// g_dumpBack_throttle_limit = true;
+	MINE_LOG(SANY_LOG_INFO, "dumpBack throttle_compensation is (%f)\n", g_dumpBack_throttle_compensation);
+	return true;
+}
+
+//排土场俯仰角检测，小于2m
+bool Protocol_Cockpit::ProtoCockpit_dumpBackPitchCheck(){
+	
+	const float dis_to_end = g_dumpBack_dist_to_end;
+
+	bool pitch_force_stop = false;
+	// 获取基准俯仰角
+	CalibrateBasePitch();
+
+	// 不满足判断条件 直接退出
+	if(!(g_task_main_dump && g_task_subState_back && dis_to_end <= m_Config->pitch_abnormal_dis && dis_to_end >= -1.0f)){
+		g_dumpBack_pitch_abnormal = false;
+		local_pich_record.clear();
+		stable_pitch_buffer_.clear();
+		stop_stable_counter = 0.0f;
+		MINE_LOG(SANY_LOG_INFO, "dumpBack Pitch normal! \n");
+		return pitch_force_stop;
+	}
+
+	
+	const float speed = WireInfo.tachograph_vehicle_speed();
+
+	MINE_LOG(SANY_LOG_INFO, "dumpBack Pitch dis_to_end (%3f)! \n", dis_to_end);
+
+	// 距离小于1m， 停车
+	if(dis_to_end < 1.0f){
+		pitch_force_stop = true;
+		g_dumpBack_pitch_abnormal = false;
+		MINE_LOG(SANY_LOG_INFO, "dumpBack Pitch dis_to_end (%.3f), force stop! \n", dis_to_end);
+		return pitch_force_stop;
+	}
+
+	// 俯仰角检测(更新g_dumpBack_pitch_abnormal)
+	pitch_Attitude_montoring();
+	
+	// 异常停车与恢复逻辑
+	if(g_dumpBack_pitch_abnormal){
+		// 异常，强制停车
+		pitch_force_stop = true;
+
+		// 等待车辆完全听稳（车速<0.5 维持 3s，重新评估）
+		if(speed < 0.5f){
+			stop_stable_counter = std::min(stop_stable_counter + 0.05f, 5.0f);
+			if(stop_stable_counter > 3.0f){
+				// 停稳超过3s，开始采集稳定俯仰角进行重新评估
+				MINE_LOG(SANY_LOG_INFO, "dumpBack Pitch stale 3s, reEvalute\n");
+				ReEvaluatePitchStable();
+			}else{
+				stable_pitch_buffer_.clear();
+			}
+			MINE_LOG(SANY_LOG_INFO, "dumpBack Pitch stale %.2fs\n", stop_park_counter);
+		}else{
+			stop_stable_counter = 0.0f;
+			stable_pitch_buffer_.clear();
+		}
+	}else{
+		// 无异常，正常倒车
+		pitch_force_stop = false;
+		stop_stable_counter = 0.0f;
+		stable_pitch_buffer_.clear();
+		// 清空俯仰角历史缓冲区，避免旧数据影响后续判断
+		// local_pich_record.clear();
+	}
+	return pitch_force_stop;
+}
+
+// 俯仰角符号处理：根据档位归一化（假设正值为车头上仰，倒车时符号取反）
+float Protocol_Cockpit::GetNormalizedPitch() {
+	MINE_LOG(SANY_LOG_INFO, "dumpBack Pitch GetNormalizedPitch start \n");
+    float raw_pitch = struGpsInfo.gps_pitch();
+    // 倒车时俯仰角符号需要反转，使得倒车时上仰仍为正
+    if (g_task_subState_back)  // 倒车档
+        return -raw_pitch;
+    else
+        return raw_pitch;
+}
+
+// 标定基准俯仰角（在距离5~2米范围内取平均）
+void Protocol_Cockpit::CalibrateBasePitch() {
+	MINE_LOG(SANY_LOG_INFO, "dumpBack Pitch CalibrateBasePitch start \n");
+    if (!(g_task_main_dump && g_task_subState_back))
+        return;
+    
+    float dis = g_dumpBack_dist_to_end;
+    if (dis < 5.0f && dis > 2.0f) {
+        float pitch = GetNormalizedPitch();
+        base_pitch_buffer_.push_back(pitch);
+        if (base_pitch_buffer_.size() > 15) {
+            base_pitch_buffer_.pop_front();
+        }
+		MINE_LOG(SANY_LOG_INFO, "dumpBack Pitch base_pitch_buffer.size (%d)\n", base_pitch_buffer_.size());
+        if (base_pitch_buffer_.size() >= 5) {
+            float sum = std::accumulate(base_pitch_buffer_.begin(), base_pitch_buffer_.end(), 0.0f);
+            vehilce_dump_base_pitch = sum / base_pitch_buffer_.size();
+            // 限制基准范围 [0, 7.6] 度
+            // vehilce_dump_base_pitch = std::clamp(vehilce_dump_base_pitch, 0.0f, 7.6f);
+            MINE_LOG(SANY_LOG_INFO, "dumpBack Pitch Calibrated base pitch: %.2f deg\n", vehilce_dump_base_pitch);
+        }
+    }
+}
+
+// 在稳定停车后重新评估俯仰角是否正常
+void Protocol_Cockpit::ReEvaluatePitchStable() {
+	MINE_LOG(SANY_LOG_INFO, "dumpBack Pitch ReEvaluatePitchStable start \n");
+    // 获取当前归一化俯仰角
+    float current_pitch = GetNormalizedPitch();
+	 // 将当前值加入稳定缓冲区
+    if (stable_pitch_buffer_.size() < 10) {
+        stable_pitch_buffer_.push_back(current_pitch);
+    } else {
+        stable_pitch_buffer_.pop_front();
+        stable_pitch_buffer_.push_back(current_pitch);
+    }
+
+    // 当收集足够数量（≥5）时，计算平均值
+    if (stable_pitch_buffer_.size() >= 5) {
+        float sum = std::accumulate(stable_pitch_buffer_.begin(), stable_pitch_buffer_.end(), 0.0f);
+        float avg_pitch = sum / stable_pitch_buffer_.size();
+
+		// 重新标定基准为当前位置的稳定俯仰角（更符合当前路面）
+        float new_base_pitch = avg_pitch;
+        // 可选：与旧基准做平滑，但简单替换即可
+		MINE_LOG(SANY_LOG_INFO, "ReCalibrated base pitch at stop: old base %.2f, new base %.2f deg\n",vehilce_dump_base_pitch,  new_base_pitch);
+        vehilce_dump_base_pitch = new_base_pitch;
+        
+
+        // 判断平均值是否在基准允许范围内
+        bool is_normal = (avg_pitch <= vehilce_dump_base_pitch + m_Config->up_level_pitch_max) &&
+                         (avg_pitch >= vehilce_dump_base_pitch - m_Config->down_level_pitch_max);
+
+        if (is_normal && g_dumpBack_dist_to_end > 1.0f) {
+            // 恢复正常，清除异常标志，允许重新倒车
+            g_dumpBack_pitch_abnormal = false;
+            stable_pitch_buffer_.clear();
+            stop_stable_counter = 0.0f;
+			 // 同时清空历史俯仰角缓冲区
+            local_pich_record.clear();
+            MINE_LOG(SANY_LOG_INFO, "Pitch recovered (avg=%.2f), resume reversing.\n", avg_pitch);
+        } else if (!is_normal) {
+            // 仍然异常，保持停车，不清除标志，并清空缓冲区准备重新采集
+            stable_pitch_buffer_.clear();
+            MINE_LOG(SANY_LOG_INFO, "Pitch still abnormal (avg=%.2f), keep stopping.\n", avg_pitch);
+        }
+    }
+}
+
+// 俯仰角异常检测
+void Protocol_Cockpit::pitch_Attitude_montoring() {
+	// 仅在倒车且距离<2m且速度>0.5时记录数据（与原来逻辑一致）
+	MINE_LOG(SANY_LOG_INFO, "dumpBack Pitch pitch_Attitude_montoring start\n");
+    if (!(g_task_main_dump && g_task_subState_back && g_dumpBack_dist_to_end < m_Config->pitch_abnormal_dis 
+			&& g_dumpBack_dist_to_end >= -1.0f)){
+		local_pich_record.clear();
+		stop_park_counter = 0.0f;
+		
+        return;
+	}
+
+	float vehicle_dump_pitch = GetNormalizedPitch();  // 使用归一化俯仰角;
+  	float signal_wave_diff_value= 0.5f;//波形差值
+
+
+	if(WireInfo.tachograph_vehicle_speed() > 0.5f){
+		stop_park_counter = 0.0f;
+		if(local_pich_record.size()< 50){
+			local_pich_record.push_back(vehicle_dump_pitch);
+		}else {
+			local_pich_record.pop_front();
+			local_pich_record.push_back(vehicle_dump_pitch);
+		}
+	}else {
+		stop_park_counter = std::min(stop_park_counter + 0.05f, 5.0f);
+		if(stop_park_counter > 2.0f){
+          local_pich_record.clear();
+          signal_wave_diff_value = 0.0f;
+        }
+	}
+
+	MINE_LOG(SANY_LOG_INFO, "dumpBack Pitch local_pitch_record.size %d, g_dumpBack_pitch_abnormal %d\n", local_pich_record.size(), g_dumpBack_pitch_abnormal ? 1 :0);
+	
+	if (local_pich_record.size() >=4 && !g_dumpBack_pitch_abnormal){
+    	float max_val = *std::max_element(local_pich_record.begin(), local_pich_record.end());
+        float min_val = *std::min_element(local_pich_record.begin(), local_pich_record.end());
+        float wave_amplitude = max_val - min_val;
+        float current_pitch = local_pich_record.back();
+
+        MINE_LOG(SANY_LOG_INFO, "pitch_Attitude_judge, base_pitch: %.2f, wave_amp: %.2f, current_pitch: %.2f\n",
+                 vehilce_dump_base_pitch, wave_amplitude, current_pitch);
+        
+        if (wave_amplitude > m_Config->pitch_pair_chang_value ||
+            current_pitch > vehilce_dump_base_pitch + m_Config->up_level_pitch_max ||
+            current_pitch < vehilce_dump_base_pitch - m_Config->down_level_pitch_max) {
+            g_dumpBack_pitch_abnormal = true;
+        } else {
+            g_dumpBack_pitch_abnormal = false;
+        }
+ 	}  
+
+	
+	// if (local_pich_record.size() >= 4 && !g_dumpBack_pitch_abnormal){
+	// // 使用简单可靠的最大最小差值，替代原有错误的极值配对
+	// 		float max_val = *std::max_element(local_pich_record.begin(), local_pich_record.end());
+	// 		float min_val = *std::min_element(local_pich_record.begin(), local_pich_record.end());
+	// 		signal_wave_diff_value = max_val - min_val;
+	// 		float vehicle_pitch_pair_value = signal_wave_diff_value;
+
+	// 		float vehicle_curent_pitch_value = local_pich_record.back();
+	
+	// 	MINE_LOG(SANY_LOG_INFO, "pitch_Attitude_judge ,vehilce_dump_base_pitch: %f,vehicle_dump_pitch:%f,vehicle_pitch_pair_value:%f,vehicle_curent_pitch_value: %f.\n", vehilce_dump_base_pitch,vehicle_dump_pitch,vehicle_pitch_pair_value,vehicle_curent_pitch_value);
+	// 	if(vehicle_pitch_pair_value > m_Config->pitch_pair_chang_value 
+	// 		|| vehicle_curent_pitch_value > vehilce_dump_base_pitch + m_Config->up_level_pitch_max 
+	// 		|| vehicle_curent_pitch_value < vehilce_dump_base_pitch - m_Config->down_level_pitch_max){
+	// 		g_dumpBack_pitch_abnormal = true;
+	// 	}
+	// }  
 }
 
 /*初始化函数列表数组*/

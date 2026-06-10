@@ -35,6 +35,8 @@
 #define OFFSET_VEHICLE_PITCH        90
 #define OFFSET_VEHICLE_POLL         180
 
+#define FLAG_130 1 // 1为130编译，0为HIL105编译
+
 
 /******************************三一智矿云端控制协议命令标识汇总*********************************/
 enum{
@@ -104,6 +106,7 @@ enum{
     EV_CP_HEART_BEAT,                       //心跳
 	EV_CP_SEND_EMERGENCY_STOP = 0x06,     	//紧急停车
     EV_CP_VEHICLE_SIGNOUT = 0x08,          	//登出驾驶舱端（主动、被动）
+	EV_CP_DUMP_BACK_SAFE_REP = 0x14,              // 20260605新增排土场倒车策略
     
     EV_CLAPP_MAX                           
 }Protocol_Cockpit_Cmd_Enum;
@@ -244,6 +247,15 @@ typedef struct {
     SANY_U8 ucSafeInfo2[1];
 } CP_Realtime_Rep_Cmd_st;
 
+typedef struct {
+    SANY_U8	ucTime[8];					//指令时间
+    SANY_U8	ucMinD1[2];				//边界距离
+    SANY_U8	ucD2[2];			//挡墙距离
+    SANY_U8	ucDisToEnd[2];			//时是距离
+    SANY_U8 ucCurbStop[1];         //举升到位状态
+    SANY_U8 ucPitchStop[1];        //下降到位状态
+    SANY_U8	ucThrottleCom[1];		//油门补偿
+} CP_Dump_Back_Rep_st;
 
 
 /******************************协议通用枚举*********************************/
@@ -448,6 +460,22 @@ typedef enum
 	VEHI_RECOV                                   //vehicle recovery
 } Vehicle_Emerg_Stop_Enum;
 
+
+/***************************20250115新增 车端响应驾驶模式枚举*****************/
+typedef enum
+{
+    Vehicle_Ctrl_Manual = 1,
+    Vehicle_Ctrl_Remote = 2,
+    Vehicle_Ctrl_Auto = 3
+}Vehicle_Ctrl_State_Enum;
+
+/***************************20250115新增 舱端下发驾驶模式枚举*****************/
+typedef enum
+{
+    Cockpit_Ctrl_Remote = 1,
+    Cockpit_Ctrl_Auto = 2,
+    Cockpit_Ctrl_Manual = 3
+}Cockpit_Ctrl_State_Enum;
 /***************************协议8.15.4 任务更新*****************************/
 enum{
 	TASK_START = 0x01,                           //TASK_START

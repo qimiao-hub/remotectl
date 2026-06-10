@@ -14,8 +14,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <algorithm>
 #include "terminal_client.h"
 #include <sys/time.h>
+#include <sys/timeb.h>
 #include "FailureReporter.h"
 #include "daemon_sdk.h"
 #include "./common/read_ini.h"
@@ -36,6 +38,11 @@
 #include "../dvpn-pnc-common/ddsType/include/imple_msgPubSubTypes.h"
 #include "../dvpn-pnc-common/ddsType/include/safe_ctrl_msg.h"
 #include "../dvpn-pnc-common/ddsType/include/safe_ctrl_msgPubSubTypes.h"
+#include "../dvpn-pnc-common/ddsType/include/obst_msg.h"
+#include "../dvpn-pnc-common/ddsType/include/obst_msgPubSubTypes.h"
+#include "../include/polygon_boundary.h"
+
+#include "remote_config.h"
 
 #include <zkbs/ddsBase/ddsPubBase.h>
 #include <zkbs/ddsBase/ddsSubBase.h>
@@ -69,6 +76,7 @@
 #endif
 
 extern FailureReporter *m_pFailureSDK;
+extern Remote_Config *m_Config;
 extern SANY_U8 g_u8IpFlag;
 extern SANY_U8 g_u8TaskStartFlag;
 extern SANY_U8 g_u8NetReady;
@@ -106,7 +114,7 @@ typedef struct
 	float iPitchAngle;			//俯仰角
 	int iLiftUpStatus;			//举升到位状态
 	int iLiftDownStatus;		//下降到位状态
-	int iGearOpening;	  // 档位操作
+	int iGearOpening;	  		// 档位操作
 	int iRemainingOil;			//剩余油量/电量
 	int iWaterTemp;				//水温
 	float iBrakeAirPre1;			//气压1
@@ -170,6 +178,18 @@ public:
 	SANY_U8 ProtoCockpit_SendAckCom(SANY_U8 ucCmd, SANY_U8 ucAckflg);
 	/*遥控刹车启动前初始化 刹车 档位 油门 主车*/
 	SANY_U8 ProtoCockpit_CheckBrakeLimit();
+	/*202605 排土场倒车策略*/
+	SANY_U8 ProtoCockpit_DumpBackSafeCheck();
+	/*排土场倒车限扭*/
+	bool ProtoCockpit_dumpBackThrottleLimit();
+	// 排土场边界判断
+	bool ProtoCockpit_GeneralBackCurbCheck(double temp_gpsLng, double temp_gpsLat, std::string dump_id);
+	/*排土场倒车俯仰角异常*/
+	bool ProtoCockpit_dumpBackPitchCheck();
+	float GetNormalizedPitch();
+	void CalibrateBasePitch();
+	void ReEvaluatePitchStable();
+	void pitch_Attitude_montoring();
 
 public:
 /*配置文件*/
@@ -181,7 +201,42 @@ public:
 
 	/*登录状态 0未登录 1已登录，未登录状态下，不处理命令协议*/ /*延时程序写死成1*/
 	SANY_U8 g_u8LoginFlag = 0;
+	/*响应驾驶模式状态 0 默认，1 人工，2 遥控， 3 无人*/
+	SANY_U8 g_u8ResponseCtrlState = 0;
+
+private:
+	/*排土场倒车策略*/
+	bool g_boundary_load = false;
+	bool g_task_main_dump = false;
+	bool g_task_subState_back = false;
+	// 到挡墙的距离
+	float g_dumpBack_minD1 = 0.0f;
+	float g_dumpBack_dist_to_end = 0.0f;
+
+	// 边界计算
+	Polygon_Boundary *m_polygonBodary;
+	bool g_dumpBack_curb_force_stop = false; // 边界停车标志
 	
+	//////// * 油门限纽 */
+	float g_dumpBack_throttle_compensation = 1.0f;
+	bool g_dumpBack_throttle_limit = false;
+	
+
+	////////////* 俯仰角异常 */
+    float stop_park_counter = 0.0f;
+	float stop_stable_counter = 0.0f;
+	float vehilce_dump_base_pitch = 0.0f;		// 标定后的基准俯仰角
+	float vehicle_pitch_pair_value = 0.0f;
+	int peak_high = 0;
+    int trough_low = 0;
+    int cycle_count = 0;
+    bool g_dumpBack_pitch_abnormal = false;		// 俯仰角异常标志
+	bool g_dumpBack_pitch_force_stop = false;	// 俯仰角异常停车标志
+
+    
+	std::deque<float> local_pich_record;		// 检查俯仰角异常记录
+	std::deque<float> base_pitch_buffer_;     // 基础俯仰角标定缓冲区
+	std::deque<float> stable_pitch_buffer_;  // 停车稳定后采集俯仰角缓冲区       	
 private:
 	/*heartbeat with 297*/
 	SANY_U16 g_297count = 0;
@@ -198,8 +253,7 @@ private:
 	/*请求驾驶模式状态， 0 默认，1 遥控，2 无人，3 人工*/
 	SANY_U8 g_u8CtrlState = 0;
 	
-	/*响应驾驶模式状态 */
-	SANY_U8 g_u8ResponseCtrlState = 0;
+
 
 	/* 刹车60启动标志位*/
 	SANY_U32 g_BrakeLimitCount = 0;
@@ -277,6 +331,8 @@ private:
 	SANY_U8 ProtoCockpit_SendCmdLogin();
 	SANY_U8 ProtoCockpit_SendCmdRealtimeRep();
 	
+	/*排土场倒车策略上报*/
+	SANY_U8 ProtoCockpit_SendCmdDumpBackSafeRep();
 
 	/*协议解析分发处理接口*/
 	SANY_U8 ProtoCockpit_ParsePacket(SANY_U8 *pu8DataBuf, SANY_U32 u32DataLen);
@@ -311,6 +367,12 @@ private:
 	/*安全模块反馈*/
 	TopicDataType *pDataTypeSafe = NULL;
 	ddsSubscriber<SafeFeedbackInfo> *pSubSafe = NULL;
+	/*后向挡墙*/
+	DDS_FusionCurbMessage m_fusionCurbMsg;
+    TopicDataType *pDataFusionCurbMsg = NULL;
+    ddsSubscriber<DDS_FusionCurbMessage> *pSubFusionCurbMsg = NULL;
+	/*挡墙边界回调*/
+    SANY_VOID fusionCurbMsgCallback(DDS_FusionCurbMessage &data);
 	
 	/*发布遥控驾驶控制数据*/
 	ImpleResultInfo imple_result_info;

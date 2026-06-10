@@ -5,7 +5,7 @@ if(NOT CMAKE_VERSION VERSION_LESS 3.0)
     cmake_policy(SET CMP0048 NEW)
 endif()
 
-set(CMAKE_CXX_FLAGS   "-std=c++11 -g")
+set(CMAKE_CXX_FLAGS   "-std=c++17 -g")
 
 set(CMAKE_SYSTEM_NAME "Linux")
 
@@ -46,7 +46,7 @@ target_link_libraries(${PROJECT_NAME}
 	-ldl
 )
 
-#file(COPY ${CMAKE_SOURCE_DIR}/src/protocol/remote.ini DESTINATION ${CMAKE_BINARY_DIR}/config)
-
+file(COPY ${CMAKE_SOURCE_DIR}/src/remote_config.ini DESTINATION ${CMAKE_BINARY_DIR}/config)
+file(COPY ${CMAKE_SOURCE_DIR}/src/sshpass DESTINATION ${CMAKE_BINARY_DIR}/bin)
 # #增加设备型号宏
 # # add_definitions(-DCONFIG_ELEC_CAR)

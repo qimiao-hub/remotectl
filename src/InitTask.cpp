@@ -16,7 +16,7 @@ void InitTask::InitStart(){
 	m_Cockpit->InitProtocol();
 	sleep(2);
 
-    ReadConfig();
+    //ReadConfig();
 
 	/*驾驶舱IP+PORT订阅和确认发布*/
 	pDataTypeCockpit = new CmdtoRemoteCtrlPubSubType();
