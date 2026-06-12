@@ -2966,7 +2966,7 @@ bool Protocol_Cockpit::ProtoCockpit_GeneralBackCurbCheck(double temp_gpsLng, dou
 
 	/*挡墙失效判断*/
 	if(fabs(d2 - 9999.0f) >= 1.0f){
-		if(std::abs(d2 - minD1) < 2.0f){
+		if(std::abs(d2 - minD1) < m_Config->boundary_curb_diff_dis){
 			curb_invalid_cnt ++;
 			if(curb_invalid_cnt >= 3){
 				curbDis_invalid = false; // 有效

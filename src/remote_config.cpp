@@ -82,6 +82,7 @@ void Remote_Config::ReadRemoteConfig(){
 	dumpBack_isOpen = config.ReadInt("DumpBack", "dumpBack_isOpen", 1);
 
 	boundary_stop_without_curb_dis = config.ReadFloat("DumpBack", "boundary_stop_without_curb_dis", 3.0f); 
+	boundary_curb_diff_dis = config.ReadFloat("DumpBack", "boundary_curb_diff_dis", 4.0f);  
 	curb_stop_dis = config.ReadFloat("DumpBack", "curb_stop_dis", 1.9f);  
 	boundary_stop_with_curb_dis = config.ReadFloat("DumpBack", "boundary_stop_with_curb_dis", 1.2f);  
 
@@ -98,6 +99,7 @@ void Remote_Config::ReadRemoteConfig(){
 	MINE_LOG(SANY_LOG_INFO, "dumpBack_isOpen  (%d)\n", dumpBack_isOpen);
 
 	MINE_LOG(SANY_LOG_INFO, "boundary_stop_without_curb_dis (%f)\n",  boundary_stop_without_curb_dis);
+	MINE_LOG(SANY_LOG_INFO, "boundary_curb_diff_dis (%f)\n",  boundary_curb_diff_dis);
 	MINE_LOG(SANY_LOG_INFO, "curb_stop_dis(%f)\n",  curb_stop_dis);
 	MINE_LOG(SANY_LOG_INFO, "boundary_stop_with_curb_dis (%f)\n",  boundary_stop_with_curb_dis);
 

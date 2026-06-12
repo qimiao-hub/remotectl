@@ -9,6 +9,7 @@ static inline double deg2rad(double deg) {
     return deg * PI / 180.0;
 }
 
+// 航向角转方向向量（北为0度，顺时针为正）
 static void headingToVector(double heading_deg, double& dx, double& dy) {
     double yaw = deg2rad(heading_deg);
     dx = sin(yaw);  // 北=0 时用 sin/cos
@@ -312,6 +313,56 @@ SANY_U8 Polygon_Boundary::scpMapFromOrinToZXK(){
     return SANY_SUCCESS;
 }
 
+/* ================== 计算两个GPS点球面距离（Haversine） ================== */
+double Polygon_Boundary::distanceBetweenGPSPoints(const GPSPoint& a, const GPSPoint& b) {
+    double lon1 = deg2rad(a.iLongitude);
+    double lat1 = deg2rad(a.iLatitude);
+    double lon2 = deg2rad(b.iLongitude);
+    double lat2 = deg2rad(b.iLatitude);
+    double dlon = lon2 - lon1;
+    double dlat = lat2 - lat1;
+    double haversine = sin(dlat/2) * sin(dlat/2) +
+                       cos(lat1) * cos(lat2) * sin(dlon/2) * sin(dlon/2);
+    double c = 2 * atan2(sqrt(haversine), sqrt(1 - haversine));
+    return WGS84_R * c;
+}
+
+/* ================== 边界点线性插值 ================== */
+void Polygon_Boundary::interpolateBoundaryPoints(std::vector<GPSPoint>& pts, double maxIntervalMeters) {
+    if (pts.size() < 2) return;
+
+    std::vector<GPSPoint> newPts;
+    newPts.reserve(pts.size() * 2);
+
+    for (size_t i = 0; i < pts.size(); ++i) {
+        const GPSPoint& curr = pts[i];
+        const GPSPoint& next = pts[(i + 1) % pts.size()];
+
+        // 添加当前点
+        newPts.push_back(curr);
+
+        // 计算两点间距离
+        double dist = distanceBetweenGPSPoints(curr, next);
+        if (dist <= maxIntervalMeters) {
+            continue;
+        }
+
+        // 需要插入的点数（确保相邻点间距 <= maxIntervalMeters）
+        int n = static_cast<int>(ceil(dist / maxIntervalMeters));
+        double step = 1.0 / n;  // 参数 t 步长
+
+        for (int k = 1; k < n; ++k) {
+            double t = k * step;
+            GPSPoint interp;
+            interp.iLongitude = curr.iLongitude + t * (next.iLongitude - curr.iLongitude);
+            interp.iLatitude  = curr.iLatitude  + t * (next.iLatitude  - curr.iLatitude);
+            newPts.push_back(interp);
+        }
+    }
+
+    // 替换原有点集
+    pts.swap(newPts);
+}
 
 /* ================== 对外接口 ================== */
 /* ================== 地图加载 ================== */
@@ -429,6 +480,8 @@ bool Polygon_Boundary::loadBoundary() {
                     }
                 }
                 if (!props.pts.empty()) {
+                    // 插值加密边界点（间隔0.5米）
+                    interpolateBoundaryPoints(props.pts, 0.5);
                     m_dumpPolygons.push_back(props);
                 }
             }

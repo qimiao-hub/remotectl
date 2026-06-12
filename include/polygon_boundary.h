@@ -95,6 +95,11 @@ private:
 
     double minDisToRearBoundary(double lng, double lat, double heading_deg, 
                             const std::vector<CoordinatePoint>& polygon);
+    /* ================== 计算两个GPS点球面距离（Haversine） ================== */
+    double distanceBetweenGPSPoints(const GPSPoint& a, const GPSPoint& b);
+    /* ================== 边界点线性插值 ================== */
+    void interpolateBoundaryPoints(std::vector<GPSPoint>& pts, double maxIntervalMeters);
+ 
 
 private:
     std::vector<AreaInfo> m_dumpPolygons;
