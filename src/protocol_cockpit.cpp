@@ -2905,6 +2905,7 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_DumpBackSafeCheck(){
 		g_dumpBack_dist_to_end = std::numeric_limits<float>::max();
 		g_dumpBack_curb_force_stop = false;
 		g_dumpBack_pitch_force_stop = false;
+		g_dumpBack_throttle_limit = false;
 		return SANY_FAILED;
 	}
 
