@@ -178,6 +178,7 @@ public:
 	SANY_U8 ProtoCockpit_SendAckCom(SANY_U8 ucCmd, SANY_U8 ucAckflg);
 	/*遥控刹车启动前初始化 刹车 档位 油门 主车*/
 	SANY_U8 ProtoCockpit_CheckBrakeLimit();
+
 	/*202605 排土场倒车策略*/
 	SANY_U8 ProtoCockpit_DumpBackSafeCheck();
 	/*排土场倒车限扭*/
@@ -218,7 +219,7 @@ private:
 	bool g_dumpBack_curb_force_stop = false; // 边界停车标志
 	
 	//////// * 油门限纽 */
-	float g_dumpBack_throttle_compensation = 1.0f;
+	float g_dumpBack_throttle_compensation = 0.0f;
 	bool g_dumpBack_throttle_limit = false;
 	
 

@@ -91,10 +91,12 @@ void Remote_Config::ReadRemoteConfig(){
 	dev_angle_throttle_compensation = config.ReadFloat("DumpBack", "dev_angle_throttle_compensation", 1.0f);
 	vehile_back_throttle_max = config.ReadFloat("DumpBack", "vehile_back_throttle_max", 52.0f);
 
+	top_level_pitch_limit = config.ReadFloat("DumpBack", "top_level_pitch_limit", 1.0f);
+	low_level_pitch_limit = config.ReadFloat("DumpBack", "low_level_pitch_limit", 0.8f);
 	pitch_abnormal_dis = config.ReadFloat("DumpBack", "pitch_abnormal_dis", 2.0f);         
 	pitch_pair_chang_value = config.ReadFloat("DumpBack", "pitch_pair_chang_value", 0.5f);
-	up_level_pitch_max = config.ReadFloat("DumpBack", "up_level_pitch_max", 3.0f);
-	down_level_pitch_max = config.ReadFloat("DumpBack", "down_level_pitch_max", 3.0f);
+	up_level_pitch_max = config.ReadFloat("DumpBack", "up_level_pitch_max", 3.5f);
+	down_level_pitch_max = config.ReadFloat("DumpBack", "down_level_pitch_max", 1.6f);
 
 	MINE_LOG(SANY_LOG_INFO, "dumpBack_isOpen  (%d)\n", dumpBack_isOpen);
 
@@ -108,6 +110,9 @@ void Remote_Config::ReadRemoteConfig(){
 	MINE_LOG(SANY_LOG_INFO, "dev_angle_throttle_compensation (%f)\n",  dev_angle_throttle_compensation);
 	MINE_LOG(SANY_LOG_INFO, "vehile_back_throttle_max(%f)\n",  vehile_back_throttle_max);
 
+
+	MINE_LOG(SANY_LOG_INFO, "top_level_pitch_limit (%f)\n",  top_level_pitch_limit);
+	MINE_LOG(SANY_LOG_INFO, "low_level_pitch_limit (%f)\n",  low_level_pitch_limit);
 	MINE_LOG(SANY_LOG_INFO, "pitch_abnormal_dis (%f)\n",  pitch_abnormal_dis);
 	MINE_LOG(SANY_LOG_INFO, "pitch_pair_chang_value (%f)\n",  pitch_pair_chang_value);
 	MINE_LOG(SANY_LOG_INFO, "up_level_pitch_max(%f)\n",  up_level_pitch_max);

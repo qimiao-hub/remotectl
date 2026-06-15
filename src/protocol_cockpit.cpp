@@ -3020,12 +3020,10 @@ bool Protocol_Cockpit::ProtoCockpit_GeneralBackCurbCheck(double temp_gpsLng, dou
 
 /*排土场倒车限扭，小等于6m*/
 bool Protocol_Cockpit::ProtoCockpit_dumpBackThrottleLimit(){
-	// g_dumpBack_throttle_limit = false;
 	const float speed = WireInfo.tachograph_vehicle_speed();
 	if(!(g_task_main_dump && g_task_subState_back && g_dumpBack_dist_to_end < 6.0f && g_dumpBack_dist_to_end >= -1.0f && speed < 6.0f)){
 		MINE_LOG(SANY_LOG_INFO, "dumpBack throttleLimit nomal\n");
 		g_dumpBack_throttle_compensation = 0.0f;
-		// g_dumpBack_throttle_limit = false;
 		return false;
 	}
 	
@@ -3096,7 +3094,7 @@ bool Protocol_Cockpit::ProtoCockpit_dumpBackPitchCheck(){
 	if(g_dumpBack_pitch_abnormal){
 		// 异常，强制停车
 		pitch_force_stop = true;
-
+		MINE_LOG(SANY_LOG_INFO, "dumpBack Pitch abnormal, force stop! \n");
 		// 等待车辆完全听稳（车速<0.5 维持 3s，重新评估）
 		if(speed < 0.5f){
 			stop_stable_counter = std::min(stop_stable_counter + 0.05f, 5.0f);
@@ -3152,7 +3150,7 @@ void Protocol_Cockpit::CalibrateBasePitch() {
             float sum = std::accumulate(base_pitch_buffer_.begin(), base_pitch_buffer_.end(), 0.0f);
             vehilce_dump_base_pitch = sum / base_pitch_buffer_.size();
             // 限制基准范围 [0, 7.6] 度
-            // vehilce_dump_base_pitch = std::clamp(vehilce_dump_base_pitch, 0.0f, 7.6f);
+            vehilce_dump_base_pitch = std::clamp(vehilce_dump_base_pitch, 0.0f, 7.6f);
             MINE_LOG(SANY_LOG_INFO, "dumpBack Pitch Calibrated base pitch: %.2f deg\n", vehilce_dump_base_pitch);
         }
     }
@@ -3178,14 +3176,14 @@ void Protocol_Cockpit::ReEvaluatePitchStable() {
 
 		// 重新标定基准为当前位置的稳定俯仰角（更符合当前路面）
         float new_base_pitch = avg_pitch;
-        // 可选：与旧基准做平滑，但简单替换即可
-		MINE_LOG(SANY_LOG_INFO, "ReCalibrated base pitch at stop: old base %.2f, new base %.2f deg\n",vehilce_dump_base_pitch,  new_base_pitch);
+        // 与旧基准做平滑，但简单替换即可
+		MINE_LOG(SANY_LOG_INFO, "dumpBack Pitch ReCalibrated base pitch at stop: old base %.2f, new base %.2f deg\n",vehilce_dump_base_pitch,  new_base_pitch);
         vehilce_dump_base_pitch = new_base_pitch;
         
 
         // 判断平均值是否在基准允许范围内
-        bool is_normal = (avg_pitch <= vehilce_dump_base_pitch + m_Config->up_level_pitch_max) &&
-                         (avg_pitch >= vehilce_dump_base_pitch - m_Config->down_level_pitch_max);
+        bool is_normal = (avg_pitch < vehilce_dump_base_pitch + m_Config->top_level_pitch_limit) &&
+                         (avg_pitch > vehilce_dump_base_pitch - m_Config->low_level_pitch_limit);
 
         if (is_normal && g_dumpBack_dist_to_end > 1.0f) {
             // 恢复正常，清除异常标志，允许重新倒车
@@ -3194,11 +3192,11 @@ void Protocol_Cockpit::ReEvaluatePitchStable() {
             stop_stable_counter = 0.0f;
 			 // 同时清空历史俯仰角缓冲区
             local_pich_record.clear();
-            MINE_LOG(SANY_LOG_INFO, "Pitch recovered (avg=%.2f), resume reversing.\n", avg_pitch);
+            MINE_LOG(SANY_LOG_INFO, "dumpBack Pitch recovered (avg=%.2f), resume reversing.\n", avg_pitch);
         } else if (!is_normal) {
             // 仍然异常，保持停车，不清除标志，并清空缓冲区准备重新采集
             stable_pitch_buffer_.clear();
-            MINE_LOG(SANY_LOG_INFO, "Pitch still abnormal (avg=%.2f), keep stopping.\n", avg_pitch);
+            MINE_LOG(SANY_LOG_INFO, "dumpBack Pitch still abnormal (avg=%.2f), keep stopping.\n", avg_pitch);
         }
     }
 }
@@ -3243,16 +3241,19 @@ void Protocol_Cockpit::pitch_Attitude_montoring() {
         float wave_amplitude = max_val - min_val;
         float current_pitch = local_pich_record.back();
 
-        MINE_LOG(SANY_LOG_INFO, "pitch_Attitude_judge, base_pitch: %.2f, wave_amp: %.2f, current_pitch: %.2f\n",
+        MINE_LOG(SANY_LOG_INFO, "dumpBack Pitch pitch_Attitude_judge, base_pitch: %.2f, wave_amp: %.2f, current_pitch: %.2f\n",
                  vehilce_dump_base_pitch, wave_amplitude, current_pitch);
         
         if (wave_amplitude > m_Config->pitch_pair_chang_value ||
             current_pitch > vehilce_dump_base_pitch + m_Config->up_level_pitch_max ||
             current_pitch < vehilce_dump_base_pitch - m_Config->down_level_pitch_max) {
             g_dumpBack_pitch_abnormal = true;
+			
+
         } else {
             g_dumpBack_pitch_abnormal = false;
         }
+		MINE_LOG(SANY_LOG_INFO, "dumpBack Pitch g_dumpBack_pitch_abnormal: %d \n", g_dumpBack_pitch_abnormal);
  	}  
 
 	

@@ -48,6 +48,8 @@ public:
 	float vehile_back_throttle_max = 52.0f;	// 倒车扭矩最大限制值
 
 	// ----------俯仰角异常 阈值参数（静态或配置） ---------- 
+	float top_level_pitch_limit = 1.0f;         // 二次起步判断高于俯仰角基准限值
+	float low_level_pitch_limit = 0.8f;         // 二次起步判断低于俯仰角基准限值
 	float pitch_abnormal_dis = 2.0f;           // 检测俯仰角异常的距离阈值
 	float pitch_pair_chang_value  = 0.5f;      // 俯仰角波动异常阈值
 	float up_level_pitch_max      = 3.5f;      // 上仰异常阈值
