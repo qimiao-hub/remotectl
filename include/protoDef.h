@@ -35,7 +35,7 @@
 #define OFFSET_VEHICLE_PITCH        90
 #define OFFSET_VEHICLE_POLL         180
 
-#define FLAG_130 0 // 1为130编译，0为HIL105编译
+#define FLAG_130 1 // 1为130编译，0为HIL105编译
 
 
 /******************************三一智矿云端控制协议命令标识汇总*********************************/
