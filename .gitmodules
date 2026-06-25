@@ -1,4 +1,4 @@
 [submodule "dvpn-pnc-common"]
 	path = dvpn-pnc-common
 	url = https://devops-gitlab.sany.com.cn/sany-syzk-pnc/dvpn-pnc-common
-	branch = common105_ObstAvoid_0518Tag02
+	branch = common130-ROI-charge-0608Tag
