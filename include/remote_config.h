@@ -37,12 +37,12 @@ public:
 	SANY_U32 dumpBack_isOpen = 1;
 
 	float boundary_stop_without_curb_dis = 3.0f; // 挡墙数据无效时，边界停车距离
-	float boundary_curb_diff_dis = 3.0f; // 边界距离、挡墙距离的差异冗余，即挡墙距离有效的冗余
+	float boundary_curb_diff_dis = 4.0f; // 边界距离、挡墙距离的差异冗余，即挡墙距离有效的冗余
 	float curb_stop_dis = 1.9f;    // 挡墙数据有效，连续5帧过近停车距离
 	float boundary_stop_with_curb_dis = 1.2f;  // 挡墙数据有效时，边界停车距离
 
 	// 倒车限扭矩
-	float full_back_throttle_limit = 1.0f; // 重载倒车扭矩限制基准值
+	float full_back_throttle_limit = 45.0f; // 重载倒车扭矩限制基准值
 	float slope_throttle_compensation = 2.0f; // 坡度油门系数
 	float dev_angle_throttle_compensation = 1.0f; // 抵墙卸料转角补偿系数
 	float vehile_back_throttle_max = 52.0f;	// 倒车扭矩最大限制值

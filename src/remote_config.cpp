@@ -86,7 +86,7 @@ void Remote_Config::ReadRemoteConfig(){
 	curb_stop_dis = config.ReadFloat("DumpBack", "curb_stop_dis", 1.9f);  
 	boundary_stop_with_curb_dis = config.ReadFloat("DumpBack", "boundary_stop_with_curb_dis", 1.2f);  
 
-	full_back_throttle_limit = config.ReadFloat("DumpBack", "full_back_throttle_limit", 34.0f);
+	full_back_throttle_limit = config.ReadFloat("DumpBack", "full_back_throttle_limit", 45.0f);
 	slope_throttle_compensation = config.ReadFloat("DumpBack", "slope_throttle_compensation", 2.0f);
 	dev_angle_throttle_compensation = config.ReadFloat("DumpBack", "dev_angle_throttle_compensation", 1.0f);
 	vehile_back_throttle_max = config.ReadFloat("DumpBack", "vehile_back_throttle_max", 52.0f);
