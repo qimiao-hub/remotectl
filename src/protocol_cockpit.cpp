@@ -2715,7 +2715,7 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_getCtrlDate(ImpleResultInfo *pCtrlInfo)
 	{
 		// 发动机排气制动开
 		// pCtrlInfo->exhaust_brake_req(true);
-		if(vehicle_type == "SKT-H"){
+		if(m_Config->vehicle_type == "SKT-H"){
 			#if FLAG_130
 			pCtrlInfo->Parking_airSup_state(true);
 			#endif
@@ -2723,9 +2723,9 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_getCtrlDate(ImpleResultInfo *pCtrlInfo)
 			pCtrlInfo->exhaust_brake_req(true);
 		}
 	}else{
-		if(vehicle_type == "SKT-H"){
+		if(m_Config->vehicle_type == "SKT-H"){
 			#if FLAG_130
-			// pCtrlInfo->Parking_airSup_state(false);
+			pCtrlInfo->Parking_airSup_state(false);
 			#endif
 		}else{
 			pCtrlInfo->exhaust_brake_req(false);
