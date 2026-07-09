@@ -194,11 +194,11 @@ public:
 
 public:
 /*配置文件*/
-	std::string vehicle_iccid;
-	std::string vehicle_vin;
-	std::string vehicle_type;
-	std::string vehicle_HardVer = "0101";
-	std::string vehicle_SoftVer = "0222";//02软件类型 20软件版本号 20不调整，21调整气压速度显示小数点后一位，增加刹车提醒；22 调整130 车型、水温显示
+	// std::string vehicle_iccid;
+	// std::string vehicle_vin;
+	// std::string vehicle_type;
+	// std::string vehicle_HardVer = "0101";
+	// std::string vehicle_SoftVer = "0222";//02软件类型 20软件版本号 20不调整，21调整气压速度显示小数点后一位，增加刹车提醒；22 调整130 车型、水温显示
 
 	/*登录状态 0未登录 1已登录，未登录状态下，不处理命令协议*/ /*延时程序写死成1*/
 	SANY_U8 g_u8LoginFlag = 0;

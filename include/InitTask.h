@@ -34,7 +34,7 @@ public:
 
 private:
     // 读取配置文件
-    void ReadConfig();
+    // void ReadConfig();
 	Protocol_Cockpit *m_Cockpit;    
 
 private:

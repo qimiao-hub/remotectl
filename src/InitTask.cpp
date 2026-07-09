@@ -70,48 +70,48 @@ void InitTask::cockpit_addressCallback(CmdtoRemoteCtrl &addr)
 	return;
 }
 
-/*读取配置文件*/
-void InitTask::ReadConfig(){
+// /*读取配置文件*/
+// void InitTask::ReadConfig(){
 
-    YAML::Node config = YAML::LoadFile(CONFIG_PATH);
-	if(! config)
-	{
-		MINE_LOG(SANY_LOG_ERROR, "Read Config-runSetup.yaml fail!!!");
-	}
-	else
-	{
-		m_Cockpit->vehicle_vin = config["vehicle"]["vehicle_VIN"].as<std::string>();
-		m_Cockpit->vehicle_iccid = config["vehicle"]["vehicle_ICCID"].as<std::string>();
-		SANY_U32 config_v_type = config["vehicle"]["vehicle_type"].as<int>();
-	//	brake_delay = config["vehicle"]["vehicle_delay"].as<int>();
-	//	read_brakeing = config["vehicle"]["vehicle_brake"].as<int>();
-		// 1 为油车
-		if(config_v_type == 1)
-		{
-			m_Cockpit->vehicle_type = "SKT-I";
-		}
-		// 2 为电车
-		else if(config_v_type == 2)
-		{
-			m_Cockpit->vehicle_type = "SKT-E";
-		}
-		/* 20250306 liuss31 新增车型 3 为 130H混型-------- start*/ 
-		else if(config_v_type == 3)
-		{
-			m_Cockpit->vehicle_type = "SKT-H";
-		}
-		else{
-			// 默认油车
-			MINE_LOG(SANY_LOG_ERROR, "Read Config-runSetup.yaml vehicle_type is %d, SET 1 (SKT-I) !!!\n", config_v_type);
-			config_v_type = 1;
-			m_Cockpit->vehicle_type = "SKT-I";
-		}
-		/* 20250306 liuss31 新增车型 130H混型-------- end*/ 
-		MINE_LOG(SANY_LOG_INFO, "Vehicle VIN is %s\n", m_Cockpit->vehicle_vin.c_str());
-		MINE_LOG(SANY_LOG_INFO, "Vehicle ICCID is %s\n", m_Cockpit->vehicle_iccid.c_str());
-		MINE_LOG(SANY_LOG_INFO, "Vehicle type is %s\n", m_Cockpit->vehicle_type.c_str());
-	}
-}
+//     YAML::Node config = YAML::LoadFile(CONFIG_PATH);
+// 	if(! config)
+// 	{
+// 		MINE_LOG(SANY_LOG_ERROR, "Read Config-runSetup.yaml fail!!!");
+// 	}
+// 	else
+// 	{
+// 		m_Cockpit->vehicle_vin = config["vehicle"]["vehicle_VIN"].as<std::string>();
+// 		m_Cockpit->vehicle_iccid = config["vehicle"]["vehicle_ICCID"].as<std::string>();
+// 		SANY_U32 config_v_type = config["vehicle"]["vehicle_type"].as<int>();
+// 	//	brake_delay = config["vehicle"]["vehicle_delay"].as<int>();
+// 	//	read_brakeing = config["vehicle"]["vehicle_brake"].as<int>();
+// 		// 1 为油车
+// 		if(config_v_type == 1)
+// 		{
+// 			m_Cockpit->vehicle_type = "SKT-I";
+// 		}
+// 		// 2 为电车
+// 		else if(config_v_type == 2)
+// 		{
+// 			m_Cockpit->vehicle_type = "SKT-E";
+// 		}
+// 		/* 20250306 liuss31 新增车型 3 为 130H混型-------- start*/ 
+// 		else if(config_v_type == 3)
+// 		{
+// 			m_Cockpit->vehicle_type = "SKT-H";
+// 		}
+// 		else{
+// 			// 默认油车
+// 			MINE_LOG(SANY_LOG_ERROR, "Read Config-runSetup.yaml vehicle_type is %d, SET 1 (SKT-I) !!!\n", config_v_type);
+// 			config_v_type = 1;
+// 			m_Cockpit->vehicle_type = "SKT-I";
+// 		}
+// 		/* 20250306 liuss31 新增车型 130H混型-------- end*/ 
+// 		MINE_LOG(SANY_LOG_INFO, "Vehicle VIN is %s\n", m_Cockpit->vehicle_vin.c_str());
+// 		MINE_LOG(SANY_LOG_INFO, "Vehicle ICCID is %s\n", m_Cockpit->vehicle_iccid.c_str());
+// 		MINE_LOG(SANY_LOG_INFO, "Vehicle type is %s\n", m_Cockpit->vehicle_type.c_str());
+// 	}
+// }
 
 /*******************************************************************************
 threadRecvData 数据接收线程，如有网络数据则将数据存储到接收缓冲区等待处理
