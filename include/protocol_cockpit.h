@@ -40,6 +40,13 @@
 #include "../dvpn-pnc-common/ddsType/include/safe_ctrl_msgPubSubTypes.h"
 #include "../dvpn-pnc-common/ddsType/include/obst_msg.h"
 #include "../dvpn-pnc-common/ddsType/include/obst_msgPubSubTypes.h"
+#include "../dvpn-pnc-common/ddsType/include/collection_control_request.h"
+#include "../dvpn-pnc-common/ddsType/include/collection_control_requestPubSubTypes.h"
+#include "../dvpn-pnc-common/ddsType/include/collection_control_reply.h"
+#include "../dvpn-pnc-common/ddsType/include/collection_control_replyPubSubTypes.h"
+#include "../dvpn-pnc-common/ddsType/include/collection_status_report.h"
+#include "../dvpn-pnc-common/ddsType/include/collection_status_reportPubSubTypes.h"
+
 #include "../include/polygon_boundary.h"
 
 #include "remote_config.h"
@@ -128,6 +135,7 @@ typedef struct
 	int iSafeInfo2;				// 安全模块-故障2
 } RemoteDrivingWirectlOutInfo;
 
+using namespace mine_collection;
 /*********************************************************************
  * CLASS
  */
@@ -355,6 +363,8 @@ private:
 	SANY_U8 ProtoCockpit_PackSafeFeedbackInfo();
 	/*297反馈信息整合到 struWireCtrlOut*/
 	SANY_U8 ProtoCockpit_getFeedbackData();
+	SANY_VOID GenerateId();
+	SANY_VOID send_collection_control_request(int cmd);
 	
 
 /*dds相关*/
@@ -379,6 +389,19 @@ private:
 	ImpleResultInfo imple_result_info;
 	TopicDataType *pDataTypeImple = NULL;
 	ddsPublisher<ImpleResultInfo> *pPubImple = NULL;
+
+	/*发布ditu req*/
+	CollectionControlRequest collect_ctl_req;
+	TopicDataType *pDataColCtlReq = NULL;
+	ddsPublisher<CollectionControlRequest> *pPubColCtlReq= NULL;
+
+	/*ditu req response*/
+	TopicDataType *pDataColCtlReply = NULL;
+	ddsSubscriber<CollectionControlReply> *pSubColCtlReply = NULL;
+
+	/*ditu status report*/
+	TopicDataType *pDataColStausReport = NULL;
+	ddsSubscriber<CollectionStatusReport> *pSubColStatusReport = NULL;
 
 public:
 	/*网络相关接口*/

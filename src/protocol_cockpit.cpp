@@ -31,7 +31,43 @@ static WirectlFeedbackInfo WireInfo;
 static GpsImuInfo struGpsInfo;
 /*safe模块-故障信息*/
 static SafeFeedbackInfo struSafeFeedbackInfo;
+/*ditu控制响应*/
+static CollectionControlReply g_collect_ctl_reply;
+/*ditu状态报告*/
+static CollectionStatusReport g_collect_status_report;
 
+static std::mutex g_mtx;
+static std::condition_variable g_cv;
+static std::atomic<int> g_request_id(0);
+static int g_response_id = 0;
+
+
+/*ditu控制响应回调*/
+void collectionControlReplyCallback(CollectionControlReply &data){
+    if(1 == g_u8TaskStartFlag)
+    {
+        memcpy(&g_collect_ctl_reply, &data, sizeof(CollectionControlReply));
+        MINE_LOG(SANY_LOG_INFO, "Receive CollectionControlReply, task_id: %s, request_id: %u, reply_code: %u\n", 
+            data.task_id().c_str(), data.request_id(), (uint32_t)data.reply_code());
+		
+		std::unique_lock<std::mutex> lock(g_mtx);
+			
+		g_response_id = data.request_id();
+		g_cv.notify_one();
+	}
+    return;
+}
+
+/*ditu状态报告回调*/
+void collectionStatusReportCallback(CollectionStatusReport &data){
+    if(1 == g_u8TaskStartFlag)
+    {
+        memcpy(&g_collect_status_report, &data, sizeof(CollectionStatusReport));
+        MINE_LOG(SANY_LOG_INFO, "Receive CollectionStatusReport, task_id: %s, state: %u, lon: %f, lat: %f\n", 
+            data.task_id().c_str(), (uint32_t)data.state(), data.lon(), data.lat());
+    }
+    return;
+}
 
 void wireFeedbackCallback(WirectlFeedbackInfo *info)
 {
@@ -61,6 +97,44 @@ void safeFeedbackCallback(SafeFeedbackInfo *info)
 	return;
 }
 
+/*初始化函数列表数组*/
+SANY_VOID Protocol_Cockpit::send_collection_control_request(int cmd) {
+	GenerateId();
+
+	std::unique_lock<std::mutex> lock(g_mtx);
+
+	// 0x00 代表停止，0x01 代表启动，0x02 代表文件上传
+	if (cmd == 0x00) {
+		collect_ctl_req.collection_command(CMD_STOP);
+	} else if (cmd == 0x01) {
+		collect_ctl_req.collection_command(CMD_START);
+	} else if (cmd == 0x02) {
+		collect_ctl_req.collection_command(CMD_UPLOAD);
+	} else {
+		MINE_LOG(SANY_LOG_ERROR, "send_collection_control_request cmd error\n");
+		return;
+	}
+	collect_ctl_req.task_id("your_task_id");
+	//collect_ctl_req.time_stamp(current_timestamp);
+	collect_ctl_req.request_id(g_request_id);
+	collect_ctl_req.control_client_type(REMOTE_COCKPIT);
+	pPubColCtlReq->publish(collect_ctl_req);
+
+	g_response_id = -1;
+	if(g_cv.wait_for(lock, std::chrono::seconds(1), [this] { return g_response_id == g_request_id; }))
+	{
+		MINE_LOG(SANY_LOG_ERROR, "send_collection_control_request timeout\n");
+		//process_response();
+	} else {
+		g_response_id = -1;
+		//handle_timeout();
+	}
+}
+
+SANY_VOID Protocol_Cockpit::GenerateId() {
+	//自旋锁
+	g_request_id++;
+}
 
 
  /*挡墙边界回调*/
@@ -138,6 +212,23 @@ void Protocol_Cockpit::InitProtocol(){
 	pPubImple = new ddsPublisher<ImpleResultInfo>(pDataTypeImple);
 	MINE_LOG(SANY_LOG_INFO, "CREATE CONTROL_DATA PUBLISHER!!\n");
 
+	/*发布ditu控制请求*/
+	pDataColCtlReq = new CollectionControlRequestPubSubType();
+	pPubColCtlReq = new ddsPublisher<CollectionControlRequest>(pDataColCtlReq);
+	MINE_LOG(SANY_LOG_INFO, "CREATE COLLECTION_CONTROL_REQUEST PUBLISHER!!\n");
+
+	/*订阅ditu控制响应*/
+	pDataColCtlReply = new CollectionControlReplyPubSubType();
+	//pSubColCtlReply = new ddsSubscriber<CollectionControlReply>(pDataColCtlReply, std::bind(&Protocol_Cockpit::collectionControlReplyCallback, this, std::placeholders::_1));
+	pSubColCtlReply = new ddsSubscriber<CollectionControlReply>(pDataColCtlReply, collectionControlReplyCallback);
+	MINE_LOG(SANY_LOG_INFO, "CREATE COLLECTION_CONTROL_REPLY SUBSCRIBER!!\n");
+
+	/*订阅ditu状态报告*/
+	pDataColStausReport = new CollectionStatusReportPubSubType();
+	//pSubColStatusReport = new ddsSubscriber<CollectionStatusReport>(pDataColStausReport, std::bind(&Protocol_Cockpit::collectionStatusReportCallback, this, std::placeholders::_1));
+	pSubColStatusReport = new ddsSubscriber<CollectionStatusReport>(pDataColStausReport, collectionStatusReportCallback);
+	MINE_LOG(SANY_LOG_INFO, "CREATE COLLECTION_STATUS_REPORT SUBSCRIBER!!\n");
+
 	// 初始化数据结构体
 	bzero(&struWireCtrlIn, sizeof(struWireCtrlIn));
 	bzero(&struWireCtrlOut, sizeof(struWireCtrlOut));
@@ -146,6 +237,8 @@ void Protocol_Cockpit::InitProtocol(){
 	bzero(&imple_result_info, sizeof(imple_result_info));
 	bzero(&struSafeFeedbackInfo, sizeof(struSafeFeedbackInfo));
 	bzero(&m_fusionCurbMsg, sizeof(m_fusionCurbMsg));
+	bzero(&g_collect_ctl_reply, sizeof(g_collect_ctl_reply));
+	bzero(&g_collect_status_report, sizeof(g_collect_status_report));
 
 	// 初始化数据缓冲区
 	ProtoCockpit_SendBufferInit();
@@ -1984,6 +2077,21 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_getFeedbackData()
 	{
 		struWireCtrlOut.iCombinedGearL &= 0xDF;
 	}
+	/*数据采集状态上报 bit7:bit6 2位字段定义
+	  0x00 (00b):空闲(idle)或采集结束(collection ended)
+	  0x01 (01b):采集异常,包括控制指令响应异常(reply_code != ACCEPTED)
+	             或任务状态错误(state == STATE_ERROR)
+	  0x02 (10b):文件上传完成(file_state == FILE_UPLOADED)
+	  0x03 (11b):预留*/
+	struWireCtrlOut.iCombinedGearL &= 0x3F;
+	if ((STATE_ERROR == g_collect_status_report.state()) || (ACCEPTED != g_collect_ctl_reply.reply_code()))
+	{
+		struWireCtrlOut.iCombinedGearL |= 0x01 << 6;
+	}
+	else if (FILE_UPLOADED == g_collect_status_report.file_state())
+	{
+		struWireCtrlOut.iCombinedGearL |= 0x02 << 6;
+	}
 	if (WireInfo.wiper_start_status())
 	{
 		struWireCtrlOut.iCombinedGearR |= 0x01;
@@ -2658,6 +2766,11 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_getCtrlDate(ImpleResultInfo *pCtrlInfo)
 	{
 		// 开示廓灯
 		pCtrlInfo->outline_lamp_ctrl(true);
+	}
+	if (struWireCtrlIn.iCombinedGearL & 0xC0)
+	{
+		// 数据采集控制 bit7:bit6 0x00:停止 0x01:启动 0x02:文件上传
+		send_collection_control_request((struWireCtrlIn.iCombinedGearL & 0xC0) >> 6);
 	}
 
 	/*组合开关右*/
