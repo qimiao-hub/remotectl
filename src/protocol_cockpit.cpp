@@ -31,44 +31,6 @@ static WirectlFeedbackInfo WireInfo;
 static GpsImuInfo struGpsInfo;
 /*safe模块-故障信息*/
 static SafeFeedbackInfo struSafeFeedbackInfo;
-/*ditu控制响应*/
-static CollectionControlReply g_collect_ctl_reply;
-/*ditu状态报告*/
-static CollectionStatusReport g_collect_status_report;
-
-static std::mutex g_mtx;
-static std::condition_variable g_cv;
-static std::atomic<int> g_request_id(0);
-static int g_response_id = 0;
-
-
-/*ditu控制响应回调*/
-void collectionControlReplyCallback(CollectionControlReply &data){
-    if(1 == g_u8TaskStartFlag)
-    {
-        memcpy(&g_collect_ctl_reply, &data, sizeof(CollectionControlReply));
-        MINE_LOG(SANY_LOG_INFO, "Receive CollectionControlReply, task_id: %s, request_id: %u, reply_code: %u\n", 
-            data.task_id().c_str(), data.request_id(), (uint32_t)data.reply_code());
-		
-		std::unique_lock<std::mutex> lock(g_mtx);
-			
-		g_response_id = data.request_id();
-		g_cv.notify_one();
-	}
-    return;
-}
-
-/*ditu状态报告回调*/
-void collectionStatusReportCallback(CollectionStatusReport &data){
-    if(1 == g_u8TaskStartFlag)
-    {
-        memcpy(&g_collect_status_report, &data, sizeof(CollectionStatusReport));
-        MINE_LOG(SANY_LOG_INFO, "Receive CollectionStatusReport, task_id: %s, state: %u, lon: %f, lat: %f\n", 
-            data.task_id().c_str(), (uint32_t)data.state(), data.lon(), data.lat());
-    }
-    return;
-}
-
 void wireFeedbackCallback(WirectlFeedbackInfo *info)
 {
 	if(1 == g_u8TaskStartFlag)
@@ -97,45 +59,230 @@ void safeFeedbackCallback(SafeFeedbackInfo *info)
 	return;
 }
 
-/*初始化函数列表数组*/
-SANY_VOID Protocol_Cockpit::send_collection_control_request(int cmd) {
-	GenerateId();
+uint64_t Protocol_Cockpit::CurrentTimeMillis()
+{
+	return static_cast<uint64_t>(std::chrono::duration_cast<std::chrono::milliseconds>(
+		std::chrono::system_clock::now().time_since_epoch()).count());
+}
 
-	std::unique_lock<std::mutex> lock(g_mtx);
-
-	// 0x00 代表停止，0x01 代表启动，0x02 代表文件上传
-	if (cmd == 0x00) {
-		collect_ctl_req.collection_command(CMD_STOP);
-	} else if (cmd == 0x01) {
-		collect_ctl_req.collection_command(CMD_START);
-	} else if (cmd == 0x02) {
-		collect_ctl_req.collection_command(CMD_UPLOAD);
-	} else {
-		MINE_LOG(SANY_LOG_ERROR, "send_collection_control_request cmd error\n");
+void Protocol_Cockpit::EnqueueCollectionCommand(int cmd)
+{
+	if (cmd < 0x00 || cmd > 0x02)
+	{
+		MINE_LOG(SANY_LOG_ERROR, "Invalid wire collection command: %d\n", cmd);
 		return;
 	}
-	collect_ctl_req.task_id("your_task_id");
-	//collect_ctl_req.time_stamp(current_timestamp);
-	collect_ctl_req.request_id(g_request_id);
-	collect_ctl_req.control_client_type(REMOTE_COCKPIT);
-	pPubColCtlReq->publish(collect_ctl_req);
 
-	g_response_id = -1;
-	if(g_cv.wait_for(lock, std::chrono::seconds(1), [this] { return g_response_id == g_request_id; }))
 	{
-		MINE_LOG(SANY_LOG_ERROR, "send_collection_control_request timeout\n");
-		//process_response();
-	} else {
-		g_response_id = -1;
-		//handle_timeout();
+		std::lock_guard<std::mutex> lock(collectionMutex);
+		if (collectionCommandWorkerExit)
+		{
+			return;
+		}
+		if (!collectionCommandQueue.empty() && collectionCommandQueue.back() == cmd)
+		{
+			return;
+		}
+		collectionCommandQueue.push_back(cmd);
+	}
+	collectionQueueCv.notify_one();
+}
+
+bool Protocol_Cockpit::send_collection_control_request(int cmd)
+{
+	CollectionControlRequest request;
+	std::string taskId;
+	uint32_t requestId = 0;
+	const uint64_t timestamp = CurrentTimeMillis();
+
+	{
+		std::lock_guard<std::mutex> lock(collectionMutex);
+		if (cmd == 0x01)
+		{
+			const std::string vin = (m_Config != NULL && !m_Config->vehicle_vin.empty())
+				? m_Config->vehicle_vin : "UNKNOWN";
+			collectionTaskId = vin + "_" + std::to_string(timestamp);
+			collectionSessionError = false;
+			collectionUploadQueued = false;
+			collectionReportCode.store(0);
+		}
+		if (collectionTaskId.empty())
+		{
+			MINE_LOG(SANY_LOG_ERROR, "Ignore collection command %d without active task\n", cmd);
+			return false;
+		}
+
+		taskId = collectionTaskId;
+		requestId = ++collectionRequestId;
+		collectionWaitingRequestId = requestId;
+		collectionResponseReceived = false;
+	}
+
+	CollectionCommand ddsCommand = CMD_NULL;
+	switch (cmd)
+	{
+	case 0x00:
+		ddsCommand = CMD_STOP;
+		break;
+	case 0x01:
+		ddsCommand = CMD_START;
+		break;
+	case 0x02:
+		ddsCommand = CMD_UPLOAD;
+		break;
+	default:
+		MINE_LOG(SANY_LOG_ERROR, "Invalid collection command: %d\n", cmd);
+		return false;
+	}
+
+	request.task_id(taskId);
+	request.time_stamp(timestamp);
+	request.request_id(requestId);
+	request.collection_area_type(DUMP_AREA);
+	request.control_client_type(REMOTE_COCKPIT);
+	request.collection_command(ddsCommand);
+
+	MINE_LOG(SANY_LOG_INFO,
+		"Publish CollectionControlRequest, task_id: %s, request_id: %u, command: %u\n",
+		taskId.c_str(), requestId, static_cast<uint32_t>(ddsCommand));
+	pPubColCtlReq->publish(request);
+
+	std::unique_lock<std::mutex> lock(collectionMutex);
+	const bool replied = collectionReplyCv.wait_for(
+		lock, std::chrono::seconds(1), [this, requestId]() {
+			return collectionResponseReceived && collectionWaitingRequestId == requestId;
+		});
+	if (!replied)
+	{
+		collectionSessionError = true;
+		collectionReportCode.store(1);
+		MINE_LOG(SANY_LOG_ERROR,
+			"CollectionControlRequest timeout, task_id: %s, request_id: %u\n",
+			taskId.c_str(), requestId);
+		return false;
+	}
+	if (collectionReplyCode != ACCEPTED)
+	{
+		collectionSessionError = true;
+		collectionReportCode.store(1);
+		MINE_LOG(SANY_LOG_ERROR,
+			"CollectionControlRequest rejected, task_id: %s, request_id: %u, reply_code: %u\n",
+			taskId.c_str(), requestId, static_cast<uint32_t>(collectionReplyCode));
+		return false;
+	}
+	return true;
+}
+
+void Protocol_Cockpit::funcCollectionCommand()
+{
+	while (true)
+	{
+		int cmd = 0;
+		{
+			std::unique_lock<std::mutex> lock(collectionMutex);
+			collectionQueueCv.wait(lock, [this]() {
+				return collectionCommandWorkerExit || !collectionCommandQueue.empty();
+				});
+			if (collectionCommandWorkerExit && collectionCommandQueue.empty())
+			{
+				return;
+			}
+			cmd = collectionCommandQueue.front();
+			collectionCommandQueue.pop_front();
+		}
+		send_collection_control_request(cmd);
 	}
 }
 
-SANY_VOID Protocol_Cockpit::GenerateId() {
-	//自旋锁
-	g_request_id++;
+void *Protocol_Cockpit::threadCollectionCommand(void *args)
+{
+	Protocol_Cockpit *pThread = static_cast<Protocol_Cockpit *>(args);
+	pThread->funcCollectionCommand();
+	return NULL;
 }
 
+void Protocol_Cockpit::collectionControlReplyCallback(CollectionControlReply &data)
+{
+	std::lock_guard<std::mutex> lock(collectionMutex);
+	if (data.task_id() != collectionTaskId ||
+		data.request_id() != collectionWaitingRequestId)
+	{
+		MINE_LOG(SANY_LOG_INFO,
+			"Ignore unrelated CollectionControlReply, task_id: %s, request_id: %u\n",
+			data.task_id().c_str(), data.request_id());
+		return;
+	}
+
+	collectionReplyCode = data.reply_code();
+	collectionResponseReceived = true;
+	MINE_LOG(SANY_LOG_INFO,
+		"Receive CollectionControlReply, task_id: %s, request_id: %u, reply_code: %u\n",
+		data.task_id().c_str(), data.request_id(), static_cast<uint32_t>(data.reply_code()));
+	collectionReplyCv.notify_one();
+}
+
+void Protocol_Cockpit::collectionStatusReportCallback(CollectionStatusReport &data)
+{
+	bool enqueueUpload = false;
+	{
+		std::lock_guard<std::mutex> lock(collectionMutex);
+		if (data.task_id() != collectionTaskId)
+		{
+			MINE_LOG(SANY_LOG_INFO,
+				"Ignore unrelated CollectionStatusReport, task_id: %s\n",
+				data.task_id().c_str());
+			return;
+		}
+
+		MINE_LOG(SANY_LOG_INFO,
+			"Receive CollectionStatusReport, task_id: %s, state: %u, file_state: %u\n",
+			data.task_id().c_str(), static_cast<uint32_t>(data.state()),
+			static_cast<uint32_t>(data.file_state()));
+
+		if (data.state() == STATE_ERROR)
+		{
+			collectionSessionError = true;
+		}
+
+		if (collectionSessionError)
+		{
+			collectionReportCode.store(1);
+		}
+		else if (data.file_state() == FILE_UPLOADED)
+		{
+			collectionReportCode.store(2);
+		}
+		else
+		{
+			collectionReportCode.store(0);
+		}
+
+		if (data.state() == STATE_COLLECTION_ENDED &&
+			!collectionSessionError && !collectionUploadQueued)
+		{
+			collectionUploadQueued = true;
+			enqueueUpload = true;
+		}
+	}
+	if (enqueueUpload)
+	{
+		EnqueueCollectionCommand(0x02);
+	}
+}
+
+void Protocol_Cockpit::ResetCollectionState()
+{
+	std::lock_guard<std::mutex> lock(collectionMutex);
+	collectionCommandQueue.clear();
+	collectionTaskId.clear();
+	collectionWaitingRequestId = 0;
+	collectionResponseReceived = false;
+	collectionHasWireBaseline = false;
+	collectionLastWireCommand = 0;
+	collectionSessionError = false;
+	collectionUploadQueued = false;
+	collectionReportCode.store(0);
+}
 
  /*挡墙边界回调*/
 void Protocol_Cockpit::fusionCurbMsgCallback(DDS_FusionCurbMessage &data){
@@ -160,6 +307,17 @@ Protocol_Cockpit::Protocol_Cockpit()
 }
 
 Protocol_Cockpit::~Protocol_Cockpit(){
+	{
+		std::lock_guard<std::mutex> lock(collectionMutex);
+		collectionCommandWorkerExit = true;
+	}
+	collectionQueueCv.notify_all();
+	collectionReplyCv.notify_all();
+	if (collectionThreadCreated)
+	{
+		pthread_join(t_collection_cmd_id, NULL);
+	}
+
 	/*等待线程退出*/
 	pthread_join(t_upload_data_id, NULL);
 	pthread_join(t_download_data_id, NULL);
@@ -219,14 +377,16 @@ void Protocol_Cockpit::InitProtocol(){
 
 	/*订阅ditu控制响应*/
 	pDataColCtlReply = new CollectionControlReplyPubSubType();
-	//pSubColCtlReply = new ddsSubscriber<CollectionControlReply>(pDataColCtlReply, std::bind(&Protocol_Cockpit::collectionControlReplyCallback, this, std::placeholders::_1));
-	pSubColCtlReply = new ddsSubscriber<CollectionControlReply>(pDataColCtlReply, collectionControlReplyCallback);
+	pSubColCtlReply = new ddsSubscriber<CollectionControlReply>(
+		pDataColCtlReply,
+		std::bind(&Protocol_Cockpit::collectionControlReplyCallback, this, std::placeholders::_1));
 	MINE_LOG(SANY_LOG_INFO, "CREATE COLLECTION_CONTROL_REPLY SUBSCRIBER!!\n");
 
 	/*订阅ditu状态报告*/
 	pDataColStausReport = new CollectionStatusReportPubSubType();
-	//pSubColStatusReport = new ddsSubscriber<CollectionStatusReport>(pDataColStausReport, std::bind(&Protocol_Cockpit::collectionStatusReportCallback, this, std::placeholders::_1));
-	pSubColStatusReport = new ddsSubscriber<CollectionStatusReport>(pDataColStausReport, collectionStatusReportCallback);
+	pSubColStatusReport = new ddsSubscriber<CollectionStatusReport>(
+		pDataColStausReport,
+		std::bind(&Protocol_Cockpit::collectionStatusReportCallback, this, std::placeholders::_1));
 	MINE_LOG(SANY_LOG_INFO, "CREATE COLLECTION_STATUS_REPORT SUBSCRIBER!!\n");
 
 	// 初始化数据结构体
@@ -237,8 +397,6 @@ void Protocol_Cockpit::InitProtocol(){
 	bzero(&imple_result_info, sizeof(imple_result_info));
 	bzero(&struSafeFeedbackInfo, sizeof(struSafeFeedbackInfo));
 	bzero(&m_fusionCurbMsg, sizeof(m_fusionCurbMsg));
-	bzero(&g_collect_ctl_reply, sizeof(g_collect_ctl_reply));
-	bzero(&g_collect_status_report, sizeof(g_collect_status_report));
 
 	// 初始化数据缓冲区
 	ProtoCockpit_SendBufferInit();
@@ -248,6 +406,14 @@ void Protocol_Cockpit::InitProtocol(){
 	InitFuncArray_Cockpit();
 
 	// 初始化业务处理线程
+	if (pthread_create(&t_collection_cmd_id, NULL, threadCollectionCommand, this) == 0)
+	{
+		collectionThreadCreated = true;
+	}
+	else
+	{
+		MINE_LOG(SANY_LOG_ERROR, "create threadCollectionCommand thread error!\n");
+	}
 	if (pthread_create(&t_upload_data_id, NULL, threadAppUploadData, this) == -1)
 	{
 		MINE_LOG(SANY_LOG_ERROR, "create threadAppUploadData thread error!\n");
@@ -278,6 +444,7 @@ void Protocol_Cockpit::Task_Reset(){
 	g_dumpBack_curb_force_stop = false;
 	g_dumpBack_pitch_force_stop = false;
 	g_dumpBack_throttle_limit = false;
+	ResetCollectionState();
 	MINE_LOG(SANY_LOG_INFO, "Clear Flags\n");
 
 	bzero(&struWireCtrlIn, sizeof(struWireCtrlIn));
@@ -2084,14 +2251,7 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_getFeedbackData()
 	  0x02 (10b):文件上传完成(file_state == FILE_UPLOADED)
 	  0x03 (11b):预留*/
 	struWireCtrlOut.iCombinedGearL &= 0x3F;
-	if ((STATE_ERROR == g_collect_status_report.state()) || (ACCEPTED != g_collect_ctl_reply.reply_code()))
-	{
-		struWireCtrlOut.iCombinedGearL |= 0x01 << 6;
-	}
-	else if (FILE_UPLOADED == g_collect_status_report.file_state())
-	{
-		struWireCtrlOut.iCombinedGearL |= 0x02 << 6;
-	}
+	struWireCtrlOut.iCombinedGearL |= (collectionReportCode.load() & 0x03) << 6;
 	if (WireInfo.wiper_start_status())
 	{
 		struWireCtrlOut.iCombinedGearR |= 0x01;
@@ -2767,10 +2927,35 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_getCtrlDate(ImpleResultInfo *pCtrlInfo)
 		// 开示廓灯
 		pCtrlInfo->outline_lamp_ctrl(true);
 	}
-	if (struWireCtrlIn.iCombinedGearL & 0xC0)
 	{
-		// 数据采集控制 bit7:bit6 0x00:停止 0x01:启动 0x02:文件上传
-		send_collection_control_request((struWireCtrlIn.iCombinedGearL & 0xC0) >> 6);
+		// 数据采集控制 bit7:bit6 0x00:停止 0x01:启动 0x02:文件上传 0x03:预留
+		const int collectionCommand = (struWireCtrlIn.iCombinedGearL >> 6) & 0x03;
+		bool commandChanged = false;
+		{
+			std::lock_guard<std::mutex> lock(collectionMutex);
+			if (!collectionHasWireBaseline)
+			{
+				collectionHasWireBaseline = true;
+				collectionLastWireCommand = collectionCommand;
+				commandChanged = (collectionCommand != 0x00);
+			}
+			else if (collectionLastWireCommand != collectionCommand)
+			{
+				collectionLastWireCommand = collectionCommand;
+				commandChanged = true;
+			}
+		}
+		if (commandChanged)
+		{
+			if (collectionCommand == 0x03)
+			{
+				MINE_LOG(SANY_LOG_INFO, "Ignore reserved collection command 3\n");
+			}
+			else
+			{
+				EnqueueCollectionCommand(collectionCommand);
+			}
+		}
 	}
 
 	/*组合开关右*/

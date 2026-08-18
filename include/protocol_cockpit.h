@@ -15,6 +15,12 @@
 #include <stdlib.h>
 #include <string.h>
 #include <algorithm>
+#include <atomic>
+#include <chrono>
+#include <condition_variable>
+#include <deque>
+#include <mutex>
+#include <string>
 #include "terminal_client.h"
 #include <sys/time.h>
 #include <sys/timeb.h>
@@ -282,6 +288,8 @@ private:
 	pthread_t t_upload_data_id;
 	pthread_t t_download_data_id;
 	pthread_t t_task_id;
+	pthread_t t_collection_cmd_id;
+	bool collectionThreadCreated = false;
 
 	/*发送缓冲区*/
 	pthread_mutex_t SendBufferMutex; /*做互斥锁，锁住整个发送缓冲区*/
@@ -313,6 +321,8 @@ private:
 	void funcAppDownloadData();
 	/*任务线程*/
 	void funcTask();
+	/*地图采集命令工作线程*/
+	void funcCollectionCommand();
 
 	/*数据上行业务处理线程静态成员*/
 	static void *threadAppUploadData(void *args);
@@ -320,6 +330,8 @@ private:
 	static void *threadAppDownloadData(void *args);
 	/*任务线程静态成员*/
 	static void *threadTask(void *args);
+	/*地图采集命令工作线程静态成员*/
+	static void *threadCollectionCommand(void *args);
 
 private:
 	/* 通用接口 */
@@ -363,8 +375,12 @@ private:
 	SANY_U8 ProtoCockpit_PackSafeFeedbackInfo();
 	/*297反馈信息整合到 struWireCtrlOut*/
 	SANY_U8 ProtoCockpit_getFeedbackData();
-	SANY_VOID GenerateId();
-	SANY_VOID send_collection_control_request(int cmd);
+	void EnqueueCollectionCommand(int cmd);
+	bool send_collection_control_request(int cmd);
+	void ResetCollectionState();
+	static uint64_t CurrentTimeMillis();
+	void collectionControlReplyCallback(CollectionControlReply &data);
+	void collectionStatusReportCallback(CollectionStatusReport &data);
 	
 
 /*dds相关*/
@@ -390,8 +406,7 @@ private:
 	TopicDataType *pDataTypeImple = NULL;
 	ddsPublisher<ImpleResultInfo> *pPubImple = NULL;
 
-	/*发布ditu req*/
-	CollectionControlRequest collect_ctl_req;
+	/*发布地图采集请求*/
 	TopicDataType *pDataColCtlReq = NULL;
 	ddsPublisher<CollectionControlRequest> *pPubColCtlReq= NULL;
 
@@ -402,6 +417,22 @@ private:
 	/*ditu status report*/
 	TopicDataType *pDataColStausReport = NULL;
 	ddsSubscriber<CollectionStatusReport> *pSubColStatusReport = NULL;
+
+	std::mutex collectionMutex;
+	std::condition_variable collectionQueueCv;
+	std::condition_variable collectionReplyCv;
+	std::deque<int> collectionCommandQueue;
+	std::string collectionTaskId;
+	uint32_t collectionRequestId = 0;
+	uint32_t collectionWaitingRequestId = 0;
+	CollectionReplyCode collectionReplyCode = ACCEPTED;
+	std::atomic<int> collectionReportCode{0};
+	bool collectionResponseReceived = false;
+	bool collectionCommandWorkerExit = false;
+	bool collectionHasWireBaseline = false;
+	int collectionLastWireCommand = 0;
+	bool collectionSessionError = false;
+	bool collectionUploadQueued = false;
 
 public:
 	/*网络相关接口*/
@@ -417,3 +448,4 @@ public:
 };
 
 #endif
+
