@@ -375,12 +375,12 @@ private:
 	SANY_U8 ProtoCockpit_PackSafeFeedbackInfo();
 	/*297反馈信息整合到 struWireCtrlOut*/
 	SANY_U8 ProtoCockpit_getFeedbackData();
-	void EnqueueCollectionCommand(int cmd);
-	bool send_collection_control_request(int cmd);
-	void ResetCollectionState();
-	static uint64_t CurrentTimeMillis();
-	void collectionControlReplyCallback(CollectionControlReply &data);
-	void collectionStatusReportCallback(CollectionStatusReport &data);
+	SANY_VOID EnqueueCollectionCommand(int cmd);
+	SANY_VOID send_collection_control_request(int cmd);
+	SANY_VOID ResetCollectionState();
+	static SANY_U64 CurrentTimeMillis();
+	SANY_VOID collectionControlReplyCallback(CollectionControlReply &data);
+	SANY_VOID collectionStatusReportCallback(CollectionStatusReport &data);
 	
 
 /*dds相关*/

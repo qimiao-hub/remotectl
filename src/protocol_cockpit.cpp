@@ -59,13 +59,13 @@ void safeFeedbackCallback(SafeFeedbackInfo *info)
 	return;
 }
 
-uint64_t Protocol_Cockpit::CurrentTimeMillis()
+SANY_U64 Protocol_Cockpit::CurrentTimeMillis()
 {
-	return static_cast<uint64_t>(std::chrono::duration_cast<std::chrono::milliseconds>(
+	return static_cast<SANY_U64>(std::chrono::duration_cast<std::chrono::milliseconds>(
 		std::chrono::system_clock::now().time_since_epoch()).count());
 }
 
-void Protocol_Cockpit::EnqueueCollectionCommand(int cmd)
+SANY_VOID Protocol_Cockpit::EnqueueCollectionCommand(int cmd)
 {
 	if (cmd < 0x00 || cmd > 0x02)
 	{
@@ -81,19 +81,22 @@ void Protocol_Cockpit::EnqueueCollectionCommand(int cmd)
 		}
 		if (!collectionCommandQueue.empty() && collectionCommandQueue.back() == cmd)
 		{
+			MINE_LOG(SANY_LOG_INFO, "Ignore duplicate CollectionCommand, cmd: %d\n", cmd);
 			return;
 		}
 		collectionCommandQueue.push_back(cmd);
+		MINE_LOG(SANY_LOG_INFO, "Enqueue CollectionCommand, cmd: %d, queue size: %u\n",
+			cmd, static_cast<SANY_U32>(collectionCommandQueue.size()));
 	}
 	collectionQueueCv.notify_one();
 }
 
-bool Protocol_Cockpit::send_collection_control_request(int cmd)
+SANY_VOID Protocol_Cockpit::send_collection_control_request(int cmd)
 {
 	CollectionControlRequest request;
 	std::string taskId;
 	uint32_t requestId = 0;
-	const uint64_t timestamp = CurrentTimeMillis();
+	const SANY_U64 timestamp = CurrentTimeMillis();
 
 	{
 		std::lock_guard<std::mutex> lock(collectionMutex);
@@ -105,11 +108,13 @@ bool Protocol_Cockpit::send_collection_control_request(int cmd)
 			collectionSessionError = false;
 			collectionUploadQueued = false;
 			collectionReportCode.store(0);
+			MINE_LOG(SANY_LOG_INFO, "Create collection task, task_id: %s\n",
+				collectionTaskId.c_str());
 		}
 		if (collectionTaskId.empty())
 		{
 			MINE_LOG(SANY_LOG_ERROR, "Ignore collection command %d without active task\n", cmd);
-			return false;
+			return;
 		}
 
 		taskId = collectionTaskId;
@@ -132,7 +137,7 @@ bool Protocol_Cockpit::send_collection_control_request(int cmd)
 		break;
 	default:
 		MINE_LOG(SANY_LOG_ERROR, "Invalid collection command: %d\n", cmd);
-		return false;
+		return;
 	}
 
 	request.task_id(taskId);
@@ -159,7 +164,7 @@ bool Protocol_Cockpit::send_collection_control_request(int cmd)
 		MINE_LOG(SANY_LOG_ERROR,
 			"CollectionControlRequest timeout, task_id: %s, request_id: %u\n",
 			taskId.c_str(), requestId);
-		return false;
+		return;
 	}
 	if (collectionReplyCode != ACCEPTED)
 	{
@@ -168,13 +173,16 @@ bool Protocol_Cockpit::send_collection_control_request(int cmd)
 		MINE_LOG(SANY_LOG_ERROR,
 			"CollectionControlRequest rejected, task_id: %s, request_id: %u, reply_code: %u\n",
 			taskId.c_str(), requestId, static_cast<uint32_t>(collectionReplyCode));
-		return false;
+		return;
 	}
-	return true;
+	MINE_LOG(SANY_LOG_INFO,
+		"CollectionControlRequest accepted, task_id: %s, request_id: %u, command: %u\n",
+		taskId.c_str(), requestId, static_cast<uint32_t>(ddsCommand));
 }
 
 void Protocol_Cockpit::funcCollectionCommand()
 {
+	MINE_LOG(SANY_LOG_INFO, "Collection command worker start\n");
 	while (true)
 	{
 		int cmd = 0;
@@ -185,10 +193,13 @@ void Protocol_Cockpit::funcCollectionCommand()
 				});
 			if (collectionCommandWorkerExit && collectionCommandQueue.empty())
 			{
+				MINE_LOG(SANY_LOG_INFO, "Collection command worker stop\n");
 				return;
 			}
 			cmd = collectionCommandQueue.front();
 			collectionCommandQueue.pop_front();
+			MINE_LOG(SANY_LOG_INFO, "Dequeue CollectionCommand, cmd: %d, queue size: %u\n",
+				cmd, static_cast<SANY_U32>(collectionCommandQueue.size()));
 		}
 		send_collection_control_request(cmd);
 	}
@@ -201,7 +212,7 @@ void *Protocol_Cockpit::threadCollectionCommand(void *args)
 	return NULL;
 }
 
-void Protocol_Cockpit::collectionControlReplyCallback(CollectionControlReply &data)
+SANY_VOID Protocol_Cockpit::collectionControlReplyCallback(CollectionControlReply &data)
 {
 	std::lock_guard<std::mutex> lock(collectionMutex);
 	if (data.task_id() != collectionTaskId ||
@@ -221,7 +232,7 @@ void Protocol_Cockpit::collectionControlReplyCallback(CollectionControlReply &da
 	collectionReplyCv.notify_one();
 }
 
-void Protocol_Cockpit::collectionStatusReportCallback(CollectionStatusReport &data)
+SANY_VOID Protocol_Cockpit::collectionStatusReportCallback(CollectionStatusReport &data)
 {
 	bool enqueueUpload = false;
 	{
@@ -262,6 +273,9 @@ void Protocol_Cockpit::collectionStatusReportCallback(CollectionStatusReport &da
 		{
 			collectionUploadQueued = true;
 			enqueueUpload = true;
+			MINE_LOG(SANY_LOG_INFO,
+				"Collection ended, enqueue upload once, task_id: %s\n",
+				collectionTaskId.c_str());
 		}
 	}
 	if (enqueueUpload)
@@ -270,7 +284,7 @@ void Protocol_Cockpit::collectionStatusReportCallback(CollectionStatusReport &da
 	}
 }
 
-void Protocol_Cockpit::ResetCollectionState()
+SANY_VOID Protocol_Cockpit::ResetCollectionState()
 {
 	std::lock_guard<std::mutex> lock(collectionMutex);
 	collectionCommandQueue.clear();
@@ -282,6 +296,7 @@ void Protocol_Cockpit::ResetCollectionState()
 	collectionSessionError = false;
 	collectionUploadQueued = false;
 	collectionReportCode.store(0);
+	MINE_LOG(SANY_LOG_INFO, "Reset collection state\n");
 }
 
  /*挡墙边界回调*/
@@ -409,6 +424,7 @@ void Protocol_Cockpit::InitProtocol(){
 	if (pthread_create(&t_collection_cmd_id, NULL, threadCollectionCommand, this) == 0)
 	{
 		collectionThreadCreated = true;
+		MINE_LOG(SANY_LOG_INFO, "create threadCollectionCommand thread success!\n");
 	}
 	else
 	{
@@ -2938,9 +2954,15 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_getCtrlDate(ImpleResultInfo *pCtrlInfo)
 				collectionHasWireBaseline = true;
 				collectionLastWireCommand = collectionCommand;
 				commandChanged = (collectionCommand != 0x00);
+				MINE_LOG(SANY_LOG_INFO,
+					"Collection wire baseline, command: %d, need enqueue: %d\n",
+					collectionCommand, commandChanged ? 1 : 0);
 			}
 			else if (collectionLastWireCommand != collectionCommand)
 			{
+				MINE_LOG(SANY_LOG_INFO,
+					"Collection wire command changed, old: %d, new: %d\n",
+					collectionLastWireCommand, collectionCommand);
 				collectionLastWireCommand = collectionCommand;
 				commandChanged = true;
 			}
