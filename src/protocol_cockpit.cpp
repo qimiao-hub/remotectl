@@ -25,6 +25,9 @@
 #include "../include/protocol_cockpit.h"
 
 #define BACK_LIDAR_CURB_MESSAGE "back_lidar_curb_message"
+#define COLLECTION_CONTROL_REQUEST_MESSAGE "CollectionControlRequest"
+#define COLLECTION_CONTROL_REPLY_MESSAGE "CollectionControlReply"
+#define COLLECTION_STATUS_REPORT_MESSAFE "CollectionStatusReport"
 		
 /*底盘反馈信息*/
 static WirectlFeedbackInfo WireInfo;
@@ -65,8 +68,11 @@ uint64_t Protocol_Cockpit::CurrentTimeMillis()
 		std::chrono::system_clock::now().time_since_epoch()).count());
 }
 
-void Protocol_Cockpit::EnqueueCollectionCommand(int cmd)
+void Protocol_Cockpit::EnqueueCollectionCommand(int cmd, int area)
 {
+	if(collectionTaskId.empty() ){
+		MINE_LOG(SANY_LOG_ERROR, "Enqueue collection command error, collectionTaskId null, cmd: %d, area: %d\n", cmd, area);
+	}
 	if (cmd < 0x00 || cmd > 0x02)
 	{
 		MINE_LOG(SANY_LOG_ERROR, "Invalid wire collection command: %d\n", cmd);
@@ -79,16 +85,16 @@ void Protocol_Cockpit::EnqueueCollectionCommand(int cmd)
 		{
 			return;
 		}
-		if (!collectionCommandQueue.empty() && collectionCommandQueue.back() == cmd)
+		if (!collectionCommandQueue.empty() && collectionCommandQueue.back().first == cmd)
 		{
 			return;
 		}
-		collectionCommandQueue.push_back(cmd);
+		collectionCommandQueue.emplace_back(cmd, area);
 	}
 	collectionQueueCv.notify_one();
 }
 
-bool Protocol_Cockpit::send_collection_control_request(int cmd)
+bool Protocol_Cockpit::send_collection_control_request(int cmd, int area)
 {
 	CollectionControlRequest request;
 	std::string taskId;
@@ -134,18 +140,41 @@ bool Protocol_Cockpit::send_collection_control_request(int cmd)
 		MINE_LOG(SANY_LOG_ERROR, "Invalid collection command: %d\n", cmd);
 		return false;
 	}
+	AreaType ddsArea = ROAD;
+	switch(area){
+		case 0x00:
+			ddsArea = LOAD_AREA;
+			break;
+		case 0x01:
+			ddsArea = ROAD;
+			break;
+		case 0x02:
+			ddsArea = DUMP_AREA;
+			break;
+		case 0x03:
+			ddsArea = DUMP_LINE;
+			break;
+		case 0x04:
+			ddsArea = OTHER_AREA;
+			break;
+		default:
+			MINE_LOG(SANY_LOG_ERROR, "Invalid collection area: %d\n", area);
+			return false;
+	}
 
 	request.task_id(taskId);
 	request.time_stamp(timestamp);
 	request.request_id(requestId);
-	request.collection_area_type(DUMP_AREA);
+	request.collection_area_type(ddsArea);
 	request.control_client_type(REMOTE_COCKPIT);
 	request.collection_command(ddsCommand);
 
 	MINE_LOG(SANY_LOG_INFO,
-		"Publish CollectionControlRequest, task_id: %s, request_id: %u, command: %u\n",
-		taskId.c_str(), requestId, static_cast<uint32_t>(ddsCommand));
-	pPubColCtlReq->publish(request);
+		"Publish CollectionControlRequest, task_id: %s, request_id: %u, command: %u, area: %u\n",
+		taskId.c_str(), requestId, static_cast<uint32_t>(ddsCommand), static_cast<uint32_t>(area));
+	int ret = pPubColCtlReq->publish(request);
+	MINE_LOG(SANY_LOG_INFO,
+		"Publish CollectionControlRequest, ret: %d, count %d\n", ret, pPubColCtlReq->getSubscriberCount());
 
 	std::unique_lock<std::mutex> lock(collectionMutex);
 	const bool replied = collectionReplyCv.wait_for(
@@ -178,6 +207,7 @@ void Protocol_Cockpit::funcCollectionCommand()
 	while (true)
 	{
 		int cmd = 0;
+		int area = 0;
 		{
 			std::unique_lock<std::mutex> lock(collectionMutex);
 			collectionQueueCv.wait(lock, [this]() {
@@ -187,10 +217,11 @@ void Protocol_Cockpit::funcCollectionCommand()
 			{
 				return;
 			}
-			cmd = collectionCommandQueue.front();
+			cmd = collectionCommandQueue.front().first;
+			area = collectionCommandQueue.front().second;
 			collectionCommandQueue.pop_front();
 		}
-		send_collection_control_request(cmd);
+		send_collection_control_request(cmd, area);
 	}
 }
 
@@ -203,6 +234,10 @@ void *Protocol_Cockpit::threadCollectionCommand(void *args)
 
 void Protocol_Cockpit::collectionControlReplyCallback(CollectionControlReply &data)
 {
+	if(1 != g_u8TaskStartFlag)
+	{
+		return;
+	}
 	std::lock_guard<std::mutex> lock(collectionMutex);
 	if (data.task_id() != collectionTaskId ||
 		data.request_id() != collectionWaitingRequestId)
@@ -223,10 +258,16 @@ void Protocol_Cockpit::collectionControlReplyCallback(CollectionControlReply &da
 
 void Protocol_Cockpit::collectionStatusReportCallback(CollectionStatusReport &data)
 {
+	if(1 != g_u8TaskStartFlag)
+	{
+		return;
+	}
 	bool enqueueUpload = false;
 	{
 		std::lock_guard<std::mutex> lock(collectionMutex);
-		if (data.task_id() != collectionTaskId)
+		
+		
+		if ( data.task_id() != collectionTaskId)
 		{
 			MINE_LOG(SANY_LOG_INFO,
 				"Ignore unrelated CollectionStatusReport, task_id: %s\n",
@@ -238,6 +279,7 @@ void Protocol_Cockpit::collectionStatusReportCallback(CollectionStatusReport &da
 			"Receive CollectionStatusReport, task_id: %s, state: %u, file_state: %u\n",
 			data.task_id().c_str(), static_cast<uint32_t>(data.state()),
 			static_cast<uint32_t>(data.file_state()));
+		
 
 		if (data.state() == STATE_ERROR)
 		{
@@ -266,7 +308,7 @@ void Protocol_Cockpit::collectionStatusReportCallback(CollectionStatusReport &da
 	}
 	if (enqueueUpload)
 	{
-		EnqueueCollectionCommand(0x02);
+		EnqueueCollectionCommand(0x02, collectionCommandQueue.back().second);
 	}
 }
 
@@ -372,19 +414,19 @@ void Protocol_Cockpit::InitProtocol(){
 
 	/*发布ditu控制请求*/
 	pDataColCtlReq = new CollectionControlRequestPubSubType();
-	pPubColCtlReq = new ddsPublisher<CollectionControlRequest>(pDataColCtlReq);
+	pPubColCtlReq = new ddsPublisher<CollectionControlRequest>(COLLECTION_CONTROL_REQUEST_MESSAGE, pDataColCtlReq);
 	MINE_LOG(SANY_LOG_INFO, "CREATE COLLECTION_CONTROL_REQUEST PUBLISHER!!\n");
 
 	/*订阅ditu控制响应*/
 	pDataColCtlReply = new CollectionControlReplyPubSubType();
-	pSubColCtlReply = new ddsSubscriber<CollectionControlReply>(
+	pSubColCtlReply = new ddsSubscriber<CollectionControlReply>(COLLECTION_CONTROL_REPLY_MESSAGE, 
 		pDataColCtlReply,
 		std::bind(&Protocol_Cockpit::collectionControlReplyCallback, this, std::placeholders::_1));
 	MINE_LOG(SANY_LOG_INFO, "CREATE COLLECTION_CONTROL_REPLY SUBSCRIBER!!\n");
 
 	/*订阅ditu状态报告*/
 	pDataColStausReport = new CollectionStatusReportPubSubType();
-	pSubColStatusReport = new ddsSubscriber<CollectionStatusReport>(
+	pSubColStatusReport = new ddsSubscriber<CollectionStatusReport>(COLLECTION_STATUS_REPORT_MESSAFE, 
 		pDataColStausReport,
 		std::bind(&Protocol_Cockpit::collectionStatusReportCallback, this, std::placeholders::_1));
 	MINE_LOG(SANY_LOG_INFO, "CREATE COLLECTION_STATUS_REPORT SUBSCRIBER!!\n");
@@ -512,6 +554,10 @@ void Protocol_Cockpit::Task_stop()
 	MINE_LOG(SANY_LOG_INFO, "ONE REMOTE TASK END\n");
 	if(g_u8CtrlState == 1)
 	{
+		if(!collectionTaskId.empty()){
+			EnqueueCollectionCommand(0x03, collectionCommandQueue.back().second);
+			MINE_LOG(SANY_LOG_INFO, "Remote exit, CollectionControlRequest, stop\n");
+		}
 		g_u8CtrlState = 2;
 		MINE_LOG(SANY_LOG_INFO, "STOP, 1s back to unman\n");
 		sleep(2);
@@ -2928,6 +2974,8 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_getCtrlDate(ImpleResultInfo *pCtrlInfo)
 		pCtrlInfo->outline_lamp_ctrl(true);
 	}
 	{
+		// 数据采集控制 区域选择，bit3-5
+		const int collectionArea = (struWireCtrlIn.iCombinedGearR >> 3) & 0x07;
 		// 数据采集控制 bit7:bit6 0x00:停止 0x01:启动 0x02:文件上传 0x03:预留
 		const int collectionCommand = (struWireCtrlIn.iCombinedGearL >> 6) & 0x03;
 		bool commandChanged = false;
@@ -2953,7 +3001,7 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_getCtrlDate(ImpleResultInfo *pCtrlInfo)
 			}
 			else
 			{
-				EnqueueCollectionCommand(collectionCommand);
+				EnqueueCollectionCommand(collectionCommand, collectionArea);
 			}
 		}
 	}
