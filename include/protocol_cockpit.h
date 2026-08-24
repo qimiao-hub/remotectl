@@ -375,12 +375,12 @@ private:
 	SANY_U8 ProtoCockpit_PackSafeFeedbackInfo();
 	/*297反馈信息整合到 struWireCtrlOut*/
 	SANY_U8 ProtoCockpit_getFeedbackData();
-	SANY_VOID EnqueueCollectionCommand(int cmd);
-	SANY_VOID send_collection_control_request(int cmd);
-	SANY_VOID ResetCollectionState();
-	static SANY_U64 CurrentTimeMillis();
-	SANY_VOID collectionControlReplyCallback(CollectionControlReply &data);
-	SANY_VOID collectionStatusReportCallback(CollectionStatusReport &data);
+	void EnqueueCollectionCommand(int cmd, int area);
+	bool send_collection_control_request(int cmd, int area);
+	void ResetCollectionState();
+	static uint64_t CurrentTimeMillis();
+	void collectionControlReplyCallback(CollectionControlReply &data);
+	void collectionStatusReportCallback(CollectionStatusReport &data);
 	
 
 /*dds相关*/
@@ -421,7 +421,7 @@ private:
 	std::mutex collectionMutex;
 	std::condition_variable collectionQueueCv;
 	std::condition_variable collectionReplyCv;
-	std::deque<int> collectionCommandQueue;
+	std::deque<std::pair<int, int>> collectionCommandQueue;
 	std::string collectionTaskId;
 	uint32_t collectionRequestId = 0;
 	uint32_t collectionWaitingRequestId = 0;
