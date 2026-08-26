@@ -62,7 +62,7 @@ void safeFeedbackCallback(SafeFeedbackInfo *info)
 	return;
 }
 
-SANY_U64 Protocol_Cockpit::CurrentTimeMillis()
+uint64_t Protocol_Cockpit::CurrentTimeMillis()
 {
 	return static_cast<SANY_U64>(std::chrono::duration_cast<std::chrono::milliseconds>(
 		std::chrono::system_clock::now().time_since_epoch()).count());
@@ -97,7 +97,7 @@ void Protocol_Cockpit::EnqueueCollectionCommand(int cmd, int area)
 	collectionQueueCv.notify_one();
 }
 
-bool Protocol_Cockpit::send_collection_control_request(int cmd, int area)
+SANY_VOID Protocol_Cockpit::send_collection_control_request(int cmd, int area)
 {
 	CollectionControlRequest request;
 	std::string taskId;
@@ -112,7 +112,7 @@ bool Protocol_Cockpit::send_collection_control_request(int cmd, int area)
 				? m_Config->vehicle_vin : "UNKNOWN";
 			collectionTaskId = vin + "_" + std::to_string(timestamp);
 			collectionSessionError = false;
-			collectionUploadQueued = false;
+			// collectionUploadQueued = false;
 			collectionReportCode.store(0);
 			MINE_LOG(SANY_LOG_INFO, "Create collection task, task_id: %s\n",
 				collectionTaskId.c_str());
@@ -143,7 +143,7 @@ bool Protocol_Cockpit::send_collection_control_request(int cmd, int area)
 		break;
 	default:
 		MINE_LOG(SANY_LOG_ERROR, "Invalid collection command: %d\n", cmd);
-		return false;
+		return ;
 	}
 	AreaType ddsArea = ROAD;
 	switch(area){
@@ -164,7 +164,7 @@ bool Protocol_Cockpit::send_collection_control_request(int cmd, int area)
 			break;
 		default:
 			MINE_LOG(SANY_LOG_ERROR, "Invalid collection area: %d\n", area);
-			return false;
+			return;
 	}
 
 	request.task_id(taskId);
@@ -273,7 +273,7 @@ SANY_VOID Protocol_Cockpit::collectionStatusReportCallback(CollectionStatusRepor
 	{
 		return;
 	}
-	bool enqueueUpload = false;
+	// bool enqueueUpload = false;
 	{
 		std::lock_guard<std::mutex> lock(collectionMutex);
 		
@@ -310,20 +310,20 @@ SANY_VOID Protocol_Cockpit::collectionStatusReportCallback(CollectionStatusRepor
 			collectionReportCode.store(0);
 		}
 
-		if (data.state() == STATE_COLLECTION_ENDED &&
-			!collectionSessionError && !collectionUploadQueued)
-		{
-			collectionUploadQueued = true;
-			enqueueUpload = true;
-			MINE_LOG(SANY_LOG_INFO,
-				"Collection ended, enqueue upload once, task_id: %s\n",
-				collectionTaskId.c_str());
-		}
+		// if (data.state() == STATE_COLLECTION_ENDED &&
+		// 	!collectionSessionError && !collectionUploadQueued)
+		// {
+		// 	collectionUploadQueued = true;
+		// 	enqueueUpload = true;
+		// 	MINE_LOG(SANY_LOG_INFO,
+		// 		"Collection ended, enqueue upload once, task_id: %s\n",
+		// 		collectionTaskId.c_str());
+		// }
 	}
-	if (enqueueUpload)
-	{
-		EnqueueCollectionCommand(0x02, collectionCommandQueue.back().second);
-	}
+	// if (enqueueUpload)
+	// {
+		// EnqueueCollectionCommand(0x02, collectionCommandQueue.back().second);
+	// }
 }
 
 SANY_VOID Protocol_Cockpit::ResetCollectionState()
@@ -336,7 +336,7 @@ SANY_VOID Protocol_Cockpit::ResetCollectionState()
 	collectionHasWireBaseline = false;
 	collectionLastWireCommand = 0;
 	collectionSessionError = false;
-	collectionUploadQueued = false;
+	// collectionUploadQueued = false;
 	collectionReportCode.store(0);
 	MINE_LOG(SANY_LOG_INFO, "Reset collection state\n");
 }

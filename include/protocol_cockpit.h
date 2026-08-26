@@ -376,9 +376,9 @@ private:
 	/*297反馈信息整合到 struWireCtrlOut*/
 	SANY_U8 ProtoCockpit_getFeedbackData();
 	void EnqueueCollectionCommand(int cmd, int area);
-	bool send_collection_control_request(int cmd, int area);
+	SANY_VOID send_collection_control_request(int cmd, int area);
 	void ResetCollectionState();
-	static uint64_t CurrentTimeMillis();
+	uint64_t CurrentTimeMillis();
 	void collectionControlReplyCallback(CollectionControlReply &data);
 	void collectionStatusReportCallback(CollectionStatusReport &data);
 	
@@ -432,7 +432,7 @@ private:
 	bool collectionHasWireBaseline = false;
 	int collectionLastWireCommand = 0;
 	bool collectionSessionError = false;
-	bool collectionUploadQueued = false;
+	// bool collectionUploadQueued = false;
 
 public:
 	/*网络相关接口*/
