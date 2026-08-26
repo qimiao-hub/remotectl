@@ -70,9 +70,7 @@ uint64_t Protocol_Cockpit::CurrentTimeMillis()
 
 void Protocol_Cockpit::EnqueueCollectionCommand(int cmd, int area)
 {
-	if(collectionTaskId.empty() ){
-		MINE_LOG(SANY_LOG_ERROR, "Enqueue collection command error, collectionTaskId null, cmd: %d, area: %d\n", cmd, area);
-	}
+	
 	if (cmd < 0x00 || cmd > 0x02)
 	{
 		MINE_LOG(SANY_LOG_ERROR, "Invalid wire collection command: %d\n", cmd);
@@ -133,13 +131,13 @@ SANY_VOID Protocol_Cockpit::send_collection_control_request(int cmd, int area)
 	switch (cmd)
 	{
 	case 0x00:
-		ddsCommand = CMD_STOP;
+		ddsCommand = CMD_STOP_AND_UPLOAD;
 		break;
 	case 0x01:
 		ddsCommand = CMD_START;
 		break;
 	case 0x02:
-		ddsCommand = CMD_UPLOAD;
+		ddsCommand = CMD_STOP_AND_UPLOAD;
 		break;
 	default:
 		MINE_LOG(SANY_LOG_ERROR, "Invalid collection command: %d\n", cmd);
@@ -175,11 +173,11 @@ SANY_VOID Protocol_Cockpit::send_collection_control_request(int cmd, int area)
 	request.collection_command(ddsCommand);
 
 	MINE_LOG(SANY_LOG_INFO,
-		"Publish CollectionControlRequest, task_id: %s, request_id: %u, command: %u, area: %u\n",
+		"CollectionControlRequest publish, task_id: %s, request_id: %u, command: %u, area: %u\n",
 		taskId.c_str(), requestId, static_cast<uint32_t>(ddsCommand), static_cast<uint32_t>(area));
 	int ret = pPubColCtlReq->publish(request);
 	MINE_LOG(SANY_LOG_INFO,
-		"Publish CollectionControlRequest, ret: %d, count %d\n", ret, pPubColCtlReq->getSubscriberCount());
+		"CollectionControlRequest publish, ret: %d, count %d\n", ret, pPubColCtlReq->getSubscriberCount());
 
 	std::unique_lock<std::mutex> lock(collectionMutex);
 	const bool replied = collectionReplyCv.wait_for(
@@ -571,7 +569,7 @@ void Protocol_Cockpit::Task_stop()
 	if(g_u8CtrlState == 1)
 	{
 		if(!collectionTaskId.empty()){
-			EnqueueCollectionCommand(0x03, collectionCommandQueue.back().second);
+			EnqueueCollectionCommand(0x00, collectionCommandQueue.back().second);
 			MINE_LOG(SANY_LOG_INFO, "Remote exit, CollectionControlRequest, stop\n");
 		}
 		g_u8CtrlState = 2;
