@@ -5,6 +5,7 @@ if(NOT CMAKE_VERSION VERSION_LESS 3.0)
     cmake_policy(SET CMP0048 NEW)
 endif()
 
+# set(CMAKE_CXX_FLAGS   "-std=c++17 -g -O0")
 set(CMAKE_CXX_FLAGS   "-std=c++17 -g")
 
 set(CMAKE_SYSTEM_NAME "Linux")
