@@ -55,9 +55,20 @@ void Remote_Config::ReadVehicleConfig(){
 			 vehicle_type = "SKT-I";
 		}
 		/* 20250306 liuss31 新增车型 130H混型-------- end*/ 
+<<<<<<< HEAD
+
+=======
+>>>>>>> origin/v2.8.1
+		std::string s = config["system"]["currentPart"].as<std::string>();
+
+		 std::transform(s.begin(), s.end(), s.begin(),
+                   [](unsigned char c) { return std::tolower(c); });
+				   
+		current_part = "syzk_" + s;
 		MINE_LOG(SANY_LOG_INFO, "Vehicle VIN is %s\n",  vehicle_vin.c_str());
 		MINE_LOG(SANY_LOG_INFO, "Vehicle ICCID is %s\n",  vehicle_iccid.c_str());
 		MINE_LOG(SANY_LOG_INFO, "Vehicle type is %s\n",  vehicle_type.c_str());
+		MINE_LOG(SANY_LOG_INFO, "Current_Part is %s\n", current_part.c_str());
 	}
 }
 
@@ -69,6 +80,7 @@ void Remote_Config::ReadRemoteConfig(){
 		MINE_LOG(SANY_LOG_ERROR, "Read Config remote_lines.ini fail!!\n");
 		return;
 	}
+
 	// 车宽
 	vehicle_width = config.ReadInt("Vehicle", "width", 3980);
 	vehicle_length = config.ReadInt("Vehicle", "length", 9260);
@@ -88,5 +100,51 @@ void Remote_Config::ReadRemoteConfig(){
 	MINE_LOG(SANY_LOG_INFO, "Camera pitchDegree (%d)\n",  camera_pitchDegree);
 	MINE_LOG(SANY_LOG_INFO, "Audio isOpen (%d)\n",  audio_isOpen);
     MINE_LOG(SANY_LOG_INFO, "Audio isSave (%d)\n",  audio_isSave);
+
+	
+
+
+	dumpBack_isOpen = config.ReadInt("DumpBack", "dumpBack_isOpen", 1);
+
+	boundary_stop_without_curb_dis = config.ReadFloat("DumpBack", "boundary_stop_without_curb_dis", 3.0f); 
+	boundary_curb_diff_dis = config.ReadFloat("DumpBack", "boundary_curb_diff_dis", 4.0f);  
+	curb_stop_dis = config.ReadFloat("DumpBack", "curb_stop_dis", 1.9f);  
+	boundary_stop_with_curb_dis = config.ReadFloat("DumpBack", "boundary_stop_with_curb_dis", 1.2f);  
+
+	full_back_throttle_limit = config.ReadFloat("DumpBack", "full_back_throttle_limit", 45.0f);
+	slope_throttle_compensation = config.ReadFloat("DumpBack", "slope_throttle_compensation", 2.0f);
+	dev_angle_throttle_compensation = config.ReadFloat("DumpBack", "dev_angle_throttle_compensation", 1.0f);
+	vehile_back_throttle_max = config.ReadFloat("DumpBack", "vehile_back_throttle_max", 52.0f);
+
+	top_level_pitch_limit = config.ReadFloat("DumpBack", "top_level_pitch_limit", 1.0f);
+	low_level_pitch_limit = config.ReadFloat("DumpBack", "low_level_pitch_limit", 0.8f);
+	pitch_abnormal_dis = config.ReadFloat("DumpBack", "pitch_abnormal_dis", 2.0f);         
+	pitch_pair_chang_value = config.ReadFloat("DumpBack", "pitch_pair_chang_value", 0.5f);
+	up_level_pitch_max = config.ReadFloat("DumpBack", "up_level_pitch_max", 3.5f);
+	down_level_pitch_max = config.ReadFloat("DumpBack", "down_level_pitch_max", 1.6f);
+
+	MINE_LOG(SANY_LOG_INFO, "dumpBack_isOpen  (%d)\n", dumpBack_isOpen);
+
+	MINE_LOG(SANY_LOG_INFO, "boundary_stop_without_curb_dis (%f)\n",  boundary_stop_without_curb_dis);
+	MINE_LOG(SANY_LOG_INFO, "boundary_curb_diff_dis (%f)\n",  boundary_curb_diff_dis);
+	MINE_LOG(SANY_LOG_INFO, "curb_stop_dis(%f)\n",  curb_stop_dis);
+	MINE_LOG(SANY_LOG_INFO, "boundary_stop_with_curb_dis (%f)\n",  boundary_stop_with_curb_dis);
+
+	MINE_LOG(SANY_LOG_INFO, "full_back_throttle_limit (%f)\n",  full_back_throttle_limit);
+	MINE_LOG(SANY_LOG_INFO, "slope_throttle_compensation(%f)\n",  slope_throttle_compensation);
+	MINE_LOG(SANY_LOG_INFO, "dev_angle_throttle_compensation (%f)\n",  dev_angle_throttle_compensation);
+	MINE_LOG(SANY_LOG_INFO, "vehile_back_throttle_max(%f)\n",  vehile_back_throttle_max);
+
+
+	MINE_LOG(SANY_LOG_INFO, "top_level_pitch_limit (%f)\n",  top_level_pitch_limit);
+	MINE_LOG(SANY_LOG_INFO, "low_level_pitch_limit (%f)\n",  low_level_pitch_limit);
+	MINE_LOG(SANY_LOG_INFO, "pitch_abnormal_dis (%f)\n",  pitch_abnormal_dis);
+	MINE_LOG(SANY_LOG_INFO, "pitch_pair_chang_value (%f)\n",  pitch_pair_chang_value);
+	MINE_LOG(SANY_LOG_INFO, "up_level_pitch_max(%f)\n",  up_level_pitch_max);
+    MINE_LOG(SANY_LOG_INFO, "down_level_pitch_max(%f)\n",  down_level_pitch_max);
+<<<<<<< HEAD
+
+=======
+>>>>>>> origin/v2.8.1
 }
 /*读取车道线配置文件 2025.03.24 end */

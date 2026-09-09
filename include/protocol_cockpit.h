@@ -14,6 +14,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <algorithm>
+#include <atomic>
+#include <chrono>
+#include <condition_variable>
+#include <deque>
+#include <mutex>
+#include <string>
 #include "terminal_client.h"
 #include <sys/time.h>
 #include <sys/timeb.h>
@@ -37,9 +44,18 @@
 #include "../dvpn-pnc-common/ddsType/include/imple_msgPubSubTypes.h"
 #include "../dvpn-pnc-common/ddsType/include/safe_ctrl_msg.h"
 #include "../dvpn-pnc-common/ddsType/include/safe_ctrl_msgPubSubTypes.h"
+#include "../dvpn-pnc-common/ddsType/include/obst_msg.h"
+#include "../dvpn-pnc-common/ddsType/include/obst_msgPubSubTypes.h"
+#include "../dvpn-pnc-common/ddsType/include/collection_control_request.h"
+#include "../dvpn-pnc-common/ddsType/include/collection_control_requestPubSubTypes.h"
+#include "../dvpn-pnc-common/ddsType/include/collection_control_reply.h"
+#include "../dvpn-pnc-common/ddsType/include/collection_control_replyPubSubTypes.h"
+#include "../dvpn-pnc-common/ddsType/include/collection_status_report.h"
+#include "../dvpn-pnc-common/ddsType/include/collection_status_reportPubSubTypes.h"
 
+#include "../include/polygon_boundary.h"
 
-
+#include "remote_config.h"
 
 #include "../dvpn-pnc-common/ddsType/include/obst_msg.h"
 #include "../dvpn-pnc-common/ddsType/include/obst_msgPubSubTypes.h"
@@ -47,6 +63,10 @@
 #include "../dvpn-pnc-common/ddsType/include/v2x_msgPubSubTypes.h"
 //#include "ddsType/obst130_msg.h"
 //#include "ddsType/obst130_msgPubSubTypes.h"
+
+#include "../dvpn-pnc-common/ddsType/include/obst_msg.h"
+#include "../dvpn-pnc-common/ddsType/include/obst_msgPubSubTypes.h"
+#include "../include/polygon_boundary.h"
 
 #include "remote_config.h"
 
@@ -111,8 +131,7 @@ typedef struct
 {
 	float iVehicle_speed;	   // 车速，单位：km/h
 	float iHeadingAngle;	   // 航向角
-	float iWheelAngleL;		   // 左轮转角(左)
-	// float iWheelAngleR;			// 车轮转角（右）20241210 辅助车道线新增 右轮转角  20250218 不增加
+	float iWheelAngleL;		   // 左轮转角
 	int iThrottleOpening;	   // 油门开度
 	int iBrakeOpening;		   // 制动开度
 	float iEngineSpeed;		   // 发动机转速
@@ -130,10 +149,13 @@ typedef struct
     int	iCombinedGearR;			//组合开关右
     int	iKeyOperation1;			//按键操作1
     int	iKeyOperation2;			//按键操作2 
+	int	iKeyOperation3;			//按键操作3 
 	int	iWorkStatus;			//车辆驾驶状态
 	int iSafeInfo1;				// 安全模块-故障1
 	int iSafeInfo2;				// 安全模块-故障2
+	int iSafeInfo3;				// 安全模块-故障3
 } RemoteDrivingWirectlOutInfo;
+
 
 // 20250107 新增单个障碍物信息
 	typedef struct{
@@ -154,9 +176,9 @@ typedef struct
 		SANY_U8 u8Next[0];
 	}V2vResult;
 
-/*********************************************************************
- * CLASS
- */
+
+using namespace mine_collection;
+
 class Protocol_Cockpit
 {
 public:
@@ -178,14 +200,12 @@ public:
 	void Task_start();
 	void Task_stop();
 	void Task_Reset();
+	SANY_U8 ProtoCockpit_DownshiftDecision();
 	// void ProtoCockpit_setServerName(const char *pServerName);
 
 	/*遥控控制信息输出*/
-	/* 舱端控制数据转为底盘数据*/
 	SANY_U8 ProtoCockpit_getCtrlDate(ImpleResultInfo *pCtrlInfo);
 	/*遥控接管使能位和最大车速*/
-    // 读取配置文件
-   
 //	SANY_U8 ProtoCockpit_getMaxSpeed(Remote2Control *pRemoteCtrl);
 
 	/*读取配置文件*/
@@ -196,9 +216,6 @@ public:
 	SANY_U8 ProtoCockpit_Rolling();
 	/* 20250925 坡起策略*/
 	float ProtoCockpit_SlopeStart();
-	
-
-
 	/*心跳、控车数据监测*/
 	SANY_U8 ProtoCockpit_HeartCheck(const SANY_U32 Losttimes);
 	/*断连/心跳丢失停车*/
@@ -209,28 +226,103 @@ public:
 	SANY_U8 ProtoCockpit_SendAckCom(SANY_U8 ucCmd, SANY_U8 ucAckflg);
 	/*遥控刹车启动前初始化 刹车 档位 油门 主车*/
 	SANY_U8 ProtoCockpit_CheckBrakeLimit();
+
 	/*降档判断*/
-	SANY_U8 ProtoCockpit_DownshiftDecision();
+	
 	/*105e蓬布控制*/
 	SANY_U8 ProtoCockpit_TarpaulinControl();
+	/*202605 排土场倒车策略*/
+	SANY_U8 ProtoCockpit_DumpBackSafeCheck();
+	/*排土场倒车限扭*/
+	bool ProtoCockpit_dumpBackThrottleLimit();
+	// 排土场边界判断
+	bool ProtoCockpit_GeneralBackCurbCheck(double temp_gpsLng, double temp_gpsLat, std::string dump_id);
+	/*排土场倒车俯仰角异常*/
+	bool ProtoCockpit_dumpBackPitchCheck();
+	float GetNormalizedPitch();
+	void CalibrateBasePitch();
+	void ReEvaluatePitchStable();
+	void pitch_Attitude_montoring();
 
 public:
 /*配置文件*/
-	std::string vehicle_iccid;
-	std::string vehicle_vin;
-	std::string vehicle_type;
-	std::string vehicle_HardVer = "0101";
-	std::string vehicle_SoftVer = "0222";//02软件类型 20软件版本号 20不调整，21调整气压速度显示小数点后一位，增加刹车提醒；22 调整130 车型、水温显示
+	// std::string vehicle_iccid;
+	// std::string vehicle_vin;
+	// std::string vehicle_type;
+	// std::string vehicle_HardVer = "0101";
+	// std::string vehicle_SoftVer = "0222";//02软件类型 20软件版本号 20不调整，21调整气压速度显示小数点后一位，增加刹车提醒；22 调整130 车型、水温显示
+
+	
+private:
+	
+
+/**20260715 合并篷布功能*/
+	
+
+
+	
+	/*202605 排土场倒车策略*/
+	SANY_U8 ProtoCockpit_DumpBackSafeCheck();
+	/*排土场倒车限扭*/
+	bool ProtoCockpit_dumpBackThrottleLimit();
+	// 排土场边界判断
+	bool ProtoCockpit_GeneralBackCurbCheck(double temp_gpsLng, double temp_gpsLat, std::string dump_id);
+	/*排土场倒车俯仰角异常*/
+	bool ProtoCockpit_dumpBackPitchCheck();
+	float GetNormalizedPitch();
+	void CalibrateBasePitch();
+	void ReEvaluatePitchStable();
+	void pitch_Attitude_montoring();
+
+public:
+/*配置文件*/
+	// std::string vehicle_iccid;
+	// std::string vehicle_vin;
+	// std::string vehicle_type;
+	// std::string vehicle_HardVer = "0101";
+	// std::string vehicle_SoftVer = "0222";//02软件类型 20软件版本号 20不调整，21调整气压速度显示小数点后一位，增加刹车提醒；22 调整130 车型、水温显示
 
 	/*登录状态 0未登录 1已登录，未登录状态下，不处理命令协议*/ /*延时程序写死成1*/
 	SANY_U8 g_u8LoginFlag = 0;
-
 	/*响应驾驶模式状态 0 默认，1 人工，2 遥控， 3 无人*/
 	SANY_U8 g_u8ResponseCtrlState = 0;
-	
+
 private:
+	/*排土场倒车策略*/
+	bool g_boundary_load = false;
+	bool g_task_main_dump = false;
+	bool g_task_subState_back = false;
+	// 到挡墙的距离
+	float g_dumpBack_minD1 = 0.0f;
+	float g_dumpBack_dist_to_end = 0.0f;
+
 	SANY_U8 g_tarControl_open = 0;
 	SANY_U8 g_tarControl_close = 0;
+
+	// 边界计算
+	Polygon_Boundary *m_polygonBodary;
+	bool g_dumpBack_curb_force_stop = false; // 边界停车标志
+	
+	//////// * 油门限纽 */
+	float g_dumpBack_throttle_compensation = 0.0f;
+	bool g_dumpBack_throttle_limit = false;
+	
+
+	////////////* 俯仰角异常 */
+    float stop_park_counter = 0.0f;
+	float stop_stable_counter = 0.0f;
+	float vehilce_dump_base_pitch = 0.0f;		// 标定后的基准俯仰角
+	float vehicle_pitch_pair_value = 0.0f;
+	int peak_high = 0;
+    int trough_low = 0;
+    int cycle_count = 0;
+    bool g_dumpBack_pitch_abnormal = false;		// 俯仰角异常标志
+	bool g_dumpBack_pitch_force_stop = false;	// 俯仰角异常停车标志
+
+    
+	std::deque<float> local_pich_record;		// 检查俯仰角异常记录
+	std::deque<float> base_pitch_buffer_;     // 基础俯仰角标定缓冲区
+	std::deque<float> stable_pitch_buffer_;  // 停车稳定后采集俯仰角缓冲区       	
 private:
 	/*heartbeat with 297*/
 	SANY_U16 g_297count = 0;
@@ -267,6 +359,8 @@ private:
 	pthread_t t_upload_data_id;
 	pthread_t t_download_data_id;
 	pthread_t t_task_id;
+	pthread_t t_collection_cmd_id;
+	bool collectionThreadCreated = false;
 
 	/*发送缓冲区*/
 	pthread_mutex_t SendBufferMutex; /*做互斥锁，锁住整个发送缓冲区*/
@@ -298,6 +392,8 @@ private:
 	void funcAppDownloadData();
 	/*任务线程*/
 	void funcTask();
+	/*地图采集命令工作线程*/
+	void funcCollectionCommand();
 
 	/*数据上行业务处理线程静态成员*/
 	static void *threadAppUploadData(void *args);
@@ -305,6 +401,8 @@ private:
 	static void *threadAppDownloadData(void *args);
 	/*任务线程静态成员*/
 	static void *threadTask(void *args);
+	/*地图采集命令工作线程静态成员*/
+	static void *threadCollectionCommand(void *args);
 
 private:
 	/* 通用接口 */
@@ -323,8 +421,12 @@ private:
 
 	/* 命令协议发送接口，内部实现组包、发送；后续考虑将组包和发送分开*/
 	SANY_U8 ProtoCockpit_SendCmdLogin();
-	SANY_U8 ProtoCockpit_SendCmdRealtimeRep();
+	SANY_U8 ProtoCockpit_SendCmdRealtimeRep_5hz();
+	SANY_U8 ProtoCockpit_SendCmdRealtimeRep_1hz();
+
 	
+	/*排土场倒车策略上报*/
+	SANY_U8 ProtoCockpit_SendCmdDumpBackSafeRep();
 
 	/*协议解析分发处理接口*/
 	SANY_U8 ProtoCockpit_ParsePacket(SANY_U8 *pu8DataBuf, SANY_U32 u32DataLen);
@@ -342,11 +444,16 @@ private:
 	SANY_U8 ProtoCockpit_PackAckHeartBeat(SANY_U8 *pDataBuf, SANY_U32 *pOutDataLen, SANY_U16 ucSequenceNum);
 	SANY_U8 ProtoCockpit_PackAckLoginOut(SANY_U8 *pDataBuf, SANY_U32 *pOutDataLen);
 	SANY_U8 ProtoCockpit_PackAckRepCtrl(SANY_U8 *pDataBuf, SANY_U32 *pOutDataLen, SANY_U8 ucSequenceNum);
-
 	/*打包安全模块上报的故障信息*/
 	SANY_U8 ProtoCockpit_PackSafeFeedbackInfo();
 	/*297反馈信息整合到 struWireCtrlOut*/
 	SANY_U8 ProtoCockpit_getFeedbackData();
+	void EnqueueCollectionCommand(int cmd, int area);
+	SANY_VOID send_collection_control_request(int cmd, int area);
+	void ResetCollectionState();
+	uint64_t CurrentTimeMillis();
+	void collectionControlReplyCallback(CollectionControlReply &data);
+	void collectionStatusReportCallback(CollectionStatusReport &data);
 	
 
 /*dds相关*/
@@ -381,10 +488,45 @@ private:
 	SANY_U8 *ProtoCockpit_getFuseSensorData(SANY_U8 *pDataBuf);
 	SANY_U8 *ProtoCockpit_getV2vData(SANY_U8 *pDataBuf);
 
+	/*后向挡墙*/
+	DDS_FusionCurbMessage m_fusionCurbMsg;
+    TopicDataType *pDataFusionCurbMsg = NULL;
+    ddsSubscriber<DDS_FusionCurbMessage> *pSubFusionCurbMsg = NULL;
+	/*挡墙边界回调*/
+    SANY_VOID fusionCurbMsgCallback(DDS_FusionCurbMessage &data);
+	
 	/*发布遥控驾驶控制数据*/
 	ImpleResultInfo imple_result_info;
 	TopicDataType *pDataTypeImple = NULL;
 	ddsPublisher<ImpleResultInfo> *pPubImple = NULL;
+
+	/*发布地图采集请求*/
+	TopicDataType *pDataColCtlReq = NULL;
+	ddsPublisher<CollectionControlRequest> *pPubColCtlReq= NULL;
+
+	/*ditu req response*/
+	TopicDataType *pDataColCtlReply = NULL;
+	ddsSubscriber<CollectionControlReply> *pSubColCtlReply = NULL;
+
+	/*ditu status report*/
+	TopicDataType *pDataColStausReport = NULL;
+	ddsSubscriber<CollectionStatusReport> *pSubColStatusReport = NULL;
+
+	std::mutex collectionMutex;
+	std::condition_variable collectionQueueCv;
+	std::condition_variable collectionReplyCv;
+	std::deque<std::pair<int, int>> collectionCommandQueue;
+	std::string collectionTaskId;
+	uint32_t collectionRequestId = 0;
+	uint32_t collectionWaitingRequestId = 0;
+	CollectionReplyCode collectionReplyCode = ACCEPTED;
+	std::atomic<int> collectionReportCode{0};
+	bool collectionResponseReceived = false;
+	bool collectionCommandWorkerExit = false;
+	bool collectionHasWireBaseline = false;
+	int collectionLastWireCommand = 0;
+	bool collectionSessionError = false;
+	// bool collectionUploadQueued = false;
 
 public:
 	/*网络相关接口*/
@@ -400,3 +542,4 @@ public:
 };
 
 #endif
+

@@ -36,10 +36,13 @@ void write_Gps2log(int signum)
 
 int main()
 {
+	// fprintf(stderr, "[DEBUG] PID=%d waiting for gdb...\n", getpid());
+    // sleep(15);   // 给你 30 秒 attach
+
 	zkbs::init("syzk-remotectl");
-	MINE_LOG(SANY_LOG_INFO, "syzk-remotectl V2.4.1 sdk-105eTarControl start!!\n");
+	MINE_LOG(SANY_LOG_INFO, "syzk-remotectl_new");
 	
-	zkbs::setVersion(VER("4.1"));
+	zkbs::setVersion(VER("3.8"));
 	MINE_LOG(SANY_LOG_INFO, "SET VERSION SUCCESS!!\n");
 	mine_log::set_log_level(SANY_LOG_INFO);
 	mine_log::set_log_output(SANY_LOG_OUT_FILE);
@@ -85,7 +88,7 @@ int main()
 	while(1){
 		sleep(1);
 	}
-	MINE_LOG(SANY_LOG_INFO, "syzk-remotectl V2.4.1 exit!!!\n");
+	MINE_LOG(SANY_LOG_INFO, "syzk-remotectl V2.4.0 exit!!!\n");
 	exit(0);
 	// return 0;
 }

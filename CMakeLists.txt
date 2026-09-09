@@ -5,7 +5,8 @@ if(NOT CMAKE_VERSION VERSION_LESS 3.0)
     cmake_policy(SET CMP0048 NEW)
 endif()
 
-set(CMAKE_CXX_FLAGS   "-std=c++11 -g")
+
+set(CMAKE_CXX_FLAGS   "-std=c++17 -g")
 
 set(CMAKE_SYSTEM_NAME "Linux")
 
@@ -47,11 +48,15 @@ target_link_libraries(${PROJECT_NAME}
 )
 
 file(COPY ${CMAKE_SOURCE_DIR}/src/remote_config.ini DESTINATION ${CMAKE_BINARY_DIR}/config)
+<<<<<<< HEAD
 # file(COPY ${CMAKE_SOURCE_DIR}/alsa-lib/lib/libasound.so DESTINATION ${CMAKE_BINARY_DIR}/lib)
 # file(COPY ${CMAKE_SOURCE_DIR}/alsa-lib/lib/libasound.so.2 DESTINATION ${CMAKE_BINARY_DIR}/lib)
 # file(COPY ${CMAKE_SOURCE_DIR}/alsa-lib/lib/libasound.so.2.0.0 DESTINATION ${CMAKE_BINARY_DIR}/lib)
 # file(COPY ${CMAKE_SOURCE_DIR}/alsa-lib/lib/libatopology.so DESTINATION ${CMAKE_BINARY_DIR}/lib)
 # file(COPY ${CMAKE_SOURCE_DIR}/alsa-lib/lib/libatopology.so.2 DESTINATION ${CMAKE_BINARY_DIR}/lib)
 # file(COPY ${CMAKE_SOURCE_DIR}/alsa-lib/lib/libatopology.so.2.0.0 DESTINATION ${CMAKE_BINARY_DIR}/lib)
+=======
+>>>>>>> origin/v2.8.1
+file(COPY ${CMAKE_SOURCE_DIR}/src/sshpass DESTINATION ${CMAKE_BINARY_DIR}/bin)
 # #增加设备型号宏
 # # add_definitions(-DCONFIG_ELEC_CAR)

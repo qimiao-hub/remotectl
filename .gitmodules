@@ -1,4 +1,4 @@
 [submodule "dvpn-pnc-common"]
 	path = dvpn-pnc-common
 	url = https://devops-gitlab.sany.com.cn/sany-syzk-pnc/dvpn-pnc-common.git
-	branch = commo105E_Tarpaulin0312Tag
+	branch = test_130
