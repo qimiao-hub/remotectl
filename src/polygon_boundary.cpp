@@ -258,7 +258,7 @@ std::string Polygon_Boundary::execuCommandRet(const char* cmd, int &exitCode) {
 // }
 #endif
 
-SANY_U8 Polygon_Boundary::scpMapFromOrinToZXK(){
+bool Polygon_Boundary::scpMapFromOrinToZXK(){
     int exitCode = 0;
     std::string check_sshpass = "ls -l ./sshpass";
     std::string check_result;
@@ -266,11 +266,11 @@ SANY_U8 Polygon_Boundary::scpMapFromOrinToZXK(){
         check_result = execuCommandRet(check_sshpass.c_str(), exitCode);
     } catch (const std::exception& e) {
         MINE_LOG(SANY_LOG_ERROR, "execuCommandRet exception for check: %s\n", e.what());
-        return SANY_FAILED;
+        return false;
     }
     if (check_result.empty()) {
         MINE_LOG(SANY_LOG_ERROR, "sshpass executable not found or not accessible !!!\n");
-        return SANY_FAILED;
+        return false;
     }
 
     // 判断netcloud在哪个核
@@ -282,11 +282,11 @@ SANY_U8 Polygon_Boundary::scpMapFromOrinToZXK(){
         ps_result = execuCommandRet(ps_string.c_str(), exitCode);
     } catch (const std::exception& e) {
         MINE_LOG(SANY_LOG_ERROR, "execuCommandRet exception for check: %s\n", e.what());
-        return SANY_FAILED;
+        return false;
     }
     if (exitCode != 0) {
         MINE_LOG(SANY_LOG_ERROR, "sshpass executable not found or not accessible !!!\n");
-        return SANY_FAILED;
+        return false;
     }
     std::string nvidia_id = NVIDIA_A_IP;
     if(ps_result.find("./syzk-netcloud") == std::string::npos){
@@ -303,14 +303,15 @@ SANY_U8 Polygon_Boundary::scpMapFromOrinToZXK(){
         scp_result = execuCommandRet(scp_string.c_str(), exitCode);
     } catch (const std::exception& e) {
         MINE_LOG(SANY_LOG_ERROR, "execuCommandRet exception for scp: %s\n", e.what());
-        return SANY_FAILED;
+        return false;
     }
-    MINE_LOG(SANY_LOG_ERROR, "scp map to gateway, exitCode (%d), result (%s) !!!\n", exitCode, scp_result.c_str());
+    MINE_LOG(SANY_LOG_INFO, "scp map to gateway, exitCode (%d), result (%s) !!!\n", exitCode, scp_result.c_str());
 
     if (exitCode != 0) {
-        return SANY_FAILED;
+        MINE_LOG(SANY_LOG_ERROR, "scp map to gateway, ERROR !!!\n");
+        return false;
     }
-    return SANY_SUCCESS;
+    return true;
 }
 
 /* ================== 计算两个GPS点球面距离（Haversine） ================== */
@@ -371,10 +372,10 @@ bool Polygon_Boundary::loadBoundary() {
     bool ret = scpMapFromOrinToZXK();
     if(ret == false){
         MINE_LOG(SANY_LOG_ERROR, "scp map to ZXK failed\n", ret);
-        // return false;
+        return false;
     }
 
-    m_dumpPolygons.clear();
+   
 
     // if (!fs::exists(HD_OBJECT_POLYGON_PATH))
     // {
@@ -383,9 +384,7 @@ bool Polygon_Boundary::loadBoundary() {
     // }
 
     MINE_LOG(SANY_LOG_INFO, "start read hd_object_polygon\n");
-    std::lock_guard<std::mutex> lock(m_mutex); // 家所
-
-    
+   
 
     std::ifstream ifs(HD_OBJECT_POLYGON_PATH);
      if (!ifs.is_open()) {
@@ -401,7 +400,7 @@ bool Polygon_Boundary::loadBoundary() {
     }
     //关闭文件
     ifs.close();
-     try
+    try
     {
         auto jsonData = nlohmann::json::parse(content); // 解析 JSON 字符串
         // 解析 crs
@@ -425,70 +424,77 @@ bool Polygon_Boundary::loadBoundary() {
             MINE_LOG(SANY_LOG_INFO, "the version is not exist:%s\n", version.c_str());
             return false;
         }
-
-        // 解析 features
-        if (jsonData.find("features") != jsonData.end() && jsonData["features"].is_array())
         {
-            for (const auto &feature : jsonData["features"])
+            MINE_LOG(SANY_LOG_INFO, "load dump polygons lock!\n");
+            std::lock_guard<std::mutex> lock(m_mutex); // 家所
+
+            m_dumpPolygons.clear();
+            // 解析 features
+            if (jsonData.find("features") != jsonData.end() && jsonData["features"].is_array())
             {
-                AreaInfo props;
-                // 解析properties, 判断area_type
-                if (feature.find("properties") != feature.end())
+                for (const auto &feature : jsonData["features"])
                 {
-                    auto properties = feature["properties"];
-                    if (properties.find("area_type") != properties.end() && properties["area_type"].is_string())
+                    AreaInfo props;
+                    // 解析properties, 判断area_type
+                    if (feature.find("properties") != feature.end())
                     {
-                        // 只保存排土场
-                        if(properties["area_type"] != "dump"){
-                            continue;
-                        }
-                    }
-                    
-                    if (properties.find("obj_id") != properties.end() && properties["obj_id"].is_string())
-                    {
-                        props.areaId = properties["obj_id"];
-                    }
-                    if (properties.find("area_name") != properties.end() && properties["obj_id"].is_string())
-                    {
-                        props.areaName = properties["area_name"];
-                    }
-                    MINE_LOG(SANY_LOG_INFO, "props: %s, %s\n", props.areaId.c_str(), props.areaName.c_str());
-                }
-                // 解析 coordinates
-                if (feature.find("geometry") != feature.end())
-                {
-                    auto geometry = feature["geometry"];
-                    if (geometry.find("coordinates") != geometry.end() && geometry["coordinates"].is_array())
-                    {
-                        if (geometry["coordinates"].size() <= 0 || geometry["coordinates"][0].size() <= 0)
+                        auto properties = feature["properties"];
+                        if (properties.find("area_type") != properties.end() && properties["area_type"].is_string())
                         {
-                            MINE_LOG(SANY_LOG_ERROR, "coordinates is null\n");
-                            continue;
-                        }
-                        for (const auto &coord : geometry["coordinates"][0][0])
-                        {
-                            if (coord.size() != 3)
-                            {
-                                MINE_LOG(SANY_LOG_ERROR, "Invalid coordinate format\n");
+                            // 只保存排土场
+                            if(properties["area_type"] != "dump"){
                                 continue;
                             }
-                            GPSPoint point;
-                            point.iLongitude = coord[0];
-                            point.iLatitude = coord[1];
-                            props.pts.push_back(point);
+                        }
+                        
+                        if (properties.find("obj_id") != properties.end() && properties["obj_id"].is_string())
+                        {
+                            props.areaId = properties["obj_id"];
+                        }
+                        if (properties.find("area_name") != properties.end() && properties["area_name"].is_string())
+                        {
+                            props.areaName = properties["area_name"];
+                        }
+                        MINE_LOG(SANY_LOG_INFO, "props: %s, %s\n", props.areaId.c_str(), props.areaName.c_str());
+                    }
+                    // 解析 coordinates
+                    if (feature.find("geometry") != feature.end())
+                    {
+                        auto geometry = feature["geometry"];
+                        if (geometry.find("coordinates") != geometry.end() && geometry["coordinates"].is_array())
+                        {
+                            if (geometry["coordinates"].size() <= 0 || geometry["coordinates"][0].size() <= 0)
+                            {
+                                MINE_LOG(SANY_LOG_ERROR, "coordinates is null\n");
+                                continue;
+                            }
+                            for (const auto &coord : geometry["coordinates"][0][0])
+                            {
+                                if (coord.size() != 3)
+                                {
+                                    MINE_LOG(SANY_LOG_ERROR, "Invalid coordinate format\n");
+                                    continue;
+                                }
+                                GPSPoint point;
+                                point.iLongitude = coord[0];
+                                point.iLatitude = coord[1];
+                                props.pts.push_back(point);
+                            }
                         }
                     }
+                    if (!props.pts.empty()) {
+                        // 插值加密边界点（间隔0.5米）
+                        interpolateBoundaryPoints(props.pts, 0.5);
+                        m_dumpPolygons.push_back(props);
+                    }
                 }
-                if (!props.pts.empty()) {
-                    // 插值加密边界点（间隔0.5米）
-                    interpolateBoundaryPoints(props.pts, 0.5);
-                    m_dumpPolygons.push_back(props);
-                }
+                // for (auto k : m_dumpPolygons)
+                // {
+                //     MINE_LOG(SANY_LOG_INFO, "m_dumpPolygons = %s, %s, %d\n", k.areaId.c_str(), k.areaName.c_str(), k.pts.size());
+                // }
+                
             }
-            for (auto k : m_dumpPolygons)
-            {
-                MINE_LOG(SANY_LOG_INFO, "m_dumpPolygons = %s, %s, %d\n", k.areaId.c_str(), k.areaName.c_str(), k.pts.size());
-            }
+            MINE_LOG(SANY_LOG_INFO, "load dump polygons end: %zu\n", m_dumpPolygons.size());
         }
 
     }
@@ -498,7 +504,7 @@ bool Polygon_Boundary::loadBoundary() {
         return false;
     }
    
-    MINE_LOG(SANY_LOG_INFO, "load dump polygons end: %zu\n", m_dumpPolygons.size());
+    // 
     return true;
 }
 

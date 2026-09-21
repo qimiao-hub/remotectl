@@ -559,6 +559,17 @@ void Protocol_Cockpit::Task_start()
 	m_Config->ReadRemoteConfig();
 	g_u8TaskStartFlag = 1;
 	// sleep(2);
+	// 加载排土场边界文件
+	if(m_Config->dumpBack_isOpen){
+		if(m_polygonBodary->loadBoundary()){
+			g_boundary_load = true;
+			MINE_LOG(SANY_LOG_INFO, "load dump boundary success !!!\n");
+		}else{
+			g_boundary_load = false;
+			MINE_LOG(SANY_LOG_ERROR, "load dump boundary failed !!!\n");
+		}
+	}
+
 	MINE_LOG(SANY_LOG_INFO, "ONE REMOTE TASK START\n");
 }
 
@@ -992,16 +1003,17 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_RecvAckLoginPacket(Protocol_Cockpit_Buffe
 	m_pFailureSDK->report(FailureModule_Nebula_RemoteCtrl, 3201, 12, 0);
 	m_pFailureSDK->report(FailureModule_Nebula_RemoteCtrl, 3201, 13, 0);
 
-	// 加载排土场边界文件
-	if(m_Config->dumpBack_isOpen){
-		if(m_polygonBodary->loadBoundary()){
-			g_boundary_load = true;
-			MINE_LOG(SANY_LOG_INFO, "load dump boundary success !!!\n");
-		}else{
-			g_boundary_load = false;
-			MINE_LOG(SANY_LOG_ERROR, "load dump boundary failed !!!\n");
-		}
-	}
+	// // 加载排土场边界文件
+	// if(m_Config->dumpBack_isOpen){
+	// 	if(m_polygonBodary->loadBoundary()){
+	// 		g_boundary_load = true;
+	// 		MINE_LOG(SANY_LOG_INFO, "load dump boundary success !!!\n");
+	// 	}else{
+	// 		g_boundary_load = false;
+	// 		MINE_LOG(SANY_LOG_ERROR, "load dump boundary failed !!!\n");
+	// 	}
+	// }
+
 	/* 开启实时上报 */
 	// g_u32RTDataFlg = 1;
 	/* 开启状态变化上报 */
@@ -2073,6 +2085,7 @@ void Protocol_Cockpit::funcAppUploadData()
 				MINE_LOG(SANY_LOG_INFO, "funcAppUploadData thread restart, g_u8LoginFlag is %d!!\n", g_u8LoginFlag);
 				flag = 1;
 			}
+			
 			/* 判断登入状态 */
 			if (0 == g_u8LoginFlag) // 未登录
 			{
@@ -2115,6 +2128,7 @@ void Protocol_Cockpit::funcAppUploadData()
 						MINE_LOG(SANY_LOG_ERROR, "ProtoCockpit_SendCmdRealtimeRep ret %d!!\n", u8Ret);
 						u8Ret = ProtoCockpit_SendCmdDumpBackSafeRep();
 						MINE_LOG(SANY_LOG_ERROR, "ProtoCockpit_SendCmdDumpBackSafeRep ret %d!!\n", u8Ret);
+
 						
 						if (RET_OK != u8Ret)
 						{
@@ -2811,6 +2825,7 @@ float Protocol_Cockpit::ProtoCockpit_SlopeStart(){
 	}
 	//return return_brake;
 }
+
 //降档
 SANY_U8 Protocol_Cockpit::ProtoCockpit_DownshiftDecision(){
     MINE_LOG(SANY_LOG_INFO, "ProtoCockpit_DownshiftDecision\n");
@@ -2836,6 +2851,7 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_DownshiftDecision(){
 	}
 	
 }
+
 /* 舱端控制数据转为底盘数据*/
 SANY_U8 Protocol_Cockpit::ProtoCockpit_getCtrlDate(ImpleResultInfo *pCtrlInfo)
 {
@@ -3035,9 +3051,6 @@ SANY_U8 Protocol_Cockpit::ProtoCockpit_getCtrlDate(ImpleResultInfo *pCtrlInfo)
 		{
 			pCtrlInfo->set_max_gear(1);
 		}
-		
-		
-
 	}
 	if (struWireCtrlIn.iCombinedGearR & 0x02)
 	{
