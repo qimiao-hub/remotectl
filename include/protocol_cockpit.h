@@ -84,6 +84,8 @@
 #define SEND_PERIOD_US 1000 
 #define SEND_LOGIN_TICK (1000 * 1000 / SEND_PERIOD_US)
 
+
+
 #ifndef MIN
 #define MIN(a, b) (((a) < (b)) ? (a) : (b))
 #endif
@@ -445,6 +447,13 @@ public:
 	SANY_U8 ProtoCockpit_WriteRecvBuffer(SANY_U8 *pu8DataBuf, SANY_U32 u32DataLen);
 	SANY_U8 ProtoCockpit_ReadRecvBuffer(SANY_U8 *pu8DataBuf, SANY_U32 *u32DataLen);
 	void ProtoCockpit_RecvBufferInit(void);
+
+// #if TEST_LOADBUG
+// 	//测试 bug
+//     std::thread taskThread;
+// 	SANY_VOID taskThreadFun();
+	
+// #endif
 };
 
 #endif
