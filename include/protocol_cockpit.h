@@ -149,11 +149,9 @@ typedef struct
     int	iCombinedGearR;			//组合开关右
     int	iKeyOperation1;			//按键操作1
     int	iKeyOperation2;			//按键操作2 
-	int	iKeyOperation3;			//按键操作3 
 	int	iWorkStatus;			//车辆驾驶状态
 	int iSafeInfo1;				// 安全模块-故障1
 	int iSafeInfo2;				// 安全模块-故障2
-	int iSafeInfo3;				// 安全模块-故障3
 } RemoteDrivingWirectlOutInfo;
 
 
@@ -231,18 +229,7 @@ public:
 	
 	/*105e蓬布控制*/
 	SANY_U8 ProtoCockpit_TarpaulinControl();
-	/*202605 排土场倒车策略*/
-	SANY_U8 ProtoCockpit_DumpBackSafeCheck();
-	/*排土场倒车限扭*/
-	bool ProtoCockpit_dumpBackThrottleLimit();
-	// 排土场边界判断
-	bool ProtoCockpit_GeneralBackCurbCheck(double temp_gpsLng, double temp_gpsLat, std::string dump_id);
-	/*排土场倒车俯仰角异常*/
-	bool ProtoCockpit_dumpBackPitchCheck();
-	float GetNormalizedPitch();
-	void CalibrateBasePitch();
-	void ReEvaluatePitchStable();
-	void pitch_Attitude_montoring();
+
 
 public:
 /*配置文件*/
@@ -421,8 +408,7 @@ private:
 
 	/* 命令协议发送接口，内部实现组包、发送；后续考虑将组包和发送分开*/
 	SANY_U8 ProtoCockpit_SendCmdLogin();
-	SANY_U8 ProtoCockpit_SendCmdRealtimeRep_5hz();
-	SANY_U8 ProtoCockpit_SendCmdRealtimeRep_1hz();
+	SANY_U8 ProtoCockpit_SendCmdRealtimeRep();
 
 	
 	/*排土场倒车策略上报*/

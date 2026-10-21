@@ -274,12 +274,9 @@ void InitTask::funcSendData()
 				memset(szSendBuffer, 0, sizeof(szSendBuffer));
 
 				u8Ret =	m_Cockpit->ProtoCockpit_ReadSendBuffer(szSendBuffer, &u32SendLen);
-				if (RET_OK != u8Ret || 0 >= u32SendLen)
-				{
-					// MINE_LOG(SANY_LOG_ERROR, "ProtoCockpit_ReadSendBuffer error !!\n");
-					continue;
-				}
-				if (!m_Terminal.sa_comm_socket_client_send(m_Socket_CockpitClient, (char *)szSendBuffer, (int)u32SendLen))
+				// 队列为空时也执行循环末尾的休眠，避免忙轮询。
+				if (RET_OK == u8Ret && u32SendLen > 0 &&
+					!m_Terminal.sa_comm_socket_client_send(m_Socket_CockpitClient, (char *)szSendBuffer, (int)u32SendLen))
 				{
 					MINE_LOG(SANY_LOG_ERROR, "sa_comm_socket_client_send err, u32SendLen: %d,  g_u8NetReady set 0 !!\n", u32SendLen);
 					/*发送失败，复位网络状态*/
@@ -335,7 +332,7 @@ void InitTask::funcSendData()
 			u8Ret = RET_OK;
 			u32SendLen = 0;
 			u8ConnectTimes = 0;
-			szSendBuffer[PROTO_PACK_MAX_LEN] = {0};
+			memset(szSendBuffer, 0, sizeof(szSendBuffer));
 			if(1 == flag){
 				StopSocket_Cockpit();
 				flag = 0;

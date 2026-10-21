@@ -65,7 +65,7 @@ public:
 
 
 private:
-    SANY_U8 scpMapFromOrinToZXK();
+    bool scpMapFromOrinToZXK();
 
     std::string execuCommandRet(const char* cmd, int &exitCode);
     

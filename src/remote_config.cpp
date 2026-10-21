@@ -55,10 +55,6 @@ void Remote_Config::ReadVehicleConfig(){
 			 vehicle_type = "SKT-I";
 		}
 		/* 20250306 liuss31 新增车型 130H混型-------- end*/ 
-<<<<<<< HEAD
-
-=======
->>>>>>> origin/v2.8.1
 		std::string s = config["system"]["currentPart"].as<std::string>();
 
 		 std::transform(s.begin(), s.end(), s.begin(),
@@ -142,9 +138,5 @@ void Remote_Config::ReadRemoteConfig(){
 	MINE_LOG(SANY_LOG_INFO, "pitch_pair_chang_value (%f)\n",  pitch_pair_chang_value);
 	MINE_LOG(SANY_LOG_INFO, "up_level_pitch_max(%f)\n",  up_level_pitch_max);
     MINE_LOG(SANY_LOG_INFO, "down_level_pitch_max(%f)\n",  down_level_pitch_max);
-<<<<<<< HEAD
-
-=======
->>>>>>> origin/v2.8.1
 }
 /*读取车道线配置文件 2025.03.24 end */

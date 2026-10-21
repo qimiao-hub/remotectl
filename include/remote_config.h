@@ -31,7 +31,6 @@ public:
 	std::string vehicle_type;
 	std::string current_part;
 	std::string vehicle_HardVer = "0101";
-	std::string vehicle_SoftVer = "0230";//02软件类型 20软件版本号 20不调整，21调整气压速度显示小数点后一位，增加刹车提醒；22 调整130 车型、水温显示;30新增障碍物、车道线等
 
 	/*20241210 车道线辅助功能：增加车长、车宽、车高，此处默认值为105i车型, mm*/
 	SANY_U32 vehicle_length = 9260;
