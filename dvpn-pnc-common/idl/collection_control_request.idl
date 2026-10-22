@@ -1,0 +1,35 @@
+module mine_collection {
+
+enum ControlClientType {
+	PAD,             // PAD端
+	REMOTE_COCKPIT,  // 遥控驾驶舱
+	WEB              // Web端
+};
+
+enum CollectionCommand {
+	CMD_NULL,       // 占位
+	CMD_START,      // 开始采集
+	CMD_PAUSE,      // 暂停
+	CMD_STOP_AND_UPLOAD,     // 停止采集并上传
+	CMD_STOP_AND_ABORT      // 停止采集并中止
+};
+
+enum AreaType {
+	LOAD_AREA,   // 装载区
+	ROAD,        // 道路
+	DUMP_AREA,   // 排土场
+	DUMP_LINE,   // 排土线
+	OTHER_AREA   // 其他区域 
+};
+
+/* 采集控制请求 */
+struct CollectionControlRequest {
+	string task_id;
+	unsigned long long time_stamp;
+	unsigned long request_id;  // 指令序号，同一task内逐条自增
+	AreaType collection_area_type;
+	ControlClientType control_client_type;
+	CollectionCommand collection_command;
+};
+
+};

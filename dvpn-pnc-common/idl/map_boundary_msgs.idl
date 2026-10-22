@@ -1,0 +1,24 @@
+#ifndef __BOUNDARY_MSG_IDL__
+#define __BOUNDARY_MSG_IDL__
+
+
+#define  MAP_BOUNDARY_REQUEST "map_boundary_request" //向地图服务发送请求，发布topic
+#define  MAP_BOUNDARY_INFO "map_boundary_info" //地图服务回复请求，接收topic
+
+struct GPS_POINTS
+{
+    double longitude;     //经度
+    double latitude;      //纬度
+    double  altitude;     //高度
+    float  heading;       //方位角
+}; 
+
+struct DDS_MAP_BOUNDARY
+{
+    @ default(0) int32 request;  // 0 发送请求 返回值： -1 无数据回应 1 有数据会应
+    int32 type;                  //类型：边界值为1,便于扩展       
+    sequence<GPS_POINTS, 1000> map_boundary;
+};
+
+
+#endif

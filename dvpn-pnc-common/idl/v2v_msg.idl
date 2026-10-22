@@ -1,0 +1,39 @@
+#include "vehicle_task_msg.idl"
+#include "gps_msg.idl"
+
+struct VehicleInfo
+{
+    char   vin[18];
+    float  speed;
+    float  engine_speed;
+    float  heading;
+    float  pitch;
+    float  roll;
+    float  altitude;
+    double  longitude;
+    double  latitude;
+    uint32 main_state;
+    uint32 drive_state;
+    uint32 drive_state_child;
+    long long timestamp;//ms
+    boolean  isAvoided;
+    char type[32];
+    int32 stop;//停车类型
+    float width;
+    float length;
+    float height;
+    float offset;  //偏移量
+    int32 device_type;  //设备类型
+    float wheel_angle;  //车轮转角
+    short actual_engine_torque; // 油门
+    unsigned long Brake_Pressure_FA_Left; // 刹车
+    int32 path_type;  //路径类型  0:默认; 1:自有路径; 2:高精地图路径; 3:基于v2v的预测路径; 4:基于感知的预测路径;
+    sequence<GPSInfo, 50> path;
+};
+
+struct RoundVehicleList
+{
+    long long timestamp;//ms
+    sequence<VehicleInfo, 50> vehicles;
+};
+

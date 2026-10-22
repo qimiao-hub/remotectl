@@ -1,0 +1,21 @@
+struct FaultRepair_req
+{
+	string client_id;
+	long req_id;
+	
+	string seq_id;
+	uint32 module_type;      //模块名称
+	long repair_time;        //修复时间
+	long fault_id;           //故障码
+};
+
+struct FaultRepair_res
+{
+	string client_id;
+	long req_id;
+
+	string seq_id;
+	long recv_flag;
+};
+
+

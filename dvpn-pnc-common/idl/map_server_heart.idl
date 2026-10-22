@@ -1,0 +1,10 @@
+#ifndef __MAP_SERVER_HEART_IDL__
+#define __MAP_SERVER_HEART_IDL__
+
+struct MapHeartBeat{
+    uint32 number;            //序号，一直累加，重启之后重新从0开始
+    uint32 type;              //类型
+    int32 placeHolder;        //
+};
+
+#endif

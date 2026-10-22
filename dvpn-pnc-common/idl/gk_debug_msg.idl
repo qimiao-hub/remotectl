@@ -1,0 +1,19 @@
+struct GkDebugMsg
+{
+	string debug_time;  //时间
+	string module_name; //decide control plan
+	string debug_level; //debug warning error
+	string debug_msg;   //调试信息
+};
+
+// 2023-09-10 23:34:30|决策|warning|调试信息..............................
+// 一天一个文件 gkdebug_20230911.txt gkdebug_20230910.txt
+
+// GkDebugMsg msg;
+// msg.debug_time() = itc::utils::getCurStrTime();
+// msg.module_name() = "plan";
+// msg.debug_level() = "error";
+// msg.debug_msg() = "调试信息.....";//不用加\n
+
+
+

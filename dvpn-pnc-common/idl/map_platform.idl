@@ -1,0 +1,92 @@
+#ifndef __MAP_PLATFORM_IDL__
+#define __MAP_PLATFORM_IDL__
+
+/*地图相关命令集*/
+enum MapCtlTypeEnum
+{
+    cmd_mull,
+    cmd_update_map,   /*地图更新*/
+    cmd_set_speed,    /*速度限制*/
+    cmd_update_boundary,  /*区域边界更新*/ 
+    cmd_update_point        /*点云地图更新*/
+};
+
+/*地图更新，参数*/
+struct MapInfo
+{
+    string map_version;
+};
+
+/*边界更新，参数*/
+struct BoundaryInfo
+{
+    string boundary_version;
+};
+
+struct PointMapInfo
+{
+    string point_map_version;
+};
+
+
+struct RoadSpeedInfo{
+    string roadid;
+    float speedinfo;
+    double startLng;
+    double startLat;
+    double endLng;
+    double endLat;
+};
+
+
+/*限速设置，参数*/
+struct LimitSpeedInfo
+{
+    sequence<RoadSpeedInfo> speedInfos;    /*roadid:限速 km/h*/
+    uint64 modifyTime;    /*修改时间*/
+    uint32 limittype;      /*限速类型：1局部；2全量*/
+};
+
+/*参数选择*/
+union MapCtlParam switch(long)
+{
+  case 1:
+    MapInfo  map_update;
+  case 2:
+    LimitSpeedInfo   speed;
+  case 3:
+    BoundaryInfo  boundary_update;
+  case 4:
+    PointMapInfo point_map_update;
+};
+
+
+/*地图相关控制命令结构体  网联模块<----> 地图模块*/
+struct Map_cmd
+{
+    MapCtlTypeEnum MapCtrlCmd;   /*命令类型*/
+    long seq_num;                /*命令序列号*/
+    unsigned long long net_cmd_seq;       /*云端指令流水号*/
+    MapCtlParam ctrlparam;       /*命令参数*/
+    uint32 result;              /*执行结果，为请求时无意义*/
+};
+
+/*地图控制命令执行结果   地图模块----->网联模块*/
+struct Map_cmd_Result
+{
+    MapCtlTypeEnum MapCtrlCmd;   /*命令类型*/
+    long seq_num;                /*命令序列号*/
+    unsigned long long net_cmd_seq;       /*云端指令流水号*/
+    uint32 type;                 /*1:MAP_CMD指令的接收应答，2：MAP_CMD指令的执行结果, 3:边界更新的结果*/
+    uint32 result;               /*指令执行结果 0：正常，非零错误*/
+};
+
+/*地图控制命令执行结果确认    网联模块--->地图模块*/
+struct Map_cmd_Result_Ack
+{
+    MapCtlTypeEnum MapCtrlCmd;   /*命令类型*/
+    long seq_num;                /*命令序列号*/
+    unsigned long long net_cmd_seq;       /*云端指令流水号*/
+};
+
+#endif

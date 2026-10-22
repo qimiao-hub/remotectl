@@ -1,0 +1,40 @@
+module mine_collection {
+
+enum CollectionState {
+	STATE_IDLE,              // 空闲
+	STATE_COLLECTING,        // 采集中
+	STATE_PAUSED,            // 暂停采集
+	STATE_STOPPING,          // 停止中
+	STATE_COLLECTION_ENDED,  // 采集结束
+	STATE_ERROR              // 任务错误
+};
+
+enum SensorStatus {
+	SENSOR_OFFLINE,  // 无数据
+	SENSOR_ONLINE    // 有数据
+};
+
+enum FileState {
+	FILE_IDLE,      // 空闲
+	FILE_SAVING,    // 保存中
+	FILE_UPLOADING, // 上传中
+	FILE_UPLOADED   // 上传完成
+};
+
+/* 采集状态上报 */
+struct CollectionStatusReport {
+	string task_id;               // 当前任务ID
+	unsigned long long time_stamp; // 状态上报时间戳(ms)
+	double lon;                   // 经度
+	double lat;                   // 纬度
+	double alt;                   // 高程
+	double heading;               // 航向角
+	double speed;                 // 速度
+	CollectionState state;        // 采集状态
+	string status_text;           // 状态文本
+	SensorStatus laser_status;    // 点云状态
+	SensorStatus ins_status;      // 定位状态
+	FileState file_state;         // 文件状态
+};
+
+};

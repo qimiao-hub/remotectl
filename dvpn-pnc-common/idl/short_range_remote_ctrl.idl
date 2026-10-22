@@ -1,0 +1,26 @@
+#ifndef __SHORT_RANGE_REMOTE_CTRL_IDL__
+#define __SHORT_RANGE_REMOTE_CTRL_IDL__
+
+
+
+enum TaskCmd_Enum {
+    REMOTE_0,
+    REMOTE_1,
+    REMOTE_2,
+    REMOTE_FRONT,   // 前
+    REMOTE_BACK,    // 后
+    REMOTE_PAUSE,   // 临时停车
+    REMOTE_PARK,     // 到位停车
+    REMOTE_CMD_LIFT, // 举升
+    REMOTE_CMD_LOWER,  // 下降
+    REMOTE_CMD_STOP  // 停止
+};
+
+struct ShortRangeRemoteCtrl {
+    TaskCmd_Enum CtrlCmd;
+    uint8 vilid_count;  // 时间戳，单位：毫秒；或者 不使用时间戳的话，使用循环心跳
+};
+
+
+
+#endif // __SHORT_RANGE_REMOTE_CTRL_IDL__

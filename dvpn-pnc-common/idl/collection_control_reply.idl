@@ -1,0 +1,20 @@
+module mine_collection {
+
+enum CollectionReplyCode {
+	ACCEPTED,              // 命令已接受
+	REJECTED_BUSY,         // 系统忙碌
+	REJECTED_UNSUPPORTED,  // 不支持的命令
+	INTERNAL_ERROR         // 内部错误
+};
+
+/* 采集控制响应 */
+struct CollectionControlReply {
+	string task_id;
+	unsigned long long time_stamp;
+	unsigned long request_id;  // 原样返回请求中的request_id
+
+	CollectionReplyCode reply_code;
+	string reply_message;
+};
+
+};

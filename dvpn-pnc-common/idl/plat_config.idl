@@ -1,0 +1,31 @@
+#ifndef __PLAT_CONFIG_IDL__
+#define __PLAT_CONFIG_IDL__
+
+struct SingleConfPro{
+    string confName;
+    string confValue;
+};
+
+//配置更新消息
+struct ConfigUpdateInfo
+{
+    unsigned long long updateStamp;//更新时间
+    sequence<SingleConfPro> configs;   //全部配置序列
+    unsigned long seqNum;//序列号
+};
+
+//配置更新应答
+struct ConfigUpdateAck
+{
+    sequence<string> configKeyNames;//模块所属配置key(配置项名字)序列
+    unsigned long seqNum;//应答序列号
+};
+
+
+//配置查询请求
+struct ConfigUpdateReq
+{
+    sequence<string> configKeyNames;//模块所属配置key(配置项名字)序列
+};
+
+#endif

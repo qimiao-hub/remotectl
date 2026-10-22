@@ -1,0 +1,52 @@
+#ifndef __MAP_PREVIEW_PATH_IDL__
+#define __MAP_PREVIEW_PATH_IDL__
+
+
+
+struct MapPreviewPath
+{
+    double iLongitude; //经度
+    double iLatitude;  //纬度
+    float altitude;    //高度
+    float iHead;       //方位角
+    float speed;       //速度
+    float max_speed;   //最高速度
+    float left_road_width; //左侧可行道路宽度
+    float left_boundary;   //左侧边界距离
+    float right_boundary;  //右侧边界距离
+    float point_dis;     //点间距距离
+    float curvature;     //曲率
+    
+    float road_width;    //
+    long road_type;      //交叉路口
+    long isWaitPoint;
+    
+    //前行或倒车标志位： 
+    //0：正常前进点 1：前进停车点；换向点，在此点开始预描 2：前进路线终点，预描路线终点 
+    //3：普通倒车点 4：倒车停车点，装料点,在此点开始预描 5：倒车路线终点，从装料点开始预描路线的终点 
+    //6：换向前进预描点 7:倒车预描点 8:入场点，在此点开始预描 9:入场前进预瞄点 10:入场预瞄前进路线终点 
+    uint8 node_type;         
+
+    //区域类型
+    //0：装料区域 1：卸料区域 2：去往等待点  3：加油区域  4：充电区域 5：维修区域
+    //6：去停车区域　7：装料区域 8：卸料区域 ９:停车区域　１０:临时停车区域 　11:加水区域
+    //0:主路径 1：装料区 2：卸料区 3：加油区 4：充电区 5：维修区域
+    //6：停车区域　7:临时停车区域　8:加水区域
+    uint8 area_type;         
+    uint8 slope_type;        //0:平地 1：上坡 2：下坡（大于1.7度为上坡，小于-1.7为下坡）
+    float slope;             //角度：-90度 － 90度
+    
+    string road_id;          //当前路径ID
+    string last_road_id;     //上一段路径ID
+    string next_road_id;     //下一段路径ID
+    string left_road_id;     //左侧路径ID
+    uint8 total_left_lane;   //左侧路径车道数（对向）
+    uint8 total_lane;        //当前路径车道数
+    
+    float dist_road_end;     //到达目标点的距离
+    float dist_origin;       //距离原点的距离
+
+    long duration_road_end;  //到达目标点的时长
+};
+
+#endif

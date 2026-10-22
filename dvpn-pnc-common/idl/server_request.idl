@@ -1,0 +1,186 @@
+#ifndef __SERVER_REQUEST_IDL__
+#define __SERVER_REQUEST_IDL__
+#include "gps_msg.idl"
+
+struct ServerRequest
+{
+    uint32 number;       //序号，一直累加，重启之后重新从0开始
+    uint32 type;         //类型：用于区分不同的服务，例如HdMap为1
+    char json[10240];
+};
+
+struct LngLatPoint
+{
+    double lng;
+    double lat;
+    float head;
+};
+
+struct RSULngLatPoint
+{
+    double lng;
+    double lat;
+    float head;
+    float time;
+};
+
+struct LimitSpeed
+{
+    string roadID;
+    double startLng;
+    double startLat;
+    double endLng;
+    double endLat;
+    float speed;  //速度 m/s
+};
+
+struct ObsPoint
+{
+    GPSInfo point;
+    sequence<GPSInfo> boundary;
+};
+
+struct JobToMapServer
+{
+    int32  taskType;    //任务类型
+    int32 planCount;    //多次泊车，次数
+    int32 retryRequest; //是否为重试，0：否 1：是
+    uint64 seqID;       //用于确认找路结果
+    
+    string version;     //地图版本号
+    string areaID;      //区域ID
+    string areaVersion; //区域版本号
+    string bindingRoad; //绑定路的信息
+    
+    LngLatPoint currentPoint;   //当前点
+    LngLatPoint lastPoint;      //最终目标点
+
+    sequence<RSULngLatPoint> targetPoints;  //RUS控制点列表
+
+    sequence<string> IDS;  //路径信息
+    sequence<string> UDS;  //路径信息
+
+    sequence<LimitSpeed> limitSpeeds;
+    sequence<ObsPoint> obsList;
+};
+
+struct RoadToMapServer
+{
+    sequence<string> IDS;
+};
+
+/*指令附加消息联合体*/
+union Map_Cmd_Msg switch(long)
+{
+    case 1:
+        JobToMapServer jobServer;
+    case 2:
+        sequence<string> crossRoad;
+    case 3:
+        sequence<string> discreteRoad;
+    case 6:
+        JobToMapServer searchRoad;
+};
+
+
+/* 请求地图 */
+struct MapServerRequest
+{
+    uint32 number;       //序号，一直累加，重启之后重新从0开始
+    uint32 type;         //类型：用于区分不同的服务，例如HdMap为1
+    Map_Cmd_Msg message;        /*指令附加消息*/
+};
+
+
+/* 根据lane_type查询对应的Link，例如红绿灯、起坡道 */
+struct MapLaneTypeRequest
+{
+    uint32 number;       //序号，一直累加，重启之后重新从0开始
+    uint32 lane_type;    //类型：4:起坡道 6:红绿灯
+    string message;      /*指令附加消息*/
+};
+
+
+struct MapLaneTypeResult
+{
+    uint32 status;      //0表示正常
+    uint32 lane_type;   //类型：4:起坡道 6:红绿灯
+    sequence<string> roadIDList;  //道路列表
+    string ext;
+};
+
+
+/*
+    type表示类型；
+
+    enum Destination_Enum : uint32_t
+    {
+        Dst_Load_Zone,
+        Dst_Dump_Zone,
+        Dst_Wait_Point,
+        Dst_Oiling_Zone,
+        Dst_Charging_Zone,
+        Dst_Repire_Zone,
+        Dst_Parking_Zone,
+        Dst_Load_Point,
+        Dst_Dump_Point,
+        Dst_Parking_Point,
+        Dst_Tempparking_Zone,
+        Dst_Water_Zone
+    };
+
+    1.type==1 //hdmap 
+    {
+        "version" : "20150301",
+        "taskType" : 1, //参考Destination_Enum
+        "IDS" : ["333", "456","555", "222", "888"],
+        "targetPoint" : {
+            "lat" : 444.88,
+            "lon" : 88.9,
+            "heading" : 98.8
+        },
+        "currentPoint" : {
+            "lat" : 444.88,
+            "lon" : 88.9,
+            "heading" : 98.8
+        }
+    }
+
+    2.type==2　//查询交叉点
+    {
+        "IDS" : ["333", "456","555", "222", "888"] //路径信息
+    }
+
+    3.type==3　//路径序列化
+    {
+        "IDS" : ["333", "456","555", "222", "888"] //路径信息
+    }
+
+    4.type==4　//任务取消
+    {
+        "CMD" : 0 //任务取消
+    }
+
+    5.type==5　//查询交叉路点位信息
+    {
+        "IDS" : ["333", "456","555", "222", "888"] //路径信息
+    }
+
+    6.type==6　//卸料区内查询路径信息
+    {
+        "version" : "20150301",
+        "seqID" : 565892142,
+        "taskType" : 0, //0:进入装料区　1:出装料区
+        "sort" : ["333", "456","555", "222", "888"],
+        "unsort" : ["333", "456","555", "222", "888"],
+        "bindLink" : "5667",
+        "point" : {
+            "lat" : 444.88,
+            "lon" : 88.9,
+            "heading" : 98.8
+        }
+    }
+
+*/
+
+#endif

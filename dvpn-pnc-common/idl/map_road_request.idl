@@ -1,0 +1,19 @@
+#ifndef __MAP_CROSS_POINT_IDL__
+#define __MAP_CROSS_POINT_IDL__
+
+#include "gps_msg.idl"
+
+struct MapRoadRequest{
+    uint32 number;            //序号，一直累加，重启之后重新从0开始
+    uint32 type;              //类型：交叉路口请求为1
+    sequence<string> roadids; //请求的roadid序列
+};
+
+
+struct RelatedRoadPoints
+{
+    sequence<sequence<GPSInfo> > crossRoad_points;  //与请求车道有交叉关系的道路路的点位列表，每个vector中的路径点需为沿车道行驶方向的连续的gps坐标
+    sequence<sequence<GPSInfo> > parell_points;     //对向路，每个vector中的路径点需为沿车道行驶方向的连续的gps坐标
+};
+
+#endif

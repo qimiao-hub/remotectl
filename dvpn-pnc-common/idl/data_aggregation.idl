@@ -1,0 +1,121 @@
+/*
+当前所有触发类型:
+1-遇障触发 
+2-异常减速触发
+3-无人切换有人触发
+4-无人切换遥控触发
+5-感知心跳异常触发
+6-正在卸料区触发
+7-正在装载区触发
+8-手动触发录制
+9-手动全量日志抓取
+
+*/
+
+
+// 1. 数据录制配置下发
+// 1.1 OTA配置下发 (netcloud -- dds2file)
+
+struct DataRecSetting
+{
+    string version;
+    string triggerMethod;
+    // triggerMethod eg, json 字符串,可以对某个触发条件打开/关闭使能,格式待定
+};
+
+// 1.2 车端配置下发使能成功后, 上传当前使用配置 (dds2file -- netcloud )
+
+struct DataRecConfVersion
+{
+    string version;  // 数据类型及生成方式需要确认
+};
+
+// 2. 手动触发录制 (netcloud -- agent / dds2file )
+
+struct TriggerDataRec
+{
+    uint32 instructionId; // 触发序号
+    uint64 platformRecordId; // 平台记录ID long
+    uint64 triggerTime; // 触发时间 ms级别的时间戳
+    uint32 type; // 触发类型 1-手动数据录制  2-车端各模块日志打包归集 (agent / dds2file 需要判断这个type)
+};
+
+
+// 3. 数据录制报告 DataRecordReport (车端模块共用,不填字段置空即可)
+// (1) data-agent -- netcloud (打包/归集阶段 , 手动日志抓取)
+// (2) dds2file -- agent / netcloud  (录制阶段 )
+/* 方案1: dds2file 录制完成后需要告知 netcloud / data-agent 以下信息 , netcloud 转为MQTT 告知平台车端状态, data-agent 数据库存储相关信息(云端和agent之间协商1天过期<录制3day过期时间,无影响)
+    - 录制触发时间转为s级时间戳填充RecordID
+    - 按照TriggerDataRec填充 instructionId, platformRecordId, triggerTime, triggerTp(8)
+    - startTime 录制开始时间
+    - endTime 录制结束时间
+    - dataType(1)
+    - result(3)
+    - triggerTime(触发时间:录制程序开始录制记录的时间 -- 数据名前缀)
+
+   方案2: dds2file 录制完成后 使用单独话题通知 data-agent 以下信息, 
+        data-agent 检索相关信息进一步存储数据库, 再填充 DataRecordReport,转给netcloud,netcloud转MQTT发送
+    struct CompleteRecord
+    {
+        uint32 instructionId; // 触发序号
+        uint32 platformRecordId; // 平台记录ID long
+        string triggerTime; // 触发时间 eg, "2025-05-05 10:25:23" 日志前缀时间
+        uint32 triggerTp; // 触发类型
+    };
+    
+*/
+
+struct CompleteRecord
+{
+    uint64 platformRecordId; //平台记录ID long （手动录制需要，用于云端判断是否为同一采集任务，
+                            // 其他条件触发默认0即可）
+    uint64 startTime;    // 需要
+    uint64 endTime;      // 需要
+    string fileName;     // 文件名
+};
+
+struct DataRecordReport
+{
+    uint32 recordID; // (车端按照时间戳)
+    uint32 instructionID;
+    string startTime; 
+    string endTime;      //
+    string packageTime;
+    string logStartTime;
+    string logEndTime;
+    uint32 triggerTp;    // 数据录制触发方式
+    // 7-手动触发录制 8-日志抓取
+    uint32 platformRecordId; // 自动触发上报 null
+    uint32 dataType; // 1-perception 2-grouplog
+    string md5;
+    string uploadURL;
+    float fileSize; // 文件大小，MB 1~1024.0MB
+    uint32 result;
+    //1 录制失败 (手动触发才有) 、2 录制成功待打包(录制上报) 、3 打包成功待归集 、4 归集成功待同步
+    string triggerTime; // 触发时间 "2025-05-05 10:25:23"
+ };
+
+
+
+
+// -------- agent <-----> netcloud ----------
+
+// 4. 上传数据指令
+struct UploadCmd
+{
+    uint32 recordID;
+    uint32 upSpeed;
+};
+
+// 5. 传输任务控制
+struct UploadReport{
+    long long recordID; // 日志或者perception数据
+    uint32 seqNum;
+    float progress;
+};
+
+struct UploadReportAck{
+    long long recordID; // 日志或者perception数据
+    uint32 seqNum;
+    uint32 flag; //是否可以上传数据
+};
